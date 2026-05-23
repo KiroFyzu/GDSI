@@ -530,16 +530,16 @@ tailwind.config = {
 // FIREBASE CONFIGURATION - REPLACE WITH YOUR PROJECT CONFIG
 // ============================================================
 const firebaseConfig = {
-    apiKey: "AIzaSyAv6UqNaP22yP6ur6R0C7vK2fwjYnCIR6c",
-    authDomain: "form-regis-gdsi.firebaseapp.com",
-    projectId: "form-regis-gdsi",
-    storageBucket: "form-regis-gdsi.firebasestorage.app",
-    messagingSenderId: "849442718629",
-    appId: "1:849442718629:web:cb06c97c09f61912501e4c"
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
 };
 
 // Google Apps Script Web App URL - REPLACE WITH YOUR DEPLOYED URL
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJRfMPHKUbcgNA2tgxGv56KgCTpS9-tX-ZZdsYc-JVd8Mb4cWYiApuLfTGXFjAJJIm/exec";
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -627,10 +627,25 @@ googleLoginBtn.addEventListener('click', async () => {
     try {
         await auth.signInWithPopup(provider);
     } catch (error) {
-        console.error("Login error:", error);
-        alert("Login failed: " + error.message);
-        hideLoading();
+        console.warn("[GDSI] Popup failed, trying redirect...", error);
+        // Fallback to redirect if popup blocked (COOP, mobile browser, etc)
+        if (error.code === 'auth/popup-blocked' || error.code === 'auth/unauthorized-domain' || error.message.includes('COOP')) {
+            await auth.signInWithRedirect(provider);
+        } else {
+            console.error("[GDSI] Login error:", error);
+            alert("Login failed: " + error.message);
+            hideLoading();
+        }
     }
+});
+
+// Handle redirect result after page reload
+auth.getRedirectResult().then((result) => {
+    if (result.user) {
+        console.log("[GDSI] Login via redirect successful:", result.user.displayName);
+    }
+}).catch((error) => {
+    console.error("[GDSI] Redirect result error:", error);
 });
 
 logoutBtn.addEventListener('click', () => auth.signOut());
@@ -642,6 +657,7 @@ logoutFromTicketBtn.addEventListener('click', () => auth.signOut());
 auth.onAuthStateChanged(async (user) => {
     if (user) {
         showLoading("Checking registration status...");
+        console.log("[GDSI] User logged in:", user.uid, user.email);
 
         // Update user display
         const displayName = user.displayName || 'Participant';
@@ -665,7 +681,9 @@ auth.onAuthStateChanged(async (user) => {
 
         // Check Firestore
         try {
+            console.log("[GDSI] Checking Firestore for uid:", user.uid);
             const userDoc = await db.collection('users').doc(user.uid).get();
+            console.log("[GDSI] Firestore doc exists:", userDoc.exists);
 
             if (userDoc.exists) {
                 // User already registered - show ticket
@@ -677,7 +695,7 @@ auth.onAuthStateChanged(async (user) => {
                 showSection(formSection);
             }
         } catch (error) {
-            console.error("Firestore error:", error);
+            console.error("[GDSI] Firestore error:", error);
             alert("Error checking registration status. Please try again.");
             showSection(formSection);
         }
@@ -685,6 +703,7 @@ auth.onAuthStateChanged(async (user) => {
         hideLoading();
     } else {
         // Not logged in
+        console.log("[GDSI] No user logged in");
         showSection(loginSection);
         hideLoading();
     }
@@ -732,9 +751,11 @@ registrationForm.addEventListener('submit', async (e) => {
 
     try {
         // 1. Save to Firestore
+        console.log("[GDSI] Saving to Firestore...", formData);
         await db.collection('users').doc(user.uid).set(formData);
+        console.log("[GDSI] Firestore save SUCCESS");
 
-        // 2. Send to Google Sheets
+        // 2. Send to Google Sheets (fire-and-forget, non-blocking)
         const sheetData = {
             uid: formData.uid,
             name: formData.name,
@@ -747,25 +768,30 @@ registrationForm.addEventListener('submit', async (e) => {
             timestamp: now.toISOString()
         };
 
-        // Send to GAS (fire-and-forget with fallback)
-        try {
-            await fetch(GAS_WEB_APP_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(sheetData)
-            });
-        } catch (gasError) {
-            console.warn("Google Sheets logging failed (expected if URL not configured):", gasError);
-        }
+        // Send to GAS with timeout - don't block ticket generation
+        console.log("[GDSI] Sending to Google Sheets...");
+        fetch(GAS_WEB_APP_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(sheetData)
+        }).then(res => {
+            console.log("[GDSI] GAS response:", res.status);
+            return res.json().catch(() => ({ result: "ok" }));
+        }).then(data => {
+            console.log("[GDSI] GAS data logged:", data);
+        }).catch(gasError => {
+            console.warn("[GDSI] GAS logging failed (non-critical):", gasError.message);
+        });
 
-        // 3. Show ticket
+        // 3. Show ticket immediately (don't wait for GAS)
+        console.log("[GDSI] Rendering ticket...");
         renderTicket(formData);
         showSection(ticketSection);
+        console.log("[GDSI] Registration complete!");
 
     } catch (error) {
-        console.error("Submit error:", error);
-        alert("Registration failed: " + error.message);
+        console.error("[GDSI] Submit error:", error);
+        alert("Registration failed: " + (error.message || "Unknown error. Check console."));
     } finally {
         hideLoading();
         submitBtn.disabled = false;
