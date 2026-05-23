@@ -121,16 +121,23 @@ async function handleSubmit(e) {
   try {
     const result = await submitRegistration(user.uid, formData);
 
-    // Sync to Google Sheets (non-blocking, fire-and-forget with await)
+    // FIX: Add client-side timestamp for display since serverTimestamp returns FieldValue
+    const now = new Date();
+    const displayData = {
+      ...result,
+      registeredAt: now
+    };
+
+    // Sync to Google Sheets (non-blocking)
     try {
-      await syncToGoogleSheets({ ...formData, uid: user.uid, registeredAt: new Date().toISOString() });
+      await syncToGoogleSheets({ ...formData, uid: user.uid, registeredAt: now.toISOString() });
     } catch (sheetErr) {
       console.warn('Sheets sync error (non-critical):', sheetErr);
     }
 
     showToast('Registrasi berhasil disimpan!', 'success');
-    showSuccessModal(result);
-    setFormMode('readonly', result);
+    showSuccessModal(displayData);
+    setFormMode('readonly', displayData);
 
   } catch (err) {
     console.error('Submit error:', err);
