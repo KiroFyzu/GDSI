@@ -15,20 +15,17 @@ const els = {
   authOverlay: () => document.getElementById('auth-overlay'),
   profileName: () => document.getElementById('profile-name'),
   profileAvatar: () => document.getElementById('profile-avatar'),
-  countrySelect: () => document.getElementById('country-select'),
-  countrySearch: () => document.getElementById('country-search'),
   countryDropdown: () => document.getElementById('country-dropdown'),
   countryTrigger: () => document.getElementById('country-trigger'),
   countryDisplay: () => document.getElementById('country-display'),
   countryList: () => document.getElementById('country-list'),
   modalSuccess: () => document.getElementById('modal-success'),
   modalInfo: () => document.getElementById('modal-info'),
-  modalBackdrop: () => document.querySelectorAll('.modal-backdrop'),
   readonlyBanner: () => document.getElementById('readonly-banner')
 };
 
 // ============================================
-// COUNTRY DROPDOWN LOGIC - FIXED
+// COUNTRY DROPDOWN - NO SEARCH, SCROLL ONLY
 // ============================================
 let selectedCountry = COUNTRIES.find(c => c.code === 'ID') || COUNTRIES[0];
 let isDropdownOpen = false;
@@ -36,13 +33,13 @@ let isDropdownOpen = false;
 export function initCountryDropdown() {
   const trigger = els.countryTrigger();
   const dropdown = els.countryDropdown();
-  const search = els.countrySearch();
-  const display = els.countryDisplay();
 
   if (!trigger || !dropdown) return;
 
   // Set default Indonesia
   updateCountryDisplay();
+  // Pre-render list
+  renderCountryList(COUNTRIES);
 
   // Toggle dropdown on trigger click
   trigger.addEventListener('click', (e) => {
@@ -50,19 +47,6 @@ export function initCountryDropdown() {
     e.preventDefault();
     toggleDropdown();
   });
-
-  // Search filtering
-  if (search) {
-    search.addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase().trim();
-      const filtered = COUNTRIES.filter(c =>
-        c.name.toLowerCase().includes(term) ||
-        c.dial.includes(term) ||
-        c.code.toLowerCase().includes(term)
-      );
-      renderCountryList(filtered);
-    });
-  }
 
   // Close dropdown when clicking outside
   document.addEventListener('click', (e) => {
@@ -78,9 +62,6 @@ export function initCountryDropdown() {
 }
 
 function toggleDropdown() {
-  const dropdown = els.countryDropdown();
-  if (!dropdown) return;
-
   if (isDropdownOpen) {
     closeDropdown();
   } else {
@@ -90,17 +71,10 @@ function toggleDropdown() {
 
 function openDropdown() {
   const dropdown = els.countryDropdown();
-  const search = els.countrySearch();
   if (!dropdown) return;
 
   dropdown.classList.remove('hidden');
   isDropdownOpen = true;
-  renderCountryList(COUNTRIES);
-
-  if (search) {
-    search.value = '';
-    setTimeout(() => search.focus(), 100);
-  }
 }
 
 function closeDropdown() {
@@ -116,18 +90,17 @@ function renderCountryList(list) {
   if (!container) return;
   container.innerHTML = '';
 
-  if (list.length === 0) {
-    container.innerHTML = '<div class="country-item"><span class="country-name text-on-surface-variant">Tidak ditemukan</span></div>';
-    return;
-  }
-
   list.forEach(country => {
     const item = document.createElement('div');
     item.className = 'country-item';
+    item.setAttribute('role', 'button');
+    item.setAttribute('tabindex', '0');
     item.innerHTML = `
       <span class="country-dial">${escapeHtml(country.dial)}</span>
       <span class="country-name">${escapeHtml(country.name)}</span>
     `;
+
+    // Click to select
     item.addEventListener('click', (e) => {
       e.stopPropagation();
       e.preventDefault();
@@ -135,6 +108,17 @@ function renderCountryList(list) {
       updateCountryDisplay();
       closeDropdown();
     });
+
+    // Keyboard support
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        selectedCountry = country;
+        updateCountryDisplay();
+        closeDropdown();
+      }
+    });
+
     container.appendChild(item);
   });
 }
@@ -166,7 +150,6 @@ export function setFormMode(mode, data = null) {
   const inputs = form.querySelectorAll('input, select');
 
   if (mode === 'readonly' && data) {
-    // Populate and lock
     populateForm(data);
     inputs.forEach(input => {
       input.setAttribute('readonly', 'true');
@@ -194,7 +177,6 @@ export function setFormMode(mode, data = null) {
     if (viewBtn) viewBtn.classList.add('hidden');
     if (closeBtn) closeBtn.classList.add('hidden');
   } else if (mode === 'locked') {
-    // Not authenticated
     inputs.forEach(input => input.setAttribute('disabled', 'true'));
     if (submitBtn) submitBtn.classList.add('hidden');
     if (readonlyBanner) readonlyBanner.classList.add('hidden');
@@ -219,7 +201,6 @@ function populateForm(data) {
     if (el) el.value = value || '';
   });
 
-  // Engine select
   const engineSelect = form.querySelector('[name="engine"]');
   if (engineSelect && data.engine) {
     engineSelect.value = data.engine;
