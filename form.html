@@ -721,63 +721,89 @@
         // CORE LOGIC
         // ==========================================
         async function handleSubmit(data) {
-            renderState(STATES.SUBMITTING);
-            debugLog('Beginning submission flow...', 'info');
+    renderState(STATES.SUBMITTING);
+    debugLog('Beginning submission flow...', 'info');
+    
+    try {
+        // 1. Save to Firestore dengan timeout safety
+        debugLog(`Writing to Firestore: users/${data.uid}`, 'info');
+        setStatus('status-firestore', 'DB: Writing...', 'active');
+        
+        const userRef = doc(db, 'users', data.uid);
+        
+        // Race antara setDoc vs timeout 8 detik
+        const writePromise = setDoc(userRef, data, { merge: true });
+        const timeoutPromise = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Firestore write timeout (>8s). Check your Security Rules.')), 8000)
+        );
+        
+        await Promise.race([writePromise, timeoutPromise]);
+        
+        debugLog('Firestore write successful', 'success');
+        setStatus('status-firestore', 'DB: Saved', 'success');
+
+        // 2. Mirror to Google Sheets
+        debugLog('POSTing to Google Apps Script...', 'info');
+        try {
+            const sheetPayload = {
+                uid: data.uid,
+                name: data.name,
+                email: data.email,
+                whatsapp: data.whatsapp,
+                usernameId: data.usernameId,
+                clubTeam: data.clubTeam,
+                car: data.car,
+                engine: data.engine,
+                ticketId: data.ticketId,
+                timestamp: new Date().toISOString()
+            };
             
-            try {
-                // 1. Save to Firestore
-                debugLog(`Writing to Firestore: users/${data.uid}`, 'info');
-                const userRef = doc(db, 'users', data.uid);
-                await setDoc(userRef, data, { merge: true });
-                debugLog('Firestore write successful', 'success');
-                setStatus('status-firestore', 'DB: Saved', 'success');
-                
-                // 2. Mirror to Google Sheets
-                debugLog('POSTing to Google Apps Script...', 'info');
-                try {
-                    const sheetPayload = {
-                        uid: data.uid,
-                        name: data.name,
-                        email: data.email,
-                        whatsapp: data.whatsapp,
-                        usernameId: data.usernameId,
-                        clubTeam: data.clubTeam,
-                        car: data.car,
-                        engine: data.engine,
-                        ticketId: data.ticketId,
-                        timestamp: new Date().toISOString()
-                    };
-                    
-                    // Using no-cors mode for GAS to avoid CORS preflight issues
-                    await fetch(GAS_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(sheetPayload)
-                    });
-                    
-                    debugLog('Google Sheets POST sent (no-cors)', 'success');
-                    setStatus('status-sheets', 'Sheets: Sent', 'success');
-                } catch (sheetErr) {
-                    debugLog(`Sheets POST error: ${sheetErr.message}`, 'error');
-                    setStatus('status-sheets', 'Sheets: Failed', 'error');
-                    // Non-blocking: continue to ticket even if sheets fails
-                }
-                
-                currentUserData = data;
-                renderState(STATES.TICKET, data);
-                
-            } catch (err) {
-                debugLog(`Submission failed: ${err.message}`, 'error');
-                setStatus('status-submit', 'Submit: Error', 'error');
-                alert('Registration failed. Please try again.');
-                renderState(STATES.FORM, {
-                    name: currentUser.displayName || '',
-                    email: currentUser.email || '',
-                    photoURL: currentUser.photoURL || ''
-                });
-            }
+            fetch(GAS_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(sheetPayload)
+            });
+            
+            debugLog('Google Sheets POST sent', 'success');
+            setStatus('status-sheets', 'Sheets: Sent', 'success');
+        } catch (sheetErr) {
+            debugLog(`Sheets POST error: ${sheetErr.message}`, 'error');
+            setStatus('status-sheets', 'Sheets: Failed', 'error');
         }
+
+        currentUserData = data;
+        renderState(STATES.TICKET, data);
+
+    } catch (err) {
+        debugLog(`SUBMIT FAILED: ${err.code || ''} ${err.message}`, 'error');
+        setStatus('status-submit', 'Submit: Error', 'error');
+        setStatus('status-firestore', 'DB: Failed', 'error');
+        
+        // Tampilkan alert detail agar user tahu penyebabnya
+        alert(`Registration failed:\n${err.message}\n\nCommon causes:\n1. Firestore Security Rules not set\n2. No internet connection\n3. Firebase config incorrect`);
+        
+        // Kembali ke form, jangan kehilangan data
+        renderState(STATES.FORM, {
+            name: data.name,
+            email: data.email,
+            photoURL: currentUser?.photoURL || ''
+        });
+        
+        // Re-attach listeners karena DOM baru
+        setTimeout(() => {
+            // Pre-fill ulang field yang sudah diisi sebelumnya
+            const f = (id, val) => { const el = document.getElementById(id); if(el && val) el.value = val; };
+            f('field-name', data.name);
+            f('field-whatsapp', data.whatsapp);
+            f('field-username', data.usernameId);
+            f('field-club', data.clubTeam);
+            f('field-car', data.car);
+            f('field-engine', data.engine);
+            attachFormListeners();
+        }, 100);
+    }
+}
 
         async function checkUserRegistration(uid) {
             renderState(STATES.CHECKING_DB);
