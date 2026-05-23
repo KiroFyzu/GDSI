@@ -1,924 +1,853 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Registration - Grand Drift Series Indonesia</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>GDSI — Participant Registration</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+    
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-<!-- html2canvas -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-<script id="tailwind-config">
-tailwind.config = {
-    darkMode: "class",
-    theme: {
-        extend: {
-            colors: {
-                "primary-fixed-dim": "#ffb4ac",
-                "surface-dim": "#d9dadb",
-                "surface-variant": "#e1e3e4",
-                "surface": "#f8f9fa",
-                "primary": "#b70013",
-                "tertiary-fixed-dim": "#c4c6cc",
-                "secondary-fixed-dim": "#c8c6c5",
-                "primary-container": "#e11922",
-                "secondary-container": "#e2dfde",
-                "on-primary-container": "#fff7f5",
-                "outline-variant": "#e7bdb8",
-                "on-primary-fixed-variant": "#93000d",
-                "error-container": "#ffdad6",
-                "on-tertiary-fixed": "#181c20",
-                "tertiary-container": "#6f7277",
-                "surface-container-highest": "#e1e3e4",
-                "secondary-fixed": "#e5e2e1",
-                "on-secondary-container": "#636262",
-                "on-secondary": "#ffffff",
-                "on-tertiary": "#ffffff",
-                "secondary": "#5f5e5e",
-                "inverse-on-surface": "#f0f1f2",
-                "on-tertiary-container": "#f6f8fe",
-                "tertiary": "#565a5e",
-                "on-error": "#ffffff",
-                "on-background": "#191c1d",
-                "surface-container-low": "#f3f4f5",
-                "on-surface": "#191c1d",
-                "primary-fixed": "#ffdad6",
-                "on-error-container": "#93000a",
-                "outline": "#926e6b",
-                "error": "#ba1a1a",
-                "surface-container": "#edeeef",
-                "on-surface-variant": "#5d3f3c",
-                "tertiary-fixed": "#e0e2e8",
-                "inverse-surface": "#2e3132",
-                "surface-container-lowest": "#ffffff",
-                "surface-bright": "#f8f9fa",
-                "on-tertiary-fixed-variant": "#44474b",
-                "surface-container-high": "#e7e8e9",
-                "on-primary-fixed": "#410002",
-                "inverse-primary": "#ffb4ac",
-                "background": "#f8f9fa",
-                "surface-tint": "#c00015",
-                "on-secondary-fixed": "#1c1b1b",
-                "on-secondary-fixed-variant": "#474746",
-                "on-primary": "#ffffff"
-            },
-            borderRadius: {
-                DEFAULT: "0.25rem",
-                lg: "0.5rem",
-                xl: "0.75rem",
-                full: "9999px"
-            },
-            spacing: {
-                md: "24px",
-                "margin-desktop": "64px",
-                xs: "4px",
-                gutter: "24px",
-                sm: "12px",
-                "margin-mobile": "16px",
-                base: "8px",
-                xl: "80px",
-                lg: "48px"
-            },
-            fontFamily: {
-                "headline-lg": ["Hanken Grotesk"],
-                "display-lg": ["Hanken Grotesk"],
-                "body-md": ["Inter"],
-                "headline-lg-mobile": ["Hanken Grotesk"],
-                "label-bold": ["Inter"],
-                "body-lg": ["Inter"],
-                "headline-md": ["Hanken Grotesk"]
-            },
-            fontSize: {
-                "headline-lg": ["40px", { lineHeight: "48px", letterSpacing: "-0.01em", fontWeight: "700" }],
-                "display-lg": ["64px", { lineHeight: "72px", letterSpacing: "-0.02em", fontWeight: "800" }],
-                "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
-                "headline-lg-mobile": ["32px", { lineHeight: "40px", fontWeight: "700" }],
-                "label-bold": ["14px", { lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "600" }],
-                "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
-                "headline-md": ["24px", { lineHeight: "32px", fontWeight: "700" }]
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#b70013',
+                        'primary-dark': '#93000d',
+                        surface: '#f8f9fa',
+                        'surface-variant': '#e1e3e4',
+                        'on-surface': '#191c1d',
+                    },
+                    fontFamily: {
+                        display: ['Hanken Grotesk', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
             }
         }
-    }
-};
-</script>
+    </script>
 
-<style>
-    .fade-in {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    }
-    .fade-in.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    .slide-in {
-        opacity: 0;
-        transform: translateX(-30px);
-        transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-    }
-    .slide-in.visible {
-        opacity: 1;
-        transform: translateX(0);
-    }
-    .glass-panel {
-        background: rgba(255, 255, 255, 0.75);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-    .glass-card {
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-    }
-    .ticket-glass {
-        background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-    }
-    .loading-overlay {
-        background: rgba(248, 249, 250, 0.9);
-        backdrop-filter: blur(8px);
-    }
-    .spinner {
-        width: 48px;
-        height: 48px;
-        border: 4px solid #e1e3e4;
-        border-top-color: #b70013;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
-    .btn-primary {
-        background: linear-gradient(135deg, #b70013 0%, #e11922 100%);
-        transition: all 0.3s ease;
-    }
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(183, 0, 19, 0.3);
-    }
-    .btn-primary:active {
-        transform: translateY(0);
-    }
-    .google-btn {
-        transition: all 0.3s ease;
-        border: 1px solid #e1e3e4;
-    }
-    .google-btn:hover {
-        background: #f3f4f5;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
-    .input-field {
-        transition: all 0.3s ease;
-        border: 1px solid #e1e3e4;
-    }
-    .input-field:focus {
-        border-color: #b70013;
-        box-shadow: 0 0 0 3px rgba(183, 0, 19, 0.1);
-        outline: none;
-    }
-    .ticket-container {
-        position: relative;
-        overflow: hidden;
-        border-radius: 16px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    }
-    .ticket-bg {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
-    }
-    .ticket-pattern {
-        position: absolute;
-        inset: 0;
-        opacity: 0.05;
-        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    }
-    .ticket-stripe {
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 8px;
-        background: linear-gradient(to bottom, #b70013, #e11922);
-    }
-    .ticket-cutout {
-        position: absolute;
-        width: 40px;
-        height: 40px;
-        background: #f8f9fa;
-        border-radius: 50%;
-    }
-    .cutout-left { left: -20px; top: 50%; transform: translateY(-50%); }
-    .cutout-right { right: -20px; top: 50%; transform: translateY(-50%); }
-    @media (prefers-reduced-motion: reduce) {
-        * { transition: none !important; animation: none !important; }
-    }
-</style>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #f8f9fa 0%, #e1e3e4 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .font-display { font-family: 'Hanken Grotesk', sans-serif; }
+        
+        /* Glassmorphism Card */
+        .hero-card {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255,255,255,0.5) inset;
+        }
+        
+        /* Animations */
+        .anim-fade-in { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .anim-slide-up { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Form Inputs */
+        .hero-input {
+            transition: all 0.2s ease;
+        }
+        .hero-input:focus {
+            border-color: #b70013;
+            box-shadow: 0 0 0 3px rgba(183, 0, 19, 0.12);
+            outline: none;
+        }
+        
+        /* Custom Select Arrow */
+        .select-arrow {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        /* Ticket Template */
+        .ticket-frame {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 16 / 9;
+            background-image: url('/mnt/agents/upload/1779556801263.png');
+            background-size: cover;
+            background-position: center;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Debug Panel */
+        .debug-panel {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+        .debug-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .anim-fade-in, .anim-slide-up { animation: none; opacity: 1; transform: none; }
+        }
+    </style>
 </head>
 
-<body class="bg-background text-on-background antialiased min-h-screen relative">
+<body class="text-on-surface antialiased selection:bg-primary selection:text-white pb-[240px]">
 
-<!-- ==================== LOADING OVERLAY ==================== -->
-<div id="loadingOverlay" class="loading-overlay fixed inset-0 z-50 flex flex-col items-center justify-center hidden">
-    <div class="spinner mb-4"></div>
-    <p id="loadingText" class="font-label-bold text-label-bold text-secondary uppercase tracking-widest">Loading...</p>
-    <p id="loadingSub" class="font-body-md text-xs text-secondary mt-2 opacity-70">Please wait</p>
-</div>
-
-<!-- ==================== DEBUG PANEL (ALWAYS VISIBLE) ==================== -->
-<div id="debugPanel" style="position:fixed; bottom:0; left:0; right:0; z-index:9999; background:#1a1a1a; color:#fff; padding:8px 12px; font-family:monospace; font-size:11px; border-top:3px solid #b70013; max-height:140px; overflow-y:auto;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <span style="color:#ffb4ac; font-weight:bold; font-size:10px;">🔧 DEBUG LOG</span>
-        <button onclick="document.getElementById('debugLog').innerHTML='';" style="background:#333; color:#fff; border:none; padding:2px 8px; border-radius:4px; font-size:10px;">Clear</button>
-    </div>
-    <div id="debugLog" style="max-height:100px; overflow-y:auto;"></div>
-</div>
-<div style="height:140px;"></div>
-
-<!-- ==================== HERO SECTION ==================== -->
-<section id="heroSection" class="w-full relative overflow-hidden">
-    <div class="absolute top-0 left-0 w-full h-full -z-10">
-        <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-surface-variant/30"></div>
-        <div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-        <div class="absolute bottom-0 left-0 w-64 h-64 bg-surface-variant/40 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
-    </div>
-
-    <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pt-12 pb-8 md:pt-16 md:pb-12 flex flex-col items-center text-center">
-        <div class="fade-in mb-6">
-            <img src="gdsi.png" alt="GDSI Logo" class="h-20 md:h-28 w-auto object-contain drop-shadow-lg mx-auto" onerror="this.style.display='none'; document.getElementById('logoFallback').classList.remove('hidden');"/>
-            <div id="logoFallback" class="hidden">
-                <div class="h-20 md:h-28 flex items-center justify-center">
-                    <span class="font-display-lg text-display-lg text-primary tracking-tighter">GDSI</span>
-                </div>
-            </div>
+    <!-- ================= HERO BRANDING ================= -->
+    <header class="w-full flex flex-col items-center text-center pt-10 pb-6 px-4 anim-fade-in">
+        <div class="hero-card rounded-3xl p-5 md:p-6 mb-6 inline-block">
+            <img src="/mnt/agents/upload/gdsi.png" alt="GDSI Logo" class="h-16 md:h-24 w-auto object-contain mx-auto drop-shadow-sm"/>
         </div>
-
-        <div class="fade-in delay-100">
-            <h1 class="font-display-lg text-display-lg md:text-[72px] md:leading-[80px] text-on-surface tracking-tighter uppercase font-extrabold italic mb-2">
-                Grand Drift Series<br/><span class="text-primary">Indonesia</span>
-            </h1>
-            <p class="font-label-bold text-label-bold text-primary uppercase tracking-[0.2em] mb-4">GDSI</p>
-            <p class="font-body-lg text-body-lg text-secondary max-w-2xl mx-auto">
-                Official registration platform for Grand Drift Series Indonesia participants
-            </p>
-        </div>
-    </div>
-</section>
-
-<!-- ==================== LOGIN SECTION ==================== -->
-<section id="loginSection" class="w-full max-w-md mx-auto px-margin-mobile md:px-margin-desktop pb-xl fade-in delay-200">
-    <div class="glass-card rounded-2xl p-8 md:p-10 shadow-xl">
-        <div class="text-center mb-8">
-            <span class="material-symbols-outlined text-4xl text-primary mb-4 block" style="font-variation-settings: 'FILL' 1;">account_circle</span>
-            <h2 class="font-headline-md text-headline-md text-on-surface mb-2">Participant Access</h2>
-            <p class="font-body-md text-secondary">Sign in with your Google Account to register</p>
-        </div>
-
-        <button id="googleLoginBtn" class="google-btn w-full flex items-center justify-center gap-3 bg-white text-on-surface font-label-bold text-label-bold py-4 px-6 rounded-xl cursor-pointer">
-            <svg class="w-5 h-5" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            Continue with Google
-        </button>
-
-        <p class="text-center mt-6 font-body-md text-sm text-secondary">
-            By signing in, you agree to our <a href="#" class="text-primary hover:underline">Terms & Conditions</a>
-        </p>
-    </div>
-</section>
-
-<!-- ==================== FORM SECTION ==================== -->
-<section id="formSection" class="w-full max-w-2xl mx-auto px-margin-mobile md:px-margin-desktop pb-xl hidden">
-    <div class="glass-card rounded-2xl p-6 md:p-10 shadow-xl">
-        <div class="flex items-center gap-4 mb-8 pb-6 border-b border-surface-variant">
-            <img id="userPhoto" src="" alt="Profile" class="w-14 h-14 rounded-full object-cover border-2 border-primary shadow-md hidden"/>
-            <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center border-2 border-primary/20" id="userPhotoFallback">
-                <span class="material-symbols-outlined text-primary text-2xl">person</span>
-            </div>
-            <div>
-                <p class="font-label-bold text-label-bold text-secondary uppercase tracking-wider text-xs">Signed in as</p>
-                <p id="userNameDisplay" class="font-headline-md text-headline-md text-on-surface leading-tight"></p>
-                <p id="userEmailDisplay" class="font-body-md text-sm text-secondary"></p>
-            </div>
-            <button id="logoutBtn" class="ml-auto text-secondary hover:text-error transition-colors" title="Sign Out">
-                <span class="material-symbols-outlined">logout</span>
-            </button>
-        </div>
-
-        <div class="mb-8">
-            <div class="inline-block px-3 py-1 bg-primary/10 rounded-full mb-3">
-                <span class="font-label-bold text-xs uppercase tracking-widest text-primary">Registration</span>
-            </div>
-            <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mb-2">
-                Event Registration
-            </h2>
-            <p class="font-body-md text-secondary">Complete your details to secure your participation spot.</p>
-        </div>
-
-        <form id="registrationForm" class="space-y-6">
-            <div class="slide-in">
-                <label class="block font-label-bold text-label-bold text-on-surface mb-2 uppercase tracking-wider">
-                    Full Name <span class="text-error">*</span>
-                </label>
-                <input type="text" id="inputName" class="input-field w-full bg-surface-container-lowest rounded-xl px-4 py-3 font-body-md text-on-surface" placeholder="Your full name" required/>
-            </div>
-
-            <div class="slide-in delay-100">
-                <label class="block font-label-bold text-label-bold text-on-surface mb-2 uppercase tracking-wider">
-                    WhatsApp Number <span class="text-error">*</span>
-                </label>
-                <div class="relative">
-                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-secondary font-body-md">+62</span>
-                    <input type="tel" id="inputWhatsApp" class="input-field w-full bg-surface-container-lowest rounded-xl pl-12 pr-4 py-3 font-body-md text-on-surface" placeholder="8xx-xxxx-xxxx" required/>
-                </div>
-                <p class="text-xs text-secondary mt-1 font-body-md">Format: 8xx-xxxx-xxxx (without +62)</p>
-            </div>
-
-            <div class="slide-in delay-200">
-                <label class="block font-label-bold text-label-bold text-on-surface mb-2 uppercase tracking-wider">
-                    Club / Team <span class="text-error">*</span>
-                </label>
-                <input type="text" id="inputClub" class="input-field w-full bg-surface-container-lowest rounded-xl px-4 py-3 font-body-md text-on-surface" placeholder="Your club or team name" required/>
-            </div>
-
-            <div class="slide-in delay-300">
-                <label class="block font-label-bold text-label-bold text-on-surface mb-2 uppercase tracking-wider">
-                    Car Model <span class="text-error">*</span>
-                </label>
-                <input type="text" id="inputCar" class="input-field w-full bg-surface-container-lowest rounded-xl px-4 py-3 font-body-md text-on-surface" placeholder="e.g. Nissan Silvia S15" required/>
-            </div>
-
-            <div class="slide-in">
-                <label class="block font-label-bold text-label-bold text-on-surface mb-2 uppercase tracking-wider">
-                    Engine Type <span class="text-error">*</span>
-                </label>
-                <div class="relative">
-                    <select id="inputEngine" class="input-field w-full bg-surface-container-lowest rounded-xl px-4 py-3 font-body-md text-on-surface appearance-none cursor-pointer" required>
-                        <option value="" disabled selected>Select engine type</option>
-                        <option value="Prodrift">Prodrift</option>
-                        <option value="SR">SR</option>
-                        <option value="2JZ">2JZ</option>
-                        <option value="V6TT">V6TT</option>
-                        <option value="V8S">V8S</option>
-                        <option value="V8NA">V8NA</option>
-                    </select>
-                    <span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary pointer-events-none">expand_more</span>
-                </div>
-            </div>
-
-            <div class="slide-in pt-4">
-                <label class="flex items-start gap-3 cursor-pointer group">
-                    <div class="relative flex items-center">
-                        <input type="checkbox" id="snkCheckbox" class="peer sr-only"/>
-                        <div class="w-5 h-5 border-2 border-outline-variant rounded-md peer-checked:bg-primary peer-checked:border-primary transition-all flex items-center justify-center">
-                            <span class="material-symbols-outlined text-white text-sm hidden peer-checked:block">check</span>
-                        </div>
-                    </div>
-                    <span class="font-body-md text-sm text-secondary group-hover:text-on-surface transition-colors">
-                        I agree to the <a href="https://example.com/terms" target="_blank" class="text-primary hover:underline font-semibold">Terms & Conditions</a> and confirm all provided information is accurate.
-                    </span>
-                </label>
-                <p id="snkError" class="text-error text-sm mt-2 hidden font-body-md">You must agree to the Terms & Conditions to proceed.</p>
-            </div>
-
-            <div class="slide-in pt-4">
-                <button type="submit" id="submitBtn" class="btn-primary w-full text-on-primary font-label-bold text-label-bold uppercase tracking-widest py-4 px-8 rounded-xl flex items-center justify-center gap-2 cursor-pointer">
-                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
-                    Submit Registration
-                </button>
-            </div>
-        </form>
-    </div>
-</section>
-
-<!-- ==================== TICKET SECTION ==================== -->
-<section id="ticketSection" class="w-full max-w-3xl mx-auto px-margin-mobile md:px-margin-desktop pb-xl hidden">
-    <div class="text-center mb-8 fade-in">
-        <div class="inline-block px-3 py-1 bg-primary/10 rounded-full mb-3">
-            <span class="font-label-bold text-xs uppercase tracking-widest text-primary">Ticket Generated</span>
-        </div>
-        <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mb-2">
-            Your Entry Ticket
+        <h1 class="font-display text-5xl md:text-7xl font-extrabold italic tracking-tight text-on-surface mb-1">
+            GDSI
+        </h1>
+        <h2 class="font-display text-lg md:text-2xl font-bold text-primary tracking-wide uppercase mb-3">
+            Grand Drift Series Indonesia
         </h2>
-        <p class="font-body-md text-secondary max-w-md mx-auto">
-            Registration confirmed. Download your ticket and present it at the event entrance.
+        <p class="text-sm md:text-base text-gray-600 max-w-md font-medium leading-relaxed">
+            Official registration platform for Grand Drift Series Indonesia participants
         </p>
-    </div>
+    </header>
 
-    <div id="ticketCard" class="ticket-container mx-auto mb-8 fade-in delay-100" style="max-width: 600px;">
-        <div class="ticket-bg"></div>
-        <div class="ticket-pattern"></div>
-        <div class="ticket-stripe"></div>
+    <!-- ================= MAIN APP CONTAINER ================= -->
+    <main id="app-root" class="w-full max-w-lg mx-auto px-4 pb-12 min-h-[400px]">
+        <!-- States injected here via JS -->
+    </main>
 
-        <div class="ticket-cutout cutout-left"></div>
-        <div class="ticket-cutout cutout-right"></div>
-
-        <div class="relative z-10 p-8 md:p-10 text-white">
-            <div class="flex items-center justify-between mb-6 border-b border-white/20 pb-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                        <span class="font-display-lg text-lg text-white font-bold italic">G</span>
-                    </div>
-                    <div>
-                        <p class="font-label-bold text-xs uppercase tracking-widest text-white/80">Grand Drift Series</p>
-                        <p class="font-label-bold text-xs uppercase tracking-widest text-primary-fixed-dim">Indonesia 2026</p>
-                    </div>
-                </div>
-                <div class="text-right">
-                    <p class="font-label-bold text-xs uppercase tracking-wider text-white/60">Ticket ID</p>
-                    <p id="ticketIdDisplay" class="font-headline-md text-headline-md text-white tracking-wider"></p>
-                </div>
+    <!-- ================= DEBUG PANEL ================= -->
+    <div id="debug-panel" class="fixed bottom-0 left-0 right-0 bg-[#0b0b0b]/95 text-gray-300 debug-panel z-[9999] border-t border-gray-800 backdrop-blur-sm">
+        <!-- Status Bar -->
+        <div class="flex items-center justify-between px-4 py-2 bg-[#141414] border-b border-gray-800">
+            <div class="flex items-center gap-2">
+                <span class="text-gray-400 font-bold text-[10px] uppercase tracking-wider">🔧 Dev Console</span>
+                <span id="debug-mode-badge" class="debug-tag bg-yellow-500/20 text-yellow-400">DEBUG_MODE: ON</span>
             </div>
-
-            <div class="flex flex-col md:flex-row gap-6 items-start">
-                <div class="flex-shrink-0 mx-auto md:mx-0">
-                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden border-4 border-white/20 shadow-lg bg-white/10">
-                        <img id="ticketPhoto" src="" alt="" class="w-full h-full object-cover hidden"/>
-                        <div id="ticketPhotoFallback" class="w-full h-full flex items-center justify-center">
-                            <span class="material-symbols-outlined text-4xl text-white/40">person</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex-1 w-full">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="ticket-glass rounded-xl p-3">
-                            <p class="font-label-bold text-[10px] uppercase tracking-wider text-white/50 mb-1">Participant</p>
-                            <p id="ticketName" class="font-headline-md text-lg text-white truncate"></p>
-                        </div>
-                        <div class="ticket-glass rounded-xl p-3">
-                            <p class="font-label-bold text-[10px] uppercase tracking-wider text-white/50 mb-1">Email</p>
-                            <p id="ticketEmail" class="font-body-md text-sm text-white/90 truncate"></p>
-                        </div>
-                        <div class="ticket-glass rounded-xl p-3">
-                            <p class="font-label-bold text-[10px] uppercase tracking-wider text-white/50 mb-1">Club / Team</p>
-                            <p id="ticketClub" class="font-headline-md text-lg text-white truncate"></p>
-                        </div>
-                        <div class="ticket-glass rounded-xl p-3">
-                            <p class="font-label-bold text-[10px] uppercase tracking-wider text-white/50 mb-1">Vehicle</p>
-                            <p id="ticketCar" class="font-body-md text-sm text-white/90 truncate"></p>
-                        </div>
-                        <div class="ticket-glass rounded-xl p-3">
-                            <p class="font-label-bold text-[10px] uppercase tracking-wider text-white/50 mb-1">Engine</p>
-                            <p id="ticketEngine" class="font-headline-md text-lg text-primary-fixed-dim"></p>
-                        </div>
-                        <div class="ticket-glass rounded-xl p-3">
-                            <p class="font-label-bold text-[10px] uppercase tracking-wider text-white/50 mb-1">WhatsApp</p>
-                            <p id="ticketWhatsApp" class="font-body-md text-sm text-white/90"></p>
-                        </div>
-                    </div>
-                </div>
+            <div class="flex gap-3 text-[10px]">
+                <span id="status-auth" class="debug-tag bg-gray-800 text-gray-500">Auth: —</span>
+                <span id="status-firestore" class="debug-tag bg-gray-800 text-gray-500">DB: —</span>
+                <span id="status-form" class="debug-tag bg-gray-800 text-gray-500">Form: —</span>
+                <span id="status-submit" class="debug-tag bg-gray-800 text-gray-500">Submit: —</span>
+                <span id="status-sheets" class="debug-tag bg-gray-800 text-gray-500">Sheets: —</span>
+                <span id="status-ticket" class="debug-tag bg-gray-800 text-gray-500">Ticket: —</span>
             </div>
-
-            <div class="mt-6 pt-4 border-t border-white/20 flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary-fixed-dim text-sm">verified</span>
-                    <span class="font-label-bold text-[10px] uppercase tracking-wider text-white/60">Verified Entry</span>
-                </div>
-                <p class="font-label-bold text-[10px] uppercase tracking-wider text-white/40">GDSI 2026</p>
-            </div>
+        </div>
+        <!-- Log Stream -->
+        <div id="debug-logs" class="px-4 py-2 h-[160px] overflow-y-auto space-y-1">
+            <div class="text-gray-500 italic">Waiting for initialization...</div>
         </div>
     </div>
 
-    <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in delay-200">
-        <button id="downloadTicketBtn" class="btn-primary text-on-primary font-label-bold text-label-bold uppercase tracking-widest py-4 px-8 rounded-xl flex items-center justify-center gap-2 cursor-pointer">
-            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">download</span>
-            Download Ticket PNG
-        </button>
-        <button id="logoutFromTicketBtn" class="google-btn bg-surface-container-high text-on-surface font-label-bold text-label-bold uppercase tracking-widest py-4 px-8 rounded-xl flex items-center justify-center gap-2 cursor-pointer hover:bg-surface-variant">
-            <span class="material-symbols-outlined">logout</span>
-            Sign Out
-        </button>
-    </div>
-</section>
-
-<!-- ==================== FOOTER ==================== -->
-<footer class="w-full bg-surface-container-lowest border-t border-surface-variant py-lg px-margin-desktop flex items-center justify-center">
-    <p class="font-body-md text-body-md text-secondary text-center font-medium tracking-wide text-sm uppercase">
-        © 2026 Grand Drift Series Indonesia. All Rights Reserved.
-    </p>
-</footer>
-
-<!-- ==================== INLINE DEBUG (runs BEFORE anything else) ==================== -->
-<script>
-// Inline debug logger - works immediately without any libraries
-window._gdsiDebug = [];
-window._gdsiLog = function(msg) {
-    var time = new Date().toLocaleTimeString();
-    var line = '[' + time + '] ' + msg;
-    window._gdsiDebug.push(line);
-    console.log(line);
-    var logDiv = document.getElementById('debugLog');
-    if (logDiv) {
-        var entry = document.createElement('div');
-        entry.textContent = line;
-        entry.style.cssText = 'margin-bottom:2px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:2px;';
-        logDiv.appendChild(entry);
-        logDiv.scrollTop = logDiv.scrollHeight;
-    }
-};
-window._gdsiLog('INLINE: Debug logger initialized');
-</script>
-
-<!-- ==================== FIREBASE SDK (deferred loading) ==================== -->
-<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
-<!-- ==================== MAIN APP ==================== -->
-<script defer>
-(function() {
-    'use strict';
-
-    window._gdsiLog('MAIN: Script started');
-
-    // ============================================================
-    // FIREBASE CONFIG - UPDATE THIS!
-    // ============================================================
-    var firebaseConfig = {
-  apiKey: "AIzaSyAv6UqNaP22yP6ur6R0C7vK2fwjYnCIR6c",
+    <!-- ================= FIREBASE MODULE ================= -->
+    <script type="module">
+        // ==========================================
+        // CONFIGURATION
+        // ==========================================
+        const DEBUG_MODE = true; // Set to false to hide debug panel in production
+        
+        const FIREBASE_CONFIG = {
+            apiKey: "AIzaSyAv6UqNaP22yP6ur6R0C7vK2fwjYnCIR6c",
   authDomain: "form-regis-gdsi.firebaseapp.com",
   projectId: "form-regis-gdsi",
   storageBucket: "form-regis-gdsi.firebasestorage.app",
   messagingSenderId: "849442718629",
   appId: "1:849442718629:web:cb06c97c09f61912501e4c"
-    };
+        };
+        
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbxJRfMPHKUbcgNA2tgxGv56KgCTpS9-tX-ZZdsYc-JVd8Mb4cWYiApuLfTGXFjAJJIm/exec"; // Google Apps Script Web App URL
 
-    var GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJRfMPHKUbcgNA2tgxGv56KgCTpS9-tX-ZZdsYc-JVd8Mb4cWYiApuLfTGXFjAJJIm/exec";
+        // ==========================================
+        // FIREBASE MODULAR IMPORTS (ES Modules CDN)
+        // ==========================================
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+        import { 
+            getAuth, 
+            GoogleAuthProvider, 
+            signInWithPopup, 
+            onAuthStateChanged, 
+            signOut 
+        } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            getDoc, 
+            setDoc, 
+            serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-    // ============================================================
-    // WAIT FOR FIREBASE SDK TO LOAD
-    // ============================================================
-    function waitForFirebase(callback, attempts) {
-        attempts = attempts || 0;
-        if (typeof firebase !== 'undefined' && firebase.initializeApp) {
-            window._gdsiLog('SDK: Firebase loaded after ' + attempts + ' checks');
-            callback();
-        } else if (attempts < 50) {
-            setTimeout(function() { waitForFirebase(callback, attempts + 1); }, 200);
-        } else {
-            window._gdsiLog('SDK: Firebase FAILED to load after 10 seconds');
-            showFatalError('Firebase SDK failed to load. Check internet connection.');
-        }
-    }
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
+        const app = initializeApp(FIREBASE_CONFIG);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
 
-    function showFatalError(msg) {
-        window._gdsiLog('FATAL: ' + msg);
-        var overlay = document.getElementById('loadingOverlay');
-        if (overlay) {
-            overlay.classList.remove('hidden');
-            document.getElementById('loadingText').textContent = 'Error';
-            document.getElementById('loadingSub').textContent = msg;
-        }
-    }
-
-    // ============================================================
-    // INITIALIZE APP
-    // ============================================================
-    waitForFirebase(function() {
-        window._gdsiLog('INIT: Starting Firebase initialization...');
-
-        // Check if config is still placeholder
-        if (firebaseConfig.apiKey === 'YOUR_API_KEY') {
-            showFatalError('Firebase config not set! Please update apiKey in form.html');
-            return;
-        }
-
-        try {
-            firebase.initializeApp(firebaseConfig);
-            window._gdsiLog('INIT: Firebase app initialized OK');
-        } catch (e) {
-            showFatalError('Firebase init failed: ' + e.message);
-            return;
+        // ==========================================
+        // DEBUG SYSTEM
+        // ==========================================
+        const debugPanel = document.getElementById('debug-panel');
+        const debugLogs = document.getElementById('debug-logs');
+        
+        if (!DEBUG_MODE) {
+            debugPanel.style.display = 'none';
+            document.body.classList.remove('pb-[240px]');
         }
 
-        var auth = firebase.auth();
-        var db = firebase.firestore();
-        window._gdsiLog('INIT: Auth and Firestore ready');
-
-        // ============================================================
-        // DOM ELEMENTS
-        // ============================================================
-        var loadingOverlay = document.getElementById('loadingOverlay');
-        var loadingText = document.getElementById('loadingText');
-        var loadingSub = document.getElementById('loadingSub');
-        var loginSection = document.getElementById('loginSection');
-        var formSection = document.getElementById('formSection');
-        var ticketSection = document.getElementById('ticketSection');
-        var googleLoginBtn = document.getElementById('googleLoginBtn');
-        var logoutBtn = document.getElementById('logoutBtn');
-        var logoutFromTicketBtn = document.getElementById('logoutFromTicketBtn');
-        var registrationForm = document.getElementById('registrationForm');
-        var submitBtn = document.getElementById('submitBtn');
-        var snkCheckbox = document.getElementById('snkCheckbox');
-        var snkError = document.getElementById('snkError');
-        var downloadTicketBtn = document.getElementById('downloadTicketBtn');
-
-        var userPhoto = document.getElementById('userPhoto');
-        var userPhotoFallback = document.getElementById('userPhotoFallback');
-        var userNameDisplay = document.getElementById('userNameDisplay');
-        var userEmailDisplay = document.getElementById('userEmailDisplay');
-
-        var inputName = document.getElementById('inputName');
-        var inputWhatsApp = document.getElementById('inputWhatsApp');
-        var inputClub = document.getElementById('inputClub');
-        var inputCar = document.getElementById('inputCar');
-        var inputEngine = document.getElementById('inputEngine');
-
-        // ============================================================
-        // UI HELPERS
-        // ============================================================
-        function showLoading(text, subtext) {
-            loadingText.textContent = text || 'Loading...';
-            loadingSub.textContent = subtext || '';
-            loadingOverlay.classList.remove('hidden');
-            window._gdsiLog('UI: Loading - ' + text);
-        }
-
-        function hideLoading() {
-            loadingOverlay.classList.add('hidden');
-            window._gdsiLog('UI: Loading hidden');
-        }
-
-        function showSection(section) {
-            [loginSection, formSection, ticketSection].forEach(function(s) {
-                if (s === section) {
-                    s.classList.remove('hidden');
-                    s.querySelectorAll('.fade-in, .slide-in').forEach(function(el) {
-                        el.classList.add('visible');
-                    });
-                } else {
-                    s.classList.add('hidden');
-                }
-            });
-            window._gdsiLog('UI: Show ' + section.id);
-        }
-
-        function generateTicketId() {
-            return 'GT-' + Date.now().toString(36).toUpperCase();
-        }
-
-        function formatWhatsApp(num) {
-            var clean = num.replace(/\D/g, '');
-            if (clean.startsWith('0')) clean = clean.substring(1);
-            if (clean.startsWith('62')) clean = clean.substring(2);
-            return '+62 ' + clean;
-        }
-
-        // ============================================================
-        // RENDER TICKET
-        // ============================================================
-        function renderTicket(data) {
-            window._gdsiLog('TICKET: render ' + data.name);
-            document.getElementById('ticketIdDisplay').textContent = data.ticketId;
-            document.getElementById('ticketName').textContent = data.name;
-            document.getElementById('ticketEmail').textContent = data.email;
-            document.getElementById('ticketClub').textContent = data.clubTeam;
-            document.getElementById('ticketCar').textContent = data.car;
-            document.getElementById('ticketEngine').textContent = data.engine;
-            document.getElementById('ticketWhatsApp').textContent = formatWhatsApp(data.whatsapp);
-
-            var ticketPhoto = document.getElementById('ticketPhoto');
-            var ticketPhotoFallback = document.getElementById('ticketPhotoFallback');
-
-            if (data.photoURL) {
-                ticketPhoto.src = data.photoURL;
-                ticketPhoto.classList.remove('hidden');
-                ticketPhotoFallback.classList.add('hidden');
-            } else {
-                ticketPhoto.classList.add('hidden');
-                ticketPhotoFallback.classList.remove('hidden');
-            }
-        }
-
-        // ============================================================
-        // LOGIN
-        // ============================================================
-        googleLoginBtn.addEventListener('click', function() {
-            window._gdsiLog('LOGIN: button clicked');
-            showLoading('Connecting to Google...');
-
-            var provider = new firebase.auth.GoogleAuthProvider();
-            provider.setCustomParameters({ prompt: 'select_account' });
-
-            auth.signInWithPopup(provider).then(function() {
-                window._gdsiLog('LOGIN: popup success');
-            }).catch(function(error) {
-                window._gdsiLog('LOGIN: popup error ' + error.code);
-                if (error.code === 'auth/popup-blocked' || error.code === 'auth/unauthorized-domain') {
-                    window._gdsiLog('LOGIN: fallback to redirect');
-                    auth.signInWithRedirect(provider);
-                } else {
-                    alert('Login failed: ' + error.message);
-                    hideLoading();
-                }
-            });
-        });
-
-        logoutBtn.addEventListener('click', function() { auth.signOut(); });
-        logoutFromTicketBtn.addEventListener('click', function() { auth.signOut(); });
-
-        auth.getRedirectResult().then(function(result) {
-            if (result.user) window._gdsiLog('LOGIN: redirect ok');
-        }).catch(function(e) {
-            window._gdsiLog('LOGIN: redirect error ' + e.message);
-        });
-
-        // ============================================================
-        // AUTH STATE
-        // ============================================================
-        auth.onAuthStateChanged(function(user) {
-            if (user) {
-                window._gdsiLog('AUTH: user in, uid=' + user.uid.substring(0, 8) + '...');
-                showLoading('Checking registration...');
-
-                var displayName = user.displayName || 'Participant';
-                var email = user.email || '';
-                var photoURL = user.photoURL || '';
-
-                userNameDisplay.textContent = displayName;
-                userEmailDisplay.textContent = email;
-
-                if (photoURL) {
-                    userPhoto.src = photoURL;
-                    userPhoto.classList.remove('hidden');
-                    userPhotoFallback.classList.add('hidden');
-                }
-                inputName.value = displayName;
-
-                window._gdsiLog('AUTH: checking Firestore users/' + user.uid.substring(0, 8));
-
-                db.collection('users').doc(user.uid).get().then(function(userDoc) {
-                    window._gdsiLog('AUTH: doc exists=' + userDoc.exists);
-                    if (userDoc.exists) {
-                        renderTicket(userDoc.data());
-                        showSection(ticketSection);
-                    } else {
-                        showSection(formSection);
-                    }
-                    hideLoading();
-                }).catch(function(error) {
-                    window._gdsiLog('AUTH: Firestore ERROR ' + error.code + ' - ' + error.message);
-                    alert('Firestore error: ' + error.message);
-                    showSection(formSection);
-                    hideLoading();
-                });
-
-            } else {
-                window._gdsiLog('AUTH: no user');
-                showSection(loginSection);
-                hideLoading();
-            }
-        });
-
-        // ============================================================
-        // FORM SUBMIT
-        // ============================================================
-        registrationForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            window._gdsiLog('SUBMIT: clicked');
-
-            if (!snkCheckbox.checked) {
-                snkError.classList.remove('hidden');
-                snkCheckbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return;
-            }
-            snkError.classList.add('hidden');
-
-            var user = auth.currentUser;
-            if (!user) {
-                alert('Please sign in first');
-                return;
-            }
-
-            showLoading('Submitting...', 'Saving data');
-            submitBtn.disabled = true;
-
-            var ticketId = generateTicketId();
-            var now = new Date();
-
-            var formData = {
-                uid: user.uid,
-                name: inputName.value.trim(),
-                email: user.email,
-                whatsapp: inputWhatsApp.value.trim(),
-                clubTeam: inputClub.value.trim(),
-                car: inputCar.value.trim(),
-                engine: inputEngine.value,
-                photoURL: user.photoURL || '',
-                ticketId: ticketId,
-                submitted: true,
-                createdAt: firebase.firestore.Timestamp.fromDate(now)
+        function setStatus(id, text, type = 'neutral') {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const colors = {
+                neutral: 'bg-gray-800 text-gray-500',
+                success: 'bg-green-500/15 text-green-400',
+                warn: 'bg-yellow-500/15 text-yellow-400',
+                error: 'bg-red-500/15 text-red-400',
+                active: 'bg-blue-500/15 text-blue-400'
             };
+            el.className = `debug-tag ${colors[type] || colors.neutral}`;
+            el.textContent = text;
+        }
 
-            window._gdsiLog('SUBMIT: ticketId=' + ticketId);
+        function debugLog(msg, type = 'info') {
+            if (!DEBUG_MODE) return;
+            const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
+            const colors = {
+                info: 'text-green-400',
+                warn: 'text-yellow-400',
+                error: 'text-red-400',
+                success: 'text-blue-400',
+                system: 'text-gray-400'
+            };
+            const line = document.createElement('div');
+            line.className = `${colors[type] || colors.info} break-all`;
+            line.innerHTML = `<span class="text-gray-600">[${timestamp}]</span> ${msg}`;
+            debugLogs.appendChild(line);
+            debugLogs.scrollTop = debugLogs.scrollHeight;
+        }
 
-            // Safety timeout
-            var safetyTimeout = setTimeout(function() {
-                window._gdsiLog('SUBMIT: TIMEOUT! Stuck for 15s');
-                hideLoading();
-                submitBtn.disabled = false;
-                alert('Submit timed out. Check debug log. Causes:
-1. Firestore rules not published
-2. Wrong Firebase config
-3. No internet');
-            }, 15000);
+        // ==========================================
+        // STATE MANAGEMENT
+        // ==========================================
+        const STATES = {
+            LOGIN: 'login',
+            LOADING_AUTH: 'loading_auth',
+            CHECKING_DB: 'checking_db',
+            FORM: 'form',
+            SUBMITTING: 'submitting',
+            TICKET: 'ticket'
+        };
 
-            // Step 1: Firestore
-            window._gdsiLog('SUBMIT: Step 1 - Firestore');
-            loadingSub.textContent = 'Saving to database...';
+        let currentUser = null;
+        let currentUserData = null;
 
-            db.collection('users').doc(user.uid).set(formData).then(function() {
-                window._gdsiLog('SUBMIT: Step 1 OK');
-                clearTimeout(safetyTimeout);
+        const appRoot = document.getElementById('app-root');
 
-                // Step 2: GAS (fire and forget)
-                window._gdsiLog('SUBMIT: Step 2 - GAS (non-blocking)');
-                var sheetData = {
-                    uid: formData.uid, name: formData.name, email: formData.email,
-                    whatsapp: formData.whatsapp, clubTeam: formData.clubTeam,
-                    car: formData.car, engine: formData.engine,
-                    ticketId: formData.ticketId, timestamp: now.toISOString()
+        function renderState(state, data = {}) {
+            debugLog(`State transition → ${state}`, 'system');
+            
+            switch(state) {
+                case STATES.LOGIN:
+                    appRoot.innerHTML = renderLoginScreen();
+                    attachLoginListeners();
+                    setStatus('status-auth', 'Auth: Logged Out', 'warn');
+                    break;
+                    
+                case STATES.LOADING_AUTH:
+                    appRoot.innerHTML = renderLoadingScreen('Signing in with Google...');
+                    setStatus('status-auth', 'Auth: Processing', 'active');
+                    break;
+                    
+                case STATES.CHECKING_DB:
+                    appRoot.innerHTML = renderLoadingScreen('Checking registration status...');
+                    setStatus('status-firestore', 'DB: Checking', 'active');
+                    break;
+                    
+                case STATES.FORM:
+                    appRoot.innerHTML = renderFormScreen(data);
+                    attachFormListeners();
+                    setStatus('status-auth', `Auth: ${currentUser?.uid?.slice(0,8)}...`, 'success');
+                    setStatus('status-firestore', 'DB: Ready', 'success');
+                    setStatus('status-form', 'Form: Active', 'active');
+                    break;
+                    
+                case STATES.SUBMITTING:
+                    appRoot.innerHTML = renderLoadingScreen('Submitting registration...');
+                    setStatus('status-submit', 'Submit: Sending', 'active');
+                    break;
+                    
+                case STATES.TICKET:
+                    appRoot.innerHTML = renderTicketScreen(data);
+                    attachTicketListeners();
+                    setStatus('status-submit', 'Submit: Done', 'success');
+                    setStatus('status-ticket', 'Ticket: Ready', 'success');
+                    break;
+            }
+        }
+
+        // ==========================================
+        // SCREEN RENDERS
+        // ==========================================
+        function renderLoginScreen() {
+            return `
+                <div class="hero-card rounded-2xl p-8 md:p-10 anim-slide-up text-center">
+                    <div class="mb-6">
+                        <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-xl font-bold text-on-surface mb-2">Participant Login</h3>
+                        <p class="text-sm text-gray-500">Sign in with your Google Account to register</p>
+                    </div>
+                    <button id="btn-google" class="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 text-gray-700 font-semibold py-3.5 px-6 rounded-xl hover:bg-gray-50 hover:border-gray-300 active:scale-[0.98] transition-all duration-200 shadow-sm">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        Continue with Google
+                    </button>
+                </div>
+            `;
+        }
+
+        function renderLoadingScreen(message) {
+            return `
+                <div class="hero-card rounded-2xl p-10 anim-fade-in text-center flex flex-col items-center">
+                    <div class="spinner mb-4"></div>
+                    <p class="text-sm font-medium text-gray-600">${message}</p>
+                </div>
+            `;
+        }
+
+        function renderFormScreen(prefill) {
+            const countries = [
+                { code: '+62', flag: '🇮🇩', name: 'Indonesia' },
+                { code: '+60', flag: '🇲🇾', name: 'Malaysia' },
+                { code: '+65', flag: '🇸🇬', name: 'Singapore' },
+                { code: '+63', flag: '🇵🇭', name: 'Philippines' },
+                { code: '+66', flag: '🇹🇭', name: 'Thailand' },
+                { code: '+84', flag: '🇻🇳', name: 'Vietnam' },
+                { code: '+81', flag: '🇯🇵', name: 'Japan' },
+                { code: '+82', flag: '🇰🇷', name: 'Korea' },
+                { code: '+86', flag: '🇨🇳', name: 'China' },
+                { code: '+91', flag: '🇮🇳', name: 'India' },
+                { code: '+971', flag: '🇦🇪', name: 'UAE' },
+                { code: '+61', flag: '🇦🇺', name: 'Australia' },
+                { code: '+1', flag: '🇺🇸', name: 'USA' },
+                { code: '+44', flag: '🇬🇧', name: 'UK' },
+                { code: '+49', flag: '🇩🇪', name: 'Germany' },
+                { code: '+39', flag: '🇮🇹', name: 'Italy' },
+            ];
+            
+            const countryOptions = countries.map(c => 
+                `<option value="${c.code}">${c.flag} ${c.code}</option>`
+            ).join('');
+
+            return `
+                <div class="hero-card rounded-2xl p-6 md:p-8 anim-slide-up">
+                    <div class="mb-6 text-center">
+                        <h3 class="font-display text-2xl md:text-3xl font-bold text-on-surface mb-2">Registration Form</h3>
+                        <p class="text-sm text-gray-500">Complete your registration details below.</p>
+                    </div>
+                    
+                    <form id="reg-form" class="space-y-5" novalidate>
+                        <!-- Name -->
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Full Name *</label>
+                            <input type="text" id="field-name" value="${prefill.name || ''}" required
+                                class="hero-input w-full px-4 py-3 rounded-xl bg-white/70 border border-gray-200 text-sm font-medium placeholder-gray-400"
+                                placeholder="Your full name">
+                        </div>
+
+                        <!-- WhatsApp -->
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">WhatsApp Number *</label>
+                            <div class="flex gap-2">
+                                <select id="country-code" 
+                                    class="hero-input select-arrow px-3 py-3 rounded-xl bg-white/70 border border-gray-200 text-sm font-medium w-[130px] shrink-0 cursor-pointer">
+                                    ${countryOptions}
+                                </select>
+                                <input type="tel" id="field-whatsapp" required
+                                    class="hero-input flex-1 px-4 py-3 rounded-xl bg-white/70 border border-gray-200 text-sm font-medium placeholder-gray-400"
+                                    placeholder="81234567890">
+                            </div>
+                            <p class="text-[11px] text-gray-400 mt-1.5">Enter number without country code or leading zero</p>
+                        </div>
+
+                        <!-- Username ID -->
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Username ID *</label>
+                            <input type="text" id="field-username" required maxlength="40"
+                                class="hero-input w-full px-4 py-3 rounded-xl bg-white/70 border border-gray-200 text-sm font-medium placeholder-gray-400"
+                                placeholder="WinterMellons#7681">
+                        </div>
+
+                        <!-- Club Team -->
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Club Team *</label>
+                            <input type="text" id="field-club" required
+                                class="hero-input w-full px-4 py-3 rounded-xl bg-white/70 border border-gray-200 text-sm font-medium placeholder-gray-400"
+                                placeholder="Your team name">
+                        </div>
+
+                        <!-- Car -->
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Car *</label>
+                            <input type="text" id="field-car" required
+                                class="hero-input w-full px-4 py-3 rounded-xl bg-white/70 border border-gray-200 text-sm font-medium placeholder-gray-400"
+                                placeholder="Vehicle model">
+                        </div>
+
+                        <!-- Engine Type -->
+                        <div>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Engine Type *</label>
+                            <select id="field-engine" required
+                                class="hero-input select-arrow w-full px-4 py-3 rounded-xl bg-white/70 border border-gray-200 text-sm font-medium cursor-pointer">
+                                <option value="" disabled selected>Select Engine Type</option>
+                                <option value="Prodrift">Prodrift</option>
+                                <option value="SR">SR</option>
+                                <option value="2JZ">2JZ</option>
+                                <option value="V6TT">V6TT</option>
+                                <option value="V8S">V8S</option>
+                                <option value="V8NA">V8NA</option>
+                            </select>
+                        </div>
+
+                        <!-- Terms -->
+                        <div class="flex items-start gap-3 pt-1">
+                            <input type="checkbox" id="field-terms" required
+                                class="mt-0.5 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer shrink-0">
+                            <label for="field-terms" class="text-xs text-gray-600 leading-relaxed cursor-pointer select-none">
+                                I agree to the <a href="https://example.com/terms" target="_blank" rel="noopener" class="text-primary font-semibold hover:underline">Terms & Conditions</a>
+                            </label>
+                        </div>
+
+                        <!-- Submit -->
+                        <button type="submit" id="btn-submit" disabled
+                            class="w-full py-4 rounded-xl bg-primary text-white font-bold text-sm uppercase tracking-widest hover:bg-primary-dark active:scale-[0.98] transition-all duration-200 shadow-lg shadow-primary/20 disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100 disabled:shadow-none mt-2">
+                            Submit Registration
+                        </button>
+                    </form>
+                </div>
+            `;
+        }
+
+        function renderTicketScreen(data) {
+            return `
+                <div class="hero-card rounded-2xl p-6 md:p-8 anim-slide-up text-center">
+                    <div class="mb-6">
+                        <div class="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-2xl md:text-3xl font-bold text-on-surface mb-2">You're Registered!</h3>
+                        <p class="text-sm text-gray-500">Your official event pass is ready for download.</p>
+                    </div>
+
+                    <!-- Ticket Preview -->
+                    <div class="flex justify-center mb-6 overflow-x-auto">
+                        <div id="ticket-preview" class="ticket-frame shrink-0">
+                            <!-- Overlay Data -->
+                            <div class="absolute inset-0 flex flex-col justify-center px-6 md:px-14 py-6">
+                                <div class="flex flex-col md:flex-row items-center gap-4 md:gap-10 h-full">
+                                    <!-- Left: Data -->
+                                    <div class="flex-1 text-left space-y-2 md:space-y-3 w-full">
+                                        <div>
+                                            <p class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-gray-400 font-semibold">Participant Name</p>
+                                            <p class="text-base md:text-xl font-bold text-white font-display leading-tight">${escapeHtml(data.name)}</p>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-3">
+                                            <div>
+                                                <p class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-gray-400 font-semibold">Username ID</p>
+                                                <p class="text-xs md:text-sm text-white font-mono">${escapeHtml(data.usernameId)}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-gray-400 font-semibold">Club Team</p>
+                                                <p class="text-xs md:text-sm text-white font-medium">${escapeHtml(data.clubTeam)}</p>
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-3">
+                                            <div>
+                                                <p class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-gray-400 font-semibold">Car</p>
+                                                <p class="text-xs md:text-sm text-white">${escapeHtml(data.car)}</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-gray-400 font-semibold">Engine</p>
+                                                <p class="text-xs md:text-sm text-primary font-bold">${escapeHtml(data.engine)}</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-gray-400 font-semibold">Ticket ID</p>
+                                            <p class="text-[10px] md:text-xs text-gray-300 font-mono">${escapeHtml(data.ticketId)}</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Right: Photo -->
+                                    <div class="flex-shrink-0 flex flex-col items-center gap-2">
+                                        <div class="w-16 h-16 md:w-24 md:h-24 rounded-lg overflow-hidden border-2 border-white/20 bg-black/40 shadow-lg">
+                                            <img src="${data.photoURL || '/mnt/agents/upload/gdsi.png'}" 
+                                                class="w-full h-full object-cover" 
+                                                alt="Profile"
+                                                crossorigin="anonymous"
+                                                onerror="this.src='/mnt/agents/upload/gdsi.png'">
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="text-[9px] uppercase tracking-wider text-gray-500 font-semibold">Official Entry</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="btn-download" 
+                        class="w-full py-4 rounded-xl bg-primary text-white font-bold text-sm uppercase tracking-widest hover:bg-primary-dark active:scale-[0.98] transition-all duration-200 shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                        </svg>
+                        Download Ticket PNG
+                    </button>
+
+                    <div class="mt-4 pt-4 border-t border-gray-200/50 flex flex-col md:flex-row items-center justify-center gap-3">
+                        <button id="btn-logout" class="text-xs font-medium text-gray-500 hover:text-primary transition-colors uppercase tracking-wider">
+                            Sign Out Account
+                        </button>
+                        <span class="hidden md:inline text-gray-300">|</span>
+                        <span class="text-[10px] text-gray-400 font-mono">${data.email}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==========================================
+        // UTILITIES
+        // ==========================================
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function normalizePhone(raw, countryCode) {
+            let cleaned = raw.replace(/[\s\-().]/g, '');
+            if (!cleaned.startsWith('+')) {
+                cleaned = countryCode + cleaned.replace(/^0+/, '');
+            }
+            return cleaned;
+        }
+
+        function validateE164(phone) {
+            return /^\+\d{7,15}$/.test(phone);
+        }
+
+        // ==========================================
+        // LISTENERS & HANDLERS
+        // ==========================================
+        function attachLoginListeners() {
+            document.getElementById('btn-google').addEventListener('click', async () => {
+                debugLog('Google Sign-In initiated', 'info');
+                renderState(STATES.LOADING_AUTH);
+                try {
+                    const result = await signInWithPopup(auth, provider);
+                    currentUser = result.user;
+                    debugLog(`Auth success: ${currentUser.displayName} [${currentUser.uid}]`, 'success');
+                } catch (err) {
+                    debugLog(`Auth failed: ${err.code} - ${err.message}`, 'error');
+                    if (err.code === 'auth/popup-blocked') {
+                        alert('Please allow popups for this website to sign in with Google.');
+                    }
+                    renderState(STATES.LOGIN);
+                }
+            });
+        }
+
+        function attachFormListeners() {
+            const form = document.getElementById('reg-form');
+            const btn = document.getElementById('btn-submit');
+            const fields = ['field-name', 'field-whatsapp', 'field-username', 'field-club', 'field-car', 'field-engine', 'field-terms'];
+            
+            function runValidation() {
+                const name = document.getElementById('field-name').value.trim();
+                const rawPhone = document.getElementById('field-whatsapp').value.trim();
+                const countryCode = document.getElementById('country-code').value;
+                const phone = normalizePhone(rawPhone, countryCode);
+                const username = document.getElementById('field-username').value.trim();
+                const club = document.getElementById('field-club').value.trim();
+                const car = document.getElementById('field-car').value.trim();
+                const engine = document.getElementById('field-engine').value;
+                const terms = document.getElementById('field-terms').checked;
+                
+                const valid = name && validateE164(phone) && username && club && car && engine && terms;
+                btn.disabled = !valid;
+                
+                debugLog(`Validation: ${valid ? 'PASS' : 'FAIL'} | Phone normalized: ${phone}`, valid ? 'success' : 'warn');
+                setStatus('status-form', valid ? 'Form: Valid' : 'Form: Invalid', valid ? 'success' : 'warn');
+                return valid;
+            }
+            
+            fields.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('input', runValidation);
+                    el.addEventListener('change', runValidation);
+                }
+            });
+            
+            runValidation();
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (btn.disabled) return;
+                
+                const countryCode = document.getElementById('country-code').value;
+                const phone = normalizePhone(document.getElementById('field-whatsapp').value.trim(), countryCode);
+                
+                const payload = {
+                    uid: currentUser.uid,
+                    name: document.getElementById('field-name').value.trim(),
+                    email: currentUser.email,
+                    whatsapp: phone,
+                    usernameId: document.getElementById('field-username').value.trim(),
+                    clubTeam: document.getElementById('field-club').value.trim(),
+                    car: document.getElementById('field-car').value.trim(),
+                    engine: document.getElementById('field-engine').value,
+                    photoURL: currentUser.photoURL || '',
+                    ticketId: 'GT-' + Date.now().toString(36).toUpperCase(),
+                    submitted: true,
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp()
                 };
-                fetch(GAS_WEB_APP_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(sheetData)
-                }).then(function() {
-                    window._gdsiLog('SUBMIT: GAS OK');
-                }).catch(function(err) {
-                    window._gdsiLog('SUBMIT: GAS skip (' + err.message + ')');
+                
+                await handleSubmit(payload);
+            });
+        }
+
+        function attachTicketListeners() {
+            document.getElementById('btn-download').addEventListener('click', async () => {
+                debugLog('Starting ticket PNG generation...', 'info');
+                setStatus('status-ticket', 'Ticket: Generating', 'active');
+                const ticketEl = document.getElementById('ticket-preview');
+                
+                try {
+                    // Small delay to ensure fonts/images rendered
+                    await new Promise(r => setTimeout(r, 300));
+                    
+                    const canvas = await html2canvas(ticketEl, {
+                        scale: 2,
+                        useCORS: true,
+                        allowTaint: true,
+                        backgroundColor: null,
+                        logging: false
+                    });
+                    
+                    const link = document.createElement('a');
+                    link.download = `GDSI-${currentUserData.ticketId}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    
+                    debugLog('Ticket download successful', 'success');
+                    setStatus('status-ticket', 'Ticket: Downloaded', 'success');
+                } catch (err) {
+                    debugLog(`Ticket generation error: ${err.message}`, 'error');
+                    setStatus('status-ticket', 'Ticket: Error', 'error');
+                    alert('Could not generate ticket. Please try again.');
+                }
+            });
+            
+            document.getElementById('btn-logout').addEventListener('click', async () => {
+                debugLog('Signing out...', 'warn');
+                try {
+                    await signOut(auth);
+                    currentUser = null;
+                    currentUserData = null;
+                } catch (err) {
+                    debugLog(`Sign out error: ${err.message}`, 'error');
+                }
+            });
+        }
+
+        // ==========================================
+        // CORE LOGIC
+        // ==========================================
+        async function handleSubmit(data) {
+            renderState(STATES.SUBMITTING);
+            debugLog('Beginning submission flow...', 'info');
+            
+            try {
+                // 1. Save to Firestore
+                debugLog(`Writing to Firestore: users/${data.uid}`, 'info');
+                const userRef = doc(db, 'users', data.uid);
+                await setDoc(userRef, data, { merge: true });
+                debugLog('Firestore write successful', 'success');
+                setStatus('status-firestore', 'DB: Saved', 'success');
+                
+                // 2. Mirror to Google Sheets
+                debugLog('POSTing to Google Apps Script...', 'info');
+                try {
+                    const sheetPayload = {
+                        uid: data.uid,
+                        name: data.name,
+                        email: data.email,
+                        whatsapp: data.whatsapp,
+                        usernameId: data.usernameId,
+                        clubTeam: data.clubTeam,
+                        car: data.car,
+                        engine: data.engine,
+                        ticketId: data.ticketId,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    // Using no-cors mode for GAS to avoid CORS preflight issues
+                    await fetch(GAS_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(sheetPayload)
+                    });
+                    
+                    debugLog('Google Sheets POST sent (no-cors)', 'success');
+                    setStatus('status-sheets', 'Sheets: Sent', 'success');
+                } catch (sheetErr) {
+                    debugLog(`Sheets POST error: ${sheetErr.message}`, 'error');
+                    setStatus('status-sheets', 'Sheets: Failed', 'error');
+                    // Non-blocking: continue to ticket even if sheets fails
+                }
+                
+                currentUserData = data;
+                renderState(STATES.TICKET, data);
+                
+            } catch (err) {
+                debugLog(`Submission failed: ${err.message}`, 'error');
+                setStatus('status-submit', 'Submit: Error', 'error');
+                alert('Registration failed. Please try again.');
+                renderState(STATES.FORM, {
+                    name: currentUser.displayName || '',
+                    email: currentUser.email || '',
+                    photoURL: currentUser.photoURL || ''
                 });
+            }
+        }
 
-                // Step 3: Show ticket
-                window._gdsiLog('SUBMIT: Step 3 - Ticket');
-                renderTicket(formData);
-                showSection(ticketSection);
-                hideLoading();
-                submitBtn.disabled = false;
-                window._gdsiLog('SUBMIT: DONE!');
+        async function checkUserRegistration(uid) {
+            renderState(STATES.CHECKING_DB);
+            debugLog(`Checking Firestore document: users/${uid}`, 'info');
+            
+            try {
+                const userRef = doc(db, 'users', uid);
+                const snap = await getDoc(userRef);
+                
+                if (snap.exists()) {
+                    const data = snap.data();
+                    debugLog('Document exists', 'info');
+                    
+                    if (data.submitted === true) {
+                        currentUserData = data;
+                        debugLog(`Existing registration found. Ticket: ${data.ticketId}`, 'success');
+                        setStatus('status-firestore', 'DB: Exists', 'success');
+                        renderState(STATES.TICKET, data);
+                        return;
+                    }
+                }
+                
+                debugLog('No completed registration found. Showing form.', 'warn');
+                setStatus('status-firestore', 'DB: Empty', 'warn');
+                renderState(STATES.FORM, {
+                    name: currentUser.displayName || '',
+                    email: currentUser.email || '',
+                    photoURL: currentUser.photoURL || ''
+                });
+                
+            } catch (err) {
+                debugLog(`Firestore check error: ${err.message}`, 'error');
+                setStatus('status-firestore', 'DB: Error', 'error');
+                renderState(STATES.FORM, {
+                    name: currentUser.displayName || '',
+                    email: currentUser.email || '',
+                    photoURL: currentUser.photoURL || ''
+                });
+            }
+        }
 
-            }).catch(function(error) {
-                clearTimeout(safetyTimeout);
-                window._gdsiLog('SUBMIT: FIRESTORE ERROR ' + error.code + ' - ' + error.message);
-                alert('Save failed: ' + error.message);
-                hideLoading();
-                submitBtn.disabled = false;
-            });
+        // ==========================================
+        // AUTH STATE OBSERVER
+        // ==========================================
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+                debugLog(`Auth state: LOGGED IN | UID: ${user.uid} | ${user.email}`, 'success');
+                setStatus('status-auth', 'Auth: OK', 'success');
+                checkUserRegistration(user.uid);
+            } else {
+                currentUser = null;
+                currentUserData = null;
+                debugLog('Auth state: LOGGED OUT', 'warn');
+                setStatus('status-auth', 'Auth: None', 'warn');
+                renderState(STATES.LOGIN);
+            }
         });
 
-        snkCheckbox.addEventListener('change', function() {
-            if (snkCheckbox.checked) snkError.classList.add('hidden');
-        });
-
-        // ============================================================
-        // TICKET DOWNLOAD
-        // ============================================================
-        downloadTicketBtn.addEventListener('click', function() {
-            showLoading('Generating image...');
-            html2canvas(document.getElementById('ticketCard'), {
-                scale: 3, useCORS: true, allowTaint: true, backgroundColor: null, logging: false
-            }).then(function(canvas) {
-                var link = document.createElement('a');
-                link.download = 'GDSI-Ticket-' + document.getElementById('ticketIdDisplay').textContent + '.png';
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                hideLoading();
-            }).catch(function(err) {
-                alert('Download failed: ' + err.message);
-                hideLoading();
-            });
-        });
-
-        window._gdsiLog('INIT: All event listeners attached');
-        showSection(loginSection);
-        hideLoading();
-
-    }); // end waitForFirebase
-
-    // ============================================================
-    // ANIMATIONS (runs immediately, no Firebase needed)
-    // ============================================================
-    document.addEventListener('DOMContentLoaded', function() {
-        window._gdsiLog('DOM: ready');
-        document.querySelectorAll('.fade-in').forEach(function(el, i) {
-            setTimeout(function() { el.classList.add('visible'); }, i * 150);
-        });
-    });
-
-})();
-</script>
+        // ==========================================
+        // BOOT
+        // ==========================================
+        debugLog('GDSI Registration System initialized', 'system');
+        debugLog(`DEBUG_MODE: ${DEBUG_MODE} | Firebase modular SDK loaded`, 'system');
+        setStatus('status-auth', 'Auth: Waiting', 'neutral');
+        setStatus('status-firestore', 'DB: Waiting', 'neutral');
+        setStatus('status-form', 'Form: Waiting', 'neutral');
+        setStatus('status-submit', 'Submit: Waiting', 'neutral');
+        setStatus('status-sheets', 'Sheets: Waiting', 'neutral');
+        setStatus('status-ticket', 'Ticket: Waiting', 'neutral');
+    </script>
 </body>
 </html>
