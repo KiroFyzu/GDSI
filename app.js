@@ -1,0 +1,159 @@
+// app.js - Main Application Orchestrator
+import { initAuth, getCurrentUser, login, logout } from './auth.js';
+import { submitRegistration } from './firestore.js';
+import { syncToGoogleSheets } from './sheets.js';
+import {
+  initCountryDropdown,
+  getSelectedCountryDial,
+  setFormMode,
+  setSubmitLoading,
+  showSuccessModal,
+  showInfoModal,
+  closeAllModals
+} from './ui.js';
+import {
+  sanitizeInput,
+  validateUsername,
+  validateWhatsApp,
+  validateRequired,
+  validateEngine,
+  showToast,
+  isOnline,
+  watchNetwork,
+  SubmitLock
+} from './utils.js';
+
+const submitLock = new SubmitLock();
+
+function init() {
+  initCountryDropdown();
+  initAuth();
+  initEventListeners();
+  watchNetwork((online) => {
+    if (!online) showToast('Koneksi terputus. Data tidak dapat dikirim.', 'warning', 5000);
+  });
+}
+
+function initEventListeners() {
+  const form = document.getElementById('registration-form');
+  const loginBtn = document.getElementById('login-btn');
+  const logoutBtn = document.getElementById('logout-btn');
+
+  if (form) {
+    form.addEventListener('submit', handleSubmit);
+  }
+  if (loginBtn) {
+    loginBtn.addEventListener('click', login);
+  }
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', logout);
+  }
+}
+
+async function handleSubmit(e) {
+  e.preventDefault();
+
+  if (submitLock.isLocked()) {
+    showToast('Mohon tunggu, proses sedang berjalan...', 'warning');
+    return;
+  }
+
+  const user = getCurrentUser();
+  if (!user) {
+    showToast('Anda harus login terlebih dahulu', 'error');
+    return;
+  }
+
+  if (!isOnline()) {
+    showToast('Tidak ada koneksi internet. Coba lagi nanti.', 'error');
+    return;
+  }
+
+  // ============================================
+  // VALIDATION & SANITIZATION
+  // ============================================
+  const form = e.target;
+  const rawName = form.querySelector('[name="full-name"]').value;
+  const rawWhatsApp = form.querySelector('[name="whatsapp-number"]').value;
+  const rawUsername = form.querySelector('[name="username-id"]').value;
+  const rawTeam = form.querySelector('[name="club-team"]').value;
+  const rawCar = form.querySelector('[name="car"]').value;
+  const engine = form.querySelector('[name="engine"]').value;
+
+  const nameCheck = validateRequired(rawName, 'Nama Lengkap');
+  if (!nameCheck.valid) { showToast(nameCheck.message, 'error'); return; }
+
+  const teamCheck = validateRequired(rawTeam, 'Club / Team');
+  if (!teamCheck.valid) { showToast(teamCheck.message, 'error'); return; }
+
+  const carCheck = validateRequired(rawCar, 'Mobil');
+  if (!carCheck.valid) { showToast(carCheck.message, 'error'); return; }
+
+  const usernameCheck = validateUsername(rawUsername);
+  if (!usernameCheck.valid) { showToast(usernameCheck.message, 'error'); return; }
+
+  const dial = getSelectedCountryDial();
+  const waCheck = validateWhatsApp(rawWhatsApp, dial);
+  if (!waCheck.valid) { showToast(waCheck.message, 'error'); return; }
+
+  const engineCheck = validateEngine(engine);
+  if (!engineCheck.valid) { showToast(engineCheck.message, 'error'); return; }
+
+  // Sanitize all text inputs
+  const formData = {
+    name: sanitizeInput(nameCheck.value),
+    email: user.email || '',
+    photoURL: user.photoURL || '',
+    provider: user.providerData[0]?.providerId || 'google',
+    whatsapp: waCheck.normalized,
+    usernameId: sanitizeInput(rawUsername),
+    clubTeam: sanitizeInput(teamCheck.value),
+    car: sanitizeInput(carCheck.value),
+    engine: engine
+  };
+
+  // ============================================
+  // SUBMIT WITH LOCK
+  // ============================================
+  submitLock.lock();
+  setSubmitLoading(true);
+
+  try {
+    const result = await submitRegistration(user.uid, formData);
+
+    // Sync to Google Sheets (non-blocking, fire-and-forget with await)
+    try {
+      await syncToGoogleSheets({ ...formData, uid: user.uid, registeredAt: new Date().toISOString() });
+    } catch (sheetErr) {
+      console.warn('Sheets sync error (non-critical):', sheetErr);
+    }
+
+    showToast('Registrasi berhasil disimpan!', 'success');
+    showSuccessModal(result);
+    setFormMode('readonly', result);
+
+  } catch (err) {
+    console.error('Submit error:', err);
+
+    if (err.code === 'already-registered') {
+      showToast('Anda sudah pernah mendaftar. 1 akun = 1 form.', 'warning');
+      setFormMode('readonly', { ...formData, uid: user.uid, registeredAt: new Date() });
+    } else if (err.code === 'username-taken') {
+      showToast('Username ID sudah dipakai racer lain.', 'error');
+    } else if (err.code === 'permission-denied') {
+      showToast('Izin ditolak. Hubungi admin GDSI.', 'error');
+    } else {
+      showToast('Gagal menyimpan. Coba lagi dalam beberapa saat.', 'error');
+    }
+  } finally {
+    submitLock.unlock();
+    setSubmitLoading(false);
+  }
+}
+
+// Initialize app when DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}

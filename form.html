@@ -1,909 +1,373 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="id" class="dark">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <title>GDSI — Participant Registration</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-    
-    <!-- html2canvas -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#131313">
+  <meta name="description" content="Grand Drift Series Indonesia - Official Driver Registration">
+  <title>GDSI Registration | Grand Drift Series Indonesia</title>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#b70013',
-                        'primary-dark': '#93000d',
-                        surface: '#f8f9fa',
-                        'surface-variant': '#e1e3e4',
-                        'on-surface': '#191c1d',
-                    },
-                    fontFamily: {
-                        display: ['Hanken Grotesk', 'sans-serif'],
-                        body: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    }
-                }
-            }
-        }
-    </script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(180deg, #f8f9fa 0%, #e1e3e4 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            background: "#131313",
+            primary: "#ffb4a8",
+            "on-error-container": "#ffdad6",
+            "surface-tint": "#ffb4a8",
+            "on-background": "#e5e2e1",
+            "surface-container-lowest": "#0e0e0e",
+            "on-primary-fixed-variant": "#930100",
+            "tertiary-container": "#929090",
+            "inverse-on-surface": "#313030",
+            "inverse-surface": "#e5e2e1",
+            "surface-container": "#201f1f",
+            "on-primary-fixed": "#410000",
+            error: "#ffb4ab",
+            "on-primary": "#690100",
+            "tertiary-fixed": "#e5e2e1",
+            "on-tertiary": "#313030",
+            "on-secondary-fixed-variant": "#930000",
+            "on-primary-container": "#5c0000",
+            "on-secondary": "#690000",
+            "on-secondary-container": "#ffdcd7",
+            "on-error": "#690005",
+            "inverse-primary": "#c00100",
+            "on-tertiary-container": "#2a2a2a",
+            "outline-variant": "#603e39",
+            "surface-container-high": "#2a2a2a",
+            secondary: "#ffb4a8",
+            "surface-dim": "#131313",
+            "secondary-fixed": "#ffdad4",
+            outline: "#b18780",
+            surface: "#131313",
+            "surface-bright": "#393939",
+            "error-container": "#93000a",
+            "surface-variant": "#353534",
+            tertiary: "#c8c6c5",
+            "on-tertiary-fixed": "#1c1b1b",
+            "on-tertiary-fixed-variant": "#474746",
+            "secondary-container": "#ce0301",
+            "tertiary-fixed-dim": "#c8c6c5",
+            "primary-container": "#ff5540",
+            "primary-fixed-dim": "#ffb4a8",
+            "surface-container-low": "#1c1b1b",
+            "on-secondary-fixed": "#410000",
+            "primary-fixed": "#ffdad4",
+            "secondary-fixed-dim": "#ffb4a8",
+            "surface-container-highest": "#353534",
+            "on-surface-variant": "#ebbbb4",
+            "on-surface": "#e5e2e1"
+          },
+          fontFamily: {
+            "headline-xl": ["Sora", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "headline-lg-mobile": ["Sora", "sans-serif"],
+            "label-sm": ["JetBrains Mono", "monospace"],
+            "headline-lg": ["Sora", "sans-serif"]
+          }
         }
-        
-        .font-display { font-family: 'Hanken Grotesk', sans-serif; }
-        
-        /* Glassmorphism Card */
-        .hero-card {
-            background: rgba(255, 255, 255, 0.82);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255,255,255,0.5) inset;
-        }
-        
-        /* Animations */
-        .anim-fade-in { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .anim-slide-up { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Form Inputs */
-        .hero-input {
-            transition: all 0.2s ease;
-        }
-        .hero-input:focus {
-            border-color: #b70013;
-            box-shadow: 0 0 0 3px rgba(183, 0, 19, 0.12);
-            outline: none;
-        }
-        
-        /* Custom Select Arrow */
-        .select-arrow {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 0.75rem center;
-            background-repeat: no-repeat;
-            background-size: 1.5em 1.5em;
-            padding-right: 2.5rem;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        
-        /* Ticket Template */
-        .ticket-frame {
-            position: relative;
-            width: 100%;
-            max-width: 900px;
-            aspect-ratio: 16 / 9;
-            background-image: url('assets/ticket-bg.png');
-            background-size: cover;
-            background-position: center;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-        
-        /* Debug Panel */
-        .debug-panel {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            line-height: 1.5;
-        }
-        .debug-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        /* Loading Spinner */
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        /* Reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            .anim-fade-in, .anim-slide-up { animation: none; opacity: 1; transform: none; }
-        }
-    </style>
+      }
+    };
+  </script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
 </head>
+<body class="bg-background text-on-background font-body-md antialiased">
 
-<body class="text-on-surface antialiased selection:bg-primary selection:text-white pb-[240px]">
+  <!-- ============================================
+       ATMOSPHERIC BACKGROUND
+       ============================================ -->
+  <div class="atmosphere">
+    <div class="bg-image" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCvvhLiC2vvR6D2p3q3fZbjaQW-v07nchSknYPPPkoQNB_nv8of0zAbrfPkc8Z2EuwoL9j3msG2xhR27dDv4IpubKqH78u6obNmOfvRsaKYhDNwOqWafBxZ1Wq2YuMfY5y0OiW22uponQ7yUvj20UF4X-j8-eS9cWWH39uscPdj7-NO5BrWXVmAZPcr51Vngs9SJ4qZtcPUkKXtP1CqQpzB0EZecdTdf66BWbyceqMOQUqe2G4nPiKQuj2rL6LXbHXcj_JakGcxMwIN');"></div>
+    <div class="bg-gradient"></div>
+    <div class="bg-radial"></div>
+  </div>
 
-    <!-- ================= HEADER / NAV ================= -->
-    <nav class="w-full px-4 md:px-8 py-4 flex items-center justify-between anim-fade-in relative z-50">
-        <a href="index.html" class="flex items-center gap-3 group">
-            <img src="assets/gdsi.png" alt="GDSI" class="h-10 w-auto object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-300"/>
-            <div class="hidden md:block">
-                <p class="font-display font-bold text-sm leading-tight text-on-surface">GDSI</p>
-                <p class="text-[10px] uppercase tracking-wider text-gray-500 font-semibold">Grand Drift Series Indonesia</p>
-            </div>
-        </a>
-        
-        <!-- Logout Button (Hidden by default, shown via JS when logged in) -->
-        <button id="nav-logout" class="hidden items-center gap-2 px-4 py-2 rounded-xl bg-white/70 border border-gray-200 text-gray-600 text-xs font-semibold uppercase tracking-wider hover:bg-red-50 hover:border-red-200 hover:text-red-600 active:scale-95 transition-all duration-200 shadow-sm backdrop-blur-sm">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-            </svg>
-            <span class="hidden sm:inline">Sign Out</span>
-        </button>
-    </nav>
-
-    <!-- ================= HERO BRANDING ================= -->
-    <header class="w-full flex flex-col items-center text-center pt-6 pb-6 px-4 anim-fade-in">
-        <div class="hero-card rounded-3xl p-5 md:p-6 mb-6 inline-block">
-            <img src="assets/gdsi.png" alt="GDSI Logo" class="h-16 md:h-24 w-auto object-contain mx-auto drop-shadow-sm"/>
-        </div>
-        <h1 class="font-display text-5xl md:text-7xl font-extrabold italic tracking-tight text-on-surface mb-1">
-            GDSI
-        </h1>
-        <h2 class="font-display text-lg md:text-2xl font-bold text-primary tracking-wide uppercase mb-3">
-            Grand Drift Series Indonesia
-        </h2>
-        <p class="text-sm md:text-base text-gray-600 max-w-md font-medium leading-relaxed">
-            Official registration platform for Grand Drift Series Indonesia participants
-        </p>
-    </header>
-
-    <!-- ================= MAIN APP CONTAINER ================= -->
-    <main id="app-root" class="w-full max-w-lg mx-auto px-4 pb-12 min-h-[400px]">
-        <!-- States injected here via JS -->
-    </main>
-
-    <!-- ================= DEBUG PANEL ================= -->
-    <div id="debug-panel" class="fixed bottom-0 left-0 right-0 bg-[#0b0b0b]/95 text-gray-300 debug-panel z-[9999] border-t border-gray-800 backdrop-blur-sm">
-        <!-- Status Bar -->
-        <div class="flex items-center justify-between px-4 py-2 bg-[#141414] border-b border-gray-800">
-            <div class="flex items-center gap-2">
-                <span class="text-gray-400 font-bold text-[10px] uppercase tracking-wider">🔧 Dev Console</span>
-                <span id="debug-mode-badge" class="debug-tag bg-yellow-500/20 text-yellow-400">DEBUG_MODE: ON</span>
-            </div>
-            <div class="flex gap-3 text-[10px] overflow-x-auto">
-                <span id="status-auth" class="debug-tag bg-gray-800 text-gray-500">Auth: —</span>
-                <span id="status-firestore" class="debug-tag bg-gray-800 text-gray-500">DB: —</span>
-                <span id="status-form" class="debug-tag bg-gray-800 text-gray-500">Form: —</span>
-                <span id="status-submit" class="debug-tag bg-gray-800 text-gray-500">Submit: —</span>
-                <span id="status-sheets" class="debug-tag bg-gray-800 text-gray-500">Sheets: —</span>
-                <span id="status-ticket" class="debug-tag bg-gray-800 text-gray-500">Ticket: —</span>
-            </div>
-        </div>
-        <!-- Log Stream -->
-        <div id="debug-logs" class="px-4 py-2 h-[160px] overflow-y-auto space-y-1">
-            <div class="text-gray-500 italic">Waiting for initialization...</div>
-        </div>
+  <!-- ============================================
+       AUTH OVERLAY (shown when not logged in)
+       ============================================ -->
+  <div id="auth-overlay" class="auth-overlay hidden">
+    <div class="glass-card auth-card animate-fade-in">
+      <div class="mb-6">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA12YeUqvMEYXMLxPCUt8SPiF-39rPyQ-0PDPpNS7yD0m80MvGdwCetQtLEoOBVdgz5dzdJrjcYhb6nOHF8ng1VoA-bvf4gmU_GXOZVw84vm1NIKLkq-ytJouToPlnGINgoBVTrH5ZTjuy7VXSBhND1VTnONONvWrbkuzQl8ZAj3nE10C-IgHyBCCdO_d_xh6XAMs24zDnOEEKjObiUJRBiVbJPgSt2peuEpnRYFs_1QP5p2pBplKaqMDXsUdADf-kt4kn4czhAzOeJ"
+             alt="GDSI Logo" class="h-20 md:h-24 object-contain mx-auto mb-4 drop-shadow-[0_0_15px_rgba(255,0,0,0.3)]">
+        <h1 class="font-headline-xl text-primary uppercase tracking-tighter text-3xl md:text-4xl mb-1">GDSI</h1>
+        <p class="text-on-surface-variant text-sm uppercase tracking-widest">Grand Drift Series Indonesia</p>
+      </div>
+      <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">
+        Silakan login dengan akun Google untuk mengisi formulir registrasi driver. Sistem hanya mengizinkan 1 akun = 1 formulir.
+      </p>
+      <button id="login-btn" class="btn-primary w-full flex items-center justify-center gap-3 text-base">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.5 12.28c0-.86-.08-1.68-.22-2.48H12v4.7h6.45c-.28 1.48-1.12 2.73-2.38 3.57v2.98h3.86c2.25-2.07 3.57-5.12 3.57-8.77z" fill="#fff"/>
+          <path d="M12 24c3.24 0 5.96-1.08 7.95-2.91l-3.86-2.98c-1.08.72-2.45 1.15-4.09 1.15-3.15 0-5.81-2.12-6.76-4.98H1.3v3.09C3.28 21.3 7.4 24 12 24z" fill="#fff"/>
+          <path d="M5.24 14.28c-.25-.72-.38-1.48-.38-2.28s.14-1.56.38-2.28V6.63H1.3C.47 8.24 0 10.06 0 12s.47 3.76 1.3 5.37l3.94-3.09z" fill="#fff"/>
+          <path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.45-3.44C17.95 1.18 15.23 0 12 0 7.4 0 3.28 2.7 1.3 6.63l3.94 3.09c.95-2.86 3.61-4.97 6.76-4.97z" fill="#fff"/>
+        </svg>
+        Login dengan Google
+      </button>
+      <p class="text-on-surface-variant/50 text-xs mt-4">Dengan login, Anda menyetujui Syarat & Ketentuan GDSI.</p>
     </div>
+  </div>
 
-    <!-- ================= FIREBASE MODULE ================= -->
-    <script type="module">
-        // ==========================================
-        // CONFIGURATION
-        // ==========================================
-        const DEBUG_MODE = true;
-        
-        const FIREBASE_CONFIG = {
-            apiKey: "AIzaSyAv6UqNaP22yP6ur6R0C7vK2fwjYnCIR6c",
-  authDomain: "form-regis-gdsi.firebaseapp.com",
-  projectId: "form-regis-gdsi",
-  storageBucket: "form-regis-gdsi.firebasestorage.app",
-  messagingSenderId: "849442718629",
-  appId: "1:849442718629:web:cb06c97c09f61912501e4c"
-        };
-        
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbxJRfMPHKUbcgNA2tgxGv56KgCTpS9-tX-ZZdsYc-JVd8Mb4cWYiApuLfTGXFjAJJIm/exec";
+  <!-- ============================================
+       MAIN REGISTRATION CARD
+       ============================================ -->
+  <div class="relative z-10 min-h-screen flex items-center justify-center p-4 md:p-8">
+    <div class="glass-card w-full max-w-[600px] max-h-[95vh] overflow-y-auto glass-scrollbar p-6 md:p-10 animate-fade-in main-card">
 
-        // ==========================================
-        // FIREBASE MODULAR IMPORTS
-        // ==========================================
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-        import { 
-            getAuth, 
-            GoogleAuthProvider, 
-            signInWithPopup, 
-            onAuthStateChanged, 
-            signOut 
-        } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-        import { 
-            getFirestore, 
-            doc, 
-            getDoc, 
-            setDoc, 
-            serverTimestamp 
-        } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+      <!-- Header -->
+      <div class="flex flex-col items-center mb-8">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA12YeUqvMEYXMLxPCUt8SPiF-39rPyQ-0PDPpNS7yD0m80MvGdwCetQtLEoOBVdgz5dzdJrjcYhb6nOHF8ng1VoA-bvf4gmU_GXOZVw84vm1NIKLkq-ytJouToPlnGINgoBVTrH5ZTjuy7VXSBhND1VTnONONvWrbkuzQl8ZAj3nE10C-IgHyBCCdO_d_xh6XAMs24zDnOEEKjObiUJRBiVbJPgSt2peuEpnRYFs_1QP5p2pBplKaqMDXsUdADf-kt4kn4czhAzOeJ"
+             alt="GDSI Logo" class="h-20 md:h-24 object-contain mb-6 drop-shadow-[0_0_15px_rgba(255,0,0,0.3)]">
+        <h1 class="font-headline-xl text-primary uppercase tracking-tighter text-3xl md:text-5xl mb-1">GDSI</h1>
+        <h2 class="font-headline-lg-mobile text-on-surface text-center mb-2 text-lg md:text-2xl">Grand Drift Series Indonesia</h2>
+        <p class="text-on-surface-variant text-center font-label-sm uppercase tracking-widest text-xs">Registrasi Driver / Member GDSI</p>
+      </div>
 
-        // ==========================================
-        // INITIALIZATION
-        // ==========================================
-        const app = initializeApp(FIREBASE_CONFIG);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const provider = new GoogleAuthProvider();
-        provider.setCustomParameters({ prompt: 'select_account' });
+      <!-- Profile Bar -->
+      <div class="profile-bar mb-6">
+        <div class="flex items-center gap-3">
+          <div id="profile-avatar" class="avatar">
+            <span class="material-symbols-outlined text-primary text-[20px]">person</span>
+          </div>
+          <div>
+            <p class="font-label-sm text-on-surface-variant text-xs">Authenticated as</p>
+            <p id="profile-name" class="text-sm font-bold text-primary">Guest</p>
+          </div>
+        </div>
+        <button id="logout-btn" class="text-on-surface-variant hover:text-primary transition-colors duration-200 p-2 rounded-full hover:bg-surface-bright/50" title="Logout">
+          <span class="material-symbols-outlined text-[18px]">logout</span>
+        </button>
+      </div>
 
-        // ==========================================
-        // DEBUG SYSTEM
-        // ==========================================
-        const debugPanel = document.getElementById('debug-panel');
-        const debugLogs = document.getElementById('debug-logs');
-        const navLogoutBtn = document.getElementById('nav-logout');
-        
-        if (!DEBUG_MODE) {
-            debugPanel.style.display = 'none';
-            document.body.classList.remove('pb-[240px]');
-        }
+      <!-- Readonly Banner -->
+      <div id="readonly-banner" class="readonly-banner mb-6 hidden">
+        <span class="material-symbols-outlined text-primary">lock</span>
+        <div>
+          <p class="font-medium text-sm">Form Terkunci</p>
+          <p class="text-xs text-on-surface-variant">Anda sudah pernah mengisi formulir ini. Data tidak dapat diubah.</p>
+        </div>
+      </div>
 
-        function setStatus(id, text, type = 'neutral') {
-            const el = document.getElementById(id);
-            if (!el) return;
-            const colors = {
-                neutral: 'bg-gray-800 text-gray-500',
-                success: 'bg-green-500/15 text-green-400',
-                warn: 'bg-yellow-500/15 text-yellow-400',
-                error: 'bg-red-500/15 text-red-400',
-                active: 'bg-blue-500/15 text-blue-400'
-            };
-            el.className = `debug-tag ${colors[type] || colors.neutral}`;
-            el.textContent = text;
-        }
+      <!-- Registration Form -->
+      <form id="registration-form" class="space-y-5" novalidate>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-        function debugLog(msg, type = 'info') {
-            if (!DEBUG_MODE) return;
-            const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
-            const colors = {
-                info: 'text-green-400',
-                warn: 'text-yellow-400',
-                error: 'text-red-400',
-                success: 'text-blue-400',
-                system: 'text-gray-400'
-            };
-            const line = document.createElement('div');
-            line.className = `${colors[type] || colors.info} break-all`;
-            line.innerHTML = `<span class="text-gray-600">[${timestamp}]</span> ${msg}`;
-            debugLogs.appendChild(line);
-            debugLogs.scrollTop = debugLogs.scrollHeight;
-        }
+          <!-- Full Name -->
+          <div class="space-y-1.5 col-span-1 md:col-span-2">
+            <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              Full Name <span class="text-primary">*</span>
+            </label>
+            <div class="relative group">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px] group-focus-within:text-primary transition-colors">badge</span>
+              <input type="text" name="full-name" required
+                     class="glass-input pl-11"
+                     placeholder="Legal Name"
+                     autocomplete="name">
+            </div>
+          </div>
 
-        // ==========================================
-        // LOGOUT LOGIC (Global)
-        // ==========================================
-        async function doLogout() {
-            debugLog('Logout initiated by user', 'warn');
-            try {
-                await signOut(auth);
-                currentUser = null;
-                currentUserData = null;
-                navLogoutBtn.classList.add('hidden');
-                navLogoutBtn.classList.remove('flex');
-                debugLog('Sign out successful', 'success');
-            } catch (err) {
-                debugLog(`Sign out error: ${err.message}`, 'error');
-            }
-        }
-
-        navLogoutBtn.addEventListener('click', doLogout);
-
-        // ==========================================
-        // STATE MANAGEMENT
-        // ==========================================
-        const STATES = {
-            LOGIN: 'login',
-            LOADING_AUTH: 'loading_auth',
-            CHECKING_DB: 'checking_db',
-            FORM: 'form',
-            SUBMITTING: 'submitting',
-            TICKET: 'ticket'
-        };
-
-        let currentUser = null;
-        let currentUserData = null;
-
-        const appRoot = document.getElementById('app-root');
-
-        function renderState(state, data = {}) {
-            debugLog(`State transition → ${state}`, 'system');
-            
-            switch(state) {
-                case STATES.LOGIN:
-                    appRoot.innerHTML = renderLoginScreen();
-                    attachLoginListeners();
-                    setStatus('status-auth', 'Auth: Logged Out', 'warn');
-                    break;
-                    
-                case STATES.LOADING_AUTH:
-                    appRoot.innerHTML = renderLoadingScreen('Signing in with Google...');
-                    setStatus('status-auth', 'Auth: Processing', 'active');
-                    break;
-                    
-                case STATES.CHECKING_DB:
-                    appRoot.innerHTML = renderLoadingScreen('Checking registration status...');
-                    setStatus('status-firestore', 'DB: Checking', 'active');
-                    break;
-                    
-                case STATES.FORM:
-                    appRoot.innerHTML = renderFormScreen(data);
-                    attachFormListeners();
-                    setStatus('status-auth', `Auth: ${currentUser?.uid?.slice(0,8)}...`, 'success');
-                    setStatus('status-firestore', 'DB: Ready', 'success');
-                    setStatus('status-form', 'Form: Active', 'active');
-                    break;
-                    
-                case STATES.SUBMITTING:
-                    appRoot.innerHTML = renderLoadingScreen('Submitting registration...');
-                    setStatus('status-submit', 'Submit: Sending', 'active');
-                    break;
-                    
-                case STATES.TICKET:
-                    appRoot.innerHTML = renderTicketScreen(data);
-                    attachTicketListeners();
-                    setStatus('status-submit', 'Submit: Done', 'success');
-                    setStatus('status-ticket', 'Ticket: Ready', 'success');
-                    break;
-            }
-        }
-
-        // ==========================================
-        // SCREEN RENDERS
-        // ==========================================
-        function renderLoginScreen() {
-            return `
-                <div class="hero-card rounded-2xl p-8 md:p-10 anim-slide-up text-center">
-                    <div class="mb-6">
-                        <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                            <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-                            </svg>
-                        </div>
-                        <h3 class="font-display text-xl font-bold text-on-surface mb-2">Participant Login</h3>
-                        <p class="text-sm text-gray-500">Sign in with your Google Account to register</p>
-                    </div>
-                    <button id="btn-google" class="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 text-gray-700 font-semibold py-3.5 px-6 rounded-xl hover:bg-gray-50 hover:border-gray-300 active:scale-[0.98] transition-all duration-200 shadow-sm">
-                        <svg class="w-5 h-5" viewBox="0 0 24 24">
-                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                        </svg>
-                        Continue with Google
-                    </button>
+          <!-- WhatsApp -->
+          <div class="space-y-1.5 col-span-1 md:col-span-2">
+            <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              WhatsApp Number <span class="text-primary">*</span>
+            </label>
+            <div class="flex rounded-lg overflow-hidden border border-outline-variant/30 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary focus-within:shadow-[0_0_15px_rgba(255,180,168,0.15)] transition-all duration-300 bg-surface relative">
+              <!-- Country Trigger -->
+              <div id="country-trigger" class="country-trigger relative">
+                <span id="country-display" class="text-on-surface text-sm font-medium">+62</span>
+                <span class="material-symbols-outlined text-on-surface-variant text-[18px]">arrow_drop_down</span>
+                <!-- Dropdown -->
+                <div id="country-dropdown" class="country-dropdown hidden">
+                  <input type="text" id="country-search" class="country-search" placeholder="Cari negara...">
+                  <div id="country-list" class="py-1"></div>
                 </div>
-            `;
-        }
+              </div>
+              <input type="tel" name="whatsapp-number" required
+                     class="w-full bg-transparent border-none py-3 px-4 text-on-surface placeholder-on-surface-variant/40 focus:ring-0 outline-none"
+                     placeholder="8123456789"
+                     autocomplete="tel">
+            </div>
+            <p class="text-[11px] text-on-surface-variant/60 ml-1">Hilangkan angka 0 di depan jika ada</p>
+          </div>
 
-        function renderLoadingScreen(message) {
-            return `
-                <div class="hero-card rounded-2xl p-10 anim-fade-in text-center flex flex-col items-center">
-                    <div class="spinner mb-4"></div>
-                    <p class="text-sm font-medium text-gray-600">${message}</p>
-                </div>
-            `;
-        }
+          <!-- Username ID -->
+          <div class="space-y-1.5">
+            <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              Username ID <span class="text-primary">*</span>
+            </label>
+            <div class="relative group">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px] group-focus-within:text-primary transition-colors">tag</span>
+              <input type="text" name="username-id" required
+                     class="glass-input pl-11"
+                     placeholder="Name#1234"
+                     pattern="^[a-zA-Z0-9_]+#\d{4}$"
+                     title="Format: Name#4digits (contoh: DriftKing#9999)"
+                     autocomplete="off">
+            </div>
+          </div>
 
-        function renderFormScreen(prefill) {
-            const countries = [
-                { code: '+62', flag: '🇮🇩', name: 'Indonesia' },
-                { code: '+60', flag: '🇲🇾', name: 'Malaysia' },
-                { code: '+65', flag: '🇸🇬', name: 'Singapore' },
-                { code: '+63', flag: '🇵🇭', name: 'Philippines' },
-                { code: '+66', flag: '🇹🇭', name: 'Thailand' },
-                { code: '+84', flag: '🇻🇳', name: 'Vietnam' },
-                { code: '+81', flag: '🇯🇵', name: 'Japan' },
-                { code: '+82', flag: '🇰🇷', name: 'Korea' },
-                { code: '+86', flag: '🇨🇳', name: 'China' },
-                { code: '+91', flag: '🇮🇳', name: 'India' },
-                { code: '+971', flag: '🇦🇪', name: 'UAE' },
-                { code: '+61', flag: '🇦🇺', name: 'Australia' },
-                { code: '+1', flag: '🇺🇸', name: 'USA' },
-                { code: '+44', flag: '🇬🇧', name: 'UK' },
-                { code: '+49', flag: '🇩🇪', name: 'Germany' },
-                { code: '+39', flag: '🇮🇹', name: 'Italy' },
-            ];
-            
-            const countryOptions = countries.map(c => 
-                `<option value="${c.code}">${c.flag} ${c.code}</option>`
-            ).join('');
+          <!-- Club / Team -->
+          <div class="space-y-1.5">
+            <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              Club / Team <span class="text-primary">*</span>
+            </label>
+            <div class="relative group">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px] group-focus-within:text-primary transition-colors">groups</span>
+              <input type="text" name="club-team" required
+                     class="glass-input pl-11"
+                     placeholder="Club or Team Name"
+                     autocomplete="organization">
+            </div>
+          </div>
 
-            return `
-                <div class="hero-card rounded-2xl p-6 md:p-8 anim-slide-up">
-                    <div class="mb-6 text-center">
-                        <h3 class="font-display text-2xl md:text-3xl font-bold text-on-surface mb-2">Registration Form</h3>
-                        <p class="text-sm text-gray-500">Complete your registration details below.</p>
-                    </div>
-                    
-                    <form id="reg-form" class="space-y-5" novalidate>
-                        <!-- Name -->
-                        <div>
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Full Name *</label>
-                            <input type="text" id="field-name" value="${prefill.name || ''}" required
-                                class="hero-input w-full px-4 py-3 rounded-xl bg-white/70 border border-gray-200 text-sm font-medium placeholder-gray-400"
-                                placeholder="Your full name">
-                        </div>
+          <!-- Car -->
+          <div class="space-y-1.5">
+            <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              Car <span class="text-primary">*</span>
+            </label>
+            <div class="relative group">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px] group-focus-within:text-primary transition-colors">directions_car</span>
+              <input type="text" name="car" required
+                     class="glass-input pl-11"
+                     placeholder="e.g. Nissan Silvia S15"
+                     autocomplete="off">
+            </div>
+          </div>
 
-                        <!-- WhatsApp -->
-                        <div>
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">WhatsApp Number *</label>
-                            <div class="flex gap-2">
-                                <select id="country-code" 
-                                    class="hero-input select-arrow px-3 py-3 rounded-xl bg-white/70 border border-gray-200 text-sm font-medium w-[130px] shrink-0 cursor-pointer">
-                                    ${countryOptions}
-                                </select>
-                                <input type="tel" id="field-whatsapp" required
-                                    class="hero-input flex-1 px-4 py-3 rounded-xl bg-white/70 border border-gray-200 text-sm font-medium placeholder-gray-400"
-                                    placeholder="81234567890">
-                            </div>
-                            <p class="text-[11px] text-gray-400 mt-1.5">Enter number without country code or leading zero</p>
-                        </div>
+          <!-- Engine -->
+          <div class="space-y-1.5">
+            <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              Engine <span class="text-primary">*</span>
+            </label>
+            <div class="relative group">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px] group-focus-within:text-primary transition-colors pointer-events-none z-10">engineering</span>
+              <select name="engine" required class="glass-input pl-11 cursor-pointer">
+                <option value="" disabled selected>Select Engine</option>
+                <option value="ProDrift">ProDrift</option>
+                <option value="SR">SR</option>
+                <option value="2JZ">2JZ</option>
+                <option value="V6TT">V6TT</option>
+                <option value="V8S">V8S</option>
+                <option value="V8na">V8na</option>
+              </select>
+            </div>
+          </div>
 
-                        <!-- Username ID -->
-                        <div>
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Username ID *</label>
-                            <input type="text" id="field-username" required maxlength="40"
-                                class="hero-input w-full px-4 py-3 rounded-xl bg-white/70 border border-gray-200 text-sm font-medium placeholder-gray-400"
-                                placeholder="WinterMellons#7681">
-                        </div>
+        </div>
 
-                        <!-- Club Team -->
-                        <div>
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Club Team *</label>
-                            <input type="text" id="field-club" required
-                                class="hero-input w-full px-4 py-3 rounded-xl bg-white/70 border border-gray-200 text-sm font-medium placeholder-gray-400"
-                                placeholder="Your team name">
-                        </div>
+        <!-- Terms -->
+        <div class="flex items-start gap-3 mt-6 p-4 rounded-lg bg-surface-container-lowest/50 border border-white/5">
+          <div class="flex items-center h-6">
+            <input type="checkbox" id="tnc" name="tnc" required
+                   class="w-5 h-5 rounded border-outline-variant/50 bg-surface-container text-primary focus:ring-primary focus:ring-offset-background cursor-pointer transition-colors accent-primary">
+          </div>
+          <label for="tnc" class="text-sm text-on-surface-variant cursor-pointer select-none pt-0.5 leading-relaxed">
+            Saya menyetujui <a href="#" class="text-primary hover:underline hover:text-primary-container transition-colors">Syarat & Ketentuan / TnC GDSI</a> serta regulasi balap yang berlaku.
+          </label>
+        </div>
 
-                        <!-- Car -->
-                        <div>
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Car *</label>
-                            <input type="text" id="field-car" required
-                                class="hero-input w-full px-4 py-3 rounded-xl bg-white/70 border border-gray-200 text-sm font-medium placeholder-gray-400"
-                                placeholder="Vehicle model">
-                        </div>
+        <!-- Action Buttons -->
+        <div class="pt-2 space-y-3">
+          <button type="submit" id="submit-btn" class="btn-primary w-full text-lg relative">
+            <span id="submit-text" class="relative z-10 flex items-center justify-center gap-2">
+              Submit Registration
+              <span class="material-symbols-outlined text-[20px]">sports_score</span>
+            </span>
+            <span id="submit-spinner" class="hidden absolute inset-0 flex items-center justify-center">
+              <span class="spinner"></span>
+            </span>
+            <div class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out pointer-events-none"></div>
+          </button>
 
-                        <!-- Engine Type -->
-                        <div>
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-gray-500 mb-1.5">Engine Type *</label>
-                            <select id="field-engine" required
-                                class="hero-input select-arrow w-full px-4 py-3 rounded-xl bg-white/70 border border-gray-200 text-sm font-medium cursor-pointer">
-                                <option value="" disabled selected>Select Engine Type</option>
-                                <option value="Prodrift">Prodrift</option>
-                                <option value="SR">SR</option>
-                                <option value="2JZ">2JZ</option>
-                                <option value="V6TT">V6TT</option>
-                                <option value="V8S">V8S</option>
-                                <option value="V8NA">V8NA</option>
-                            </select>
-                        </div>
+          <div class="flex gap-3">
+            <button type="button" id="view-data-btn" class="btn-glass flex-1 hidden">
+              View Data
+            </button>
+            <button type="button" id="close-btn" class="btn-glass btn-danger flex-1 hidden" onclick="window.close()">
+              Close
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 
-                        <!-- Terms -->
-                        <div class="flex items-start gap-3 pt-1">
-                            <input type="checkbox" id="field-terms" required
-                                class="mt-0.5 w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer shrink-0">
-                            <label for="field-terms" class="text-xs text-gray-600 leading-relaxed cursor-pointer select-none">
-                                I agree to the <a href="https://example.com/terms" target="_blank" rel="noopener" class="text-primary font-semibold hover:underline">Terms & Conditions</a>
-                            </label>
-                        </div>
+  <!-- ============================================
+       SUCCESS MODAL (First Time Submit)
+       ============================================ -->
+  <div id="modal-success" class="modal-backdrop hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="w-14 h-14 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-3">
+          <span class="material-symbols-outlined text-emerald-400 text-[28px]">celebration</span>
+        </div>
+        <h3 class="font-headline-lg text-on-surface text-xl mb-1">Terima Kasih Sudah Mengisi Formulir</h3>
+        <p class="text-2xl">🎉</p>
+      </div>
+      <div class="modal-body">
+        <p class="text-sm text-on-surface-variant text-center mb-4">Data registrasi berhasil disimpan.</p>
+        <div class="bg-surface-container-low rounded-lg p-4 space-y-1">
+          <div class="data-row"><span class="data-label">Nama</span><span class="data-value" data-field="modal-name">-</span></div>
+          <div class="data-row"><span class="data-label">Username</span><span class="data-value" data-field="modal-username">-</span></div>
+          <div class="data-row"><span class="data-label">Team</span><span class="data-value" data-field="modal-team">-</span></div>
+          <div class="data-row"><span class="data-label">Car</span><span class="data-value" data-field="modal-car">-</span></div>
+          <div class="data-row"><span class="data-label">Engine</span><span class="data-value" data-field="modal-engine">-</span></div>
+          <div class="data-row"><span class="data-label">Timestamp</span><span class="data-value" data-field="modal-timestamp">-</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button data-close-modal class="btn-primary px-8">Tutup</button>
+      </div>
+    </div>
+  </div>
 
-                        <!-- Submit -->
-                        <button type="submit" id="btn-submit" disabled
-                            class="w-full py-4 rounded-xl bg-primary text-white font-bold text-sm uppercase tracking-widest hover:bg-primary-dark active:scale-[0.98] transition-all duration-200 shadow-lg shadow-primary/20 disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100 disabled:shadow-none mt-2">
-                            Submit Registration
-                        </button>
-                    </form>
-                </div>
-            `;
-        }
+  <!-- ============================================
+       INFO MODAL (Already Registered)
+       ============================================ -->
+  <div id="modal-info" class="modal-backdrop hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+          <span class="material-symbols-outlined text-primary text-[28px]">info</span>
+        </div>
+        <h3 class="font-headline-lg text-on-surface text-xl mb-1">Anda Telah Mengisi Formulir</h3>
+      </div>
+      <div class="modal-body">
+        <p class="text-sm text-on-surface-variant text-center mb-4">
+          Akun ini sudah pernah terdaftar. Sistem hanya mengizinkan 1 user = 1 form.
+        </p>
+        <div class="bg-surface-container-low rounded-lg p-4 space-y-1">
+          <div class="data-row"><span class="data-label">Nama</span><span class="data-value" data-field="info-name">-</span></div>
+          <div class="data-row"><span class="data-label">Email</span><span class="data-value" data-field="info-email">-</span></div>
+          <div class="data-row"><span class="data-label">Username</span><span class="data-value" data-field="info-username">-</span></div>
+          <div class="data-row"><span class="data-label">Car</span><span class="data-value" data-field="info-car">-</span></div>
+          <div class="data-row"><span class="data-label">Engine</span><span class="data-value" data-field="info-engine">-</span></div>
+          <div class="data-row"><span class="data-label">Registration Date</span><span class="data-value" data-field="info-date">-</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button data-close-modal class="btn-primary px-8">Mengerti</button>
+      </div>
+    </div>
+  </div>
 
-        function renderTicketScreen(data) {
-            return `
-                <div class="hero-card rounded-2xl p-6 md:p-8 anim-slide-up text-center">
-                    <div class="mb-6">
-                        <div class="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3">
-                            <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                            </svg>
-                        </div>
-                        <h3 class="font-display text-2xl md:text-3xl font-bold text-on-surface mb-2">You're Registered!</h3>
-                        <p class="text-sm text-gray-500">Your official event pass is ready for download.</p>
-                    </div>
-
-                    <!-- Ticket Preview -->
-                    <div class="flex justify-center mb-6 overflow-x-auto">
-                        <div id="ticket-preview" class="ticket-frame shrink-0">
-                            <div class="absolute inset-0 flex flex-col justify-center px-6 md:px-14 py-6">
-                                <div class="flex flex-col md:flex-row items-center gap-4 md:gap-10 h-full">
-                                    <div class="flex-1 text-left space-y-2 md:space-y-3 w-full">
-                                        <div>
-                                            <p class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-gray-400 font-semibold">Participant Name</p>
-                                            <p class="text-base md:text-xl font-bold text-white font-display leading-tight">${escapeHtml(data.name)}</p>
-                                        </div>
-                                        <div class="grid grid-cols-2 gap-3">
-                                            <div>
-                                                <p class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-gray-400 font-semibold">Username ID</p>
-                                                <p class="text-xs md:text-sm text-white font-mono">${escapeHtml(data.usernameId)}</p>
-                                            </div>
-                                            <div>
-                                                <p class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-gray-400 font-semibold">Club Team</p>
-                                                <p class="text-xs md:text-sm text-white font-medium">${escapeHtml(data.clubTeam)}</p>
-                                            </div>
-                                        </div>
-                                        <div class="grid grid-cols-2 gap-3">
-                                            <div>
-                                                <p class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-gray-400 font-semibold">Car</p>
-                                                <p class="text-xs md:text-sm text-white">${escapeHtml(data.car)}</p>
-                                            </div>
-                                            <div>
-                                                <p class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-gray-400 font-semibold">Engine</p>
-                                                <p class="text-xs md:text-sm text-primary font-bold">${escapeHtml(data.engine)}</p>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <p class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-gray-400 font-semibold">Ticket ID</p>
-                                            <p class="text-[10px] md:text-xs text-gray-300 font-mono">${escapeHtml(data.ticketId)}</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex-shrink-0 flex flex-col items-center gap-2">
-                                        <div class="w-16 h-16 md:w-24 md:h-24 rounded-lg overflow-hidden border-2 border-white/20 bg-black/40 shadow-lg">
-                                            <img src="${data.photoURL || 'assets/gdsi.png'}" 
-                                                class="w-full h-full object-cover" 
-                                                alt="Profile"
-                                                crossorigin="anonymous"
-                                                onerror="this.src='assets/gdsi.png'">
-                                        </div>
-                                        <div class="text-center">
-                                            <p class="text-[9px] uppercase tracking-wider text-gray-500 font-semibold">Official Entry</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button id="btn-download" 
-                        class="w-full py-4 rounded-xl bg-primary text-white font-bold text-sm uppercase tracking-widest hover:bg-primary-dark active:scale-[0.98] transition-all duration-200 shadow-lg shadow-primary/25 flex items-center justify-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                        </svg>
-                        Download Ticket PNG
-                    </button>
-
-                    <div class="mt-4 pt-4 border-t border-gray-200/50 flex flex-col md:flex-row items-center justify-center gap-3">
-                        <span class="text-[10px] text-gray-400 font-mono">${data.email}</span>
-                    </div>
-                </div>
-            `;
-        }
-
-        // ==========================================
-        // UTILITIES
-        // ==========================================
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function normalizePhone(raw, countryCode) {
-            let cleaned = raw.replace(/[\s\-().]/g, '');
-            if (!cleaned.startsWith('+')) {
-                cleaned = countryCode + cleaned.replace(/^0+/, '');
-            }
-            return cleaned;
-        }
-
-        function validateE164(phone) {
-            return /^\+\d{7,15}$/.test(phone);
-        }
-
-        // ==========================================
-        // LISTENERS & HANDLERS
-        // ==========================================
-        function attachLoginListeners() {
-            document.getElementById('btn-google').addEventListener('click', async () => {
-                debugLog('Google Sign-In initiated', 'info');
-                renderState(STATES.LOADING_AUTH);
-                try {
-                    const result = await signInWithPopup(auth, provider);
-                    currentUser = result.user;
-                    debugLog(`Auth success: ${currentUser.displayName} [${currentUser.uid}]`, 'success');
-                } catch (err) {
-                    debugLog(`Auth failed: ${err.code} - ${err.message}`, 'error');
-                    if (err.code === 'auth/popup-blocked') {
-                        alert('Please allow popups for this website to sign in with Google.');
-                    }
-                    renderState(STATES.LOGIN);
-                }
-            });
-        }
-
-        function attachFormListeners() {
-            const form = document.getElementById('reg-form');
-            const btn = document.getElementById('btn-submit');
-            const fields = ['field-name', 'field-whatsapp', 'field-username', 'field-club', 'field-car', 'field-engine', 'field-terms'];
-            
-            function runValidation() {
-                const name = document.getElementById('field-name').value.trim();
-                const rawPhone = document.getElementById('field-whatsapp').value.trim();
-                const countryCode = document.getElementById('country-code').value;
-                const phone = normalizePhone(rawPhone, countryCode);
-                const username = document.getElementById('field-username').value.trim();
-                const club = document.getElementById('field-club').value.trim();
-                const car = document.getElementById('field-car').value.trim();
-                const engine = document.getElementById('field-engine').value;
-                const terms = document.getElementById('field-terms').checked;
-                
-                const valid = name && validateE164(phone) && username && club && car && engine && terms;
-                btn.disabled = !valid;
-                
-                debugLog(`Validation: ${valid ? 'PASS' : 'FAIL'} | Phone: ${phone}`, valid ? 'success' : 'warn');
-                setStatus('status-form', valid ? 'Form: Valid' : 'Form: Invalid', valid ? 'success' : 'warn');
-                return valid;
-            }
-            
-            fields.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.addEventListener('input', runValidation);
-                    el.addEventListener('change', runValidation);
-                }
-            });
-            
-            runValidation();
-
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                if (btn.disabled) return;
-                
-                const countryCode = document.getElementById('country-code').value;
-                const phone = normalizePhone(document.getElementById('field-whatsapp').value.trim(), countryCode);
-                
-                const payload = {
-                    uid: currentUser.uid,
-                    name: document.getElementById('field-name').value.trim(),
-                    email: currentUser.email,
-                    whatsapp: phone,
-                    usernameId: document.getElementById('field-username').value.trim(),
-                    clubTeam: document.getElementById('field-club').value.trim(),
-                    car: document.getElementById('field-car').value.trim(),
-                    engine: document.getElementById('field-engine').value,
-                    photoURL: currentUser.photoURL || '',
-                    ticketId: 'GT-' + Date.now().toString(36).toUpperCase(),
-                    submitted: true,
-                    createdAt: serverTimestamp(),
-                    updatedAt: serverTimestamp()
-                };
-                
-                await handleSubmit(payload);
-            });
-        }
-
-        function attachTicketListeners() {
-            document.getElementById('btn-download').addEventListener('click', async () => {
-                debugLog('Starting ticket PNG generation...', 'info');
-                setStatus('status-ticket', 'Ticket: Generating', 'active');
-                const ticketEl = document.getElementById('ticket-preview');
-                
-                try {
-                    await new Promise(r => setTimeout(r, 300));
-                    
-                    const canvas = await html2canvas(ticketEl, {
-                        scale: 2,
-                        useCORS: true,
-                        allowTaint: true,
-                        backgroundColor: null,
-                        logging: false
-                    });
-                    
-                    const link = document.createElement('a');
-                    link.download = `GDSI-${currentUserData.ticketId}.png`;
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
-                    
-                    debugLog('Ticket download successful', 'success');
-                    setStatus('status-ticket', 'Ticket: Downloaded', 'success');
-                } catch (err) {
-                    debugLog(`Ticket generation error: ${err.message}`, 'error');
-                    setStatus('status-ticket', 'Ticket: Error', 'error');
-                    alert('Could not generate ticket. Please try again.');
-                }
-            });
-        }
-
-        // ==========================================
-        // CORE LOGIC
-        // ==========================================
-        async function handleSubmit(data) {
-            renderState(STATES.SUBMITTING);
-            debugLog('Beginning submission flow...', 'info');
-            
-            try {
-                debugLog(`Writing to Firestore: users/${data.uid}`, 'info');
-                setStatus('status-firestore', 'DB: Writing...', 'active');
-                
-                const userRef = doc(db, 'users', data.uid);
-                
-                const writePromise = setDoc(userRef, data, { merge: true });
-                const timeoutPromise = new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error('Firestore write timeout (>8s). Check your Security Rules.')), 8000)
-                );
-                
-                await Promise.race([writePromise, timeoutPromise]);
-                
-                debugLog('Firestore write successful', 'success');
-                setStatus('status-firestore', 'DB: Saved', 'success');
-
-                debugLog('POSTing to Google Apps Script...', 'info');
-                try {
-                    const sheetPayload = {
-                        uid: data.uid,
-                        name: data.name,
-                        email: data.email,
-                        whatsapp: data.whatsapp,
-                        usernameId: data.usernameId,
-                        clubTeam: data.clubTeam,
-                        car: data.car,
-                        engine: data.engine,
-                        ticketId: data.ticketId,
-                        timestamp: new Date().toISOString()
-                    };
-                    
-                    fetch(GAS_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(sheetPayload)
-                    });
-                    
-                    debugLog('Google Sheets POST sent', 'success');
-                    setStatus('status-sheets', 'Sheets: Sent', 'success');
-                } catch (sheetErr) {
-                    debugLog(`Sheets POST error: ${sheetErr.message}`, 'error');
-                    setStatus('status-sheets', 'Sheets: Failed', 'error');
-                }
-
-                currentUserData = data;
-                renderState(STATES.TICKET, data);
-
-            } catch (err) {
-                debugLog(`SUBMIT FAILED: ${err.code || ''} ${err.message}`, 'error');
-                setStatus('status-submit', 'Submit: Error', 'error');
-                setStatus('status-firestore', 'DB: Failed', 'error');
-                
-                alert(`Registration failed:\n${err.message}\n\nCommon causes:\n1. Firestore Security Rules not set\n2. No internet connection\n3. Firebase config incorrect`);
-                
-                renderState(STATES.FORM, {
-                    name: data.name,
-                    email: data.email,
-                    photoURL: currentUser?.photoURL || ''
-                });
-                
-                setTimeout(() => {
-                    const f = (id, val) => { const el = document.getElementById(id); if(el && val) el.value = val; };
-                    f('field-name', data.name);
-                    f('field-whatsapp', data.whatsapp);
-                    f('field-username', data.usernameId);
-                    f('field-club', data.clubTeam);
-                    f('field-car', data.car);
-                    f('field-engine', data.engine);
-                    attachFormListeners();
-                }, 100);
-            }
-        }
-
-        async function checkUserRegistration(uid) {
-            renderState(STATES.CHECKING_DB);
-            debugLog(`Checking Firestore document: users/${uid}`, 'info');
-            
-            try {
-                const userRef = doc(db, 'users', uid);
-                const snap = await getDoc(userRef);
-                
-                if (snap.exists()) {
-                    const data = snap.data();
-                    debugLog('Document exists', 'info');
-                    
-                    const isRegistered =
-    data.submitted === true &&
-    data.ticketId &&
-    data.name &&
-    data.email;
-
-if (isRegistered) {
-    currentUserData = data;
-    debugLog(`Existing registration found. Ticket: ${data.ticketId}`, 'success');
-    setStatus('status-firestore', 'DB: Exists', 'success');
-    renderState(STATES.TICKET, data);
-    return;
-} else {
-    debugLog('Incomplete doc found, continue registration', 'warn');
-} {
-                        currentUserData = data;
-                        debugLog(`Existing registration found. Ticket: ${data.ticketId}`, 'success');
-                        setStatus('status-firestore', 'DB: Exists', 'success');
-                        renderState(STATES.TICKET, data);
-                        return;
-                    }
-                }
-                
-                debugLog('No completed registration found. Showing form.', 'warn');
-                setStatus('status-firestore', 'DB: Empty', 'warn');
-                renderState(STATES.FORM, {
-                    name: currentUser.displayName || '',
-                    email: currentUser.email || '',
-                    photoURL: currentUser.photoURL || ''
-                });
-                
-            } catch (err) {
-                debugLog(`Firestore check error: ${err.message}`, 'error');
-                setStatus('status-firestore', 'DB: Error', 'error');
-                renderState(STATES.FORM, {
-                    name: currentUser.displayName || '',
-                    email: currentUser.email || '',
-                    photoURL: currentUser.photoURL || ''
-                });
-            }
-        }
-
-        // ==========================================
-        // AUTH STATE OBSERVER
-        // ==========================================
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                currentUser = user;
-                navLogoutBtn.classList.remove('hidden');
-                navLogoutBtn.classList.add('flex');
-                debugLog(`Auth state: LOGGED IN | UID: ${user.uid} | ${user.email}`, 'success');
-                setStatus('status-auth', 'Auth: OK', 'success');
-                checkUserRegistration(user.uid);
-            } else {
-                currentUser = null;
-                currentUserData = null;
-                navLogoutBtn.classList.add('hidden');
-                navLogoutBtn.classList.remove('flex');
-                debugLog('Auth state: LOGGED OUT', 'warn');
-                setStatus('status-auth', 'Auth: None', 'warn');
-                renderState(STATES.LOGIN);
-            }
-        });
-
-        // ==========================================
-        // BOOT
-        // ==========================================
-        debugLog('GDSI Registration System initialized', 'system');
-        debugLog(`DEBUG_MODE: ${DEBUG_MODE} | Firebase modular SDK loaded`, 'system');
-        setStatus('status-auth', 'Auth: Waiting', 'neutral');
-        setStatus('status-firestore', 'DB: Waiting', 'neutral');
-        setStatus('status-form', 'Form: Waiting', 'neutral');
-        setStatus('status-submit', 'Submit: Waiting', 'neutral');
-        setStatus('status-sheets', 'Sheets: Waiting', 'neutral');
-        setStatus('status-ticket', 'Ticket: Waiting', 'neutral');
-    </script>
+  <!-- ============================================
+       SCRIPTS
+       ============================================ -->
+  <script type="module" src="app.js"></script>
 </body>
 </html>
