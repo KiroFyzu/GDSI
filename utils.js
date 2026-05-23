@@ -36,7 +36,6 @@ export function validateWhatsApp(number, countryDial) {
   if (!clean || clean.length < 7 || clean.length > 15) {
     return { valid: false, message: 'Nomor WhatsApp tidak valid (7-15 digit)' };
   }
-  // Hilangkan leading 0 jika ada setelah kode negara (opsional, untuk +62, +44, dll)
   let normalized = clean;
   if (normalized.startsWith('0')) {
     normalized = normalized.substring(1);
@@ -156,11 +155,27 @@ export async function withRetry(asyncFn, maxRetries = 3, delay = 1000, timeout =
 }
 
 // ============================================
-// DATE FORMATTER
+// DATE FORMATTER - FIX FIRESTORE TIMESTAMP
 // ============================================
 export function formatTimestamp(ts) {
   if (!ts) return '-';
-  const date = ts.toDate ? ts.toDate() : new Date(ts);
+
+  // FIX: Handle Firestore Timestamp object
+  let date;
+  if (ts && typeof ts.toDate === 'function') {
+    // Firestore Timestamp
+    date = ts.toDate();
+  } else if (ts && ts.seconds) {
+    // Firestore Timestamp format lain
+    date = new Date(ts.seconds * 1000);
+  } else {
+    // String atau number biasa
+    date = new Date(ts);
+  }
+
+  // Cek valid date
+  if (isNaN(date.getTime())) return '-';
+
   return new Intl.DateTimeFormat('id-ID', {
     day: '2-digit',
     month: 'long',
@@ -173,7 +188,18 @@ export function formatTimestamp(ts) {
 
 export function formatDateOnly(ts) {
   if (!ts) return '-';
-  const date = ts.toDate ? ts.toDate() : new Date(ts);
+
+  let date;
+  if (ts && typeof ts.toDate === 'function') {
+    date = ts.toDate();
+  } else if (ts && ts.seconds) {
+    date = new Date(ts.seconds * 1000);
+  } else {
+    date = new Date(ts);
+  }
+
+  if (isNaN(date.getTime())) return '-';
+
   return new Intl.DateTimeFormat('id-ID', {
     day: '2-digit',
     month: 'long',

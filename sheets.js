@@ -1,6 +1,6 @@
 // sheets.js - Google Sheets Sync via Apps Script Web App
 import { showToast } from './utils.js';
-import { withRetry, isOnline } from './utils.js';
+import { isOnline } from './utils.js';
 
 // ============================================
 // KONFIGURASI - GANTI URL WEB APP ANDA
@@ -31,24 +31,18 @@ export async function syncToGoogleSheets(data) {
   };
 
   try {
-    await withRetry(
-      () =>
-        fetch(SHEETS_WEB_APP_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          // mode: 'no-cors' // Aktifkan jika CORS bermasalah, tapi response tidak bisa dibaca
-        }),
-      3,
-      1500,
-      10000
-    );
+    // FIX CORS: pake no-cors mode biar request tetep kekirim
+    await fetch(SHEETS_WEB_APP_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
 
     console.log('[Sheets] Sync berhasil');
     return { success: true };
   } catch (err) {
     console.error('[Sheets] Sync gagal:', err);
-    // Tidak showToast error agar tidak mengganggu UX sukses
     return { success: false, reason: err.message };
   }
 }
@@ -59,29 +53,50 @@ GOOGLE APPS SCRIPT CODE (simpan sebagai .gs di Google Apps Script):
 ============================================
 
 function doPost(e) {
-  var data = JSON.parse(e.postData.contents);
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(data.sheetName || 'GDSI_Registrations');
+  try {
+    var data = JSON.parse(e.postData.contents);
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheetName = data.sheetName || 'GDSI_Registrations';
+    var sheet = ss.getSheetByName(sheetName);
 
-  if (!sheet) {
-    sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet(data.sheetName || 'GDSI_Registrations');
-    sheet.appendRow(['Timestamp', 'UID', 'Name', 'Email', 'WhatsApp', 'UsernameID', 'ClubTeam', 'Car', 'Engine', 'RegisteredAt']);
+    if (!sheet) {
+      sheet = ss.insertSheet(sheetName);
+      var headers = [
+        'Timestamp', 'UID', 'Name', 'Email', 'WhatsApp',
+        'UsernameID', 'ClubTeam', 'Car', 'Engine', 'RegisteredAt'
+      ];
+      sheet.appendRow(headers);
+      var headerRange = sheet.getRange(1, 1, 1, headers.length);
+      headerRange.setFontWeight('bold');
+      headerRange.setBackground('#ff5540');
+      headerRange.setFontColor('#ffffff');
+      sheet.autoResizeColumns(1, headers.length);
+    }
+
+    sheet.appendRow([
+      new Date(),
+      data.uid || '',
+      data.name || '',
+      data.email || '',
+      data.whatsapp || '',
+      data.usernameId || '',
+      data.clubTeam || '',
+      data.car || '',
+      data.engine || '',
+      data.registeredAt || new Date().toISOString()
+    ]);
+
+    return ContentService.createTextOutput(JSON.stringify({
+      result: 'success',
+      message: 'Data saved to sheet'
+    })).setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({
+      result: 'error',
+      message: error.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
   }
-
-  sheet.appendRow([
-    new Date(),
-    data.uid,
-    data.name,
-    data.email,
-    data.whatsapp,
-    data.usernameId,
-    data.clubTeam,
-    data.car,
-    data.engine,
-    data.registeredAt
-  ]);
-
-  return ContentService.createTextOutput(JSON.stringify({ result: 'success' }))
-    .setMimeType(ContentService.MimeType.JSON);
 }
 
 // Deploy sebagai Web App, akses: Anyone
