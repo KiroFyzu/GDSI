@@ -96,7 +96,7 @@ html, body {
 }
 
 /* ============================================
-   INPUTS & SELECTS
+   INPUTS & SELECTS - FIX BRIGHTNESS
    ============================================ */
 .glass-input {
   background: var(--surface);
@@ -110,8 +110,16 @@ html, body {
   outline: none;
 }
 
+/* FIX: Placeholder lebih terang biar kelihatan */
 .glass-input::placeholder {
-  color: rgba(229, 226, 225, 0.35);
+  color: rgba(229, 226, 225, 0.6);
+  font-weight: 400;
+}
+
+/* FIX: Input yang udah diisi - warna teks lebih terang */
+.glass-input:not(:placeholder-shown) {
+  color: #ffffff;
+  font-weight: 500;
 }
 
 .glass-input:focus {
@@ -132,26 +140,39 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px var(--surface) inset !important;
-  -webkit-text-fill-color: var(--on-surface) !important;
+  -webkit-text-fill-color: #ffffff !important;
   transition: background-color 5000s ease-in-out 0s;
 }
 
-/* Select arrow override */
+/* Select */
 select.glass-input {
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23ebbbb4'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.75rem center;
   padding-right: 2.5rem;
+  color: rgba(229, 226, 225, 0.6);
+}
+
+/* FIX: Select yang udah dipilih */
+select.glass-input:not([value=""]):not(:has(option:checked[value=""])) {
+  color: #ffffff;
+  font-weight: 500;
 }
 
 select.glass-input option {
   background: var(--surface-high);
-  color: var(--on-surface);
+  color: #ffffff;
+  font-weight: 500;
+}
+
+select.glass-input option:first-child {
+  color: rgba(229, 226, 225, 0.6);
+  font-weight: 400;
 }
 
 /* ============================================
-   COUNTRY DROPDOWN
+   COUNTRY DROPDOWN - FIX UKURAN & SCROLL
    ============================================ */
 .country-trigger {
   display: flex;
@@ -165,39 +186,95 @@ select.glass-input option {
   transition: background 0.2s;
   min-width: 80px;
   justify-content: center;
+  position: relative;
 }
 
 .country-trigger:hover {
   background: var(--surface-bright);
 }
 
+/* FIX: Dropdown lebih besar & bisa scroll */
 .country-dropdown {
   position: absolute;
   top: calc(100% + 4px);
   left: 0;
-  width: 280px;
-  max-height: 320px;
+  width: 320px;
+  max-height: 400px;
   overflow-y: auto;
   background: var(--surface-high);
   border: 1px solid var(--outline-variant);
   border-radius: 0.5rem;
-  z-index: 50;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  z-index: 100;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollbar dropdown */
+.country-dropdown::-webkit-scrollbar {
+  width: 8px;
+}
+.country-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+.country-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+.country-dropdown::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 180, 168, 0.4);
 }
 
 .country-search {
   width: 100%;
-  padding: 0.5rem 0.75rem;
-  background: transparent;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
   border: none;
   border-bottom: 1px solid var(--outline-variant);
   color: var(--on-surface);
   outline: none;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .country-search::placeholder {
-  color: rgba(229, 226, 225, 0.4);
+  color: rgba(229, 226, 225, 0.5);
+}
+
+/* FIX: List negara bisa scroll & dipilih */
+.country-list {
+  overflow-y: auto;
+  max-height: 320px;
+  padding: 0.25rem 0;
+}
+
+.country-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: background 0.15s;
+  min-height: 44px;
+}
+
+.country-item:hover,
+.country-item:active {
+  background: rgba(255, 180, 168, 0.15);
+}
+
+.country-dial {
+  font-weight: 600;
+  color: var(--primary);
+  min-width: 50px;
+  text-align: right;
+}
+
+.country-name {
+  color: var(--on-surface);
+  font-size: 0.9rem;
 }
 
 /* ============================================
@@ -445,7 +522,8 @@ select.glass-input option {
   }
 
   .country-dropdown {
-    width: 240px;
+    width: 280px;
+    left: -10px;
   }
 }
 

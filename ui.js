@@ -20,6 +20,7 @@ const els = {
   countryDropdown: () => document.getElementById('country-dropdown'),
   countryTrigger: () => document.getElementById('country-trigger'),
   countryDisplay: () => document.getElementById('country-display'),
+  countryList: () => document.getElementById('country-list'),
   modalSuccess: () => document.getElementById('modal-success'),
   modalInfo: () => document.getElementById('modal-info'),
   modalBackdrop: () => document.querySelectorAll('.modal-backdrop'),
@@ -27,9 +28,10 @@ const els = {
 };
 
 // ============================================
-// COUNTRY DROPDOWN LOGIC
+// COUNTRY DROPDOWN LOGIC - FIXED
 // ============================================
 let selectedCountry = COUNTRIES.find(c => c.code === 'ID') || COUNTRIES[0];
+let isDropdownOpen = false;
 
 export function initCountryDropdown() {
   const trigger = els.countryTrigger();
@@ -42,55 +44,99 @@ export function initCountryDropdown() {
   // Set default Indonesia
   updateCountryDisplay();
 
+  // Toggle dropdown on trigger click
   trigger.addEventListener('click', (e) => {
     e.stopPropagation();
-    dropdown.classList.toggle('hidden');
-    if (!dropdown.classList.contains('hidden')) {
-      search.focus();
-      renderCountryList(COUNTRIES);
-    }
+    e.preventDefault();
+    toggleDropdown();
   });
 
-  search.addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase();
-    const filtered = COUNTRIES.filter(c =>
-      c.name.toLowerCase().includes(term) ||
-      c.dial.includes(term) ||
-      c.code.toLowerCase().includes(term)
-    );
-    renderCountryList(filtered);
-  });
+  // Search filtering
+  if (search) {
+    search.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      const filtered = COUNTRIES.filter(c =>
+        c.name.toLowerCase().includes(term) ||
+        c.dial.includes(term) ||
+        c.code.toLowerCase().includes(term)
+      );
+      renderCountryList(filtered);
+    });
+  }
 
+  // Close dropdown when clicking outside
   document.addEventListener('click', (e) => {
-    if (!dropdown.contains(e.target) && e.target !== trigger && !trigger.contains(e.target)) {
-      dropdown.classList.add('hidden');
+    if (isDropdownOpen && !dropdown.contains(e.target) && !trigger.contains(e.target)) {
+      closeDropdown();
     }
+  });
+
+  // Prevent dropdown from closing when clicking inside it
+  dropdown.addEventListener('click', (e) => {
+    e.stopPropagation();
   });
 }
 
+function toggleDropdown() {
+  const dropdown = els.countryDropdown();
+  if (!dropdown) return;
+
+  if (isDropdownOpen) {
+    closeDropdown();
+  } else {
+    openDropdown();
+  }
+}
+
+function openDropdown() {
+  const dropdown = els.countryDropdown();
+  const search = els.countrySearch();
+  if (!dropdown) return;
+
+  dropdown.classList.remove('hidden');
+  isDropdownOpen = true;
+  renderCountryList(COUNTRIES);
+
+  if (search) {
+    search.value = '';
+    setTimeout(() => search.focus(), 100);
+  }
+}
+
+function closeDropdown() {
+  const dropdown = els.countryDropdown();
+  if (!dropdown) return;
+
+  dropdown.classList.add('hidden');
+  isDropdownOpen = false;
+}
+
 function renderCountryList(list) {
-  const container = els.countryDropdown();
+  const container = els.countryList();
   if (!container) return;
   container.innerHTML = '';
 
+  if (list.length === 0) {
+    container.innerHTML = '<div class="country-item"><span class="country-name text-on-surface-variant">Tidak ditemukan</span></div>';
+    return;
+  }
+
   list.forEach(country => {
     const item = document.createElement('div');
-    item.className = 'px-3 py-2 hover:bg-surface-bright/50 cursor-pointer flex items-center gap-2 text-sm text-on-surface transition-colors';
+    item.className = 'country-item';
     item.innerHTML = `
-      <span class="font-medium w-8 text-right text-on-surface-variant">${country.dial}</span>
-      <span>${escapeHtml(country.name)}</span>
+      <span class="country-dial">${escapeHtml(country.dial)}</span>
+      <span class="country-name">${escapeHtml(country.name)}</span>
     `;
-    item.addEventListener('click', () => {
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
       selectedCountry = country;
       updateCountryDisplay();
-      container.classList.add('hidden');
+      closeDropdown();
     });
     container.appendChild(item);
   });
-
-  if (list.length === 0) {
-    container.innerHTML = '<div class="px-3 py-2 text-sm text-on-surface-variant">Tidak ditemukan</div>';
-  }
 }
 
 function updateCountryDisplay() {
