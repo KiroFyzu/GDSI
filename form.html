@@ -236,11 +236,22 @@ tailwind.config = {
 <div id="loadingOverlay" class="loading-overlay fixed inset-0 z-50 flex flex-col items-center justify-center hidden">
     <div class="spinner mb-4"></div>
     <p id="loadingText" class="font-label-bold text-label-bold text-secondary uppercase tracking-widest">Loading...</p>
+    <p id="loadingSub" class="font-body-md text-xs text-secondary mt-2 opacity-70">Please wait</p>
 </div>
+
+<!-- ==================== DEBUG PANEL (ALWAYS VISIBLE ON MOBILE) ==================== -->
+<div id="debugPanel" class="fixed bottom-0 left-0 right-0 z-40 bg-inverse-surface text-inverse-on-surface p-2 text-xs font-mono" style="max-height: 120px; overflow-y: auto; border-top: 2px solid #b70013;">
+    <div class="flex items-center justify-between mb-1">
+        <p class="font-bold text-primary-fixed-dim text-[10px] uppercase tracking-wider">🔧 Debug Log</p>
+        <button onclick="document.getElementById('debugLog').innerHTML='';" class="text-[10px] text-white/50 px-2 py-0.5 rounded bg-white/10">Clear</button>
+    </div>
+    <div id="debugLog" style="max-height: 80px; overflow-y: auto;"></div>
+</div>
+<!-- Spacer for debug panel -->
+<div style="height: 120px;"></div>
 
 <!-- ==================== HERO SECTION ==================== -->
 <section id="heroSection" class="w-full relative overflow-hidden">
-    <!-- Background gradient accent -->
     <div class="absolute top-0 left-0 w-full h-full -z-10">
         <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-surface-variant/30"></div>
         <div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
@@ -248,9 +259,8 @@ tailwind.config = {
     </div>
 
     <div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pt-12 pb-8 md:pt-16 md:pb-12 flex flex-col items-center text-center">
-        <!-- Logo -->
         <div class="fade-in mb-6">
-            <img src="gdsi.png" alt="GDSI Logo" class="h-20 md:h-28 w-auto object-contain drop-shadow-lg mx-auto" onerror="this.style.display='none'"/>
+            <img src="gdsi.png" alt="GDSI Logo" class="h-20 md:h-28 w-auto object-contain drop-shadow-lg mx-auto" onerror="this.style.display='none'; document.getElementById('logoFallback').classList.remove('hidden');"/>
             <div id="logoFallback" class="hidden">
                 <div class="h-20 md:h-28 flex items-center justify-center">
                     <span class="font-display-lg text-display-lg text-primary tracking-tighter">GDSI</span>
@@ -258,7 +268,6 @@ tailwind.config = {
             </div>
         </div>
 
-        <!-- Title Block -->
         <div class="fade-in delay-100">
             <h1 class="font-display-lg text-display-lg md:text-[72px] md:leading-[80px] text-on-surface tracking-tighter uppercase font-extrabold italic mb-2">
                 Grand Drift Series<br/><span class="text-primary">Indonesia</span>
@@ -428,7 +437,6 @@ tailwind.config = {
         <div class="ticket-pattern"></div>
         <div class="ticket-stripe"></div>
 
-        <!-- Cutouts -->
         <div class="ticket-cutout cutout-left"></div>
         <div class="ticket-cutout cutout-right"></div>
 
@@ -518,7 +526,7 @@ tailwind.config = {
 </section>
 
 <!-- ==================== FOOTER ==================== -->
-<footer class="w-full bg-surface-container-lowest border-t border-surface-variant py-lg px-margin-desktop flex items-center justify-center mt-auto">
+<footer class="w-full bg-surface-container-lowest border-t border-surface-variant py-lg px-margin-desktop flex items-center justify-center">
     <p class="font-body-md text-body-md text-secondary text-center font-medium tracking-wide text-sm uppercase">
         © 2026 Grand Drift Series Indonesia. All Rights Reserved.
     </p>
@@ -526,6 +534,26 @@ tailwind.config = {
 
 <!-- ==================== JAVASCRIPT ==================== -->
 <script>
+// ============================================================
+// DEBUG LOGGER
+// ============================================================
+function debug(msg) {
+    const time = new Date().toLocaleTimeString();
+    const line = `[${time}] ${msg}`;
+    console.log(line);
+    const logDiv = document.getElementById('debugLog');
+    if (logDiv) {
+        const p = document.createElement('div');
+        p.textContent = line;
+        p.style.marginBottom = '2px';
+        p.style.borderBottom = '1px solid rgba(255,255,255,0.1)';
+        logDiv.appendChild(p);
+        logDiv.scrollTop = logDiv.scrollHeight;
+    }
+}
+
+// Debug panel always visible on mobile, no shortcut needed
+
 // ============================================================
 // FIREBASE CONFIGURATION - REPLACE WITH YOUR PROJECT CONFIG
 // ============================================================
@@ -541,8 +569,17 @@ const firebaseConfig = {
 // Google Apps Script Web App URL - REPLACE WITH YOUR DEPLOYED URL
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJRfMPHKUbcgNA2tgxGv56KgCTpS9-tX-ZZdsYc-JVd8Mb4cWYiApuLfTGXFjAJJIm/exec";
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+// ============================================================
+// INITIALIZE FIREBASE
+// ============================================================
+try {
+    firebase.initializeApp(firebaseConfig);
+    debug("Firebase initialized OK");
+} catch (e) {
+    debug("FATAL: Firebase init failed: " + e.message);
+    alert("Firebase config missing! Please update firebaseConfig in form.html");
+}
+
 const auth = firebase.auth();
 const db = firebase.firestore();
 
@@ -551,6 +588,7 @@ const db = firebase.firestore();
 // ============================================================
 const loadingOverlay = document.getElementById('loadingOverlay');
 const loadingText = document.getElementById('loadingText');
+const loadingSub = document.getElementById('loadingSub');
 const loginSection = document.getElementById('loginSection');
 const formSection = document.getElementById('formSection');
 const ticketSection = document.getElementById('ticketSection');
@@ -563,13 +601,11 @@ const snkCheckbox = document.getElementById('snkCheckbox');
 const snkError = document.getElementById('snkError');
 const downloadTicketBtn = document.getElementById('downloadTicketBtn');
 
-// User info displays
 const userPhoto = document.getElementById('userPhoto');
 const userPhotoFallback = document.getElementById('userPhotoFallback');
 const userNameDisplay = document.getElementById('userNameDisplay');
 const userEmailDisplay = document.getElementById('userEmailDisplay');
 
-// Form inputs
 const inputName = document.getElementById('inputName');
 const inputWhatsApp = document.getElementById('inputWhatsApp');
 const inputClub = document.getElementById('inputClub');
@@ -579,20 +615,22 @@ const inputEngine = document.getElementById('inputEngine');
 // ============================================================
 // UTILITY FUNCTIONS
 // ============================================================
-function showLoading(text = "Loading...") {
-    loadingText.textContent = text;
+function showLoading(text, subtext) {
+    loadingText.textContent = text || "Loading...";
+    loadingSub.textContent = subtext || "";
     loadingOverlay.classList.remove('hidden');
+    debug("LOADING: " + text);
 }
 
 function hideLoading() {
     loadingOverlay.classList.add('hidden');
+    debug("LOADING hidden");
 }
 
 function showSection(section) {
     [loginSection, formSection, ticketSection].forEach(s => {
         if (s === section) {
             s.classList.remove('hidden');
-            // Trigger animations
             s.querySelectorAll('.fade-in, .slide-in').forEach(el => {
                 el.classList.add('visible');
             });
@@ -600,6 +638,7 @@ function showSection(section) {
             s.classList.add('hidden');
         }
     });
+    debug("SECTION: " + section.id);
 }
 
 function generateTicketId() {
@@ -608,9 +647,7 @@ function generateTicketId() {
 }
 
 function formatWhatsApp(num) {
-    // Remove non-digits
     let clean = num.replace(/\D/g, '');
-    // Remove leading 0 or 62
     if (clean.startsWith('0')) clean = clean.substring(1);
     if (clean.startsWith('62')) clean = clean.substring(2);
     return '+62 ' + clean;
@@ -625,31 +662,32 @@ googleLoginBtn.addEventListener('click', async () => {
     provider.setCustomParameters({ prompt: 'select_account' });
 
     try {
+        debug("Auth: attempting signInWithPopup...");
         await auth.signInWithPopup(provider);
+        debug("Auth: popup success");
     } catch (error) {
-        console.warn("[GDSI] Popup failed, trying redirect...", error);
-        // Fallback to redirect if popup blocked (COOP, mobile browser, etc)
+        debug("Auth: popup FAILED: " + error.code + " - " + error.message);
         if (error.code === 'auth/popup-blocked' || error.code === 'auth/unauthorized-domain' || error.message.includes('COOP')) {
+            debug("Auth: falling back to redirect...");
             await auth.signInWithRedirect(provider);
         } else {
-            console.error("[GDSI] Login error:", error);
             alert("Login failed: " + error.message);
             hideLoading();
         }
     }
 });
 
-// Handle redirect result after page reload
-auth.getRedirectResult().then((result) => {
-    if (result.user) {
-        console.log("[GDSI] Login via redirect successful:", result.user.displayName);
-    }
-}).catch((error) => {
-    console.error("[GDSI] Redirect result error:", error);
-});
-
 logoutBtn.addEventListener('click', () => auth.signOut());
 logoutFromTicketBtn.addEventListener('click', () => auth.signOut());
+
+// Handle redirect result
+auth.getRedirectResult().then((result) => {
+    if (result.user) {
+        debug("Auth: redirect result success, user=" + result.user.uid);
+    }
+}).catch((error) => {
+    debug("Auth: redirect result error: " + error.message);
+});
 
 // ============================================================
 // AUTH STATE OBSERVER
@@ -657,9 +695,8 @@ logoutFromTicketBtn.addEventListener('click', () => auth.signOut());
 auth.onAuthStateChanged(async (user) => {
     if (user) {
         showLoading("Checking registration status...");
-        console.log("[GDSI] User logged in:", user.uid, user.email);
+        debug("AuthState: user logged in, uid=" + user.uid);
 
-        // Update user display
         const displayName = user.displayName || 'Participant';
         const email = user.email || '';
         const photoURL = user.photoURL || '';
@@ -676,49 +713,46 @@ auth.onAuthStateChanged(async (user) => {
             userPhotoFallback.classList.remove('hidden');
         }
 
-        // Pre-fill name
         inputName.value = displayName;
 
-        // Check Firestore
         try {
-            console.log("[GDSI] Checking Firestore for uid:", user.uid);
+            debug("Firestore: checking doc users/" + user.uid);
             const userDoc = await db.collection('users').doc(user.uid).get();
-            console.log("[GDSI] Firestore doc exists:", userDoc.exists);
+            debug("Firestore: doc exists=" + userDoc.exists);
 
             if (userDoc.exists) {
-                // User already registered - show ticket
                 const data = userDoc.data();
                 renderTicket(data);
                 showSection(ticketSection);
             } else {
-                // New user - show form
                 showSection(formSection);
             }
         } catch (error) {
-            console.error("[GDSI] Firestore error:", error);
-            alert("Error checking registration status. Please try again.");
+            debug("Firestore ERROR: " + error.code + " - " + error.message);
+            alert("Error checking registration: " + error.message);
             showSection(formSection);
         }
 
         hideLoading();
     } else {
-        // Not logged in
-        console.log("[GDSI] No user logged in");
+        debug("AuthState: no user");
         showSection(loginSection);
         hideLoading();
     }
 });
 
 // ============================================================
-// FORM SUBMISSION
+// FORM SUBMISSION - SUPER DEFENSIVE WITH TIMEOUT
 // ============================================================
 registrationForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    debug("SUBMIT: form submitted");
 
     // Validate SNK
     if (!snkCheckbox.checked) {
         snkError.classList.remove('hidden');
         snkCheckbox.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        debug("SUBMIT: SNK not checked");
         return;
     }
     snkError.classList.add('hidden');
@@ -726,10 +760,11 @@ registrationForm.addEventListener('submit', async (e) => {
     const user = auth.currentUser;
     if (!user) {
         alert("Please sign in first.");
+        debug("SUBMIT: no currentUser!");
         return;
     }
 
-    showLoading("Submitting registration...");
+    showLoading("Submitting registration...", "Saving to database");
     submitBtn.disabled = true;
 
     const ticketId = generateTicketId();
@@ -749,13 +784,31 @@ registrationForm.addEventListener('submit', async (e) => {
         createdAt: firebase.firestore.Timestamp.fromDate(now)
     };
 
-    try {
-        // 1. Save to Firestore
-        console.log("[GDSI] Saving to Firestore...", formData);
-        await db.collection('users').doc(user.uid).set(formData);
-        console.log("[GDSI] Firestore save SUCCESS");
+    debug("SUBMIT: data prepared, ticketId=" + ticketId);
 
-        // 2. Send to Google Sheets (fire-and-forget, non-blocking)
+    // SAFETY TIMEOUT: if nothing happens in 15 seconds, force unstick
+    const safetyTimeout = setTimeout(() => {
+        debug("SUBMIT: SAFETY TIMEOUT TRIGGERED! Something is stuck.");
+        hideLoading();
+        submitBtn.disabled = false;
+        alert("Submit timed out. Check console (Ctrl+Shift+D) for debug info. Common causes:
+1. Firestore rules not published
+2. Firebase config wrong
+3. No internet connection");
+    }, 15000);
+
+    try {
+        // STEP 1: Save to Firestore
+        debug("STEP 1: Saving to Firestore...");
+        loadingSub.textContent = "Saving to Firestore...";
+
+        await db.collection('users').doc(user.uid).set(formData);
+        debug("STEP 1: Firestore save OK");
+
+        // STEP 2: Send to Google Sheets (NON-BLOCKING)
+        debug("STEP 2: Sending to Google Sheets (non-blocking)...");
+        loadingSub.textContent = "Syncing to spreadsheet...";
+
         const sheetData = {
             uid: formData.uid,
             name: formData.name,
@@ -768,47 +821,50 @@ registrationForm.addEventListener('submit', async (e) => {
             timestamp: now.toISOString()
         };
 
-        // Send to GAS with timeout - don't block ticket generation
-        console.log("[GDSI] Sending to Google Sheets...");
+        // Fire-and-forget with no await
         fetch(GAS_WEB_APP_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(sheetData)
-        }).then(res => {
-            console.log("[GDSI] GAS response:", res.status);
-            return res.json().catch(() => ({ result: "ok" }));
-        }).then(data => {
-            console.log("[GDSI] GAS data logged:", data);
-        }).catch(gasError => {
-            console.warn("[GDSI] GAS logging failed (non-critical):", gasError.message);
+        }).then(() => {
+            debug("STEP 2: GAS sent OK");
+        }).catch(err => {
+            debug("STEP 2: GAS failed (non-critical): " + err.message);
         });
 
-        // 3. Show ticket immediately (don't wait for GAS)
-        console.log("[GDSI] Rendering ticket...");
+        // STEP 3: Show ticket immediately
+        debug("STEP 3: Rendering ticket...");
+        loadingSub.textContent = "Generating ticket...";
+
         renderTicket(formData);
         showSection(ticketSection);
-        console.log("[GDSI] Registration complete!");
+
+        debug("SUBMIT: COMPLETE!");
+        clearTimeout(safetyTimeout);
 
     } catch (error) {
-        console.error("[GDSI] Submit error:", error);
-        alert("Registration failed: " + (error.message || "Unknown error. Check console."));
+        clearTimeout(safetyTimeout);
+        debug("SUBMIT ERROR: " + error.code + " - " + error.message);
+        alert("Registration failed:
+" + error.message + "
+
+Check debug panel (Ctrl+Shift+D) for details.");
     } finally {
+        clearTimeout(safetyTimeout);
         hideLoading();
         submitBtn.disabled = false;
     }
 });
 
-// Real-time SNK validation
 snkCheckbox.addEventListener('change', () => {
-    if (snkCheckbox.checked) {
-        snkError.classList.add('hidden');
-    }
+    if (snkCheckbox.checked) snkError.classList.add('hidden');
 });
 
 // ============================================================
 // TICKET RENDERING
 // ============================================================
 function renderTicket(data) {
+    debug("TICKET: rendering for " + data.name);
     document.getElementById('ticketIdDisplay').textContent = data.ticketId;
     document.getElementById('ticketName').textContent = data.name;
     document.getElementById('ticketEmail').textContent = data.email;
@@ -831,14 +887,13 @@ function renderTicket(data) {
 }
 
 // ============================================================
-// TICKET DOWNLOAD (html2canvas)
+// TICKET DOWNLOAD
 // ============================================================
 downloadTicketBtn.addEventListener('click', async () => {
     showLoading("Generating ticket image...");
 
     try {
         const ticketElement = document.getElementById('ticketCard');
-
         const canvas = await html2canvas(ticketElement, {
             scale: 3,
             useCORS: true,
@@ -853,8 +908,7 @@ downloadTicketBtn.addEventListener('click', async () => {
         link.click();
 
     } catch (error) {
-        console.error("Download error:", error);
-        alert("Failed to generate ticket image. Please try again.");
+        alert("Failed to generate ticket: " + error.message);
     } finally {
         hideLoading();
     }
@@ -864,17 +918,14 @@ downloadTicketBtn.addEventListener('click', async () => {
 // INITIAL ANIMATIONS
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Hero animations
+    debug("PAGE: DOMContentLoaded");
     document.querySelectorAll('.fade-in').forEach((el, index) => {
         setTimeout(() => el.classList.add('visible'), index * 150);
     });
 
-    // Intersection observer for scroll animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
+            if (entry.isIntersecting) entry.target.classList.add('visible');
         });
     }, { threshold: 0.1 });
 
