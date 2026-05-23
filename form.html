@@ -94,7 +94,7 @@
             width: 100%;
             max-width: 900px;
             aspect-ratio: 16 / 9;
-            background-image: url('/mnt/agents/upload/1779556801263.png');
+            background-image: url('assets/ticket-bg.png');
             background-size: cover;
             background-position: center;
             border-radius: 12px;
@@ -140,10 +140,29 @@
 
 <body class="text-on-surface antialiased selection:bg-primary selection:text-white pb-[240px]">
 
+    <!-- ================= HEADER / NAV ================= -->
+    <nav class="w-full px-4 md:px-8 py-4 flex items-center justify-between anim-fade-in relative z-50">
+        <a href="index.html" class="flex items-center gap-3 group">
+            <img src="assets/gdsi.png" alt="GDSI" class="h-10 w-auto object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-300"/>
+            <div class="hidden md:block">
+                <p class="font-display font-bold text-sm leading-tight text-on-surface">GDSI</p>
+                <p class="text-[10px] uppercase tracking-wider text-gray-500 font-semibold">Grand Drift Series Indonesia</p>
+            </div>
+        </a>
+        
+        <!-- Logout Button (Hidden by default, shown via JS when logged in) -->
+        <button id="nav-logout" class="hidden items-center gap-2 px-4 py-2 rounded-xl bg-white/70 border border-gray-200 text-gray-600 text-xs font-semibold uppercase tracking-wider hover:bg-red-50 hover:border-red-200 hover:text-red-600 active:scale-95 transition-all duration-200 shadow-sm backdrop-blur-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            <span class="hidden sm:inline">Sign Out</span>
+        </button>
+    </nav>
+
     <!-- ================= HERO BRANDING ================= -->
-    <header class="w-full flex flex-col items-center text-center pt-10 pb-6 px-4 anim-fade-in">
+    <header class="w-full flex flex-col items-center text-center pt-6 pb-6 px-4 anim-fade-in">
         <div class="hero-card rounded-3xl p-5 md:p-6 mb-6 inline-block">
-            <img src="/mnt/agents/upload/gdsi.png" alt="GDSI Logo" class="h-16 md:h-24 w-auto object-contain mx-auto drop-shadow-sm"/>
+            <img src="assets/gdsi.png" alt="GDSI Logo" class="h-16 md:h-24 w-auto object-contain mx-auto drop-shadow-sm"/>
         </div>
         <h1 class="font-display text-5xl md:text-7xl font-extrabold italic tracking-tight text-on-surface mb-1">
             GDSI
@@ -169,7 +188,7 @@
                 <span class="text-gray-400 font-bold text-[10px] uppercase tracking-wider">🔧 Dev Console</span>
                 <span id="debug-mode-badge" class="debug-tag bg-yellow-500/20 text-yellow-400">DEBUG_MODE: ON</span>
             </div>
-            <div class="flex gap-3 text-[10px]">
+            <div class="flex gap-3 text-[10px] overflow-x-auto">
                 <span id="status-auth" class="debug-tag bg-gray-800 text-gray-500">Auth: —</span>
                 <span id="status-firestore" class="debug-tag bg-gray-800 text-gray-500">DB: —</span>
                 <span id="status-form" class="debug-tag bg-gray-800 text-gray-500">Form: —</span>
@@ -189,7 +208,7 @@
         // ==========================================
         // CONFIGURATION
         // ==========================================
-        const DEBUG_MODE = true; // Set to false to hide debug panel in production
+        const DEBUG_MODE = true;
         
         const FIREBASE_CONFIG = {
             apiKey: "AIzaSyAv6UqNaP22yP6ur6R0C7vK2fwjYnCIR6c",
@@ -200,10 +219,10 @@
   appId: "1:849442718629:web:cb06c97c09f61912501e4c"
         };
         
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbxJRfMPHKUbcgNA2tgxGv56KgCTpS9-tX-ZZdsYc-JVd8Mb4cWYiApuLfTGXFjAJJIm/exec"; // Google Apps Script Web App URL
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbxJRfMPHKUbcgNA2tgxGv56KgCTpS9-tX-ZZdsYc-JVd8Mb4cWYiApuLfTGXFjAJJIm/exec";
 
         // ==========================================
-        // FIREBASE MODULAR IMPORTS (ES Modules CDN)
+        // FIREBASE MODULAR IMPORTS
         // ==========================================
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
         import { 
@@ -235,6 +254,7 @@
         // ==========================================
         const debugPanel = document.getElementById('debug-panel');
         const debugLogs = document.getElementById('debug-logs');
+        const navLogoutBtn = document.getElementById('nav-logout');
         
         if (!DEBUG_MODE) {
             debugPanel.style.display = 'none';
@@ -271,6 +291,25 @@
             debugLogs.appendChild(line);
             debugLogs.scrollTop = debugLogs.scrollHeight;
         }
+
+        // ==========================================
+        // LOGOUT LOGIC (Global)
+        // ==========================================
+        async function doLogout() {
+            debugLog('Logout initiated by user', 'warn');
+            try {
+                await signOut(auth);
+                currentUser = null;
+                currentUserData = null;
+                navLogoutBtn.classList.add('hidden');
+                navLogoutBtn.classList.remove('flex');
+                debugLog('Sign out successful', 'success');
+            } catch (err) {
+                debugLog(`Sign out error: ${err.message}`, 'error');
+            }
+        }
+
+        navLogoutBtn.addEventListener('click', doLogout);
 
         // ==========================================
         // STATE MANAGEMENT
@@ -497,10 +536,8 @@
                     <!-- Ticket Preview -->
                     <div class="flex justify-center mb-6 overflow-x-auto">
                         <div id="ticket-preview" class="ticket-frame shrink-0">
-                            <!-- Overlay Data -->
                             <div class="absolute inset-0 flex flex-col justify-center px-6 md:px-14 py-6">
                                 <div class="flex flex-col md:flex-row items-center gap-4 md:gap-10 h-full">
-                                    <!-- Left: Data -->
                                     <div class="flex-1 text-left space-y-2 md:space-y-3 w-full">
                                         <div>
                                             <p class="text-[9px] md:text-[10px] uppercase tracking-[0.15em] text-gray-400 font-semibold">Participant Name</p>
@@ -531,15 +568,13 @@
                                             <p class="text-[10px] md:text-xs text-gray-300 font-mono">${escapeHtml(data.ticketId)}</p>
                                         </div>
                                     </div>
-                                    
-                                    <!-- Right: Photo -->
                                     <div class="flex-shrink-0 flex flex-col items-center gap-2">
                                         <div class="w-16 h-16 md:w-24 md:h-24 rounded-lg overflow-hidden border-2 border-white/20 bg-black/40 shadow-lg">
-                                            <img src="${data.photoURL || '/mnt/agents/upload/gdsi.png'}" 
+                                            <img src="${data.photoURL || 'assets/gdsi.png'}" 
                                                 class="w-full h-full object-cover" 
                                                 alt="Profile"
                                                 crossorigin="anonymous"
-                                                onerror="this.src='/mnt/agents/upload/gdsi.png'">
+                                                onerror="this.src='assets/gdsi.png'">
                                         </div>
                                         <div class="text-center">
                                             <p class="text-[9px] uppercase tracking-wider text-gray-500 font-semibold">Official Entry</p>
@@ -559,10 +594,6 @@
                     </button>
 
                     <div class="mt-4 pt-4 border-t border-gray-200/50 flex flex-col md:flex-row items-center justify-center gap-3">
-                        <button id="btn-logout" class="text-xs font-medium text-gray-500 hover:text-primary transition-colors uppercase tracking-wider">
-                            Sign Out Account
-                        </button>
-                        <span class="hidden md:inline text-gray-300">|</span>
                         <span class="text-[10px] text-gray-400 font-mono">${data.email}</span>
                     </div>
                 </div>
@@ -631,7 +662,7 @@
                 const valid = name && validateE164(phone) && username && club && car && engine && terms;
                 btn.disabled = !valid;
                 
-                debugLog(`Validation: ${valid ? 'PASS' : 'FAIL'} | Phone normalized: ${phone}`, valid ? 'success' : 'warn');
+                debugLog(`Validation: ${valid ? 'PASS' : 'FAIL'} | Phone: ${phone}`, valid ? 'success' : 'warn');
                 setStatus('status-form', valid ? 'Form: Valid' : 'Form: Invalid', valid ? 'success' : 'warn');
                 return valid;
             }
@@ -680,7 +711,6 @@
                 const ticketEl = document.getElementById('ticket-preview');
                 
                 try {
-                    // Small delay to ensure fonts/images rendered
                     await new Promise(r => setTimeout(r, 300));
                     
                     const canvas = await html2canvas(ticketEl, {
@@ -704,106 +734,88 @@
                     alert('Could not generate ticket. Please try again.');
                 }
             });
-            
-            document.getElementById('btn-logout').addEventListener('click', async () => {
-                debugLog('Signing out...', 'warn');
-                try {
-                    await signOut(auth);
-                    currentUser = null;
-                    currentUserData = null;
-                } catch (err) {
-                    debugLog(`Sign out error: ${err.message}`, 'error');
-                }
-            });
         }
 
         // ==========================================
         // CORE LOGIC
         // ==========================================
         async function handleSubmit(data) {
-    renderState(STATES.SUBMITTING);
-    debugLog('Beginning submission flow...', 'info');
-    
-    try {
-        // 1. Save to Firestore dengan timeout safety
-        debugLog(`Writing to Firestore: users/${data.uid}`, 'info');
-        setStatus('status-firestore', 'DB: Writing...', 'active');
-        
-        const userRef = doc(db, 'users', data.uid);
-        
-        // Race antara setDoc vs timeout 8 detik
-        const writePromise = setDoc(userRef, data, { merge: true });
-        const timeoutPromise = new Promise((_, reject) => 
-            setTimeout(() => reject(new Error('Firestore write timeout (>8s). Check your Security Rules.')), 8000)
-        );
-        
-        await Promise.race([writePromise, timeoutPromise]);
-        
-        debugLog('Firestore write successful', 'success');
-        setStatus('status-firestore', 'DB: Saved', 'success');
+            renderState(STATES.SUBMITTING);
+            debugLog('Beginning submission flow...', 'info');
+            
+            try {
+                debugLog(`Writing to Firestore: users/${data.uid}`, 'info');
+                setStatus('status-firestore', 'DB: Writing...', 'active');
+                
+                const userRef = doc(db, 'users', data.uid);
+                
+                const writePromise = setDoc(userRef, data, { merge: true });
+                const timeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Firestore write timeout (>8s). Check your Security Rules.')), 8000)
+                );
+                
+                await Promise.race([writePromise, timeoutPromise]);
+                
+                debugLog('Firestore write successful', 'success');
+                setStatus('status-firestore', 'DB: Saved', 'success');
 
-        // 2. Mirror to Google Sheets
-        debugLog('POSTing to Google Apps Script...', 'info');
-        try {
-            const sheetPayload = {
-                uid: data.uid,
-                name: data.name,
-                email: data.email,
-                whatsapp: data.whatsapp,
-                usernameId: data.usernameId,
-                clubTeam: data.clubTeam,
-                car: data.car,
-                engine: data.engine,
-                ticketId: data.ticketId,
-                timestamp: new Date().toISOString()
-            };
-            
-            fetch(GAS_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(sheetPayload)
-            });
-            
-            debugLog('Google Sheets POST sent', 'success');
-            setStatus('status-sheets', 'Sheets: Sent', 'success');
-        } catch (sheetErr) {
-            debugLog(`Sheets POST error: ${sheetErr.message}`, 'error');
-            setStatus('status-sheets', 'Sheets: Failed', 'error');
+                debugLog('POSTing to Google Apps Script...', 'info');
+                try {
+                    const sheetPayload = {
+                        uid: data.uid,
+                        name: data.name,
+                        email: data.email,
+                        whatsapp: data.whatsapp,
+                        usernameId: data.usernameId,
+                        clubTeam: data.clubTeam,
+                        car: data.car,
+                        engine: data.engine,
+                        ticketId: data.ticketId,
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    fetch(GAS_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(sheetPayload)
+                    });
+                    
+                    debugLog('Google Sheets POST sent', 'success');
+                    setStatus('status-sheets', 'Sheets: Sent', 'success');
+                } catch (sheetErr) {
+                    debugLog(`Sheets POST error: ${sheetErr.message}`, 'error');
+                    setStatus('status-sheets', 'Sheets: Failed', 'error');
+                }
+
+                currentUserData = data;
+                renderState(STATES.TICKET, data);
+
+            } catch (err) {
+                debugLog(`SUBMIT FAILED: ${err.code || ''} ${err.message}`, 'error');
+                setStatus('status-submit', 'Submit: Error', 'error');
+                setStatus('status-firestore', 'DB: Failed', 'error');
+                
+                alert(`Registration failed:\n${err.message}\n\nCommon causes:\n1. Firestore Security Rules not set\n2. No internet connection\n3. Firebase config incorrect`);
+                
+                renderState(STATES.FORM, {
+                    name: data.name,
+                    email: data.email,
+                    photoURL: currentUser?.photoURL || ''
+                });
+                
+                setTimeout(() => {
+                    const f = (id, val) => { const el = document.getElementById(id); if(el && val) el.value = val; };
+                    f('field-name', data.name);
+                    f('field-whatsapp', data.whatsapp);
+                    f('field-username', data.usernameId);
+                    f('field-club', data.clubTeam);
+                    f('field-car', data.car);
+                    f('field-engine', data.engine);
+                    attachFormListeners();
+                }, 100);
+            }
         }
-
-        currentUserData = data;
-        renderState(STATES.TICKET, data);
-
-    } catch (err) {
-        debugLog(`SUBMIT FAILED: ${err.code || ''} ${err.message}`, 'error');
-        setStatus('status-submit', 'Submit: Error', 'error');
-        setStatus('status-firestore', 'DB: Failed', 'error');
-        
-        // Tampilkan alert detail agar user tahu penyebabnya
-        alert(`Registration failed:\n${err.message}\n\nCommon causes:\n1. Firestore Security Rules not set\n2. No internet connection\n3. Firebase config incorrect`);
-        
-        // Kembali ke form, jangan kehilangan data
-        renderState(STATES.FORM, {
-            name: data.name,
-            email: data.email,
-            photoURL: currentUser?.photoURL || ''
-        });
-        
-        // Re-attach listeners karena DOM baru
-        setTimeout(() => {
-            // Pre-fill ulang field yang sudah diisi sebelumnya
-            const f = (id, val) => { const el = document.getElementById(id); if(el && val) el.value = val; };
-            f('field-name', data.name);
-            f('field-whatsapp', data.whatsapp);
-            f('field-username', data.usernameId);
-            f('field-club', data.clubTeam);
-            f('field-car', data.car);
-            f('field-engine', data.engine);
-            attachFormListeners();
-        }, 100);
-    }
-}
 
         async function checkUserRegistration(uid) {
             renderState(STATES.CHECKING_DB);
@@ -851,12 +863,16 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUser = user;
+                navLogoutBtn.classList.remove('hidden');
+                navLogoutBtn.classList.add('flex');
                 debugLog(`Auth state: LOGGED IN | UID: ${user.uid} | ${user.email}`, 'success');
                 setStatus('status-auth', 'Auth: OK', 'success');
                 checkUserRegistration(user.uid);
             } else {
                 currentUser = null;
                 currentUserData = null;
+                navLogoutBtn.classList.add('hidden');
+                navLogoutBtn.classList.remove('flex');
                 debugLog('Auth state: LOGGED OUT', 'warn');
                 setStatus('status-auth', 'Auth: None', 'warn');
                 renderState(STATES.LOGIN);
