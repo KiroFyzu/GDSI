@@ -176,7 +176,7 @@ select.glass-input option:first-child {
 }
 
 /* ============================================
-   COUNTRY DROPDOWN - NO SEARCH, 3+ ROWS
+   COUNTRY TRIGGER (Button to open modal)
    ============================================ */
 .country-trigger {
   display: flex;
@@ -190,7 +190,8 @@ select.glass-input option:first-child {
   transition: background 0.2s;
   min-width: 80px;
   justify-content: center;
-  position: relative;
+  border: none;
+  outline: none;
 }
 
 .country-trigger:hover {
@@ -201,63 +202,126 @@ select.glass-input option:first-child {
   background: var(--primary);
 }
 
-/* FIX: Dropdown tanpa search, tinggi minimal 3 baris */
-.country-dropdown {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  width: 340px;
-  max-height: 280px;  /* FIX: Minimal 3-4 baris kelihatan */
-  min-height: 200px;  /* FIX: Pastiin gak terlalu kecil */
-  overflow-y: auto;
+.country-trigger:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+/* ============================================
+   COUNTRY MODAL (Popup Style - No Search)
+   ============================================ */
+.country-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.country-modal-backdrop:not(.hidden) {
+  opacity: 1;
+}
+
+.country-modal-backdrop.hidden {
+  display: none;
+}
+
+.country-modal {
   background: #ffffff;
-  border: 2px solid var(--primary);
-  border-radius: 0.75rem;
-  z-index: 100;
-  box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 420px;
+  max-height: 80vh;
   display: flex;
   flex-direction: column;
-  padding: 0.5rem 0;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
 }
 
-/* Scrollbar dropdown */
-.country-dropdown::-webkit-scrollbar {
-  width: 8px;
+.country-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f0f0f0;
+  background: #ffffff;
+  flex-shrink: 0;
 }
-.country-dropdown::-webkit-scrollbar-track {
-  background: #f0f0f0;
-  border-radius: 0 0.75rem 0.75rem 0;
+
+.country-modal-header h3 {
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 1.1rem;
 }
-.country-dropdown::-webkit-scrollbar-thumb {
-  background: #cccccc;
-  border-radius: 4px;
+
+.country-modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #f5f5f5;
+  color: #666666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
 }
-.country-dropdown::-webkit-scrollbar-thumb:hover {
+
+.country-modal-close:hover {
   background: #ff5540;
+  color: #ffffff;
 }
 
-/* HAPUS SEARCH BAR - gak perlu styling search */
-.country-search {
-  display: none !important;  /* FIX: Sembunyikan search bar */
+.country-modal-body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-/* FIX: List negara */
+/* Country list - scrollable */
 .country-list {
   overflow-y: auto;
   flex: 1;
   padding: 0;
+  max-height: calc(80vh - 60px);
 }
 
-/* FIX: Country item - lebih besar, text hitam */
+/* Scrollbar for country list */
+.country-list::-webkit-scrollbar {
+  width: 6px;
+}
+.country-list::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 0 0 1rem 0;
+}
+.country-list::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 3px;
+}
+.country-list::-webkit-scrollbar-thumb:hover {
+  background: #ff5540;
+}
+
+/* Country item */
 .country-item {
-  padding: 14px 16px;
+  padding: 14px 20px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 12px;
-  transition: all 0.15s;
-  min-height: 48px;
-  border-bottom: 1px solid #f0f0f0;
+  gap: 14px;
+  transition: all 0.15s ease;
+  min-height: 52px;
+  border-bottom: 1px solid #f5f5f5;
+  background: #ffffff;
 }
 
 .country-item:last-child {
@@ -269,7 +333,20 @@ select.glass-input option:first-child {
 }
 
 .country-item:active {
-  background: var(--primary);
+  background: #ffdad4;
+}
+
+.country-item.selected {
+  background: #ffdad4;
+  border-left: 3px solid #ff5540;
+}
+
+.country-flag {
+  font-size: 1.4rem;
+  line-height: 1;
+  width: 32px;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 .country-dial {
@@ -277,13 +354,15 @@ select.glass-input option:first-child {
   color: #ff5540;
   min-width: 55px;
   text-align: right;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  flex-shrink: 0;
 }
 
 .country-name {
-  color: #000000;
+  color: #1a1a1a;
   font-size: 0.95rem;
   font-weight: 500;
+  flex: 1;
 }
 
 /* ============================================
@@ -530,14 +609,27 @@ select.glass-input option:first-child {
     border-radius: 0.75rem;
   }
 
-  .country-dropdown {
-    width: 280px;
-    left: -10px;
+  .country-modal {
+    max-width: 100%;
+    max-height: 85vh;
+    border-radius: 0.75rem;
+  }
+
+  .country-list {
+    max-height: calc(85vh - 60px);
   }
 }
 
 @media (max-height: 700px) {
   .main-card {
     max-height: 98vh;
+  }
+
+  .country-modal {
+    max-height: 90vh;
+  }
+
+  .country-list {
+    max-height: calc(90vh - 60px);
   }
 }

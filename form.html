@@ -187,14 +187,10 @@
             </label>
             <div class="flex rounded-lg overflow-hidden border border-outline-variant/30 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary focus-within:shadow-[0_0_15px_rgba(255,180,168,0.15)] transition-all duration-300 bg-surface relative">
               <!-- Country Trigger -->
-              <div id="country-trigger" class="country-trigger relative">
+              <button type="button" id="country-trigger" class="country-trigger">
                 <span id="country-display" class="text-on-surface text-sm font-medium">+62</span>
                 <span class="material-symbols-outlined text-on-surface-variant text-[18px]">arrow_drop_down</span>
-                <!-- Dropdown -->
-                <div id="country-dropdown" class="country-dropdown hidden">
-  <div id="country-list" class="country-list"></div>
-</div>
-              </div>
+              </button>
               <input type="tel" name="whatsapp-number" required
                      class="w-full bg-transparent border-none py-3 px-4 text-on-surface placeholder-on-surface-variant/40 focus:ring-0 outline-none"
                      placeholder="8123456789"
@@ -302,6 +298,23 @@
           </div>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- ============================================
+       COUNTRY MODAL (Popup Style - No Search)
+       ============================================ -->
+  <div id="country-modal" class="country-modal-backdrop hidden">
+    <div class="country-modal">
+      <div class="country-modal-header">
+        <h3 class="font-headline-lg text-on-surface text-lg">Pilih Negara</h3>
+        <button type="button" id="country-modal-close" class="country-modal-close">
+          <span class="material-symbols-outlined text-[22px]">close</span>
+        </button>
+      </div>
+      <div class="country-modal-body">
+        <div id="country-list" class="country-list"></div>
+      </div>
     </div>
   </div>
 

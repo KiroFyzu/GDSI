@@ -1,4 +1,4 @@
-// ui.js - UI Logic, Modals, Form States, Country Dropdown
+// ui.js - UI Logic, Modals, Form States, Country Modal
 import { COUNTRIES } from './countries.js';
 import { escapeHtml, formatTimestamp } from './utils.js';
 
@@ -15,7 +15,8 @@ const els = {
   authOverlay: () => document.getElementById('auth-overlay'),
   profileName: () => document.getElementById('profile-name'),
   profileAvatar: () => document.getElementById('profile-avatar'),
-  countryDropdown: () => document.getElementById('country-dropdown'),
+  countryModal: () => document.getElementById('country-modal'),
+  countryModalClose: () => document.getElementById('country-modal-close'),
   countryTrigger: () => document.getElementById('country-trigger'),
   countryDisplay: () => document.getElementById('country-display'),
   countryList: () => document.getElementById('country-list'),
@@ -25,64 +26,84 @@ const els = {
 };
 
 // ============================================
-// COUNTRY DROPDOWN - NO SEARCH, SCROLL ONLY
+// COUNTRY MODAL - POPUP STYLE, NO SEARCH
 // ============================================
 let selectedCountry = COUNTRIES.find(c => c.code === 'ID') || COUNTRIES[0];
-let isDropdownOpen = false;
+let isCountryModalOpen = false;
+
+// Helper: get flag emoji from country code
+function getFlagEmoji(countryCode) {
+  const codePoints = countryCode
+    .toUpperCase()
+    .split('')
+    .map(char => 127397 + char.charCodeAt(0));
+  return String.fromCodePoint(...codePoints);
+}
 
 export function initCountryDropdown() {
   const trigger = els.countryTrigger();
-  const dropdown = els.countryDropdown();
+  const modal = els.countryModal();
+  const closeBtn = els.countryModalClose();
 
-  if (!trigger || !dropdown) return;
+  if (!trigger || !modal) return;
 
   // Set default Indonesia
   updateCountryDisplay();
   // Pre-render list
   renderCountryList(COUNTRIES);
 
-  // Toggle dropdown on trigger click
+  // Open modal on trigger click
   trigger.addEventListener('click', (e) => {
-    e.stopPropagation();
     e.preventDefault();
-    toggleDropdown();
+    e.stopPropagation();
+    openCountryModal();
   });
 
-  // Close dropdown when clicking outside
-  document.addEventListener('click', (e) => {
-    if (isDropdownOpen && !dropdown.contains(e.target) && !trigger.contains(e.target)) {
-      closeDropdown();
+  // Close modal on close button
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeCountryModal();
+    });
+  }
+
+  // Close modal when clicking backdrop
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeCountryModal();
     }
   });
 
-  // Prevent dropdown from closing when clicking inside it
-  dropdown.addEventListener('click', (e) => {
-    e.stopPropagation();
+  // Close modal with ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isCountryModalOpen) {
+      closeCountryModal();
+    }
   });
 }
 
-function toggleDropdown() {
-  if (isDropdownOpen) {
-    closeDropdown();
-  } else {
-    openDropdown();
+function openCountryModal() {
+  const modal = els.countryModal();
+  if (!modal) return;
+
+  modal.classList.remove('hidden');
+  isCountryModalOpen = true;
+  document.body.style.overflow = 'hidden';
+
+  // Scroll to selected country
+  const selectedEl = modal.querySelector('.country-item.selected');
+  if (selectedEl) {
+    selectedEl.scrollIntoView({ behavior: 'instant', block: 'center' });
   }
 }
 
-function openDropdown() {
-  const dropdown = els.countryDropdown();
-  if (!dropdown) return;
+function closeCountryModal() {
+  const modal = els.countryModal();
+  if (!modal) return;
 
-  dropdown.classList.remove('hidden');
-  isDropdownOpen = true;
-}
-
-function closeDropdown() {
-  const dropdown = els.countryDropdown();
-  if (!dropdown) return;
-
-  dropdown.classList.add('hidden');
-  isDropdownOpen = false;
+  modal.classList.add('hidden');
+  isCountryModalOpen = false;
+  document.body.style.overflow = '';
 }
 
 function renderCountryList(list) {
@@ -92,12 +113,18 @@ function renderCountryList(list) {
 
   list.forEach(country => {
     const item = document.createElement('div');
-    item.className = 'country-item';
+    const isSelected = selectedCountry && selectedCountry.code === country.code;
+    item.className = 'country-item' + (isSelected ? ' selected' : '');
     item.setAttribute('role', 'button');
     item.setAttribute('tabindex', '0');
+    item.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+
+    const flag = getFlagEmoji(country.code);
+
     item.innerHTML = `
-      <span class="country-dial">${escapeHtml(country.dial)}</span>
+      <span class="country-flag">${flag}</span>
       <span class="country-name">${escapeHtml(country.name)}</span>
+      <span class="country-dial">${escapeHtml(country.dial)}</span>
     `;
 
     // Click to select
@@ -106,16 +133,17 @@ function renderCountryList(list) {
       e.preventDefault();
       selectedCountry = country;
       updateCountryDisplay();
-      closeDropdown();
+      closeCountryModal();
     });
 
     // Keyboard support
     item.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
+        e.stopPropagation();
         selectedCountry = country;
         updateCountryDisplay();
-        closeDropdown();
+        closeCountryModal();
       }
     });
 
@@ -128,6 +156,7 @@ function updateCountryDisplay() {
   if (display) {
     display.textContent = selectedCountry.dial;
     display.dataset.dial = selectedCountry.dial;
+    display.dataset.code = selectedCountry.code;
   }
 }
 
