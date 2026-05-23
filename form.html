@@ -829,7 +829,21 @@
                     const data = snap.data();
                     debugLog('Document exists', 'info');
                     
-                    if (data.submitted === true) {
+                    const isRegistered =
+    data.submitted === true &&
+    data.ticketId &&
+    data.name &&
+    data.email;
+
+if (isRegistered) {
+    currentUserData = data;
+    debugLog(`Existing registration found. Ticket: ${data.ticketId}`, 'success');
+    setStatus('status-firestore', 'DB: Exists', 'success');
+    renderState(STATES.TICKET, data);
+    return;
+} else {
+    debugLog('Incomplete doc found, continue registration', 'warn');
+} {
                         currentUserData = data;
                         debugLog(`Existing registration found. Ticket: ${data.ticketId}`, 'success');
                         setStatus('status-firestore', 'DB: Exists', 'success');
