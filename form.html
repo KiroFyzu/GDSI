@@ -8,11 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700;800&family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-
 <!-- html2canvas -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
@@ -239,16 +234,15 @@ tailwind.config = {
     <p id="loadingSub" class="font-body-md text-xs text-secondary mt-2 opacity-70">Please wait</p>
 </div>
 
-<!-- ==================== DEBUG PANEL (ALWAYS VISIBLE ON MOBILE) ==================== -->
-<div id="debugPanel" class="fixed bottom-0 left-0 right-0 z-40 bg-inverse-surface text-inverse-on-surface p-2 text-xs font-mono" style="max-height: 120px; overflow-y: auto; border-top: 2px solid #b70013;">
-    <div class="flex items-center justify-between mb-1">
-        <p class="font-bold text-primary-fixed-dim text-[10px] uppercase tracking-wider">🔧 Debug Log</p>
-        <button onclick="document.getElementById('debugLog').innerHTML='';" class="text-[10px] text-white/50 px-2 py-0.5 rounded bg-white/10">Clear</button>
+<!-- ==================== DEBUG PANEL (ALWAYS VISIBLE) ==================== -->
+<div id="debugPanel" style="position:fixed; bottom:0; left:0; right:0; z-index:9999; background:#1a1a1a; color:#fff; padding:8px 12px; font-family:monospace; font-size:11px; border-top:3px solid #b70013; max-height:140px; overflow-y:auto;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <span style="color:#ffb4ac; font-weight:bold; font-size:10px;">🔧 DEBUG LOG</span>
+        <button onclick="document.getElementById('debugLog').innerHTML='';" style="background:#333; color:#fff; border:none; padding:2px 8px; border-radius:4px; font-size:10px;">Clear</button>
     </div>
-    <div id="debugLog" style="max-height: 80px; overflow-y: auto;"></div>
+    <div id="debugLog" style="max-height:100px; overflow-y:auto;"></div>
 </div>
-<!-- Spacer for debug panel -->
-<div style="height: 120px;"></div>
+<div style="height:140px;"></div>
 
 <!-- ==================== HERO SECTION ==================== -->
 <section id="heroSection" class="w-full relative overflow-hidden">
@@ -308,7 +302,6 @@ tailwind.config = {
 <!-- ==================== FORM SECTION ==================== -->
 <section id="formSection" class="w-full max-w-2xl mx-auto px-margin-mobile md:px-margin-desktop pb-xl hidden">
     <div class="glass-card rounded-2xl p-6 md:p-10 shadow-xl">
-        <!-- User Profile Header -->
         <div class="flex items-center gap-4 mb-8 pb-6 border-b border-surface-variant">
             <img id="userPhoto" src="" alt="Profile" class="w-14 h-14 rounded-full object-cover border-2 border-primary shadow-md hidden"/>
             <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center border-2 border-primary/20" id="userPhotoFallback">
@@ -335,7 +328,6 @@ tailwind.config = {
         </div>
 
         <form id="registrationForm" class="space-y-6">
-            <!-- Name -->
             <div class="slide-in">
                 <label class="block font-label-bold text-label-bold text-on-surface mb-2 uppercase tracking-wider">
                     Full Name <span class="text-error">*</span>
@@ -343,7 +335,6 @@ tailwind.config = {
                 <input type="text" id="inputName" class="input-field w-full bg-surface-container-lowest rounded-xl px-4 py-3 font-body-md text-on-surface" placeholder="Your full name" required/>
             </div>
 
-            <!-- WhatsApp -->
             <div class="slide-in delay-100">
                 <label class="block font-label-bold text-label-bold text-on-surface mb-2 uppercase tracking-wider">
                     WhatsApp Number <span class="text-error">*</span>
@@ -355,7 +346,6 @@ tailwind.config = {
                 <p class="text-xs text-secondary mt-1 font-body-md">Format: 8xx-xxxx-xxxx (without +62)</p>
             </div>
 
-            <!-- Club Team -->
             <div class="slide-in delay-200">
                 <label class="block font-label-bold text-label-bold text-on-surface mb-2 uppercase tracking-wider">
                     Club / Team <span class="text-error">*</span>
@@ -363,7 +353,6 @@ tailwind.config = {
                 <input type="text" id="inputClub" class="input-field w-full bg-surface-container-lowest rounded-xl px-4 py-3 font-body-md text-on-surface" placeholder="Your club or team name" required/>
             </div>
 
-            <!-- Car -->
             <div class="slide-in delay-300">
                 <label class="block font-label-bold text-label-bold text-on-surface mb-2 uppercase tracking-wider">
                     Car Model <span class="text-error">*</span>
@@ -371,7 +360,6 @@ tailwind.config = {
                 <input type="text" id="inputCar" class="input-field w-full bg-surface-container-lowest rounded-xl px-4 py-3 font-body-md text-on-surface" placeholder="e.g. Nissan Silvia S15" required/>
             </div>
 
-            <!-- Engine Type -->
             <div class="slide-in">
                 <label class="block font-label-bold text-label-bold text-on-surface mb-2 uppercase tracking-wider">
                     Engine Type <span class="text-error">*</span>
@@ -390,7 +378,6 @@ tailwind.config = {
                 </div>
             </div>
 
-            <!-- Terms & Conditions -->
             <div class="slide-in pt-4">
                 <label class="flex items-start gap-3 cursor-pointer group">
                     <div class="relative flex items-center">
@@ -406,7 +393,6 @@ tailwind.config = {
                 <p id="snkError" class="text-error text-sm mt-2 hidden font-body-md">You must agree to the Terms & Conditions to proceed.</p>
             </div>
 
-            <!-- Submit Button -->
             <div class="slide-in pt-4">
                 <button type="submit" id="submitBtn" class="btn-primary w-full text-on-primary font-label-bold text-label-bold uppercase tracking-widest py-4 px-8 rounded-xl flex items-center justify-center gap-2 cursor-pointer">
                     <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
@@ -431,7 +417,6 @@ tailwind.config = {
         </p>
     </div>
 
-    <!-- Ticket Card (html2canvas target) -->
     <div id="ticketCard" class="ticket-container mx-auto mb-8 fade-in delay-100" style="max-width: 600px;">
         <div class="ticket-bg"></div>
         <div class="ticket-pattern"></div>
@@ -441,7 +426,6 @@ tailwind.config = {
         <div class="ticket-cutout cutout-right"></div>
 
         <div class="relative z-10 p-8 md:p-10 text-white">
-            <!-- Header -->
             <div class="flex items-center justify-between mb-6 border-b border-white/20 pb-4">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
@@ -458,9 +442,7 @@ tailwind.config = {
                 </div>
             </div>
 
-            <!-- Main Content -->
             <div class="flex flex-col md:flex-row gap-6 items-start">
-                <!-- Photo -->
                 <div class="flex-shrink-0 mx-auto md:mx-0">
                     <div class="w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden border-4 border-white/20 shadow-lg bg-white/10">
                         <img id="ticketPhoto" src="" alt="" class="w-full h-full object-cover hidden"/>
@@ -470,7 +452,6 @@ tailwind.config = {
                     </div>
                 </div>
 
-                <!-- Details -->
                 <div class="flex-1 w-full">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div class="ticket-glass rounded-xl p-3">
@@ -501,7 +482,6 @@ tailwind.config = {
                 </div>
             </div>
 
-            <!-- Footer -->
             <div class="mt-6 pt-4 border-t border-white/20 flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-primary-fixed-dim text-sm">verified</span>
@@ -512,7 +492,6 @@ tailwind.config = {
         </div>
     </div>
 
-    <!-- Actions -->
     <div class="flex flex-col sm:flex-row gap-4 justify-center fade-in delay-200">
         <button id="downloadTicketBtn" class="btn-primary text-on-primary font-label-bold text-label-bold uppercase tracking-widest py-4 px-8 rounded-xl flex items-center justify-center gap-2 cursor-pointer">
             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">download</span>
@@ -532,405 +511,414 @@ tailwind.config = {
     </p>
 </footer>
 
-<!-- ==================== JAVASCRIPT ==================== -->
+<!-- ==================== INLINE DEBUG (runs BEFORE anything else) ==================== -->
 <script>
-// ============================================================
-// DEBUG LOGGER
-// ============================================================
-function debug(msg) {
-    const time = new Date().toLocaleTimeString();
-    const line = `[${time}] ${msg}`;
+// Inline debug logger - works immediately without any libraries
+window._gdsiDebug = [];
+window._gdsiLog = function(msg) {
+    var time = new Date().toLocaleTimeString();
+    var line = '[' + time + '] ' + msg;
+    window._gdsiDebug.push(line);
     console.log(line);
-    const logDiv = document.getElementById('debugLog');
+    var logDiv = document.getElementById('debugLog');
     if (logDiv) {
-        const p = document.createElement('div');
-        p.textContent = line;
-        p.style.marginBottom = '2px';
-        p.style.borderBottom = '1px solid rgba(255,255,255,0.1)';
-        logDiv.appendChild(p);
+        var entry = document.createElement('div');
+        entry.textContent = line;
+        entry.style.cssText = 'margin-bottom:2px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:2px;';
+        logDiv.appendChild(entry);
         logDiv.scrollTop = logDiv.scrollHeight;
     }
-}
-
-// Debug panel always visible on mobile, no shortcut needed
-
-// ============================================================
-// FIREBASE CONFIGURATION - REPLACE WITH YOUR PROJECT CONFIG
-// ============================================================
-const firebaseConfig = {
-    apiKey: "AIzaSyAv6UqNaP22yP6ur6R0C7vK2fwjYnCIR6c",
-    authDomain: "form-regis-gdsi.firebaseapp.com",
-    projectId: "form-regis-gdsi",
-    storageBucket: "form-regis-gdsi.firebasestorage.app",
-    messagingSenderId: "849442718629",
-    appId: "1:849442718629:web:cb06c97c09f61912501e4c"
 };
+window._gdsiLog('INLINE: Debug logger initialized');
+</script>
 
-// Google Apps Script Web App URL - REPLACE WITH YOUR DEPLOYED URL
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJRfMPHKUbcgNA2tgxGv56KgCTpS9-tX-ZZdsYc-JVd8Mb4cWYiApuLfTGXFjAJJIm/exec";
+<!-- ==================== FIREBASE SDK (deferred loading) ==================== -->
+<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
-// ============================================================
-// INITIALIZE FIREBASE
-// ============================================================
-try {
-    firebase.initializeApp(firebaseConfig);
-    debug("Firebase initialized OK");
-} catch (e) {
-    debug("FATAL: Firebase init failed: " + e.message);
-    alert("Firebase config missing! Please update firebaseConfig in form.html");
-}
+<!-- ==================== MAIN APP ==================== -->
+<script defer>
+(function() {
+    'use strict';
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+    window._gdsiLog('MAIN: Script started');
 
-// ============================================================
-// DOM ELEMENTS
-// ============================================================
-const loadingOverlay = document.getElementById('loadingOverlay');
-const loadingText = document.getElementById('loadingText');
-const loadingSub = document.getElementById('loadingSub');
-const loginSection = document.getElementById('loginSection');
-const formSection = document.getElementById('formSection');
-const ticketSection = document.getElementById('ticketSection');
-const googleLoginBtn = document.getElementById('googleLoginBtn');
-const logoutBtn = document.getElementById('logoutBtn');
-const logoutFromTicketBtn = document.getElementById('logoutFromTicketBtn');
-const registrationForm = document.getElementById('registrationForm');
-const submitBtn = document.getElementById('submitBtn');
-const snkCheckbox = document.getElementById('snkCheckbox');
-const snkError = document.getElementById('snkError');
-const downloadTicketBtn = document.getElementById('downloadTicketBtn');
-
-const userPhoto = document.getElementById('userPhoto');
-const userPhotoFallback = document.getElementById('userPhotoFallback');
-const userNameDisplay = document.getElementById('userNameDisplay');
-const userEmailDisplay = document.getElementById('userEmailDisplay');
-
-const inputName = document.getElementById('inputName');
-const inputWhatsApp = document.getElementById('inputWhatsApp');
-const inputClub = document.getElementById('inputClub');
-const inputCar = document.getElementById('inputCar');
-const inputEngine = document.getElementById('inputEngine');
-
-// ============================================================
-// UTILITY FUNCTIONS
-// ============================================================
-function showLoading(text, subtext) {
-    loadingText.textContent = text || "Loading...";
-    loadingSub.textContent = subtext || "";
-    loadingOverlay.classList.remove('hidden');
-    debug("LOADING: " + text);
-}
-
-function hideLoading() {
-    loadingOverlay.classList.add('hidden');
-    debug("LOADING hidden");
-}
-
-function showSection(section) {
-    [loginSection, formSection, ticketSection].forEach(s => {
-        if (s === section) {
-            s.classList.remove('hidden');
-            s.querySelectorAll('.fade-in, .slide-in').forEach(el => {
-                el.classList.add('visible');
-            });
-        } else {
-            s.classList.add('hidden');
-        }
-    });
-    debug("SECTION: " + section.id);
-}
-
-function generateTicketId() {
-    const timestamp = Date.now().toString(36).toUpperCase();
-    return 'GT-' + timestamp;
-}
-
-function formatWhatsApp(num) {
-    let clean = num.replace(/\D/g, '');
-    if (clean.startsWith('0')) clean = clean.substring(1);
-    if (clean.startsWith('62')) clean = clean.substring(2);
-    return '+62 ' + clean;
-}
-
-// ============================================================
-// AUTHENTICATION
-// ============================================================
-googleLoginBtn.addEventListener('click', async () => {
-    showLoading("Connecting to Google...");
-    const provider = new firebase.auth.GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: 'select_account' });
-
-    try {
-        debug("Auth: attempting signInWithPopup...");
-        await auth.signInWithPopup(provider);
-        debug("Auth: popup success");
-    } catch (error) {
-        debug("Auth: popup FAILED: " + error.code + " - " + error.message);
-        if (error.code === 'auth/popup-blocked' || error.code === 'auth/unauthorized-domain' || error.message.includes('COOP')) {
-            debug("Auth: falling back to redirect...");
-            await auth.signInWithRedirect(provider);
-        } else {
-            alert("Login failed: " + error.message);
-            hideLoading();
-        }
-    }
-});
-
-logoutBtn.addEventListener('click', () => auth.signOut());
-logoutFromTicketBtn.addEventListener('click', () => auth.signOut());
-
-// Handle redirect result
-auth.getRedirectResult().then((result) => {
-    if (result.user) {
-        debug("Auth: redirect result success, user=" + result.user.uid);
-    }
-}).catch((error) => {
-    debug("Auth: redirect result error: " + error.message);
-});
-
-// ============================================================
-// AUTH STATE OBSERVER
-// ============================================================
-auth.onAuthStateChanged(async (user) => {
-    if (user) {
-        showLoading("Checking registration status...");
-        debug("AuthState: user logged in, uid=" + user.uid);
-
-        const displayName = user.displayName || 'Participant';
-        const email = user.email || '';
-        const photoURL = user.photoURL || '';
-
-        userNameDisplay.textContent = displayName;
-        userEmailDisplay.textContent = email;
-
-        if (photoURL) {
-            userPhoto.src = photoURL;
-            userPhoto.classList.remove('hidden');
-            userPhotoFallback.classList.add('hidden');
-        } else {
-            userPhoto.classList.add('hidden');
-            userPhotoFallback.classList.remove('hidden');
-        }
-
-        inputName.value = displayName;
-
-        try {
-            debug("Firestore: checking doc users/" + user.uid);
-            const userDoc = await db.collection('users').doc(user.uid).get();
-            debug("Firestore: doc exists=" + userDoc.exists);
-
-            if (userDoc.exists) {
-                const data = userDoc.data();
-                renderTicket(data);
-                showSection(ticketSection);
-            } else {
-                showSection(formSection);
-            }
-        } catch (error) {
-            debug("Firestore ERROR: " + error.code + " - " + error.message);
-            alert("Error checking registration: " + error.message);
-            showSection(formSection);
-        }
-
-        hideLoading();
-    } else {
-        debug("AuthState: no user");
-        showSection(loginSection);
-        hideLoading();
-    }
-});
-
-// ============================================================
-// FORM SUBMISSION - SUPER DEFENSIVE WITH TIMEOUT
-// ============================================================
-registrationForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    debug("SUBMIT: form submitted");
-
-    // Validate SNK
-    if (!snkCheckbox.checked) {
-        snkError.classList.remove('hidden');
-        snkCheckbox.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        debug("SUBMIT: SNK not checked");
-        return;
-    }
-    snkError.classList.add('hidden');
-
-    const user = auth.currentUser;
-    if (!user) {
-        alert("Please sign in first.");
-        debug("SUBMIT: no currentUser!");
-        return;
-    }
-
-    showLoading("Submitting registration...", "Saving to database");
-    submitBtn.disabled = true;
-
-    const ticketId = generateTicketId();
-    const now = new Date();
-
-    const formData = {
-        uid: user.uid,
-        name: inputName.value.trim(),
-        email: user.email,
-        whatsapp: inputWhatsApp.value.trim(),
-        clubTeam: inputClub.value.trim(),
-        car: inputCar.value.trim(),
-        engine: inputEngine.value,
-        photoURL: user.photoURL || '',
-        ticketId: ticketId,
-        submitted: true,
-        createdAt: firebase.firestore.Timestamp.fromDate(now)
+    // ============================================================
+    // FIREBASE CONFIG - UPDATE THIS!
+    // ============================================================
+    var firebaseConfig = {
+  apiKey: "AIzaSyAv6UqNaP22yP6ur6R0C7vK2fwjYnCIR6c",
+  authDomain: "form-regis-gdsi.firebaseapp.com",
+  projectId: "form-regis-gdsi",
+  storageBucket: "form-regis-gdsi.firebasestorage.app",
+  messagingSenderId: "849442718629",
+  appId: "1:849442718629:web:cb06c97c09f61912501e4c"
     };
 
-    debug("SUBMIT: data prepared, ticketId=" + ticketId);
+    var GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJRfMPHKUbcgNA2tgxGv56KgCTpS9-tX-ZZdsYc-JVd8Mb4cWYiApuLfTGXFjAJJIm/exec";
 
-    // SAFETY TIMEOUT: if nothing happens in 15 seconds, force unstick
-    const safetyTimeout = setTimeout(() => {
-        debug("SUBMIT: SAFETY TIMEOUT TRIGGERED! Something is stuck.");
-        hideLoading();
-        submitBtn.disabled = false;
-        alert("Submit timed out. Check console (Ctrl+Shift+D) for debug info. Common causes:
+    // ============================================================
+    // WAIT FOR FIREBASE SDK TO LOAD
+    // ============================================================
+    function waitForFirebase(callback, attempts) {
+        attempts = attempts || 0;
+        if (typeof firebase !== 'undefined' && firebase.initializeApp) {
+            window._gdsiLog('SDK: Firebase loaded after ' + attempts + ' checks');
+            callback();
+        } else if (attempts < 50) {
+            setTimeout(function() { waitForFirebase(callback, attempts + 1); }, 200);
+        } else {
+            window._gdsiLog('SDK: Firebase FAILED to load after 10 seconds');
+            showFatalError('Firebase SDK failed to load. Check internet connection.');
+        }
+    }
+
+    function showFatalError(msg) {
+        window._gdsiLog('FATAL: ' + msg);
+        var overlay = document.getElementById('loadingOverlay');
+        if (overlay) {
+            overlay.classList.remove('hidden');
+            document.getElementById('loadingText').textContent = 'Error';
+            document.getElementById('loadingSub').textContent = msg;
+        }
+    }
+
+    // ============================================================
+    // INITIALIZE APP
+    // ============================================================
+    waitForFirebase(function() {
+        window._gdsiLog('INIT: Starting Firebase initialization...');
+
+        // Check if config is still placeholder
+        if (firebaseConfig.apiKey === 'YOUR_API_KEY') {
+            showFatalError('Firebase config not set! Please update apiKey in form.html');
+            return;
+        }
+
+        try {
+            firebase.initializeApp(firebaseConfig);
+            window._gdsiLog('INIT: Firebase app initialized OK');
+        } catch (e) {
+            showFatalError('Firebase init failed: ' + e.message);
+            return;
+        }
+
+        var auth = firebase.auth();
+        var db = firebase.firestore();
+        window._gdsiLog('INIT: Auth and Firestore ready');
+
+        // ============================================================
+        // DOM ELEMENTS
+        // ============================================================
+        var loadingOverlay = document.getElementById('loadingOverlay');
+        var loadingText = document.getElementById('loadingText');
+        var loadingSub = document.getElementById('loadingSub');
+        var loginSection = document.getElementById('loginSection');
+        var formSection = document.getElementById('formSection');
+        var ticketSection = document.getElementById('ticketSection');
+        var googleLoginBtn = document.getElementById('googleLoginBtn');
+        var logoutBtn = document.getElementById('logoutBtn');
+        var logoutFromTicketBtn = document.getElementById('logoutFromTicketBtn');
+        var registrationForm = document.getElementById('registrationForm');
+        var submitBtn = document.getElementById('submitBtn');
+        var snkCheckbox = document.getElementById('snkCheckbox');
+        var snkError = document.getElementById('snkError');
+        var downloadTicketBtn = document.getElementById('downloadTicketBtn');
+
+        var userPhoto = document.getElementById('userPhoto');
+        var userPhotoFallback = document.getElementById('userPhotoFallback');
+        var userNameDisplay = document.getElementById('userNameDisplay');
+        var userEmailDisplay = document.getElementById('userEmailDisplay');
+
+        var inputName = document.getElementById('inputName');
+        var inputWhatsApp = document.getElementById('inputWhatsApp');
+        var inputClub = document.getElementById('inputClub');
+        var inputCar = document.getElementById('inputCar');
+        var inputEngine = document.getElementById('inputEngine');
+
+        // ============================================================
+        // UI HELPERS
+        // ============================================================
+        function showLoading(text, subtext) {
+            loadingText.textContent = text || 'Loading...';
+            loadingSub.textContent = subtext || '';
+            loadingOverlay.classList.remove('hidden');
+            window._gdsiLog('UI: Loading - ' + text);
+        }
+
+        function hideLoading() {
+            loadingOverlay.classList.add('hidden');
+            window._gdsiLog('UI: Loading hidden');
+        }
+
+        function showSection(section) {
+            [loginSection, formSection, ticketSection].forEach(function(s) {
+                if (s === section) {
+                    s.classList.remove('hidden');
+                    s.querySelectorAll('.fade-in, .slide-in').forEach(function(el) {
+                        el.classList.add('visible');
+                    });
+                } else {
+                    s.classList.add('hidden');
+                }
+            });
+            window._gdsiLog('UI: Show ' + section.id);
+        }
+
+        function generateTicketId() {
+            return 'GT-' + Date.now().toString(36).toUpperCase();
+        }
+
+        function formatWhatsApp(num) {
+            var clean = num.replace(/\D/g, '');
+            if (clean.startsWith('0')) clean = clean.substring(1);
+            if (clean.startsWith('62')) clean = clean.substring(2);
+            return '+62 ' + clean;
+        }
+
+        // ============================================================
+        // RENDER TICKET
+        // ============================================================
+        function renderTicket(data) {
+            window._gdsiLog('TICKET: render ' + data.name);
+            document.getElementById('ticketIdDisplay').textContent = data.ticketId;
+            document.getElementById('ticketName').textContent = data.name;
+            document.getElementById('ticketEmail').textContent = data.email;
+            document.getElementById('ticketClub').textContent = data.clubTeam;
+            document.getElementById('ticketCar').textContent = data.car;
+            document.getElementById('ticketEngine').textContent = data.engine;
+            document.getElementById('ticketWhatsApp').textContent = formatWhatsApp(data.whatsapp);
+
+            var ticketPhoto = document.getElementById('ticketPhoto');
+            var ticketPhotoFallback = document.getElementById('ticketPhotoFallback');
+
+            if (data.photoURL) {
+                ticketPhoto.src = data.photoURL;
+                ticketPhoto.classList.remove('hidden');
+                ticketPhotoFallback.classList.add('hidden');
+            } else {
+                ticketPhoto.classList.add('hidden');
+                ticketPhotoFallback.classList.remove('hidden');
+            }
+        }
+
+        // ============================================================
+        // LOGIN
+        // ============================================================
+        googleLoginBtn.addEventListener('click', function() {
+            window._gdsiLog('LOGIN: button clicked');
+            showLoading('Connecting to Google...');
+
+            var provider = new firebase.auth.GoogleAuthProvider();
+            provider.setCustomParameters({ prompt: 'select_account' });
+
+            auth.signInWithPopup(provider).then(function() {
+                window._gdsiLog('LOGIN: popup success');
+            }).catch(function(error) {
+                window._gdsiLog('LOGIN: popup error ' + error.code);
+                if (error.code === 'auth/popup-blocked' || error.code === 'auth/unauthorized-domain') {
+                    window._gdsiLog('LOGIN: fallback to redirect');
+                    auth.signInWithRedirect(provider);
+                } else {
+                    alert('Login failed: ' + error.message);
+                    hideLoading();
+                }
+            });
+        });
+
+        logoutBtn.addEventListener('click', function() { auth.signOut(); });
+        logoutFromTicketBtn.addEventListener('click', function() { auth.signOut(); });
+
+        auth.getRedirectResult().then(function(result) {
+            if (result.user) window._gdsiLog('LOGIN: redirect ok');
+        }).catch(function(e) {
+            window._gdsiLog('LOGIN: redirect error ' + e.message);
+        });
+
+        // ============================================================
+        // AUTH STATE
+        // ============================================================
+        auth.onAuthStateChanged(function(user) {
+            if (user) {
+                window._gdsiLog('AUTH: user in, uid=' + user.uid.substring(0, 8) + '...');
+                showLoading('Checking registration...');
+
+                var displayName = user.displayName || 'Participant';
+                var email = user.email || '';
+                var photoURL = user.photoURL || '';
+
+                userNameDisplay.textContent = displayName;
+                userEmailDisplay.textContent = email;
+
+                if (photoURL) {
+                    userPhoto.src = photoURL;
+                    userPhoto.classList.remove('hidden');
+                    userPhotoFallback.classList.add('hidden');
+                }
+                inputName.value = displayName;
+
+                window._gdsiLog('AUTH: checking Firestore users/' + user.uid.substring(0, 8));
+
+                db.collection('users').doc(user.uid).get().then(function(userDoc) {
+                    window._gdsiLog('AUTH: doc exists=' + userDoc.exists);
+                    if (userDoc.exists) {
+                        renderTicket(userDoc.data());
+                        showSection(ticketSection);
+                    } else {
+                        showSection(formSection);
+                    }
+                    hideLoading();
+                }).catch(function(error) {
+                    window._gdsiLog('AUTH: Firestore ERROR ' + error.code + ' - ' + error.message);
+                    alert('Firestore error: ' + error.message);
+                    showSection(formSection);
+                    hideLoading();
+                });
+
+            } else {
+                window._gdsiLog('AUTH: no user');
+                showSection(loginSection);
+                hideLoading();
+            }
+        });
+
+        // ============================================================
+        // FORM SUBMIT
+        // ============================================================
+        registrationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            window._gdsiLog('SUBMIT: clicked');
+
+            if (!snkCheckbox.checked) {
+                snkError.classList.remove('hidden');
+                snkCheckbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+            snkError.classList.add('hidden');
+
+            var user = auth.currentUser;
+            if (!user) {
+                alert('Please sign in first');
+                return;
+            }
+
+            showLoading('Submitting...', 'Saving data');
+            submitBtn.disabled = true;
+
+            var ticketId = generateTicketId();
+            var now = new Date();
+
+            var formData = {
+                uid: user.uid,
+                name: inputName.value.trim(),
+                email: user.email,
+                whatsapp: inputWhatsApp.value.trim(),
+                clubTeam: inputClub.value.trim(),
+                car: inputCar.value.trim(),
+                engine: inputEngine.value,
+                photoURL: user.photoURL || '',
+                ticketId: ticketId,
+                submitted: true,
+                createdAt: firebase.firestore.Timestamp.fromDate(now)
+            };
+
+            window._gdsiLog('SUBMIT: ticketId=' + ticketId);
+
+            // Safety timeout
+            var safetyTimeout = setTimeout(function() {
+                window._gdsiLog('SUBMIT: TIMEOUT! Stuck for 15s');
+                hideLoading();
+                submitBtn.disabled = false;
+                alert('Submit timed out. Check debug log. Causes:
 1. Firestore rules not published
-2. Firebase config wrong
-3. No internet connection");
-    }, 15000);
+2. Wrong Firebase config
+3. No internet');
+            }, 15000);
 
-    try {
-        // STEP 1: Save to Firestore
-        debug("STEP 1: Saving to Firestore...");
-        loadingSub.textContent = "Saving to Firestore...";
+            // Step 1: Firestore
+            window._gdsiLog('SUBMIT: Step 1 - Firestore');
+            loadingSub.textContent = 'Saving to database...';
 
-        await db.collection('users').doc(user.uid).set(formData);
-        debug("STEP 1: Firestore save OK");
+            db.collection('users').doc(user.uid).set(formData).then(function() {
+                window._gdsiLog('SUBMIT: Step 1 OK');
+                clearTimeout(safetyTimeout);
 
-        // STEP 2: Send to Google Sheets (NON-BLOCKING)
-        debug("STEP 2: Sending to Google Sheets (non-blocking)...");
-        loadingSub.textContent = "Syncing to spreadsheet...";
+                // Step 2: GAS (fire and forget)
+                window._gdsiLog('SUBMIT: Step 2 - GAS (non-blocking)');
+                var sheetData = {
+                    uid: formData.uid, name: formData.name, email: formData.email,
+                    whatsapp: formData.whatsapp, clubTeam: formData.clubTeam,
+                    car: formData.car, engine: formData.engine,
+                    ticketId: formData.ticketId, timestamp: now.toISOString()
+                };
+                fetch(GAS_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(sheetData)
+                }).then(function() {
+                    window._gdsiLog('SUBMIT: GAS OK');
+                }).catch(function(err) {
+                    window._gdsiLog('SUBMIT: GAS skip (' + err.message + ')');
+                });
 
-        const sheetData = {
-            uid: formData.uid,
-            name: formData.name,
-            email: formData.email,
-            whatsapp: formData.whatsapp,
-            clubTeam: formData.clubTeam,
-            car: formData.car,
-            engine: formData.engine,
-            ticketId: formData.ticketId,
-            timestamp: now.toISOString()
-        };
+                // Step 3: Show ticket
+                window._gdsiLog('SUBMIT: Step 3 - Ticket');
+                renderTicket(formData);
+                showSection(ticketSection);
+                hideLoading();
+                submitBtn.disabled = false;
+                window._gdsiLog('SUBMIT: DONE!');
 
-        // Fire-and-forget with no await
-        fetch(GAS_WEB_APP_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(sheetData)
-        }).then(() => {
-            debug("STEP 2: GAS sent OK");
-        }).catch(err => {
-            debug("STEP 2: GAS failed (non-critical): " + err.message);
+            }).catch(function(error) {
+                clearTimeout(safetyTimeout);
+                window._gdsiLog('SUBMIT: FIRESTORE ERROR ' + error.code + ' - ' + error.message);
+                alert('Save failed: ' + error.message);
+                hideLoading();
+                submitBtn.disabled = false;
+            });
         });
 
-        // STEP 3: Show ticket immediately
-        debug("STEP 3: Rendering ticket...");
-        loadingSub.textContent = "Generating ticket...";
-
-        renderTicket(formData);
-        showSection(ticketSection);
-
-        debug("SUBMIT: COMPLETE!");
-        clearTimeout(safetyTimeout);
-
-    } catch (error) {
-        clearTimeout(safetyTimeout);
-        debug("SUBMIT ERROR: " + error.code + " - " + error.message);
-        alert("Registration failed:
-" + error.message + "
-
-Check debug panel (Ctrl+Shift+D) for details.");
-    } finally {
-        clearTimeout(safetyTimeout);
-        hideLoading();
-        submitBtn.disabled = false;
-    }
-});
-
-snkCheckbox.addEventListener('change', () => {
-    if (snkCheckbox.checked) snkError.classList.add('hidden');
-});
-
-// ============================================================
-// TICKET RENDERING
-// ============================================================
-function renderTicket(data) {
-    debug("TICKET: rendering for " + data.name);
-    document.getElementById('ticketIdDisplay').textContent = data.ticketId;
-    document.getElementById('ticketName').textContent = data.name;
-    document.getElementById('ticketEmail').textContent = data.email;
-    document.getElementById('ticketClub').textContent = data.clubTeam;
-    document.getElementById('ticketCar').textContent = data.car;
-    document.getElementById('ticketEngine').textContent = data.engine;
-    document.getElementById('ticketWhatsApp').textContent = formatWhatsApp(data.whatsapp);
-
-    const ticketPhoto = document.getElementById('ticketPhoto');
-    const ticketPhotoFallback = document.getElementById('ticketPhotoFallback');
-
-    if (data.photoURL) {
-        ticketPhoto.src = data.photoURL;
-        ticketPhoto.classList.remove('hidden');
-        ticketPhotoFallback.classList.add('hidden');
-    } else {
-        ticketPhoto.classList.add('hidden');
-        ticketPhotoFallback.classList.remove('hidden');
-    }
-}
-
-// ============================================================
-// TICKET DOWNLOAD
-// ============================================================
-downloadTicketBtn.addEventListener('click', async () => {
-    showLoading("Generating ticket image...");
-
-    try {
-        const ticketElement = document.getElementById('ticketCard');
-        const canvas = await html2canvas(ticketElement, {
-            scale: 3,
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: null,
-            logging: false
+        snkCheckbox.addEventListener('change', function() {
+            if (snkCheckbox.checked) snkError.classList.add('hidden');
         });
 
-        const link = document.createElement('a');
-        link.download = `GDSI-Ticket-${document.getElementById('ticketIdDisplay').textContent}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
+        // ============================================================
+        // TICKET DOWNLOAD
+        // ============================================================
+        downloadTicketBtn.addEventListener('click', function() {
+            showLoading('Generating image...');
+            html2canvas(document.getElementById('ticketCard'), {
+                scale: 3, useCORS: true, allowTaint: true, backgroundColor: null, logging: false
+            }).then(function(canvas) {
+                var link = document.createElement('a');
+                link.download = 'GDSI-Ticket-' + document.getElementById('ticketIdDisplay').textContent + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                hideLoading();
+            }).catch(function(err) {
+                alert('Download failed: ' + err.message);
+                hideLoading();
+            });
+        });
 
-    } catch (error) {
-        alert("Failed to generate ticket: " + error.message);
-    } finally {
+        window._gdsiLog('INIT: All event listeners attached');
+        showSection(loginSection);
         hideLoading();
-    }
-});
 
-// ============================================================
-// INITIAL ANIMATIONS
-// ============================================================
-document.addEventListener('DOMContentLoaded', () => {
-    debug("PAGE: DOMContentLoaded");
-    document.querySelectorAll('.fade-in').forEach((el, index) => {
-        setTimeout(() => el.classList.add('visible'), index * 150);
+    }); // end waitForFirebase
+
+    // ============================================================
+    // ANIMATIONS (runs immediately, no Firebase needed)
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        window._gdsiLog('DOM: ready');
+        document.querySelectorAll('.fade-in').forEach(function(el, i) {
+            setTimeout(function() { el.classList.add('visible'); }, i * 150);
+        });
     });
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.slide-in').forEach(el => observer.observe(el));
-});
+})();
 </script>
 </body>
 </html>
