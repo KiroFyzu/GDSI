@@ -135,6 +135,11 @@
         <h1 class="font-headline-xl text-primary uppercase tracking-tighter text-3xl md:text-5xl mb-1">GDSI</h1>
         <h2 class="font-headline-lg-mobile text-on-surface text-center mb-2 text-lg md:text-2xl">Grand Drift Series Indonesia</h2>
         <p class="text-on-surface-variant text-center font-label-sm uppercase tracking-widest text-xs">Registrasi Driver / Member GDSI</p>
+      <div class="mt-3 flex gap-2 justify-center">
+        <a href="gdsi_rules.html" target="_blank" class="text-xs text-primary/70 hover:text-primary transition-colors underline">Lihat Rules</a>
+        <span class="text-on-surface-variant/30">|</span>
+        <a href="gdsi_tnc.html" target="_blank" class="text-xs text-primary/70 hover:text-primary transition-colors underline">Lihat S&K</a>
+      </div>
       </div>
 
       <!-- Profile Bar -->
@@ -187,10 +192,14 @@
             </label>
             <div class="flex rounded-lg overflow-hidden border border-outline-variant/30 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary focus-within:shadow-[0_0_15px_rgba(255,180,168,0.15)] transition-all duration-300 bg-surface relative">
               <!-- Country Trigger -->
-              <button type="button" id="country-trigger" class="country-trigger">
+              <div id="country-trigger" class="country-trigger relative">
                 <span id="country-display" class="text-on-surface text-sm font-medium">+62</span>
                 <span class="material-symbols-outlined text-on-surface-variant text-[18px]">arrow_drop_down</span>
-              </button>
+                <!-- Dropdown -->
+                <div id="country-dropdown" class="country-dropdown hidden">
+  <div id="country-list" class="country-list"></div>
+</div>
+              </div>
               <input type="tel" name="whatsapp-number" required
                      class="w-full bg-transparent border-none py-3 px-4 text-on-surface placeholder-on-surface-variant/40 focus:ring-0 outline-none"
                      placeholder="8123456789"
@@ -271,7 +280,7 @@
                    class="w-5 h-5 rounded border-outline-variant/50 bg-surface-container text-primary focus:ring-primary focus:ring-offset-background cursor-pointer transition-colors accent-primary">
           </div>
           <label for="tnc" class="text-sm text-on-surface-variant cursor-pointer select-none pt-0.5 leading-relaxed">
-            Saya menyetujui <a href="#" class="text-primary hover:underline hover:text-primary-container transition-colors">Syarat & Ketentuan / TnC GDSI</a> serta regulasi balap yang berlaku.
+            Saya menyetujui <a href="gdsi_tnc.html" target="_blank" class="text-primary hover:underline hover:text-primary-container transition-colors">Syarat & Ketentuan / TnC GDSI</a> serta regulasi balap yang berlaku.
           </label>
         </div>
 
@@ -298,23 +307,6 @@
           </div>
         </div>
       </form>
-    </div>
-  </div>
-
-  <!-- ============================================
-       COUNTRY MODAL (Popup Style - No Search)
-       ============================================ -->
-  <div id="country-modal" class="country-modal-backdrop hidden">
-    <div class="country-modal">
-      <div class="country-modal-header">
-        <h3 class="font-headline-lg text-on-surface text-lg">Pilih Negara</h3>
-        <button type="button" id="country-modal-close" class="country-modal-close">
-          <span class="material-symbols-outlined text-[22px]">close</span>
-        </button>
-      </div>
-      <div class="country-modal-body">
-        <div id="country-list" class="country-list"></div>
-      </div>
     </div>
   </div>
 
