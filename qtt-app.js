@@ -1,11 +1,9 @@
-// qtt-app.js — QTT Submission with Auto-Compression (ffmpeg.wasm)
+// qtt-app.js — QTT Submission with Auto-Compression (ffmpeg.wasm) + Fallback
 // ============================================================
-// Architecture:
-//   Frontend → ffmpeg.wasm (compress if >20MB) → base64 → Apps Script → Drive + Sheets
-//   After success → Firestore (metadata ONLY)
-//
-// MAINTENANCE MODE:
-//   Toggle const MAINTENANCE_MODE below
+// Logic:
+//   File <=20MB → langsung base64 (no compression)
+//   File 20-35MB → coba ffmpeg compress. Kalau gagal → fallback base64 langsung (masih aman <50MB)
+//   File >35MB → wajib ffmpeg compress. Kalau gagal → error, suruh kompres manual
 // ============================================================
 
 import { auth, db } from './firebase.js';
@@ -14,11 +12,11 @@ import { googleProvider } from './firebase.js';
 import { doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
 import { showToast, formatTimestamp, escapeHtml } from './utils.js';
 
-// ffmpeg.wasm — auto-compression for large videos
-import { FFmpeg } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js';
+// ffmpeg.wasm — lazy loaded only when needed
+let FFmpeg, fetchFile;
 
 // ============================================
-// ⚙️ MAINTENANCE MODE — GANTI INI UNTUK ON/OFF
+// ⚙️ MAINTENANCE MODE
 // ============================================
 const MAINTENANCE_MODE = false;
 
@@ -32,6 +30,7 @@ const ALLOWED_TYPES = ['video/mp4', 'video/quicktime', 'video/webm'];
 const ALLOWED_EXTS = ['.mp4', '.mov', '.webm'];
 const MAX_SIZE_MB = 100;
 const COMPRESS_THRESHOLD_MB = 20;
+const BASE64_SAFE_MB = 35; // 35MB → ~47MB base64, masih aman di bawah 50MB limit
 
 // ============================================
 // DOM REFERENCES
@@ -290,36 +289,77 @@ async function handleFileSelect(file) {
   selectedFile = file;
   const sizeMB = file.size / (1024 * 1024);
 
-  if (sizeMB > COMPRESS_THRESHOLD_MB) {
-    showToast(`Video ${sizeMB.toFixed(1)}MB — mengompres dulu...`, 'info', 4000);
-    try {
-      compressedFile = await compressVideo(file);
-      const compressedMB = compressedFile.size / (1024 * 1024);
-      showToast(`Kompresi selesai: ${compressedMB.toFixed(1)}MB`, 'success');
-      showFileInfo(compressedFile, true);
-      previewFile(compressedFile);
-    } catch (err) {
-      console.error('Compression failed:', err);
-      showError('Gagal kompres video. Coba file lebih kecil atau kompres manual di HP.');
-      selectedFile = null;
-      return;
-    }
-  } else {
+  // LOGIC BARU:
+  // <=20MB: langsung, no compress
+  // 20-35MB: coba compress. Kalau gagal → fallback langsung (masih aman <50MB base64)
+  // >35MB: wajib compress. Kalau gagal → error manual
+  if (sizeMB <= COMPRESS_THRESHOLD_MB) {
     compressedFile = file;
     showFileInfo(file, false);
     previewFile(file);
+    showToast(`Video ${sizeMB.toFixed(1)}MB — siap submit`, 'success');
+    enableSubmit(true);
+  } else if (sizeMB <= BASE64_SAFE_MB) {
+    showToast(`Video ${sizeMB.toFixed(1)}MB — mengompres...`, 'info', 3000);
+    try {
+      compressedFile = await tryCompress(file);
+      const finalMB = compressedFile.size / (1024 * 1024);
+      showToast(`Kompresi OK: ${finalMB.toFixed(1)}MB`, 'success');
+      showFileInfo(compressedFile, true);
+      previewFile(compressedFile);
+      enableSubmit(true);
+    } catch (err) {
+      console.warn('Compress failed, fallback to original:', err);
+      // Fallback: kirim original (masih aman <50MB)
+      compressedFile = file;
+      showToast(`Kompresi gagal, pakai original ${sizeMB.toFixed(1)}MB`, 'warning');
+      showFileInfo(file, false);
+      previewFile(file);
+      enableSubmit(true);
+    }
+  } else {
+    // >35MB: wajib kompresi
+    showToast(`Video ${sizeMB.toFixed(1)}MB — wajib kompresi...`, 'info', 4000);
+    try {
+      compressedFile = await tryCompress(file);
+      const finalMB = compressedFile.size / (1024 * 1024);
+      showToast(`Kompresi OK: ${finalMB.toFixed(1)}MB`, 'success');
+      showFileInfo(compressedFile, true);
+      previewFile(compressedFile);
+      enableSubmit(true);
+    } catch (err) {
+      console.error('Compress failed (file >35MB):', err);
+      showError('Gagal kompres video. File terlalu besar. Kompres manual di HP (export 720p) lalu coba lagi.');
+      selectedFile = null;
+      compressedFile = null;
+      return;
+    }
   }
-  enableSubmit(true);
 }
 
 // ============================================
-// FFMPEG COMPRESSION
+// COMPRESSION WITH FALLBACK & DETAIL ERROR
 // ============================================
-async function compressVideo(file) {
+async function tryCompress(file) {
+  // Lazy load ffmpeg modules
+  if (!FFmpeg) {
+    const ffmpegMod = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js');
+    const utilMod = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js');
+    FFmpeg = ffmpegMod.FFmpeg;
+    fetchFile = utilMod.fetchFile;
+  }
+
   if (!ffmpeg) {
     ffmpeg = new FFmpeg();
     showCompression(true, 'Loading ffmpeg... (pertama kali, ~24MB)');
-    await ffmpeg.load();
+    try {
+      await ffmpeg.load();
+      console.log('[ffmpeg] load OK');
+    } catch (loadErr) {
+      console.error('[ffmpeg] load failed:', loadErr);
+      showCompression(false);
+      throw new Error('ffmpeg load failed: ' + loadErr.message);
+    }
   }
 
   showCompression(true, 'Mengompres video...');
@@ -327,31 +367,57 @@ async function compressVideo(file) {
   const inputName = 'input' + ext;
   const outputName = 'output.mp4';
 
-  await ffmpeg.writeFile(inputName, new Uint8Array(await file.arrayBuffer()));
+  try {
+    console.log('[ffmpeg] writing file...');
+    await ffmpeg.writeFile(inputName, await fetchFile(file));
+    console.log('[ffmpeg] write OK');
+  } catch (writeErr) {
+    console.error('[ffmpeg] write failed:', writeErr);
+    showCompression(false);
+    throw new Error('ffmpeg write failed: ' + writeErr.message);
+  }
 
   const sizeMB = file.size / (1024 * 1024);
-  let crf = '28', scale = 'scale=-2:720';
-  if (sizeMB > 80) { crf = '32'; scale = 'scale=-2:480'; }
-  else if (sizeMB > 50) { crf = '30'; scale = 'scale=-2:540'; }
+  let crf = '30', scale = 'scale=-2:480'; // Default: 480p agresif (lebih ringan di mobile)
+  if (sizeMB > 80) { crf = '33'; scale = 'scale=-2:360'; }
+  else if (sizeMB > 50) { crf = '32'; scale = 'scale=-2:420'; }
+  else if (sizeMB <= 35) { crf = '28'; scale = 'scale=-2:540'; } // 20-35MB: 540p, kualitas lebih bagus
 
   ffmpeg.on('progress', ({ progress }) => {
     const pct = Math.min(Math.round(progress * 100), 99);
     showCompression(true, `Mengompres... ${pct}%`);
   });
 
-  await ffmpeg.exec([
-    '-i', inputName, '-c:v', 'libx264', '-crf', crf, '-preset', 'fast',
-    '-vf', scale, '-c:a', 'aac', '-b:a', '128k',
-    '-movflags', '+faststart', '-y', outputName
-  ]);
+  try {
+    console.log('[ffmpeg] exec start, CRF=' + crf + ', scale=' + scale);
+    await ffmpeg.exec([
+      '-i', inputName, '-c:v', 'libx264', '-crf', crf, '-preset', 'fast',
+      '-vf', scale, '-c:a', 'aac', '-b:a', '128k',
+      '-movflags', '+faststart', '-y', outputName
+    ]);
+    console.log('[ffmpeg] exec OK');
+  } catch (execErr) {
+    console.error('[ffmpeg] exec failed:', execErr);
+    showCompression(false);
+    throw new Error('ffmpeg exec failed: ' + execErr.message);
+  }
 
-  const data = await ffmpeg.readFile(outputName);
-  const compressed = new File([data], file.name.replace(/\.[^.]+$/, '_compressed.mp4'), { type: 'video/mp4' });
+  try {
+    console.log('[ffmpeg] reading output...');
+    const data = await ffmpeg.readFile(outputName);
+    console.log('[ffmpeg] read OK, size:', data.byteLength);
+    const compressed = new File([data], file.name.replace(/\.[^.]+$/, '_compressed.mp4'), { type: 'video/mp4' });
 
-  await ffmpeg.deleteFile(inputName);
-  await ffmpeg.deleteFile(outputName);
-  showCompression(false);
-  return compressed;
+    // Cleanup
+    await ffmpeg.deleteFile(inputName).catch(() => {});
+    await ffmpeg.deleteFile(outputName).catch(() => {});
+    showCompression(false);
+    return compressed;
+  } catch (readErr) {
+    console.error('[ffmpeg] read failed:', readErr);
+    showCompression(false);
+    throw new Error('ffmpeg read failed: ' + readErr.message);
+  }
 }
 
 function showCompression(show, text = '') {
