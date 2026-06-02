@@ -1,9 +1,10 @@
-// qtt-app.js — QTT Submission with Auto-Compression (ffmpeg.wasm) + Fallback
+// qtt-app.js — QTT Submission with FormData Binary Upload + Auto-Compress Fallback
 // ============================================================
+// Apps Script: Binary Upload Version (FormData, NOT base64)
 // Logic:
-//   File <=20MB → langsung base64 (no compression)
-//   File 20-35MB → coba ffmpeg compress. Kalau gagal → fallback base64 langsung (masih aman <50MB)
-//   File >35MB → wajib ffmpeg compress. Kalau gagal → error, suruh kompres manual
+//   File <=20MB → kirim original via FormData
+//   File 20-35MB → coba ffmpeg compress. Gagal → kirim original (aman <50MB)
+//   File >35MB → wajib compress. Gagal → error manual
 // ============================================================
 
 import { auth, db } from './firebase.js';
@@ -11,9 +12,6 @@ import { onAuthStateChanged, signInWithPopup, signOut } from 'https://www.gstati
 import { googleProvider } from './firebase.js';
 import { doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
 import { showToast, formatTimestamp, escapeHtml } from './utils.js';
-
-// ffmpeg.wasm — lazy loaded only when needed
-let FFmpeg, fetchFile;
 
 // ============================================
 // ⚙️ MAINTENANCE MODE
@@ -30,7 +28,7 @@ const ALLOWED_TYPES = ['video/mp4', 'video/quicktime', 'video/webm'];
 const ALLOWED_EXTS = ['.mp4', '.mov', '.webm'];
 const MAX_SIZE_MB = 100;
 const COMPRESS_THRESHOLD_MB = 20;
-const BASE64_SAFE_MB = 35; // 35MB → ~47MB base64, masih aman di bawah 50MB limit
+const BASE64_SAFE_MB = 35; // FormData binary ~same size, no base64 bloat
 
 // ============================================
 // DOM REFERENCES
@@ -90,7 +88,6 @@ let registrationData = null;
 let selectedFile = null;
 let compressedFile = null;
 let isSubmitting = false;
-let ffmpeg = null;
 
 // ============================================
 // INIT
@@ -289,17 +286,15 @@ async function handleFileSelect(file) {
   selectedFile = file;
   const sizeMB = file.size / (1024 * 1024);
 
-  // LOGIC BARU:
-  // <=20MB: langsung, no compress
-  // 20-35MB: coba compress. Kalau gagal → fallback langsung (masih aman <50MB base64)
-  // >35MB: wajib compress. Kalau gagal → error manual
   if (sizeMB <= COMPRESS_THRESHOLD_MB) {
+    // <=20MB: langsung, no compress
     compressedFile = file;
     showFileInfo(file, false);
     previewFile(file);
     showToast(`Video ${sizeMB.toFixed(1)}MB — siap submit`, 'success');
     enableSubmit(true);
   } else if (sizeMB <= BASE64_SAFE_MB) {
+    // 20-35MB: coba compress. Gagal → fallback original
     showToast(`Video ${sizeMB.toFixed(1)}MB — mengompres...`, 'info', 3000);
     try {
       compressedFile = await tryCompress(file);
@@ -310,7 +305,6 @@ async function handleFileSelect(file) {
       enableSubmit(true);
     } catch (err) {
       console.warn('Compress failed, fallback to original:', err);
-      // Fallback: kirim original (masih aman <50MB)
       compressedFile = file;
       showToast(`Kompresi gagal, pakai original ${sizeMB.toFixed(1)}MB`, 'warning');
       showFileInfo(file, false);
@@ -338,28 +332,30 @@ async function handleFileSelect(file) {
 }
 
 // ============================================
-// COMPRESSION WITH FALLBACK & DETAIL ERROR
+// FFMPEG COMPRESSION (Lazy Load)
 // ============================================
 async function tryCompress(file) {
-  // Lazy load ffmpeg modules
-  if (!FFmpeg) {
+  let FFmpeg, fetchFile;
+
+  try {
     const ffmpegMod = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js');
     const utilMod = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js');
     FFmpeg = ffmpegMod.FFmpeg;
     fetchFile = utilMod.fetchFile;
+  } catch (importErr) {
+    throw new Error('Failed to load ffmpeg module: ' + importErr.message);
   }
 
-  if (!ffmpeg) {
-    ffmpeg = new FFmpeg();
-    showCompression(true, 'Loading ffmpeg... (pertama kali, ~24MB)');
-    try {
-      await ffmpeg.load();
-      console.log('[ffmpeg] load OK');
-    } catch (loadErr) {
-      console.error('[ffmpeg] load failed:', loadErr);
-      showCompression(false);
-      throw new Error('ffmpeg load failed: ' + loadErr.message);
-    }
+  const ffmpeg = new FFmpeg();
+  showCompression(true, 'Loading ffmpeg... (pertama kali, ~24MB)');
+
+  try {
+    await ffmpeg.load();
+    console.log('[ffmpeg] load OK');
+  } catch (loadErr) {
+    console.error('[ffmpeg] load failed:', loadErr);
+    showCompression(false);
+    throw new Error('ffmpeg load failed: ' + loadErr.message);
   }
 
   showCompression(true, 'Mengompres video...');
@@ -378,10 +374,10 @@ async function tryCompress(file) {
   }
 
   const sizeMB = file.size / (1024 * 1024);
-  let crf = '30', scale = 'scale=-2:480'; // Default: 480p agresif (lebih ringan di mobile)
+  let crf = '30', scale = 'scale=-2:480';
   if (sizeMB > 80) { crf = '33'; scale = 'scale=-2:360'; }
   else if (sizeMB > 50) { crf = '32'; scale = 'scale=-2:420'; }
-  else if (sizeMB <= 35) { crf = '28'; scale = 'scale=-2:540'; } // 20-35MB: 540p, kualitas lebih bagus
+  else if (sizeMB <= 35) { crf = '28'; scale = 'scale=-2:540'; }
 
   ffmpeg.on('progress', ({ progress }) => {
     const pct = Math.min(Math.round(progress * 100), 99);
@@ -408,7 +404,6 @@ async function tryCompress(file) {
     console.log('[ffmpeg] read OK, size:', data.byteLength);
     const compressed = new File([data], file.name.replace(/\.[^.]+$/, '_compressed.mp4'), { type: 'video/mp4' });
 
-    // Cleanup
     await ffmpeg.deleteFile(inputName).catch(() => {});
     await ffmpeg.deleteFile(outputName).catch(() => {});
     showCompression(false);
@@ -483,19 +478,7 @@ function enableSubmit(enabled) {
 }
 
 // ============================================
-// BASE64 HELPER
-// ============================================
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-// ============================================
-// QTT SUBMISSION
+// QTT SUBMISSION — FORMDATA BINARY (NOT base64)
 // ============================================
 async function handleQttSubmit() {
   if (MAINTENANCE_MODE) { showToast('QTT sedang ditutup sementara.', 'warning'); return; }
@@ -514,30 +497,33 @@ async function handleQttSubmit() {
   setSubmitLoading(true);
 
   try {
-    showToast('Mengkonversi video, mohon tunggu...', 'info', 3000);
-    const videoBase64 = await fileToBase64(compressedFile);
+    showToast('Mengupload video, mohon tunggu...', 'info', 3000);
 
-    const payload = {
-      action: 'qtt_submit',
-      uid: currentUser.uid,
-      username: registrationData.usernameId,
-      vehicle: registrationData.car,
-      engine: registrationData.engine,
-      country: registrationData.country,
-      email: currentUser.email || '',
-      videoBase64: videoBase64,
-      videoName: compressedFile.name,
-      videoMime: compressedFile.type || 'video/mp4'
-    };
+    // Build FormData with binary file
+    const formData = new FormData();
+    formData.append('action', 'qtt_submit');
+    formData.append('uid', currentUser.uid);
+    formData.append('username', registrationData.usernameId);
+    formData.append('vehicle', registrationData.car);
+    formData.append('engine', registrationData.engine);
+    formData.append('country', registrationData.country);
+    formData.append('email', currentUser.email || '');
+    formData.append('videoName', compressedFile.name);
+    formData.append('videoMime', compressedFile.type || 'video/mp4');
+    formData.append('videoFile', compressedFile); // ← BINARY BLOB, not base64!
+
+    console.log('[submit] FormData built, file size:', compressedFile.size);
 
     const response = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
-      mode: 'cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      // NO Content-Type header! Browser sets it automatically with boundary for FormData
+      body: formData
     });
 
+    console.log('[submit] response status:', response.status);
     const result = await response.json();
+    console.log('[submit] result:', result);
+
     if (!result.success) throw new Error(result.error || 'Upload failed');
 
     const qttData = {
