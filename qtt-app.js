@@ -1,23 +1,21 @@
-// qtt-app.js — QTT Submission Application (FINAL v2)
+// qtt-app.js — QTT Submission with Auto-Compression (ffmpeg.wasm)
 // ============================================================
 // Architecture:
-//   Frontend → Apps Script Web App (FormData binary video) → Google Drive + Sheets
-//   After success → Firestore (metadata ONLY, no participant data duplication)
+//   Frontend → ffmpeg.wasm (compress if >20MB) → base64 → Apps Script → Drive + Sheets
+//   After success → Firestore (metadata ONLY)
 //
 // MAINTENANCE MODE:
-//   Toggle const MAINTENANCE_MODE below to enable/disable QTT submissions
+//   Toggle const MAINTENANCE_MODE below
 // ============================================================
 
 import { auth, db } from './firebase.js';
 import { onAuthStateChanged, signInWithPopup, signOut } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js';
 import { googleProvider } from './firebase.js';
-import {
-  doc,
-  getDoc,
-  setDoc,
-  serverTimestamp
-} from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
+import { doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
 import { showToast, formatTimestamp, escapeHtml } from './utils.js';
+
+// ffmpeg.wasm — auto-compression for large videos
+import { FFmpeg } from 'https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js';
 
 // ============================================
 // ⚙️ MAINTENANCE MODE — GANTI INI UNTUK ON/OFF
@@ -32,78 +30,74 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyzohhmODuY3JAY
 
 const ALLOWED_TYPES = ['video/mp4', 'video/quicktime', 'video/webm'];
 const ALLOWED_EXTS = ['.mp4', '.mov', '.webm'];
-const MAX_SIZE_MB = 50;  // ← INCREASED to 50MB for binary upload
+const MAX_SIZE_MB = 100;
+const COMPRESS_THRESHOLD_MB = 20;
 
 // ============================================
 // DOM REFERENCES
 // ============================================
+function $(id) { return document.getElementById(id); }
+
 const els = {
-  authOverlay: document.getElementById('auth-overlay'),
-  profileName: document.getElementById('profile-name'),
-  profileAvatar: document.getElementById('profile-avatar'),
-  loginBtn: document.getElementById('login-btn'),
-  logoutBtn: document.getElementById('logout-btn'),
-  loadingState: document.getElementById('loading-state'),
-  submitMode: document.getElementById('submit-mode'),
-  viewMode: document.getElementById('view-mode'),
-  errorState: document.getElementById('error-state'),
-  maintenanceBanner: document.getElementById('maintenance-banner'),
-  // Display fields (read-only)
-  dispUsername: document.getElementById('disp-username'),
-  dispVehicle: document.getElementById('disp-vehicle'),
-  dispEngine: document.getElementById('disp-engine'),
-  dispCountry: document.getElementById('disp-country'),
-  // View mode fields
-  viewUsername: document.getElementById('view-username'),
-  viewVehicle: document.getElementById('view-vehicle'),
-  viewEngine: document.getElementById('view-engine'),
-  viewCountry: document.getElementById('view-country'),
-  viewSubmittedAt: document.getElementById('view-submitted-at'),
-  viewStatus: document.getElementById('view-status'),
-  viewVideoLink: document.getElementById('view-video-link'),
-  viewVideoText: document.getElementById('view-video-text'),
-  videoPreviewContainer: document.getElementById('video-preview-container'),
-  viewVideoPreview: document.getElementById('view-video-preview'),
-  // Upload
-  uploadZone: document.getElementById('upload-zone'),
-  fileInput: document.getElementById('video-file-input'),
-  uploadPlaceholder: document.getElementById('upload-placeholder'),
-  uploadFileInfo: document.getElementById('upload-file-info'),
-  fileName: document.getElementById('file-name'),
-  fileSize: document.getElementById('file-size'),
-  removeFileBtn: document.getElementById('remove-file-btn'),
-  uploadError: document.getElementById('upload-error'),
-  errorMessage: document.getElementById('error-message'),
-  previewContainer: document.getElementById('preview-container'),
-  videoPreview: document.getElementById('video-preview'),
-  // Submit
-  submitBtn: document.getElementById('qtt-submit-btn'),
-  submitText: document.getElementById('submit-text'),
-  submitSpinner: document.getElementById('submit-spinner'),
-  // Modal
-  modalSuccess: document.getElementById('modal-success'),
-  modalUsername: document.getElementById('modal-username'),
-  modalVehicle: document.getElementById('modal-vehicle'),
-  modalEngine: document.getElementById('modal-engine'),
-  modalDate: document.getElementById('modal-date')
+  authOverlay: $('auth-overlay'),
+  profileName: $('profile-name'),
+  profileAvatar: $('profile-avatar'),
+  loginBtn: $('login-btn'),
+  logoutBtn: $('logout-btn'),
+  loadingState: $('loading-state'),
+  submitMode: $('submit-mode'),
+  viewMode: $('view-mode'),
+  errorState: $('error-state'),
+  maintenanceBanner: $('maintenance-banner'),
+  dispUsername: $('disp-username'),
+  dispVehicle: $('disp-vehicle'),
+  dispEngine: $('disp-engine'),
+  dispCountry: $('disp-country'),
+  viewUsername: $('view-username'),
+  viewVehicle: $('view-vehicle'),
+  viewEngine: $('view-engine'),
+  viewCountry: $('view-country'),
+  viewSubmittedAt: $('view-submitted-at'),
+  viewStatus: $('view-status'),
+  viewVideoLink: $('view-video-link'),
+  viewVideoText: $('view-video-text'),
+  videoPreviewContainer: $('video-preview-container'),
+  viewVideoPreview: $('view-video-preview'),
+  uploadZone: $('upload-zone'),
+  fileInput: $('video-file-input'),
+  uploadPlaceholder: $('upload-placeholder'),
+  uploadFileInfo: $('upload-file-info'),
+  fileName: $('file-name'),
+  fileSize: $('file-size'),
+  removeFileBtn: $('remove-file-btn'),
+  uploadError: $('upload-error'),
+  errorMessage: $('error-message'),
+  previewContainer: $('preview-container'),
+  videoPreview: $('video-preview'),
+  compressionOverlay: $('compression-overlay'),
+  compressionText: $('compression-text'),
+  submitBtn: $('qtt-submit-btn'),
+  submitText: $('submit-text'),
+  submitSpinner: $('submit-spinner'),
+  modalSuccess: $('modal-success'),
+  modalUsername: $('modal-username'),
+  modalVehicle: $('modal-vehicle'),
+  modalEngine: $('modal-engine'),
+  modalDate: $('modal-date')
 };
 
-// ============================================
-// STATE
-// ============================================
 let currentUser = null;
 let registrationData = null;
 let selectedFile = null;
+let compressedFile = null;
 let isSubmitting = false;
+let ffmpeg = null;
 
 // ============================================
 // INIT
 // ============================================
 function init() {
-  if (MAINTENANCE_MODE) {
-    showMaintenanceMode();
-  }
-
+  if (MAINTENANCE_MODE) showMaintenanceMode();
   els.loginBtn?.addEventListener('click', handleLogin);
   els.logoutBtn?.addEventListener('click', handleLogout);
   initUpload();
@@ -114,12 +108,8 @@ function init() {
       currentUser = user;
       updateProfileBar(user);
       hideAuthOverlay();
-
-      if (!MAINTENANCE_MODE) {
-        await loadParticipantData(user.uid);
-      } else {
-        showLoading(false);
-      }
+      if (!MAINTENANCE_MODE) await loadParticipantData(user.uid);
+      else showLoading(false);
     } else {
       currentUser = null;
       showAuthOverlay();
@@ -132,18 +122,14 @@ function init() {
 // MAINTENANCE MODE
 // ============================================
 function showMaintenanceMode() {
-  if (els.maintenanceBanner) {
-    els.maintenanceBanner.classList.remove('hidden');
-  }
+  els.maintenanceBanner?.classList.remove('hidden');
   if (els.submitBtn) {
     els.submitBtn.disabled = true;
     els.submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
     els.submitBtn.title = 'QTT sedang ditutup sementara';
   }
-  if (els.uploadZone) {
-    els.uploadZone.classList.add('pointer-events-none', 'opacity-50');
-    els.uploadZone.title = 'QTT sedang ditutup sementara';
-  }
+  els.uploadZone?.classList.add('pointer-events-none', 'opacity-50');
+  els.uploadZone?.setAttribute('title', 'QTT sedang ditutup sementara');
 }
 
 // ============================================
@@ -154,13 +140,9 @@ async function handleLogin() {
     const result = await signInWithPopup(auth, googleProvider);
     showToast(`Selamat datang, ${result.user.displayName || 'Racer'}!`, 'success');
   } catch (err) {
-    if (err.code === 'auth/popup-closed-by-user') {
-      showToast('Login dibatalkan', 'warning');
-    } else if (err.code === 'auth/network-request-failed') {
-      showToast('Koneksi bermasalah. Cek internet Anda.', 'error');
-    } else {
-      showToast('Login gagal. Coba lagi.', 'error');
-    }
+    if (err.code === 'auth/popup-closed-by-user') showToast('Login dibatalkan', 'warning');
+    else if (err.code === 'auth/network-request-failed') showToast('Koneksi bermasalah. Cek internet Anda.', 'error');
+    else showToast('Login gagal. Coba lagi.', 'error');
   }
 }
 
@@ -184,17 +166,9 @@ function updateProfileBar(user) {
   }
 }
 
-function showAuthOverlay() {
-  if (els.authOverlay) els.authOverlay.classList.remove('hidden');
-}
-
-function hideAuthOverlay() {
-  if (els.authOverlay) els.authOverlay.classList.add('hidden');
-}
-
-function showLoading(show) {
-  if (els.loadingState) els.loadingState.style.display = show ? 'flex' : 'none';
-}
+function showAuthOverlay() { els.authOverlay?.classList.remove('hidden'); }
+function hideAuthOverlay() { els.authOverlay?.classList.add('hidden'); }
+function showLoading(show) { if (els.loadingState) els.loadingState.style.display = show ? 'flex' : 'none'; }
 
 // ============================================
 // LOAD PARTICIPANT DATA
@@ -208,30 +182,19 @@ async function loadParticipantData(uid) {
   try {
     const regRef = doc(db, 'users', uid);
     const regSnap = await getDoc(regRef);
-
     if (!regSnap.exists() || !regSnap.data().isRegistered) {
       showErrorState();
       showLoading(false);
       return;
     }
-
     registrationData = regSnap.data();
-
     const qttRef = doc(db, 'qtt_submissions', uid);
     const qttSnap = await getDoc(qttRef);
 
-    if (qttSnap.exists()) {
-      showViewMode(registrationData, qttSnap.data());
-    } else {
-      if (!MAINTENANCE_MODE) {
-        showSubmitMode(registrationData);
-      } else {
-        showMaintenanceSubmitState();
-      }
-    }
-
+    if (qttSnap.exists()) showViewMode(registrationData, qttSnap.data());
+    else if (!MAINTENANCE_MODE) showSubmitMode(registrationData);
+    else showMaintenanceSubmitState();
     showLoading(false);
-
   } catch (err) {
     console.error('Load data error:', err);
     showToast('Gagal memuat data. Coba lagi.', 'error');
@@ -239,47 +202,34 @@ async function loadParticipantData(uid) {
   }
 }
 
-// ============================================
-// VIEW MODE
-// ============================================
 function showViewMode(userData, qttData) {
-  if (els.viewMode) els.viewMode.classList.remove('hidden');
-  if (els.submitMode) els.submitMode.classList.add('hidden');
-  if (els.errorState) els.errorState.classList.add('hidden');
-
+  els.viewMode?.classList.remove('hidden');
+  els.submitMode?.classList.add('hidden');
+  els.errorState?.classList.add('hidden');
   if (els.viewUsername) els.viewUsername.textContent = userData.usernameId || '-';
   if (els.viewVehicle) els.viewVehicle.textContent = userData.car || '-';
   if (els.viewEngine) els.viewEngine.textContent = userData.engine || '-';
   if (els.viewCountry) els.viewCountry.textContent = userData.country || '-';
-
   if (els.viewSubmittedAt) els.viewSubmittedAt.textContent = formatTimestamp(qttData.submittedAt);
   if (els.viewStatus) els.viewStatus.textContent = qttData.submissionStatus || 'Submitted';
-
   if (qttData.videoUrl && els.viewVideoLink) {
     els.viewVideoLink.href = qttData.videoUrl;
     els.viewVideoText.textContent = 'Open Video';
     els.viewVideoLink.classList.remove('hidden');
-
     if (els.videoPreviewContainer && els.viewVideoPreview) {
-      if (qttData.videoUrl.match(/\.(mp4|mov|webm)(\?.*)?$/i) || qttData.videoUrl.includes('drive.google.com')) {
-        els.viewVideoPreview.src = qttData.videoUrl;
-        els.videoPreviewContainer.classList.remove('hidden');
-      }
+      els.viewVideoPreview.src = qttData.videoUrl;
+      els.videoPreviewContainer.classList.remove('hidden');
     }
   } else {
-    if (els.viewVideoLink) els.viewVideoLink.classList.add('hidden');
-    if (els.videoPreviewContainer) els.videoPreviewContainer.classList.add('hidden');
+    els.viewVideoLink?.classList.add('hidden');
+    els.videoPreviewContainer?.classList.add('hidden');
   }
 }
 
-// ============================================
-// SUBMIT MODE
-// ============================================
 function showSubmitMode(data) {
-  if (els.submitMode) els.submitMode.classList.remove('hidden');
-  if (els.viewMode) els.viewMode.classList.add('hidden');
-  if (els.errorState) els.errorState.classList.add('hidden');
-
+  els.submitMode?.classList.remove('hidden');
+  els.viewMode?.classList.add('hidden');
+  els.errorState?.classList.add('hidden');
   if (els.dispUsername) els.dispUsername.value = data.usernameId || '-';
   if (els.dispVehicle) els.dispVehicle.value = data.car || '-';
   if (els.dispEngine) els.dispEngine.value = data.engine || '-';
@@ -287,97 +237,142 @@ function showSubmitMode(data) {
 }
 
 function showMaintenanceSubmitState() {
-  if (els.submitMode) els.submitMode.classList.remove('hidden');
-  if (els.viewMode) els.viewMode.classList.add('hidden');
-  if (els.errorState) els.errorState.classList.add('hidden');
-
+  els.submitMode?.classList.remove('hidden');
+  els.viewMode?.classList.add('hidden');
+  els.errorState?.classList.add('hidden');
   if (els.dispUsername) els.dispUsername.value = registrationData?.usernameId || '-';
   if (els.dispVehicle) els.dispVehicle.value = registrationData?.car || '-';
   if (els.dispEngine) els.dispEngine.value = registrationData?.engine || '-';
   if (els.dispCountry) els.dispCountry.value = registrationData?.country || '-';
-
   const inputs = els.submitMode?.querySelectorAll('input, select, button');
-  inputs?.forEach(input => {
-    input.disabled = true;
-    input.classList.add('opacity-50', 'cursor-not-allowed');
-  });
+  inputs?.forEach(input => { input.disabled = true; input.classList.add('opacity-50', 'cursor-not-allowed'); });
 }
 
-// ============================================
-// ERROR STATE
-// ============================================
 function showErrorState() {
-  if (els.errorState) els.errorState.classList.remove('hidden');
-  if (els.submitMode) els.submitMode.classList.add('hidden');
-  if (els.viewMode) els.viewMode.classList.add('hidden');
+  els.errorState?.classList.remove('hidden');
+  els.submitMode?.classList.add('hidden');
+  els.viewMode?.classList.add('hidden');
 }
 
 // ============================================
 // UPLOAD HANDLING
 // ============================================
 function initUpload() {
-  if (!els.uploadZone || !els.fileInput) return;
-  if (MAINTENANCE_MODE) return;
+  if (!els.uploadZone || !els.fileInput || MAINTENANCE_MODE) return;
 
   els.uploadZone.addEventListener('click', (e) => {
-    if (e.target !== els.removeFileBtn) {
-      els.fileInput.click();
-    }
+    if (e.target !== els.removeFileBtn) els.fileInput.click();
   });
-
   els.fileInput.addEventListener('change', (e) => {
-    if (e.target.files.length > 0) {
-      handleFileSelect(e.target.files[0]);
-    }
+    if (e.target.files.length > 0) handleFileSelect(e.target.files[0]);
   });
-
-  els.uploadZone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    els.uploadZone.classList.add('dragover');
-  });
-
-  els.uploadZone.addEventListener('dragleave', () => {
-    els.uploadZone.classList.remove('dragover');
-  });
-
+  els.uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); els.uploadZone.classList.add('dragover'); });
+  els.uploadZone.addEventListener('dragleave', () => els.uploadZone.classList.remove('dragover'));
   els.uploadZone.addEventListener('drop', (e) => {
     e.preventDefault();
     els.uploadZone.classList.remove('dragover');
-    if (e.dataTransfer.files.length > 0) {
-      handleFileSelect(e.dataTransfer.files[0]);
-    }
+    if (e.dataTransfer.files.length > 0) handleFileSelect(e.dataTransfer.files[0]);
   });
-
-  els.removeFileBtn?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    clearFile();
-  });
-
+  els.removeFileBtn?.addEventListener('click', (e) => { e.stopPropagation(); clearFile(); });
   els.submitBtn?.addEventListener('click', handleQttSubmit);
 }
 
-function handleFileSelect(file) {
+async function handleFileSelect(file) {
   if (MAINTENANCE_MODE) return;
   clearError();
+  clearFileState();
 
   const ext = '.' + file.name.split('.').pop().toLowerCase();
   const isValidType = ALLOWED_TYPES.includes(file.type) || ALLOWED_EXTS.includes(ext);
-
-  if (!isValidType) {
-    showError('Invalid file type. Only video files (.mp4, .mov, .webm) are allowed.');
-    return;
-  }
-
-  const sizeMB = file.size / (1024 * 1024);
-  if (sizeMB > MAX_SIZE_MB) {
-    showError(`File too large. Maximum ${MAX_SIZE_MB}MB allowed.`);
-    return;
-  }
+  if (!isValidType) { showError('Invalid file type. Only .mp4, .mov, .webm allowed.'); return; }
+  if (file.size / (1024*1024) > MAX_SIZE_MB) { showError(`File too large. Max ${MAX_SIZE_MB}MB.`); return; }
 
   selectedFile = file;
-  showFileInfo(file);
-  enableSubmit(true);
+  const sizeMB = file.size / (1024 * 1024);
 
+  if (sizeMB > COMPRESS_THRESHOLD_MB) {
+    showToast(`Video ${sizeMB.toFixed(1)}MB — mengompres dulu...`, 'info', 4000);
+    try {
+      compressedFile = await compressVideo(file);
+      const compressedMB = compressedFile.size / (1024 * 1024);
+      showToast(`Kompresi selesai: ${compressedMB.toFixed(1)}MB`, 'success');
+      showFileInfo(compressedFile, true);
+      previewFile(compressedFile);
+    } catch (err) {
+      console.error('Compression failed:', err);
+      showError('Gagal kompres video. Coba file lebih kecil atau kompres manual di HP.');
+      selectedFile = null;
+      return;
+    }
+  } else {
+    compressedFile = file;
+    showFileInfo(file, false);
+    previewFile(file);
+  }
+  enableSubmit(true);
+}
+
+// ============================================
+// FFMPEG COMPRESSION
+// ============================================
+async function compressVideo(file) {
+  if (!ffmpeg) {
+    ffmpeg = new FFmpeg();
+    showCompression(true, 'Loading ffmpeg... (pertama kali, ~24MB)');
+    await ffmpeg.load();
+  }
+
+  showCompression(true, 'Mengompres video...');
+  const ext = file.name.includes('.') ? file.name.slice(file.name.lastIndexOf('.')) : '.mp4';
+  const inputName = 'input' + ext;
+  const outputName = 'output.mp4';
+
+  await ffmpeg.writeFile(inputName, new Uint8Array(await file.arrayBuffer()));
+
+  const sizeMB = file.size / (1024 * 1024);
+  let crf = '28', scale = 'scale=-2:720';
+  if (sizeMB > 80) { crf = '32'; scale = 'scale=-2:480'; }
+  else if (sizeMB > 50) { crf = '30'; scale = 'scale=-2:540'; }
+
+  ffmpeg.on('progress', ({ progress }) => {
+    const pct = Math.min(Math.round(progress * 100), 99);
+    showCompression(true, `Mengompres... ${pct}%`);
+  });
+
+  await ffmpeg.exec([
+    '-i', inputName, '-c:v', 'libx264', '-crf', crf, '-preset', 'fast',
+    '-vf', scale, '-c:a', 'aac', '-b:a', '128k',
+    '-movflags', '+faststart', '-y', outputName
+  ]);
+
+  const data = await ffmpeg.readFile(outputName);
+  const compressed = new File([data], file.name.replace(/\.[^.]+$/, '_compressed.mp4'), { type: 'video/mp4' });
+
+  await ffmpeg.deleteFile(inputName);
+  await ffmpeg.deleteFile(outputName);
+  showCompression(false);
+  return compressed;
+}
+
+function showCompression(show, text = '') {
+  if (els.compressionOverlay) els.compressionOverlay.style.display = show ? 'flex' : 'none';
+  if (els.compressionText) els.compressionText.textContent = text;
+}
+
+// ============================================
+// FILE UI
+// ============================================
+function showFileInfo(file, isCompressed) {
+  if (els.uploadPlaceholder) els.uploadPlaceholder.classList.add('hidden');
+  if (els.uploadFileInfo) {
+    els.uploadFileInfo.classList.remove('hidden');
+    if (els.fileName) els.fileName.textContent = file.name + (isCompressed ? ' (compressed)' : '');
+    if (els.fileSize) els.fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+  }
+  els.uploadZone?.classList.add('has-file');
+}
+
+function previewFile(file) {
   const url = URL.createObjectURL(file);
   if (els.videoPreview) {
     els.videoPreview.src = url;
@@ -385,28 +380,23 @@ function handleFileSelect(file) {
   }
 }
 
-function showFileInfo(file) {
-  if (els.uploadPlaceholder) els.uploadPlaceholder.classList.add('hidden');
-  if (els.uploadFileInfo) {
-    els.uploadFileInfo.classList.remove('hidden');
-    if (els.fileName) els.fileName.textContent = file.name;
-    if (els.fileSize) els.fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
-  }
-  if (els.uploadZone) els.uploadZone.classList.add('has-file');
-}
-
 function clearFile() {
   selectedFile = null;
+  compressedFile = null;
   if (els.fileInput) els.fileInput.value = '';
   if (els.uploadPlaceholder) els.uploadPlaceholder.classList.remove('hidden');
   if (els.uploadFileInfo) els.uploadFileInfo.classList.add('hidden');
-  if (els.uploadZone) {
-    els.uploadZone.classList.remove('has-file', 'error');
-  }
-  if (els.previewContainer) els.previewContainer.classList.add('hidden');
+  els.uploadZone?.classList.remove('has-file', 'error');
+  els.previewContainer?.classList.add('hidden');
   if (els.videoPreview) els.videoPreview.src = '';
   enableSubmit(false);
   clearError();
+  showCompression(false);
+}
+
+function clearFileState() {
+  selectedFile = null;
+  compressedFile = null;
 }
 
 function showError(msg) {
@@ -414,12 +404,12 @@ function showError(msg) {
     els.uploadError.classList.remove('hidden');
     if (els.errorMessage) els.errorMessage.textContent = msg;
   }
-  if (els.uploadZone) els.uploadZone.classList.add('error');
+  els.uploadZone?.classList.add('error');
 }
 
 function clearError() {
-  if (els.uploadError) els.uploadError.classList.add('hidden');
-  if (els.uploadZone) els.uploadZone.classList.remove('error');
+  els.uploadError?.classList.add('hidden');
+  els.uploadZone?.classList.remove('error');
 }
 
 function enableSubmit(enabled) {
@@ -427,18 +417,25 @@ function enableSubmit(enabled) {
 }
 
 // ============================================
-// QTT SUBMISSION — BINARY UPLOAD (NO BASE64)
+// BASE64 HELPER
+// ============================================
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ============================================
+// QTT SUBMISSION
 // ============================================
 async function handleQttSubmit() {
-  if (MAINTENANCE_MODE) {
-    showToast('QTT sedang ditutup sementara.', 'warning');
-    return;
-  }
-
-  if (!selectedFile || !currentUser || !registrationData) return;
+  if (MAINTENANCE_MODE) { showToast('QTT sedang ditutup sementara.', 'warning'); return; }
+  if (!compressedFile || !currentUser || !registrationData) return;
   if (isSubmitting) return;
 
-  // Double-check: ensure no existing submission
   const qttRef = doc(db, 'qtt_submissions', currentUser.uid);
   const qttSnap = await getDoc(qttRef);
   if (qttSnap.exists()) {
@@ -451,35 +448,32 @@ async function handleQttSubmit() {
   setSubmitLoading(true);
 
   try {
-    showToast('Mengupload video, mohon tunggu...', 'info', 5000);
+    showToast('Mengkonversi video, mohon tunggu...', 'info', 3000);
+    const videoBase64 = await fileToBase64(compressedFile);
 
-    // STEP 1: Build FormData with binary file (NO base64 conversion!)
-    const formData = new FormData();
-    formData.append('action', 'qtt_submit');
-    formData.append('uid', currentUser.uid);
-    formData.append('username', registrationData.usernameId);
-    formData.append('vehicle', registrationData.car);
-    formData.append('engine', registrationData.engine);
-    formData.append('country', registrationData.country);
-    formData.append('email', currentUser.email || '');
-    formData.append('videoFile', selectedFile);  // ← BINARY, not base64!
-    formData.append('videoName', selectedFile.name);
-    formData.append('videoMime', selectedFile.type || 'video/mp4');
+    const payload = {
+      action: 'qtt_submit',
+      uid: currentUser.uid,
+      username: registrationData.usernameId,
+      vehicle: registrationData.car,
+      engine: registrationData.engine,
+      country: registrationData.country,
+      email: currentUser.email || '',
+      videoBase64: videoBase64,
+      videoName: compressedFile.name,
+      videoMime: compressedFile.type || 'video/mp4'
+    };
 
-    // STEP 2: Send FormData to Apps Script (multipart/form-data)
     const response = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
-      // NO Content-Type header — browser sets it automatically with boundary
-      body: formData
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
     });
 
     const result = await response.json();
+    if (!result.success) throw new Error(result.error || 'Upload failed');
 
-    if (!result.success) {
-      throw new Error(result.error || 'Upload failed');
-    }
-
-    // STEP 3: Save metadata to Firestore
     const qttData = {
       uid: currentUser.uid,
       videoUrl: result.videoUrl,
@@ -490,20 +484,13 @@ async function handleQttSubmit() {
     };
 
     await setDoc(doc(db, 'qtt_submissions', currentUser.uid), qttData);
-
-    // STEP 4: Show success
     showToast('QTT submitted successfully!', 'success');
     showSuccessModal({
       username: registrationData.usernameId,
       vehicle: registrationData.car,
       engine: registrationData.engine
     });
-
-    // STEP 5: Switch to view mode
-    setTimeout(() => {
-      loadParticipantData(currentUser.uid);
-    }, 2000);
-
+    setTimeout(() => loadParticipantData(currentUser.uid), 2000);
   } catch (err) {
     console.error('QTT submit error:', err);
     showToast('Gagal mengirim QTT: ' + err.message, 'error');
@@ -521,13 +508,13 @@ function setSubmitLoading(loading) {
   if (loading) {
     els.submitBtn.disabled = true;
     els.submitBtn.classList.add('opacity-80', 'cursor-wait');
-    if (els.submitText) els.submitText.classList.add('hidden');
-    if (els.submitSpinner) els.submitSpinner.classList.remove('hidden');
+    els.submitText?.classList.add('hidden');
+    els.submitSpinner?.classList.remove('hidden');
   } else {
-    els.submitBtn.disabled = !selectedFile || MAINTENANCE_MODE;
+    els.submitBtn.disabled = !compressedFile || MAINTENANCE_MODE;
     els.submitBtn.classList.remove('opacity-80', 'cursor-wait');
-    if (els.submitText) els.submitText.classList.remove('hidden');
-    if (els.submitSpinner) els.submitSpinner.classList.add('hidden');
+    els.submitText?.classList.remove('hidden');
+    els.submitSpinner?.classList.add('hidden');
   }
 }
 
@@ -549,13 +536,9 @@ function initModals() {
       document.body.style.overflow = '';
     });
   });
-
   document.querySelectorAll('.modal-backdrop').forEach(backdrop => {
     backdrop.addEventListener('click', (e) => {
-      if (e.target === backdrop) {
-        backdrop.classList.add('hidden');
-        document.body.style.overflow = '';
-      }
+      if (e.target === backdrop) { backdrop.classList.add('hidden'); document.body.style.overflow = ''; }
     });
   });
 }
