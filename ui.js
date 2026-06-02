@@ -15,34 +15,85 @@ const els = {
   authOverlay: () => document.getElementById('auth-overlay'),
   profileName: () => document.getElementById('profile-name'),
   profileAvatar: () => document.getElementById('profile-avatar'),
-  dialSelect: () => document.getElementById('dial-code-select'),
+  dialTrigger: () => document.getElementById('dial-trigger'),
+  dialTriggerCode: () => document.getElementById('dial-trigger-code'),
+  dialCodeHidden: () => document.getElementById('dial-code-hidden'),
+  dialModalBackdrop: () => document.getElementById('dial-modal-backdrop'),
+  dialModalClose: () => document.getElementById('dial-modal-close'),
+  dialList: () => document.getElementById('dial-list'),
   countrySelect: () => document.getElementById('country-select'),
   modalSuccess: () => document.getElementById('modal-success'),
   modalInfo: () => document.getElementById('modal-info'),
   readonlyBanner: () => document.getElementById('readonly-banner')
 };
 
+let selectedDial = '+62';
+
 // ============================================
-// DIAL CODE SELECT (WhatsApp — native <select>)
-// Pakai native select supaya lancar di Android
+// DIAL CODE MODAL (Compact trigger + full modal)
 // ============================================
 export function initCountryDropdown() {
-  const select = els.dialSelect();
-  if (!select) return;
+  const trigger = els.dialTrigger();
+  const backdrop = els.dialModalBackdrop();
+  const closeBtn = els.dialModalClose();
+  const list = els.dialList();
 
+  if (!trigger || !backdrop || !list) return;
+
+  // Populate modal list
   COUNTRIES.forEach(country => {
-    const option = document.createElement('option');
-    option.value = country.dial;
-    // Format: "+62 Indonesia"
-    option.textContent = `${country.dial} ${country.name}`;
-    if (country.code === 'ID') option.selected = true;
-    select.appendChild(option);
+    const item = document.createElement('div');
+    item.className = 'dial-item';
+    item.dataset.dial = country.dial;
+    item.dataset.code = country.code;
+    item.innerHTML = `
+      <span class="dial-code">${country.dial}</span>
+      <span class="dial-name">${country.name}</span>
+    `;
+    if (country.code === 'ID') item.classList.add('selected');
+    item.addEventListener('click', () => selectDial(country.dial));
+    list.appendChild(item);
+  });
+
+  // Open modal
+  trigger.addEventListener('click', () => {
+    backdrop.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  });
+
+  // Close modal
+  closeBtn.addEventListener('click', closeDialModal);
+  backdrop.addEventListener('click', (e) => {
+    if (e.target === backdrop) closeDialModal();
   });
 }
 
+function selectDial(dial) {
+  selectedDial = dial;
+  const triggerCode = els.dialTriggerCode();
+  const hidden = els.dialCodeHidden();
+  if (triggerCode) triggerCode.textContent = dial;
+  if (hidden) hidden.value = dial;
+
+  // Update selected state in list
+  const items = els.dialList()?.querySelectorAll('.dial-item');
+  items?.forEach(item => {
+    item.classList.toggle('selected', item.dataset.dial === dial);
+  });
+
+  closeDialModal();
+}
+
+function closeDialModal() {
+  const backdrop = els.dialModalBackdrop();
+  if (backdrop) {
+    backdrop.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+}
+
 export function getSelectedCountryDial() {
-  const select = els.dialSelect();
-  return select ? select.value : '+62';
+  return selectedDial;
 }
 
 // ============================================
