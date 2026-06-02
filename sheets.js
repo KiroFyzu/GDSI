@@ -1,4 +1,7 @@
 // sheets.js - Google Sheets Sync via Apps Script Web App
+// Registration ONLY — QTT is handled directly by Apps Script
+// ============================================================
+
 import { showToast } from './utils.js';
 import { isOnline } from './utils.js';
 
@@ -8,7 +11,8 @@ import { isOnline } from './utils.js';
 const SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyzohhmODuY3JAY3igFrjNPJeVd57lkF4cxeA5yvx4WcidFhp5osBUd7g96-M1u-fMf/exec';
 
 /**
- * Sinkronisasi data ke Google Sheets (backup/admin log)
+ * Sinkronisasi data registrasi ke Google Sheets
+ * Sheet: GDSI_Registrations
  * Non-blocking: tidak mengganggu UX jika gagal
  */
 export async function syncToGoogleSheets(data) {
@@ -18,6 +22,8 @@ export async function syncToGoogleSheets(data) {
   }
 
   const payload = {
+    action: 'register',
+    sheetName: 'GDSI_Registrations',
     uid: data.uid,
     name: data.name,
     email: data.email,
@@ -27,8 +33,7 @@ export async function syncToGoogleSheets(data) {
     clubTeam: data.clubTeam,
     car: data.car,
     engine: data.engine,
-    registeredAt: data.registeredAt || new Date().toISOString(),
-    sheetName: 'GDSI_Registrations'
+    registeredAt: data.registeredAt || new Date().toISOString()
   };
 
   try {
@@ -40,7 +45,7 @@ export async function syncToGoogleSheets(data) {
       body: JSON.stringify(payload)
     });
 
-    console.log('[Sheets] Sync berhasil');
+    console.log('[Sheets] Sync to GDSI_Registrations berhasil');
     return { success: true };
   } catch (err) {
     console.error('[Sheets] Sync gagal:', err);
@@ -50,57 +55,8 @@ export async function syncToGoogleSheets(data) {
 
 /*
 ============================================
-GOOGLE APPS SCRIPT CODE (simpan sebagai .gs di Google Apps Script):
-============================================
-
-function doPost(e) {
-  try {
-    var data = JSON.parse(e.postData.contents);
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheetName = data.sheetName || 'GDSI_Registrations';
-    var sheet = ss.getSheetByName(sheetName);
-
-    if (!sheet) {
-      sheet = ss.insertSheet(sheetName);
-      var headers = [
-        'Timestamp', 'UID', 'Name', 'Email', 'WhatsApp',
-        'UsernameID', 'Country', 'ClubTeam', 'Car', 'Engine', 'RegisteredAt'
-      ];
-      sheet.appendRow(headers);
-      var headerRange = sheet.getRange(1, 1, 1, headers.length);
-      headerRange.setFontWeight('bold');
-      headerRange.setBackground('#ff5540');
-      headerRange.setFontColor('#ffffff');
-      sheet.autoResizeColumns(1, headers.length);
-    }
-
-    sheet.appendRow([
-      new Date(),
-      data.uid || '',
-      data.name || '',
-      data.email || '',
-      data.whatsapp || '',
-      data.usernameId || '',
-      data.country || '',
-      data.clubTeam || '',
-      data.car || '',
-      data.engine || '',
-      data.registeredAt || new Date().toISOString()
-    ]);
-
-    return ContentService.createTextOutput(JSON.stringify({
-      result: 'success',
-      message: 'Data saved to sheet'
-    })).setMimeType(ContentService.MimeType.JSON);
-
-  } catch (error) {
-    return ContentService.createTextOutput(JSON.stringify({
-      result: 'error',
-      message: error.toString()
-    })).setMimeType(ContentService.MimeType.JSON);
-  }
-}
-
-// Deploy sebagai Web App, akses: Anyone
+NOTE: QTT submission does NOT use this file.
+QTT is handled directly by the Apps Script Web App
+which receives FormData and writes to GDSI_QTT_Submissions sheet.
 ============================================
 */
