@@ -15,7 +15,7 @@
 // ============================================
 var CONFIG = {
   PARENT_FOLDER_NAME: "GDSI_QTT_Videos",
-  EVENT_FOLDER_NAME: "Event_2026_Q1",  // ← GANTI per event, atau kosongin ""
+  EVENT_FOLDER_NAME: "Season_1_Round_2_QTT",  // ← GANTI per event, atau kosongin ""
   // Contoh: "Event_2026_Q1", "Season_3_QTT", "GDSI_2026_Mei"
   // Kalau dikosongin (""), participant langsung di bawah PARENT_FOLDER
   MAX_FILE_SIZE_MB: 100

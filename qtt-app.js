@@ -1,10 +1,14 @@
-// qtt-app.js — QTT Submission with FormData Binary Upload + Auto-Compress Fallback
+// qtt-app.js — QTT Submission via Cloudinary (Backup) + Google Drive (Primary)
 // ============================================================
-// Apps Script: Binary Upload Version (FormData, NOT base64)
-// Logic:
-//   File <=20MB → kirim original via FormData
-//   File 20-35MB → coba ffmpeg compress. Gagal → kirim original (aman <50MB)
-//   File >35MB → wajib compress. Gagal → error manual
+// Flow:
+//   Frontend → Cloudinary Upload (unsigned, auto folder per user)
+//            → Dapat URL + public_id
+//            → Kirim URL ke Apps Script (payload ~2KB)
+//            → Apps Script: download URL → save ke GD folder
+//            → Firestore (simpan GD link)
+//
+// Cloudinary: video tetap tersimpan di folder gdsi_qtt/Username/ sebagai backup
+// Google Drive: primary storage, link yang dishare
 // ============================================================
 
 import { auth, db } from './firebase.js';
@@ -24,11 +28,12 @@ const MAINTENANCE_MODE = false;
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyzohhmODuY3JAY3igFrjNPJeVd57lkF4cxeA5yvx4WcidFhp5osBUd7g96-M1u-fMf/exec';
 // ^ REPLACE WITH YOUR ACTUAL APPS SCRIPT WEB APP URL
 
+const CLOUDINARY_CLOUD_NAME = 'dixcekb1k';           // ← GANTI
+const CLOUDINARY_UPLOAD_PRESET = 'gdsi_qtt_unsigned'; // ← GANTI
+
 const ALLOWED_TYPES = ['video/mp4', 'video/quicktime', 'video/webm'];
 const ALLOWED_EXTS = ['.mp4', '.mov', '.webm'];
 const MAX_SIZE_MB = 100;
-const COMPRESS_THRESHOLD_MB = 20;
-const BASE64_SAFE_MB = 35; // FormData binary ~same size, no base64 bloat
 
 // ============================================
 // DOM REFERENCES
@@ -71,8 +76,9 @@ const els = {
   errorMessage: $('error-message'),
   previewContainer: $('preview-container'),
   videoPreview: $('video-preview'),
-  compressionOverlay: $('compression-overlay'),
-  compressionText: $('compression-text'),
+  cloudinaryOverlay: $('cloudinary-overlay'),
+  cloudinaryText: $('cloudinary-text'),
+  cloudinaryProgress: $('cloudinary-progress'),
   submitBtn: $('qtt-submit-btn'),
   submitText: $('submit-text'),
   submitSpinner: $('submit-spinner'),
@@ -86,7 +92,9 @@ const els = {
 let currentUser = null;
 let registrationData = null;
 let selectedFile = null;
-let compressedFile = null;
+let cloudinaryUrl = null;
+let cloudinaryOriginalUrl = null;
+let cloudinaryPublicId = null;
 let isSubmitting = false;
 
 // ============================================
@@ -286,138 +294,81 @@ async function handleFileSelect(file) {
   selectedFile = file;
   const sizeMB = file.size / (1024 * 1024);
 
-  if (sizeMB <= COMPRESS_THRESHOLD_MB) {
-    // <=20MB: langsung, no compress
-    compressedFile = file;
-    showFileInfo(file, false);
-    previewFile(file);
-    showToast(`Video ${sizeMB.toFixed(1)}MB — siap submit`, 'success');
-    enableSubmit(true);
-  } else if (sizeMB <= BASE64_SAFE_MB) {
-    // 20-35MB: coba compress. Gagal → fallback original
-    showToast(`Video ${sizeMB.toFixed(1)}MB — mengompres...`, 'info', 3000);
-    try {
-      compressedFile = await tryCompress(file);
-      const finalMB = compressedFile.size / (1024 * 1024);
-      showToast(`Kompresi OK: ${finalMB.toFixed(1)}MB`, 'success');
-      showFileInfo(compressedFile, true);
-      previewFile(compressedFile);
-      enableSubmit(true);
-    } catch (err) {
-      console.warn('Compress failed, fallback to original:', err);
-      compressedFile = file;
-      showToast(`Kompresi gagal, pakai original ${sizeMB.toFixed(1)}MB`, 'warning');
-      showFileInfo(file, false);
-      previewFile(file);
-      enableSubmit(true);
-    }
-  } else {
-    // >35MB: wajib kompresi
-    showToast(`Video ${sizeMB.toFixed(1)}MB — wajib kompresi...`, 'info', 4000);
-    try {
-      compressedFile = await tryCompress(file);
-      const finalMB = compressedFile.size / (1024 * 1024);
-      showToast(`Kompresi OK: ${finalMB.toFixed(1)}MB`, 'success');
-      showFileInfo(compressedFile, true);
-      previewFile(compressedFile);
-      enableSubmit(true);
-    } catch (err) {
-      console.error('Compress failed (file >35MB):', err);
-      showError('Gagal kompres video. File terlalu besar. Kompres manual di HP (export 720p) lalu coba lagi.');
-      selectedFile = null;
-      compressedFile = null;
-      return;
-    }
-  }
+  showFileInfo(file, false);
+  previewFile(file);
+  showToast(`Video ${sizeMB.toFixed(1)}MB — siap upload ke Cloudinary`, 'success');
+  enableSubmit(true);
 }
 
 // ============================================
-// FFMPEG COMPRESSION (Lazy Load)
+// CLOUDINARY UPLOAD
 // ============================================
-async function tryCompress(file) {
-  let FFmpeg, fetchFile;
+async function uploadToCloudinary(file, username) {
+  const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/video/upload`;
 
-  try {
-    const ffmpegMod = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.10/dist/esm/index.js');
-    const utilMod = await import('https://cdn.jsdelivr.net/npm/@ffmpeg/util@0.12.1/dist/esm/index.js');
-    FFmpeg = ffmpegMod.FFmpeg;
-    fetchFile = utilMod.fetchFile;
-  } catch (importErr) {
-    throw new Error('Failed to load ffmpeg module: ' + importErr.message);
-  }
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+  formData.append('folder', `gdsi_qtt/${sanitizeFolderName(username)}`);
+  formData.append('resource_type', 'video');
+  formData.append('tags', 'gdsi,qtt,2026');
 
-  const ffmpeg = new FFmpeg();
-  showCompression(true, 'Loading ffmpeg... (pertama kali, ~24MB)');
+  showCloudinary(true, 'Uploading to Cloudinary...', 0);
 
-  try {
-    await ffmpeg.load();
-    console.log('[ffmpeg] load OK');
-  } catch (loadErr) {
-    console.error('[ffmpeg] load failed:', loadErr);
-    showCompression(false);
-    throw new Error('ffmpeg load failed: ' + loadErr.message);
-  }
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
 
-  showCompression(true, 'Mengompres video...');
-  const ext = file.name.includes('.') ? file.name.slice(file.name.lastIndexOf('.')) : '.mp4';
-  const inputName = 'input' + ext;
-  const outputName = 'output.mp4';
+    xhr.upload.addEventListener('progress', (e) => {
+      if (e.lengthComputable) {
+        const pct = Math.round((e.loaded / e.total) * 100);
+        showCloudinary(true, `Uploading to Cloudinary... ${pct}%`, pct);
+      }
+    });
 
-  try {
-    console.log('[ffmpeg] writing file...');
-    await ffmpeg.writeFile(inputName, await fetchFile(file));
-    console.log('[ffmpeg] write OK');
-  } catch (writeErr) {
-    console.error('[ffmpeg] write failed:', writeErr);
-    showCompression(false);
-    throw new Error('ffmpeg write failed: ' + writeErr.message);
-  }
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        const result = JSON.parse(xhr.responseText);
+        console.log('[Cloudinary] upload OK:', result);
+        showCloudinary(false, '', 0);
+        // Build compressed URL with auto-quality transformation
+        // q_auto:eco = agresif compress, w_1280 = 720p max, vc_h264 = optimal codec
+        const baseUrl = result.secure_url;
+        const compressedUrl = baseUrl.replace('/upload/', '/upload/q_auto:eco,w_1280,vc_h264/');
 
-  const sizeMB = file.size / (1024 * 1024);
-  let crf = '30', scale = 'scale=-2:480';
-  if (sizeMB > 80) { crf = '33'; scale = 'scale=-2:360'; }
-  else if (sizeMB > 50) { crf = '32'; scale = 'scale=-2:420'; }
-  else if (sizeMB <= 35) { crf = '28'; scale = 'scale=-2:540'; }
+        resolve({
+          url: compressedUrl,        // ← URL compressed (20-30MB untuk file 100MB)
+          originalUrl: baseUrl,      // ← backup URL original
+          publicId: result.public_id,
+          folder: result.folder
+        });
+      } else {
+        console.error('[Cloudinary] upload failed:', xhr.status, xhr.responseText);
+        showCloudinary(false, '', 0);
+        reject(new Error('Cloudinary upload failed: ' + xhr.status));
+      }
+    });
 
-  ffmpeg.on('progress', ({ progress }) => {
-    const pct = Math.min(Math.round(progress * 100), 99);
-    showCompression(true, `Mengompres... ${pct}%`);
+    xhr.addEventListener('error', () => {
+      showCloudinary(false, '', 0);
+      reject(new Error('Cloudinary upload network error'));
+    });
+
+    xhr.open('POST', url);
+    xhr.send(formData);
   });
-
-  try {
-    console.log('[ffmpeg] exec start, CRF=' + crf + ', scale=' + scale);
-    await ffmpeg.exec([
-      '-i', inputName, '-c:v', 'libx264', '-crf', crf, '-preset', 'fast',
-      '-vf', scale, '-c:a', 'aac', '-b:a', '128k',
-      '-movflags', '+faststart', '-y', outputName
-    ]);
-    console.log('[ffmpeg] exec OK');
-  } catch (execErr) {
-    console.error('[ffmpeg] exec failed:', execErr);
-    showCompression(false);
-    throw new Error('ffmpeg exec failed: ' + execErr.message);
-  }
-
-  try {
-    console.log('[ffmpeg] reading output...');
-    const data = await ffmpeg.readFile(outputName);
-    console.log('[ffmpeg] read OK, size:', data.byteLength);
-    const compressed = new File([data], file.name.replace(/\.[^.]+$/, '_compressed.mp4'), { type: 'video/mp4' });
-
-    await ffmpeg.deleteFile(inputName).catch(() => {});
-    await ffmpeg.deleteFile(outputName).catch(() => {});
-    showCompression(false);
-    return compressed;
-  } catch (readErr) {
-    console.error('[ffmpeg] read failed:', readErr);
-    showCompression(false);
-    throw new Error('ffmpeg read failed: ' + readErr.message);
-  }
 }
 
-function showCompression(show, text = '') {
-  if (els.compressionOverlay) els.compressionOverlay.style.display = show ? 'flex' : 'none';
-  if (els.compressionText) els.compressionText.textContent = text;
+function sanitizeFolderName(name) {
+  return name.replace(/[^a-zA-Z0-9_-]/g, '_').substring(0, 50);
+}
+
+function showCloudinary(show, text = '', progress = 0) {
+  if (els.cloudinaryOverlay) els.cloudinaryOverlay.style.display = show ? 'flex' : 'none';
+  if (els.cloudinaryText) els.cloudinaryText.textContent = text;
+  if (els.cloudinaryProgress) {
+    els.cloudinaryProgress.style.width = progress + '%';
+    els.cloudinaryProgress.classList.toggle('hidden', !show);
+  }
 }
 
 // ============================================
@@ -443,7 +394,9 @@ function previewFile(file) {
 
 function clearFile() {
   selectedFile = null;
-  compressedFile = null;
+  cloudinaryUrl = null;
+  cloudinaryOriginalUrl = null;
+  cloudinaryPublicId = null;
   if (els.fileInput) els.fileInput.value = '';
   if (els.uploadPlaceholder) els.uploadPlaceholder.classList.remove('hidden');
   if (els.uploadFileInfo) els.uploadFileInfo.classList.add('hidden');
@@ -452,12 +405,14 @@ function clearFile() {
   if (els.videoPreview) els.videoPreview.src = '';
   enableSubmit(false);
   clearError();
-  showCompression(false);
+  showCloudinary(false, '', 0);
 }
 
 function clearFileState() {
   selectedFile = null;
-  compressedFile = null;
+  cloudinaryUrl = null;
+  cloudinaryOriginalUrl = null;
+  cloudinaryPublicId = null;
 }
 
 function showError(msg) {
@@ -478,11 +433,11 @@ function enableSubmit(enabled) {
 }
 
 // ============================================
-// QTT SUBMISSION — FORMDATA BINARY (NOT base64)
+// QTT SUBMISSION — CLOUDINARY → GD
 // ============================================
 async function handleQttSubmit() {
   if (MAINTENANCE_MODE) { showToast('QTT sedang ditutup sementara.', 'warning'); return; }
-  if (!compressedFile || !currentUser || !registrationData) return;
+  if (!selectedFile || !currentUser || !registrationData) return;
   if (isSubmitting) return;
 
   const qttRef = doc(db, 'qtt_submissions', currentUser.uid);
@@ -497,9 +452,18 @@ async function handleQttSubmit() {
   setSubmitLoading(true);
 
   try {
-    showToast('Mengupload video, mohon tunggu...', 'info', 3000);
+    // STEP 1: Upload to Cloudinary (with progress)
+    if (!cloudinaryUrl) {
+      showToast('Mengupload ke Cloudinary...', 'info', 3000);
+      const cloudResult = await uploadToCloudinary(selectedFile, registrationData.usernameId);
+      cloudinaryUrl = cloudResult.url;            // ← compressed URL (q_auto:eco)
+      cloudinaryOriginalUrl = cloudResult.originalUrl;  // ← original URL (backup)
+      cloudinaryPublicId = cloudResult.publicId;
+      showToast('Upload Cloudinary OK!', 'success');
+    }
 
-    // Build FormData with binary file
+    // STEP 2: Send URL to Apps Script (payload kecil, 2KB)
+    showToast('Mengirim ke Google Drive...', 'info', 3000);
     const formData = new FormData();
     formData.append('action', 'qtt_submit');
     formData.append('uid', currentUser.uid);
@@ -508,15 +472,16 @@ async function handleQttSubmit() {
     formData.append('engine', registrationData.engine);
     formData.append('country', registrationData.country);
     formData.append('email', currentUser.email || '');
-    formData.append('videoName', compressedFile.name);
-    formData.append('videoMime', compressedFile.type || 'video/mp4');
-    formData.append('videoFile', compressedFile); // ← BINARY BLOB, not base64!
+    formData.append('videoUrl', cloudinaryUrl);              // ← compressed URL for download
+    formData.append('originalUrl', cloudinaryOriginalUrl || '');  // ← original URL (backup)
+    formData.append('publicId', cloudinaryPublicId || '');
+    formData.append('videoName', selectedFile.name);
+    formData.append('videoMime', selectedFile.type || 'video/mp4');
 
-    console.log('[submit] FormData built, file size:', compressedFile.size);
+    console.log('[submit] sending to Apps Script, URL:', cloudinaryUrl);
 
     const response = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
-      // NO Content-Type header! Browser sets it automatically with boundary for FormData
       body: formData
     });
 
@@ -526,9 +491,13 @@ async function handleQttSubmit() {
 
     if (!result.success) throw new Error(result.error || 'Upload failed');
 
+    // STEP 3: Save metadata to Firestore (GD link as primary)
     const qttData = {
       uid: currentUser.uid,
-      videoUrl: result.videoUrl,
+      videoUrl: result.videoUrl,        // ← GD link (primary)
+      cloudinaryUrl: cloudinaryUrl,     // ← Cloudinary compressed link (backup)
+      cloudinaryOriginalUrl: cloudinaryOriginalUrl || '',  // ← Cloudinary original (backup 2)
+      cloudinaryPublicId: cloudinaryPublicId || '',
       submittedAt: serverTimestamp(),
       submissionStatus: 'submitted',
       fileName: result.fileName,
@@ -563,7 +532,7 @@ function setSubmitLoading(loading) {
     els.submitText?.classList.add('hidden');
     els.submitSpinner?.classList.remove('hidden');
   } else {
-    els.submitBtn.disabled = !compressedFile || MAINTENANCE_MODE;
+    els.submitBtn.disabled = !selectedFile || MAINTENANCE_MODE;
     els.submitBtn.classList.remove('opacity-80', 'cursor-wait');
     els.submitText?.classList.remove('hidden');
     els.submitSpinner?.classList.add('hidden');
