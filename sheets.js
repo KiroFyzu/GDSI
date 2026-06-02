@@ -23,6 +23,7 @@ export async function syncToGoogleSheets(data) {
     email: data.email,
     whatsapp: data.whatsapp,
     usernameId: data.usernameId,
+    country: data.country,
     clubTeam: data.clubTeam,
     car: data.car,
     engine: data.engine,
@@ -63,7 +64,7 @@ function doPost(e) {
       sheet = ss.insertSheet(sheetName);
       var headers = [
         'Timestamp', 'UID', 'Name', 'Email', 'WhatsApp',
-        'UsernameID', 'ClubTeam', 'Car', 'Engine', 'RegisteredAt'
+        'UsernameID', 'Country', 'ClubTeam', 'Car', 'Engine', 'RegisteredAt'
       ];
       sheet.appendRow(headers);
       var headerRange = sheet.getRange(1, 1, 1, headers.length);
@@ -80,6 +81,7 @@ function doPost(e) {
       data.email || '',
       data.whatsapp || '',
       data.usernameId || '',
+      data.country || '',
       data.clubTeam || '',
       data.car || '',
       data.engine || '',

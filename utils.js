@@ -52,7 +52,7 @@ export function validateRequired(value, fieldName) {
 }
 
 export function validateEngine(engine) {
-  const allowed = ['ProDrift', 'SR', '2JZ', 'V6TT', 'V8S', 'V8na'];
+  const allowed = ['ProDrift', 'SR', '2JZ', 'V6TT', 'V8S', 'V8na', 'ROTARY'];
   if (!allowed.includes(engine)) {
     return { valid: false, message: 'Pilih engine yang valid' };
   }

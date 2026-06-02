@@ -51,6 +51,7 @@ export async function submitRegistration(uid, formData) {
       provider: formData.provider || 'google',
       whatsapp: formData.whatsapp,
       usernameId: formData.usernameId,
+      country: formData.country,
       clubTeam: formData.clubTeam,
       car: formData.car,
       engine: formData.engine,

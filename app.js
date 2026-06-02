@@ -4,6 +4,7 @@ import { submitRegistration } from './firestore.js';
 import { syncToGoogleSheets } from './sheets.js';
 import {
   initCountryDropdown,
+  initCountrySelect,
   getSelectedCountryDial,
   setFormMode,
   setSubmitLoading,
@@ -27,6 +28,7 @@ const submitLock = new SubmitLock();
 
 function init() {
   initCountryDropdown();
+  initCountrySelect();
   initAuth();
   initEventListeners();
   watchNetwork((online) => {
@@ -76,6 +78,7 @@ async function handleSubmit(e) {
   const rawName = form.querySelector('[name="full-name"]').value;
   const rawWhatsApp = form.querySelector('[name="whatsapp-number"]').value;
   const rawUsername = form.querySelector('[name="username-id"]').value;
+  const rawCountry = form.querySelector('[name="country"]').value;
   const rawTeam = form.querySelector('[name="club-team"]').value;
   const rawCar = form.querySelector('[name="car"]').value;
   const engine = form.querySelector('[name="engine"]').value;
@@ -88,6 +91,9 @@ async function handleSubmit(e) {
 
   const carCheck = validateRequired(rawCar, 'Mobil');
   if (!carCheck.valid) { showToast(carCheck.message, 'error'); return; }
+
+  const countryCheck = validateRequired(rawCountry, 'Country');
+  if (!countryCheck.valid) { showToast(countryCheck.message, 'error'); return; }
 
   const usernameCheck = validateUsername(rawUsername);
   if (!usernameCheck.valid) { showToast(usernameCheck.message, 'error'); return; }
@@ -107,6 +113,7 @@ async function handleSubmit(e) {
     provider: user.providerData[0]?.providerId || 'google',
     whatsapp: waCheck.normalized,
     usernameId: sanitizeInput(rawUsername),
+    country: sanitizeInput(countryCheck.value),
     clubTeam: sanitizeInput(teamCheck.value),
     car: sanitizeInput(carCheck.value),
     engine: engine

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#131313">
+  <meta name="description" content="Grand Drift Series Indonesia - QTT Registration (Coming Soon)">
+  <title>GDSI QTT | Grand Drift Series Indonesia</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            background: "#131313",
+            primary: "#ffb4a8",
+            "on-error-container": "#ffdad6",
+            "surface-tint": "#ffb4a8",
+            "on-background": "#e5e2e1",
+            "surface-container-lowest": "#0e0e0e",
+            "on-primary-fixed-variant": "#930100",
+            "tertiary-container": "#929090",
+            "inverse-on-surface": "#313030",
+            "inverse-surface": "#e5e2e1",
+            "surface-container": "#201f1f",
+            "on-primary-fixed": "#410000",
+            error: "#ffb4ab",
+            "on-primary": "#690100",
+            "tertiary-fixed": "#e5e2e1",
+            "on-tertiary": "#313030",
+            "on-secondary-fixed-variant": "#930000",
+            "on-primary-container": "#5c0000",
+            "on-secondary": "#690000",
+            "on-secondary-container": "#ffdcd7",
+            "on-error": "#690005",
+            "inverse-primary": "#c00100",
+            "on-tertiary-container": "#2a2a2a",
+            "outline-variant": "#603e39",
+            "surface-container-high": "#2a2a2a",
+            secondary: "#ffb4a8",
+            "surface-dim": "#131313",
+            "secondary-fixed": "#ffdad4",
+            outline: "#b18780",
+            surface: "#131313",
+            "surface-bright": "#393939",
+            "error-container": "#93000a",
+            "surface-variant": "#353534",
+            tertiary: "#c8c6c5",
+            "on-tertiary-fixed": "#1c1b1b",
+            "on-tertiary-fixed-variant": "#474746",
+            "secondary-container": "#ce0301",
+            "tertiary-fixed-dim": "#c8c6c5",
+            "primary-container": "#ff5540",
+            "primary-fixed-dim": "#ffb4a8",
+            "surface-container-low": "#1c1b1b",
+            "on-secondary-fixed": "#410000",
+            "primary-fixed": "#ffdad4",
+            "secondary-fixed-dim": "#ffb4a8",
+            "surface-container-highest": "#353534",
+            "on-surface-variant": "#ebbbb4",
+            "on-surface": "#e5e2e1"
+          },
+          fontFamily: {
+            "headline-xl": ["Sora", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "headline-lg-mobile": ["Sora", "sans-serif"],
+            "label-sm": ["JetBrains Mono", "monospace"],
+            "headline-lg": ["Sora", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-background text-on-background font-body-md antialiased">
+
+  <!-- ============================================
+       ATMOSPHERIC BACKGROUND
+       ============================================ -->
+  <div class="atmosphere">
+    <div class="bg-image" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCvvhLiC2vvR6D2p3q3fZbjaQW-v07nchSknYPPPkoQNB_nv8of0zAbrfPkc8Z2EuwoL9j3msG2xhR27dDv4IpubKqH78u6obNmOfvRsaKYhDNwOqWafBxZ1Wq2YuMfY5y0OiW22uponQ7yUvj20UF4X-j8-eS9cWWH39uscPdj7-NO5BrWXVmAZPcr51Vngs9SJ4qZtcPUkKXtP1CqQpzB0EZecdTdf66BWbyceqMOQUqe2G4nPiKQuj2rL6LXbHXcj_JakGcxMwIN');"></div>
+    <div class="bg-gradient"></div>
+    <div class="bg-radial"></div>
+  </div>
+
+  <!-- ============================================
+       MAIN QTT CARD (PLACEHOLDER)
+       ============================================ -->
+  <div class="relative z-10 min-h-screen flex items-center justify-center p-4 md:p-8">
+    <div class="glass-card w-full max-w-[600px] max-h-[95vh] overflow-y-auto glass-scrollbar p-6 md:p-10 animate-fade-in main-card">
+
+      <!-- Header -->
+      <div class="flex flex-col items-center mb-8">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA12YeUqvMEYXMLxPCUt8SPiF-39rPyQ-0PDPpNS7yD0m80MvGdwCetQtLEoOBVdgz5dzdJrjcYhb6nOHF8ng1VoA-bvf4gmU_GXOZVw84vm1NIKLkq-ytJouToPlnGINgoBVTrH5ZTjuy7VXSBhND1VTnONONvWrbkuzQl8ZAj3nE10C-IgHyBCCdO_d_xh6XAMs24zDnOEEKjObiUJRBiVbJPgSt2peuEpnRYFs_1QP5p2pBplKaqMDXsUdADf-kt4kn4czhAzOeJ"
+             alt="GDSI Logo" class="h-20 md:h-24 object-contain mb-6 drop-shadow-[0_0_15px_rgba(255,0,0,0.3)]">
+        <h1 class="font-headline-xl text-primary uppercase tracking-tighter text-3xl md:text-5xl mb-1">GDSI</h1>
+        <h2 class="font-headline-lg-mobile text-on-surface text-center mb-2 text-lg md:text-2xl">Grand Drift Series Indonesia</h2>
+        <p class="text-on-surface-variant text-center font-label-sm uppercase tracking-widest text-xs">Formulir QTT</p>
+        <div class="mt-3 flex gap-2 justify-center">
+          <a href="gdsi_rules.html" target="_blank" class="text-xs text-primary/70 hover:text-primary transition-colors underline">Lihat Rules</a>
+          <span class="text-on-surface-variant/30">|</span>
+          <a href="gdsi_tnc.html" target="_blank" class="text-xs text-primary/70 hover:text-primary transition-colors underline">Lihat S&K</a>
+        </div>
+      </div>
+
+      <!-- Coming Soon Banner -->
+      <div class="flex items-center gap-3 p-4 rounded-xl bg-primary/10 border border-primary/20 mb-6">
+        <span class="material-symbols-outlined text-primary text-[28px]">construction</span>
+        <div>
+          <p class="font-medium text-sm text-on-surface">Halaman QTT — Placeholder</p>
+          <p class="text-xs text-on-surface-variant mt-0.5">Formulir ini sedang dalam pengembangan. Fungsionalitas akan ditambahkan pada project berikutnya.</p>
+        </div>
+      </div>
+
+      <!-- QTT Form Fields (disabled placeholder) -->
+      <form class="space-y-5" novalidate>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+          <!-- Full Name -->
+          <div class="space-y-1.5 col-span-1 md:col-span-2">
+            <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              Full Name <span class="text-primary">*</span>
+            </label>
+            <div class="relative group">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">badge</span>
+              <input type="text" name="full-name" disabled
+                     class="glass-input pl-11 opacity-50 cursor-not-allowed"
+                     placeholder="Legal Name">
+            </div>
+          </div>
+
+          <!-- WhatsApp -->
+          <div class="space-y-1.5 col-span-1 md:col-span-2">
+            <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              WhatsApp Number <span class="text-primary">*</span>
+            </label>
+            <div class="flex rounded-lg overflow-hidden border border-outline-variant/30 bg-surface opacity-50">
+              <div class="country-trigger relative cursor-not-allowed">
+                <span class="text-on-surface text-sm font-medium">+62</span>
+                <span class="material-symbols-outlined text-on-surface-variant text-[18px]">arrow_drop_down</span>
+              </div>
+              <input type="tel" name="whatsapp-number" disabled
+                     class="w-full bg-transparent border-none py-3 px-4 text-on-surface placeholder-on-surface-variant/40 focus:ring-0 outline-none cursor-not-allowed"
+                     placeholder="8123456789">
+            </div>
+          </div>
+
+          <!-- Username ID -->
+          <div class="space-y-1.5">
+            <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              Username ID <span class="text-primary">*</span>
+            </label>
+            <div class="relative group">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">tag</span>
+              <input type="text" name="username-id" disabled
+                     class="glass-input pl-11 opacity-50 cursor-not-allowed"
+                     placeholder="Name#1234">
+            </div>
+          </div>
+
+          <!-- Club / Team -->
+          <div class="space-y-1.5">
+            <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              Club / Team <span class="text-primary">*</span>
+            </label>
+            <div class="relative group">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">groups</span>
+              <input type="text" name="club-team" disabled
+                     class="glass-input pl-11 opacity-50 cursor-not-allowed"
+                     placeholder="Club or Team Name">
+            </div>
+          </div>
+
+          <!-- Country -->
+          <div class="space-y-1.5 col-span-1 md:col-span-2">
+            <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              Country <span class="text-primary">*</span>
+            </label>
+            <div class="relative group">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px] pointer-events-none z-10">public</span>
+              <select name="country" disabled class="glass-input pl-11 opacity-50 cursor-not-allowed">
+                <option value="">Select Country</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Car -->
+          <div class="space-y-1.5">
+            <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              Car <span class="text-primary">*</span>
+            </label>
+            <div class="relative group">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">directions_car</span>
+              <input type="text" name="car" disabled
+                     class="glass-input pl-11 opacity-50 cursor-not-allowed"
+                     placeholder="e.g. Nissan Silvia S15">
+            </div>
+          </div>
+
+          <!-- Engine -->
+          <div class="space-y-1.5">
+            <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              Engine <span class="text-primary">*</span>
+            </label>
+            <div class="relative group">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px] pointer-events-none z-10">engineering</span>
+              <select name="engine" disabled class="glass-input pl-11 opacity-50 cursor-not-allowed">
+                <option value="" disabled selected>Select Engine</option>
+                <option value="ProDrift">ProDrift</option>
+                <option value="SR">SR</option>
+                <option value="2JZ">2JZ</option>
+                <option value="V6TT">V6TT</option>
+                <option value="V8S">V8S</option>
+                <option value="V8na">V8na</option>
+                <option value="ROTARY">ROTARY</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- QTT Score (placeholder field) -->
+          <div class="space-y-1.5 col-span-1 md:col-span-2">
+            <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              QTT Score <span class="text-primary">*</span>
+            </label>
+            <div class="relative group">
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">timer</span>
+              <input type="text" name="qtt-score" disabled
+                     class="glass-input pl-11 opacity-50 cursor-not-allowed"
+                     placeholder="e.g. 01:23.456">
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Terms -->
+        <div class="flex items-start gap-3 mt-6 p-4 rounded-lg bg-surface-container-lowest/50 border border-white/5 opacity-50">
+          <div class="flex items-center h-6">
+            <input type="checkbox" id="tnc" name="tnc" disabled
+                   class="w-5 h-5 rounded border-outline-variant/50 bg-surface-container text-primary accent-primary cursor-not-allowed">
+          </div>
+          <label for="tnc" class="text-sm text-on-surface-variant select-none pt-0.5 leading-relaxed">
+            Saya menyetujui <a href="gdsi_tnc.html" target="_blank" class="text-primary hover:underline">Syarat & Ketentuan / TnC GDSI</a> serta regulasi balap yang berlaku.
+          </label>
+        </div>
+
+        <!-- Submit Placeholder -->
+        <div class="pt-2 space-y-3">
+          <button type="button" disabled class="btn-primary w-full text-lg relative opacity-50 cursor-not-allowed">
+            <span class="relative z-10 flex items-center justify-center gap-2">
+              Submit QTT
+              <span class="material-symbols-outlined text-[20px]">flag</span>
+            </span>
+          </button>
+          <p class="text-center text-xs text-on-surface-variant/50 font-label-sm">[ PLACEHOLDER — Belum aktif ]</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -20,13 +20,14 @@ const els = {
   countryTrigger: () => document.getElementById('country-trigger'),
   countryDisplay: () => document.getElementById('country-display'),
   countryList: () => document.getElementById('country-list'),
+  countrySelect: () => document.getElementById('country-select'),
   modalSuccess: () => document.getElementById('modal-success'),
   modalInfo: () => document.getElementById('modal-info'),
   readonlyBanner: () => document.getElementById('readonly-banner')
 };
 
 // ============================================
-// COUNTRY MODAL - POPUP STYLE, NO SEARCH
+// COUNTRY MODAL - PHONE DIAL CODE (WhatsApp)
 // ============================================
 let selectedCountry = COUNTRIES.find(c => c.code === 'ID') || COUNTRIES[0];
 let isCountryModalOpen = false;
@@ -165,6 +166,24 @@ export function getSelectedCountryDial() {
 }
 
 // ============================================
+// COUNTRY SELECT - FIELD ASAL NEGARA
+// ============================================
+export function initCountrySelect() {
+  const select = els.countrySelect();
+  if (!select) return;
+
+  COUNTRIES.forEach(country => {
+    const option = document.createElement('option');
+    option.value = country.name;
+    option.textContent = country.name;
+    if (country.code === 'ID') {
+      option.selected = true;
+    }
+    select.appendChild(option);
+  });
+}
+
+// ============================================
 // FORM MODE MANAGEMENT
 // ============================================
 export function setFormMode(mode, data = null) {
@@ -220,6 +239,7 @@ function populateForm(data) {
     'full-name': data.name,
     'whatsapp-number': data.whatsapp,
     'username-id': data.usernameId,
+    'country': data.country,
     'club-team': data.clubTeam,
     'car': data.car,
     'engine': data.engine
@@ -233,6 +253,11 @@ function populateForm(data) {
   const engineSelect = form.querySelector('[name="engine"]');
   if (engineSelect && data.engine) {
     engineSelect.value = data.engine;
+  }
+
+  const countrySelect = form.querySelector('[name="country"]');
+  if (countrySelect && data.country) {
+    countrySelect.value = data.country;
   }
 }
 
@@ -299,6 +324,7 @@ export function showSuccessModal(data) {
   const fields = {
     'modal-name': data.name,
     'modal-username': data.usernameId,
+    'modal-country': data.country,
     'modal-team': data.clubTeam,
     'modal-car': data.car,
     'modal-engine': data.engine,
@@ -322,6 +348,7 @@ export function showInfoModal(data) {
     'info-name': data.name,
     'info-email': data.email,
     'info-username': data.usernameId,
+    'info-country': data.country,
     'info-car': data.car,
     'info-engine': data.engine,
     'info-date': formatTimestamp(data.registeredAt)
