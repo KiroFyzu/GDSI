@@ -118,7 +118,7 @@
             html { scroll-behavior: auto !important; }
             .fade-in-up { opacity: 1; transform: none; transition: none !important; }
         }
-        
+
         .glass-panel {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
@@ -161,7 +161,7 @@
 <!-- CTA Section (Sleek Grid) -->
 <section class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pb-xl relative z-10">
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-md fade-in-up delay-300">
-<!-- CTA Card 1 -->
+<!-- CTA Card 1: Registration -->
 <a class="group relative flex items-center justify-start p-md h-32 md:h-36 glass-panel rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-surface-variant hover:-translate-y-1" href="form.html">
 <div class="absolute inset-y-0 left-0 w-1 bg-surface-variant group-hover:w-full group-hover:bg-inverse-surface transition-all duration-500 ease-out z-0"></div>
 <div class="relative flex flex-col items-start gap-xs z-10 group-hover:text-inverse-on-surface transition-colors duration-300">
@@ -169,15 +169,15 @@
 <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300">Registration</span>
 </div>
 </a>
-<!-- CTA Card 2 -->
-<a class="group relative flex items-center justify-start p-md h-32 md:h-36 glass-panel rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-surface-variant hover:-translate-y-1" href="#">
+<!-- CTA Card 2: QTT (NEW - Linked to qtt.html) -->
+<a class="group relative flex items-center justify-start p-md h-32 md:h-36 glass-panel rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-surface-variant hover:-translate-y-1" href="qtt.html">
 <div class="absolute inset-y-0 left-0 w-1 bg-surface-variant group-hover:w-full group-hover:bg-inverse-surface transition-all duration-500 ease-out z-0"></div>
 <div class="relative flex flex-col items-start gap-xs z-10 group-hover:text-inverse-on-surface transition-colors duration-300">
-<span class="material-symbols-outlined text-on-surface text-3xl mb-xs group-hover:text-inverse-on-surface transition-colors duration-300" style="font-variation-settings: 'FILL' 1;">flag</span>
-<span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300">Qualification</span>
+<span class="material-symbols-outlined text-on-surface text-3xl mb-xs group-hover:text-inverse-on-surface transition-colors duration-300" style="font-variation-settings: 'FILL' 1;">timer</span>
+<span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300">QTT Submit</span>
 </div>
 </a>
-<!-- CTA Card 3 -->
+<!-- CTA Card 3: Rules -->
 <a class="group relative flex items-center justify-start p-md h-32 md:h-36 glass-panel rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-surface-variant hover:-translate-y-1" href="gdsi_rules.html">
 <div class="absolute inset-y-0 left-0 w-1 bg-surface-variant group-hover:w-full group-hover:bg-inverse-surface transition-all duration-500 ease-out z-0"></div>
 <div class="relative flex flex-col items-start gap-xs z-10 group-hover:text-inverse-on-surface transition-colors duration-300">
@@ -185,7 +185,7 @@
 <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300">Rules</span>
 </div>
 </a>
-<!-- CTA Card 4 (Accent) -->
+<!-- CTA Card 4 (Accent): Donation -->
 <a class="group relative flex items-center justify-start p-md h-32 md:h-36 bg-primary text-on-primary rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-1" href="#">
 <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
 <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -196,6 +196,26 @@
 <span class="font-label-bold text-label-bold uppercase tracking-widest">Donation</span>
 </div>
 </a>
+</div>
+</section>
+<!-- QTT Info Section (NEW) -->
+<section class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pb-xl fade-in-up">
+<div class="relative bg-surface-container rounded-2xl p-6 md:p-8 border border-surface-variant">
+<div class="flex flex-col md:flex-row items-start md:items-center gap-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-2xl">timer</span>
+</div>
+<div class="flex-1">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Qualifying Time Trial (QTT)</h3>
+<p class="font-body-md text-secondary">
+                    Sudah registrasi? Langsung submit video QTT-mu di halaman QTT. Pastikan video memenuhi spesifikasi: <strong class="text-primary">720p, Kamera 3, Tire Smoke OFF, Telemetry ON</strong>.
+                </p>
+</div>
+<a href="qtt.html" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-lg font-label-bold text-label-bold uppercase tracking-wider hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    Ke Halaman QTT
+                </a>
+</div>
 </div>
 </section>
 <!-- Video Section 1 (Asymmetrical Modern Layout) -->
