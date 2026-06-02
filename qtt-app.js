@@ -1,7 +1,7 @@
-// qtt-app.js — QTT Submission Application (FINAL)
+// qtt-app.js — QTT Submission Application (FINAL v2)
 // ============================================================
 // Architecture:
-//   Frontend → Apps Script Web App (JSON + base64 video) → Google Drive + Sheets
+//   Frontend → Apps Script Web App (FormData binary video) → Google Drive + Sheets
 //   After success → Firestore (metadata ONLY, no participant data duplication)
 //
 // MAINTENANCE MODE:
@@ -22,8 +22,6 @@ import { showToast, formatTimestamp, escapeHtml } from './utils.js';
 // ============================================
 // ⚙️ MAINTENANCE MODE — GANTI INI UNTUK ON/OFF
 // ============================================
-// true  = QTT ditutup, participant lihat maintenance banner
-// false = QTT dibuka, normal operation
 const MAINTENANCE_MODE = false;
 
 // ============================================
@@ -34,7 +32,7 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyzohhmODuY3JAY
 
 const ALLOWED_TYPES = ['video/mp4', 'video/quicktime', 'video/webm'];
 const ALLOWED_EXTS = ['.mp4', '.mov', '.webm'];
-const MAX_SIZE_MB = 100;
+const MAX_SIZE_MB = 50;  // ← INCREASED to 50MB for binary upload
 
 // ============================================
 // DOM REFERENCES
@@ -50,12 +48,12 @@ const els = {
   viewMode: document.getElementById('view-mode'),
   errorState: document.getElementById('error-state'),
   maintenanceBanner: document.getElementById('maintenance-banner'),
-  // Display fields (read-only) — populated from users/{uid}
+  // Display fields (read-only)
   dispUsername: document.getElementById('disp-username'),
   dispVehicle: document.getElementById('disp-vehicle'),
   dispEngine: document.getElementById('disp-engine'),
   dispCountry: document.getElementById('disp-country'),
-  // View mode fields — populated from users/{uid} + qtt_submissions/{uid}
+  // View mode fields
   viewUsername: document.getElementById('view-username'),
   viewVehicle: document.getElementById('view-vehicle'),
   viewEngine: document.getElementById('view-engine'),
@@ -102,7 +100,6 @@ let isSubmitting = false;
 // INIT
 // ============================================
 function init() {
-  // Check maintenance mode FIRST
   if (MAINTENANCE_MODE) {
     showMaintenanceMode();
   }
@@ -138,13 +135,11 @@ function showMaintenanceMode() {
   if (els.maintenanceBanner) {
     els.maintenanceBanner.classList.remove('hidden');
   }
-  // Disable submit button permanently
   if (els.submitBtn) {
     els.submitBtn.disabled = true;
     els.submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
     els.submitBtn.title = 'QTT sedang ditutup sementara';
   }
-  // Disable upload zone
   if (els.uploadZone) {
     els.uploadZone.classList.add('pointer-events-none', 'opacity-50');
     els.uploadZone.title = 'QTT sedang ditutup sementara';
@@ -202,7 +197,7 @@ function showLoading(show) {
 }
 
 // ============================================
-// LOAD PARTICIPANT DATA (NO DUPLICATION)
+// LOAD PARTICIPANT DATA
 // ============================================
 async function loadParticipantData(uid) {
   showLoading(true);
@@ -211,7 +206,6 @@ async function loadParticipantData(uid) {
   els.errorState?.classList.add('hidden');
 
   try {
-    // STEP 1: Fetch registration data from users/{uid} — ALWAYS source of truth
     const regRef = doc(db, 'users', uid);
     const regSnap = await getDoc(regRef);
 
@@ -223,15 +217,12 @@ async function loadParticipantData(uid) {
 
     registrationData = regSnap.data();
 
-    // STEP 2: Check if QTT already submitted
     const qttRef = doc(db, 'qtt_submissions', uid);
     const qttSnap = await getDoc(qttRef);
 
     if (qttSnap.exists()) {
-      // STEP 3: View Mode — merge data from users/{uid} + qtt_submissions/{uid}
       showViewMode(registrationData, qttSnap.data());
     } else {
-      // STEP 4: Submission Mode
       if (!MAINTENANCE_MODE) {
         showSubmitMode(registrationData);
       } else {
@@ -249,20 +240,18 @@ async function loadParticipantData(uid) {
 }
 
 // ============================================
-// VIEW MODE (already submitted)
+// VIEW MODE
 // ============================================
 function showViewMode(userData, qttData) {
   if (els.viewMode) els.viewMode.classList.remove('hidden');
   if (els.submitMode) els.submitMode.classList.add('hidden');
   if (els.errorState) els.errorState.classList.add('hidden');
 
-  // Participant info — ALWAYS from users/{uid} (source of truth)
   if (els.viewUsername) els.viewUsername.textContent = userData.usernameId || '-';
   if (els.viewVehicle) els.viewVehicle.textContent = userData.car || '-';
   if (els.viewEngine) els.viewEngine.textContent = userData.engine || '-';
   if (els.viewCountry) els.viewCountry.textContent = userData.country || '-';
 
-  // QTT metadata — from qtt_submissions/{uid}
   if (els.viewSubmittedAt) els.viewSubmittedAt.textContent = formatTimestamp(qttData.submittedAt);
   if (els.viewStatus) els.viewStatus.textContent = qttData.submissionStatus || 'Submitted';
 
@@ -284,7 +273,7 @@ function showViewMode(userData, qttData) {
 }
 
 // ============================================
-// SUBMIT MODE (not yet submitted)
+// SUBMIT MODE
 // ============================================
 function showSubmitMode(data) {
   if (els.submitMode) els.submitMode.classList.remove('hidden');
@@ -297,9 +286,6 @@ function showSubmitMode(data) {
   if (els.dispCountry) els.dispCountry.value = data.country || '-';
 }
 
-// ============================================
-// MAINTENANCE SUBMIT STATE
-// ============================================
 function showMaintenanceSubmitState() {
   if (els.submitMode) els.submitMode.classList.remove('hidden');
   if (els.viewMode) els.viewMode.classList.add('hidden');
@@ -318,7 +304,7 @@ function showMaintenanceSubmitState() {
 }
 
 // ============================================
-// ERROR STATE (no registration found)
+// ERROR STATE
 // ============================================
 function showErrorState() {
   if (els.errorState) els.errorState.classList.remove('hidden');
@@ -441,23 +427,7 @@ function enableSubmit(enabled) {
 }
 
 // ============================================
-// HELPER: Convert file to base64
-// ============================================
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      // Remove data URL prefix (e.g., "data:video/mp4;base64,")
-      const base64 = reader.result.split(',')[1];
-      resolve(base64);
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-// ============================================
-// QTT SUBMISSION (BASE64 → Apps Script)
+// QTT SUBMISSION — BINARY UPLOAD (NO BASE64)
 // ============================================
 async function handleQttSubmit() {
   if (MAINTENANCE_MODE) {
@@ -481,30 +451,26 @@ async function handleQttSubmit() {
   setSubmitLoading(true);
 
   try {
-    showToast('Mengkonversi video, mohon tunggu...', 'info', 3000);
+    showToast('Mengupload video, mohon tunggu...', 'info', 5000);
 
-    // STEP 1: Convert video to base64
-    const videoBase64 = await fileToBase64(selectedFile);
+    // STEP 1: Build FormData with binary file (NO base64 conversion!)
+    const formData = new FormData();
+    formData.append('action', 'qtt_submit');
+    formData.append('uid', currentUser.uid);
+    formData.append('username', registrationData.usernameId);
+    formData.append('vehicle', registrationData.car);
+    formData.append('engine', registrationData.engine);
+    formData.append('country', registrationData.country);
+    formData.append('email', currentUser.email || '');
+    formData.append('videoFile', selectedFile);  // ← BINARY, not base64!
+    formData.append('videoName', selectedFile.name);
+    formData.append('videoMime', selectedFile.type || 'video/mp4');
 
-    // STEP 2: Send JSON payload to Apps Script
-    const payload = {
-      action: 'qtt_submit',
-      uid: currentUser.uid,
-      username: registrationData.usernameId,
-      vehicle: registrationData.car,
-      engine: registrationData.engine,
-      country: registrationData.country,
-      email: currentUser.email || '',
-      videoBase64: videoBase64,
-      videoName: selectedFile.name,
-      videoMime: selectedFile.type || 'video/mp4'
-    };
-
+    // STEP 2: Send FormData to Apps Script (multipart/form-data)
     const response = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
-      mode: 'cors',  // ← BISA pake CORS karena sekarang JSON!
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      // NO Content-Type header — browser sets it automatically with boundary
+      body: formData
     });
 
     const result = await response.json();
@@ -513,10 +479,10 @@ async function handleQttSubmit() {
       throw new Error(result.error || 'Upload failed');
     }
 
-    // STEP 3: Save metadata to Firestore — NO participant data duplication
+    // STEP 3: Save metadata to Firestore
     const qttData = {
       uid: currentUser.uid,
-      videoUrl: result.videoUrl,  // ← REAL URL dari Apps Script!
+      videoUrl: result.videoUrl,
       submittedAt: serverTimestamp(),
       submissionStatus: 'submitted',
       fileName: result.fileName,
