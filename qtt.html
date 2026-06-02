@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#131313">
+  <meta name="theme-color" content="#f8f9fa">
   <meta name="description" content="Grand Drift Series Indonesia - QTT Submission">
   <title>GDSI QTT | Grand Drift Series Indonesia</title>
 
@@ -15,57 +15,56 @@
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
-      darkMode: "class",
       theme: {
         extend: {
           colors: {
-            background: "#131313",
-            primary: "#ffb4a8",
-            "on-error-container": "#ffdad6",
-            "surface-tint": "#ffb4a8",
-            "on-background": "#e5e2e1",
-            "surface-container-lowest": "#0e0e0e",
-            "on-primary-fixed-variant": "#930100",
-            "tertiary-container": "#929090",
-            "inverse-on-surface": "#313030",
-            "inverse-surface": "#e5e2e1",
-            "surface-container": "#201f1f",
-            "on-primary-fixed": "#410000",
-            error: "#ffb4ab",
-            "on-primary": "#690100",
-            "tertiary-fixed": "#e5e2e1",
-            "on-tertiary": "#313030",
-            "on-secondary-fixed-variant": "#930000",
-            "on-primary-container": "#5c0000",
-            "on-secondary": "#690000",
-            "on-secondary-container": "#ffdcd7",
-            "on-error": "#690005",
-            "inverse-primary": "#c00100",
-            "on-tertiary-container": "#2a2a2a",
-            "outline-variant": "#603e39",
-            "surface-container-high": "#2a2a2a",
-            secondary: "#ffb4a8",
-            "surface-dim": "#131313",
-            "secondary-fixed": "#ffdad4",
-            outline: "#b18780",
-            surface: "#131313",
-            "surface-bright": "#393939",
-            "error-container": "#93000a",
-            "surface-variant": "#353534",
-            tertiary: "#c8c6c5",
-            "on-tertiary-fixed": "#1c1b1b",
-            "on-tertiary-fixed-variant": "#474746",
-            "secondary-container": "#ce0301",
-            "tertiary-fixed-dim": "#c8c6c5",
-            "primary-container": "#ff5540",
-            "primary-fixed-dim": "#ffb4a8",
-            "surface-container-low": "#1c1b1b",
-            "on-secondary-fixed": "#410000",
-            "primary-fixed": "#ffdad4",
-            "secondary-fixed-dim": "#ffb4a8",
-            "surface-container-highest": "#353534",
-            "on-surface-variant": "#ebbbb4",
-            "on-surface": "#e5e2e1"
+            "primary-fixed-dim": "#ffb4ac",
+            "surface-dim": "#d9dadb",
+            "surface-variant": "#e1e3e4",
+            "surface": "#f8f9fa",
+            "primary": "#b70013",
+            "tertiary-fixed-dim": "#c4c6cc",
+            "secondary-fixed-dim": "#c8c6c5",
+            "primary-container": "#e11922",
+            "secondary-container": "#e2dfde",
+            "on-primary-container": "#fff7f5",
+            "outline-variant": "#e7bdb8",
+            "on-primary-fixed-variant": "#93000d",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed": "#181c20",
+            "tertiary-container": "#6f7277",
+            "surface-container-highest": "#e1e3e4",
+            "secondary-fixed": "#e5e2e1",
+            "on-secondary-container": "#636262",
+            "on-secondary": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "secondary": "#5f5e5e",
+            "inverse-on-surface": "#f0f1f2",
+            "on-tertiary-container": "#f6f8fe",
+            "tertiary": "#565a5e",
+            "on-error": "#ffffff",
+            "on-background": "#191c1d",
+            "surface-container-low": "#f3f4f5",
+            "on-surface": "#191c1d",
+            "primary-fixed": "#ffdad6",
+            "on-error-container": "#93000a",
+            "outline": "#926e6b",
+            "error": "#ba1a1a",
+            "surface-container": "#edeeef",
+            "on-surface-variant": "#5d3f3c",
+            "tertiary-fixed": "#e0e2e8",
+            "inverse-surface": "#2e3132",
+            "surface-container-lowest": "#ffffff",
+            "surface-bright": "#f8f9fa",
+            "on-tertiary-fixed-variant": "#44474b",
+            "surface-container-high": "#e7e8e9",
+            "on-primary-fixed": "#410002",
+            "inverse-primary": "#ffb4ac",
+            "background": "#f8f9fa",
+            "surface-tint": "#c00015",
+            "on-secondary-fixed": "#1c1b1b",
+            "on-secondary-fixed-variant": "#474746",
+            "on-primary": "#ffffff"
           },
           fontFamily: {
             "headline-xl": ["Sora", "sans-serif"],
@@ -79,56 +78,325 @@
     };
   </script>
 
-  <link rel="stylesheet" href="style.css">
-
   <style>
-    /* Native select styling untuk dial code */
-    #dial-code-select {
-      background-color: transparent;
-      border: none;
-      border-right: 1px solid rgba(96, 62, 57, 0.4);
-      padding: 12px 8px 12px 12px;
-      color: #e5e2e1;
-      font-size: 0.875rem;
-      font-weight: 500;
-      outline: none;
-      cursor: pointer;
-      min-width: 90px;
-      max-width: 110px;
-      -webkit-appearance: auto;
-      appearance: auto;
-    }
-    #dial-code-select option {
-      background-color: #201f1f;
-      color: #e5e2e1;
+    /* ============================================
+       LIGHT THEME STYLES - Matching index.html
+       ============================================ */
+
+    body {
+      background-color: #f8f9fa;
+      color: #191c1d;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
     }
 
-    /* Upload zone styles */
+    /* Atmosphere - Light version */
+    .atmosphere {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .atmosphere .bg-image {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.08;
+      filter: saturate(0.6) contrast(1.2);
+    }
+    .atmosphere .bg-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(248,249,250,0.9) 0%, rgba(248,249,250,0.98) 60%, #f8f9fa 100%);
+    }
+    .atmosphere .bg-radial {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(183,0,19,0.04) 0%, transparent 60%);
+    }
+
+    /* Glass Card - Light */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 1rem;
+      box-shadow: 0 0 60px rgba(183, 0, 19, 0.04), 0 20px 40px rgba(0,0,0,0.08);
+    }
+
+    /* Scrollbar - Light */
+    .glass-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .glass-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .glass-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 10px;
+    }
+    .glass-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(183, 0, 19, 0.5);
+    }
+
+    /* Inputs - Light */
+    .glass-input {
+      background: #ffffff;
+      border: 1px solid #e1e3e4;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      color: #191c1d;
+      font-size: 0.95rem;
+      font-weight: 500;
+      width: 100%;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    .glass-input::placeholder {
+      color: #888888;
+      font-weight: 400;
+    }
+    .glass-input:focus {
+      border-color: #b70013;
+      box-shadow: 0 0 15px rgba(183, 0, 19, 0.08);
+    }
+    .glass-input:disabled,
+    .glass-input[readonly] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: #f3f4f5;
+      color: #666666;
+    }
+
+    /* Autofill fix - Light */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+      -webkit-text-fill-color: #191c1d !important;
+    }
+
+    /* Buttons - Light */
+    .btn-primary {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #e11922 0%, #b70013 100%);
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(183, 0, 19, 0.15);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #ff1a2e 0%, #d90017 100%);
+      box-shadow: 0 0 30px rgba(183, 0, 19, 0.25);
+      transform: translateY(-1px);
+    }
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(0);
+    }
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-glass {
+      background: transparent;
+      border: 1px solid rgba(0,0,0,0.1);
+      color: #191c1d;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .btn-glass:hover {
+      background: rgba(0,0,0,0.03);
+      border-color: rgba(0,0,0,0.2);
+    }
+
+    /* Auth Overlay - Light */
+    .auth-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(248, 249, 250, 0.9);
+      backdrop-filter: blur(12px);
+    }
+    .auth-card {
+      text-align: center;
+      padding: 2.5rem;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    /* Profile Bar - Light */
+    .profile-bar {
+      background: rgba(237, 238, 239, 0.8);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(12px);
+    }
+    .avatar {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      background: #e7e8e9;
+      border: 1px solid rgba(183, 0, 19, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Readonly Banner - Light */
+    .readonly-banner {
+      background: rgba(183, 0, 19, 0.06);
+      border: 1px solid rgba(183, 0, 19, 0.15);
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #b70013;
+      font-size: 0.9rem;
+    }
+
+    /* Upload Zone - Light */
     .upload-zone {
-      border: 2px dashed rgba(255, 255, 255, 0.12);
+      border: 2px dashed rgba(0, 0, 0, 0.15);
       border-radius: 16px;
       padding: 2rem;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
-      background: rgba(19, 19, 19, 0.3);
+      background: rgba(255, 255, 255, 0.5);
     }
     .upload-zone:hover {
-      border-color: rgba(255, 85, 64, 0.4);
-      background: rgba(255, 85, 64, 0.05);
+      border-color: rgba(183, 0, 19, 0.4);
+      background: rgba(183, 0, 19, 0.03);
     }
     .upload-zone.dragover {
-      border-color: #ff5540;
-      background: rgba(255, 85, 64, 0.08);
+      border-color: #b70013;
+      background: rgba(183, 0, 19, 0.05);
     }
     .upload-zone.has-file {
       border-style: solid;
-      border-color: rgba(255, 85, 64, 0.3);
-      background: rgba(255, 85, 64, 0.05);
+      border-color: rgba(183, 0, 19, 0.25);
+      background: rgba(183, 0, 19, 0.03);
     }
     .upload-zone.error {
-      border-color: #ff5540;
-      background: rgba(255, 0, 0, 0.05);
+      border-color: #ba1a1a;
+      background: rgba(186, 26, 26, 0.03);
+    }
+
+    /* Modals - Light */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      padding: 1rem;
+    }
+    .modal-content {
+      background: #ffffff;
+      border: 1px solid #e1e3e4;
+      border-radius: 1rem;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+      animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.96) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-header {
+      padding: 1.5rem 1.5rem 0.5rem;
+      text-align: center;
+    }
+    .modal-body {
+      padding: 1rem 1.5rem;
+    }
+    .modal-footer {
+      padding: 1rem 1.5rem 1.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Data Row - Light */
+    .data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .data-row:last-child {
+      border-bottom: none;
+    }
+    .data-label {
+      font-size: 0.8rem;
+      color: #5f5e5e;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .data-value {
+      font-weight: 600;
+      color: #191c1d;
+      font-size: 0.95rem;
+      text-align: right;
+      max-width: 60%;
+      word-break: break-word;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(0,0,0,0.1);
+      border-top-color: #b70013;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Hidden utility */
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
@@ -146,11 +414,11 @@
     <div class="glass-card auth-card animate-fade-in">
       <div class="mb-6">
         <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA12YeUqvMEYXMLxPCUt8SPiF-39rPyQ-0PDPpNS7yD0m80MvGdwCetQtLEoOBVdgz5dzdJrjcYhb6nOHF8ng1VoA-bvf4gmU_GXOZVw84vm1NIKLkq-ytJouToPlnGINgoBVTrH5ZTjuy7VXSBhND1VTnONONvWrbkuzQl8ZAj3nE10C-IgHyBCCdO_d_xh6XAMs24zDnOEEKjObiUJRBiVbJPgSt2peuEpnRYFs_1QP5p2pBplKaqMDXsUdADf-kt4kn4czhAzOeJ"
-             alt="GDSI Logo" class="h-20 md:h-24 object-contain mx-auto mb-4 drop-shadow-[0_0_15px_rgba(255,0,0,0.3)]">
+             alt="GDSI Logo" class="h-20 md:h-24 object-contain mx-auto mb-4">
         <h1 class="font-headline-xl text-primary uppercase tracking-tighter text-3xl md:text-4xl mb-1">GDSI</h1>
-        <p class="text-on-surface-variant text-sm uppercase tracking-widest">Grand Drift Series Indonesia</p>
+        <p class="text-secondary text-sm uppercase tracking-widest">Grand Drift Series Indonesia</p>
       </div>
-      <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">
+      <p class="text-secondary text-sm mb-6 leading-relaxed">
         Silakan login dengan akun Google untuk mengakses formulir QTT.
       </p>
       <button id="login-btn" class="btn-primary w-full flex items-center justify-center gap-3 text-base">
@@ -162,7 +430,7 @@
         </svg>
         Login dengan Google
       </button>
-      <p class="text-on-surface-variant/50 text-xs mt-4">Dengan login, Anda menyetujui Syarat & Ketentuan GDSI.</p>
+      <p class="text-secondary/50 text-xs mt-4">Dengan login, Anda menyetujui Syarat & Ketentuan GDSI.</p>
     </div>
   </div>
 
@@ -173,13 +441,13 @@
       <!-- Header -->
       <div class="flex flex-col items-center mb-8">
         <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA12YeUqvMEYXMLxPCUt8SPiF-39rPyQ-0PDPpNS7yD0m80MvGdwCetQtLEoOBVdgz5dzdJrjcYhb6nOHF8ng1VoA-bvf4gmU_GXOZVw84vm1NIKLkq-ytJouToPlnGINgoBVTrH5ZTjuy7VXSBhND1VTnONONvWrbkuzQl8ZAj3nE10C-IgHyBCCdO_d_xh6XAMs24zDnOEEKjObiUJRBiVbJPgSt2peuEpnRYFs_1QP5p2pBplKaqMDXsUdADf-kt4kn4czhAzOeJ"
-             alt="GDSI Logo" class="h-20 md:h-24 object-contain mb-6 drop-shadow-[0_0_15px_rgba(255,0,0,0.3)]">
+             alt="GDSI Logo" class="h-20 md:h-24 object-contain mb-6">
         <h1 class="font-headline-xl text-primary uppercase tracking-tighter text-3xl md:text-5xl mb-1">GDSI</h1>
         <h2 class="font-headline-lg-mobile text-on-surface text-center mb-2 text-lg md:text-2xl">Grand Drift Series Indonesia</h2>
-        <p class="text-on-surface-variant text-center font-label-sm uppercase tracking-widest text-xs">QTT Submission</p>
+        <p class="text-secondary text-center font-label-sm uppercase tracking-widest text-xs">QTT Submission</p>
         <div class="mt-3 flex gap-2 justify-center">
           <a href="gdsi_rules.html" target="_blank" class="text-xs text-primary/70 hover:text-primary transition-colors underline">Lihat Rules</a>
-          <span class="text-on-surface-variant/30">|</span>
+          <span class="text-secondary/30">|</span>
           <a href="gdsi_tnc.html" target="_blank" class="text-xs text-primary/70 hover:text-primary transition-colors underline">Lihat S&K</a>
         </div>
       </div>
@@ -191,11 +459,11 @@
             <span class="material-symbols-outlined text-primary text-[20px]">person</span>
           </div>
           <div>
-            <p class="font-label-sm text-on-surface-variant text-xs">Authenticated as</p>
+            <p class="font-label-sm text-secondary text-xs">Authenticated as</p>
             <p id="profile-name" class="text-sm font-bold text-primary">Guest</p>
           </div>
         </div>
-        <button id="logout-btn" class="text-on-surface-variant hover:text-primary transition-colors duration-200 p-2 rounded-full hover:bg-surface-bright/50" title="Logout">
+        <button id="logout-btn" class="text-secondary hover:text-primary transition-colors duration-200 p-2 rounded-full hover:bg-surface-container-high/50" title="Logout">
           <span class="material-symbols-outlined text-[18px]">logout</span>
         </button>
       </div>
@@ -205,14 +473,14 @@
         <span class="material-symbols-outlined text-primary">construction</span>
         <div>
           <p class="font-medium text-sm">QTT Sedang Ditutup</p>
-          <p class="text-xs text-on-surface-variant">Pengumpulan QTT sementara dihentikan. Silakan cek pengumuman untuk jadwal berikutnya.</p>
+          <p class="text-xs text-secondary">Pengumpulan QTT sementara dihentikan. Silakan cek pengumuman untuk jadwal berikutnya.</p>
         </div>
       </div>
 
       <!-- Loading State -->
       <div id="loading-state" class="flex-col items-center justify-center py-12 hidden">
         <div class="spinner mb-4"></div>
-        <p class="text-sm text-on-surface-variant">Memuat data racer...</p>
+        <p class="text-sm text-secondary">Memuat data racer...</p>
       </div>
 
       <!-- Error State (Belum registrasi) -->
@@ -221,7 +489,7 @@
           <span class="material-symbols-outlined text-error text-[28px]">error</span>
         </div>
         <h3 class="font-headline-lg text-lg text-on-surface mb-2">Registrasi Tidak Ditemukan</h3>
-        <p class="text-sm text-on-surface-variant max-w-xs mx-auto leading-relaxed mb-6">Anda belum melakukan registrasi GDSI. Silakan daftar terlebih dahulu untuk mengakses QTT.</p>
+        <p class="text-sm text-secondary max-w-xs mx-auto leading-relaxed mb-6">Anda belum melakukan registrasi GDSI. Silakan daftar terlebih dahulu untuk mengakses QTT.</p>
         <a href="form.html" class="btn-primary inline-flex items-center gap-2 px-6">
           <span class="material-symbols-outlined text-[18px]">app_registration</span>
           Registrasi Sekarang
@@ -235,11 +503,11 @@
 
             <!-- Username ID (readonly) -->
             <div class="space-y-1.5">
-              <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              <label class="font-label-sm text-secondary text-xs ml-1 flex items-center gap-1">
                 Username ID
               </label>
               <div class="relative group">
-                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">tag</span>
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-[18px]">tag</span>
                 <input type="text" id="disp-username" readonly
                        class="glass-input pl-11 opacity-60 cursor-not-allowed"
                        value="-">
@@ -248,11 +516,11 @@
 
             <!-- Vehicle / Car (readonly) -->
             <div class="space-y-1.5">
-              <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              <label class="font-label-sm text-secondary text-xs ml-1 flex items-center gap-1">
                 Vehicle
               </label>
               <div class="relative group">
-                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">directions_car</span>
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-[18px]">directions_car</span>
                 <input type="text" id="disp-vehicle" readonly
                        class="glass-input pl-11 opacity-60 cursor-not-allowed"
                        value="-">
@@ -261,11 +529,11 @@
 
             <!-- Engine (readonly) -->
             <div class="space-y-1.5">
-              <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              <label class="font-label-sm text-secondary text-xs ml-1 flex items-center gap-1">
                 Engine
               </label>
               <div class="relative group">
-                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">engineering</span>
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-[18px]">engineering</span>
                 <input type="text" id="disp-engine" readonly
                        class="glass-input pl-11 opacity-60 cursor-not-allowed"
                        value="-">
@@ -274,11 +542,11 @@
 
             <!-- Country (readonly) -->
             <div class="space-y-1.5">
-              <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              <label class="font-label-sm text-secondary text-xs ml-1 flex items-center gap-1">
                 Country
               </label>
               <div class="relative group">
-                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">public</span>
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-[18px]">public</span>
                 <input type="text" id="disp-country" readonly
                        class="glass-input pl-11 opacity-60 cursor-not-allowed"
                        value="-">
@@ -287,7 +555,7 @@
 
             <!-- Upload Video -->
             <div class="space-y-1.5 col-span-1 md:col-span-2">
-              <label class="font-label-sm text-on-surface-variant text-xs ml-1 flex items-center gap-1">
+              <label class="font-label-sm text-secondary text-xs ml-1 flex items-center gap-1">
                 Upload Video QTT <span class="text-primary">*</span>
               </label>
               <div id="upload-zone" class="upload-zone relative">
@@ -295,9 +563,9 @@
 
                 <!-- Placeholder -->
                 <div id="upload-placeholder">
-                  <span class="material-symbols-outlined text-on-surface-variant/40 text-[48px] mb-3">upload_file</span>
+                  <span class="material-symbols-outlined text-secondary/40 text-[48px] mb-3">upload_file</span>
                   <p class="text-sm text-on-surface font-medium mb-1">Klik atau drag & drop video</p>
-                  <p class="text-xs text-on-surface-variant/60">MP4, MOV, WEBM — max 100MB</p>
+                  <p class="text-xs text-secondary/60">MP4, MOV, WEBM — max 100MB</p>
                 </div>
 
                 <!-- File Info -->
@@ -306,10 +574,10 @@
                     <span class="material-symbols-outlined text-primary text-[28px]">movie</span>
                     <div>
                       <p id="file-name" class="text-sm font-medium text-on-surface truncate max-w-[200px]">filename.mp4</p>
-                      <p id="file-size" class="text-xs text-on-surface-variant">12.5 MB</p>
+                      <p id="file-size" class="text-xs text-secondary">12.5 MB</p>
                     </div>
                   </div>
-                  <button id="remove-file-btn" type="button" class="p-2 rounded-lg hover:bg-error/10 text-on-surface-variant hover:text-error transition-colors">
+                  <button id="remove-file-btn" type="button" class="p-2 rounded-lg hover:bg-error/10 text-secondary hover:text-error transition-colors">
                     <span class="material-symbols-outlined text-[20px]">close</span>
                   </button>
                 </div>
@@ -320,7 +588,7 @@
                 </div>
 
                 <!-- Preview -->
-                <div id="preview-container" class="hidden mt-4 rounded-xl overflow-hidden border border-white/10 bg-black">
+                <div id="preview-container" class="hidden mt-4 rounded-xl overflow-hidden border border-black/10 bg-black">
                   <video id="video-preview" class="w-full max-h-[300px]" controls></video>
                 </div>
               </div>
@@ -336,7 +604,7 @@
                 <span class="material-symbols-outlined text-[20px]">flag</span>
               </span>
               <span id="submit-spinner" class="hidden absolute inset-0 flex items-center justify-center">
-                <span class="spinner"></span>
+                <span class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
               </span>
             </button>
           </div>
@@ -350,32 +618,32 @@
           <span class="material-symbols-outlined text-primary">check_circle</span>
           <div>
             <p class="font-medium text-sm">QTT Berhasil Dikirim</p>
-            <p class="text-xs text-on-surface-variant">Submission Anda sudah tercatat. Tunggu hasil review.</p>
+            <p class="text-xs text-secondary">Submission Anda sudah tercatat. Tunggu hasil review.</p>
           </div>
         </div>
 
         <!-- Data Grid -->
-        <div class="bg-surface-container-low rounded-lg p-4 space-y-1">
+        <div class="bg-surface-container rounded-lg p-4 space-y-1 border border-black/5">
           <div class="data-row"><span class="data-label">Username</span><span class="data-value" id="view-username">-</span></div>
           <div class="data-row"><span class="data-label">Vehicle</span><span class="data-value" id="view-vehicle">-</span></div>
           <div class="data-row"><span class="data-label">Engine</span><span class="data-value" id="view-engine">-</span></div>
           <div class="data-row"><span class="data-label">Country</span><span class="data-value" id="view-country">-</span></div>
-          <div class="data-row border-t border-white/5 pt-2 mt-2"><span class="data-label">Submitted</span><span class="data-value" id="view-submitted-at">-</span></div>
+          <div class="data-row border-t border-black/5 pt-2 mt-2"><span class="data-label">Submitted</span><span class="data-value" id="view-submitted-at">-</span></div>
           <div class="data-row"><span class="data-label">Status</span><span class="data-value text-primary" id="view-status">Submitted</span></div>
         </div>
 
         <!-- Video Link -->
-        <a id="view-video-link" href="#" target="_blank" class="hidden flex items-center gap-3 p-4 rounded-xl bg-surface-container-lowest/40 border border-white/5 hover:border-primary/30 transition-colors group">
+        <a id="view-video-link" href="#" target="_blank" class="hidden flex items-center gap-3 p-4 rounded-xl bg-surface-container-low/40 border border-black/5 hover:border-primary/30 transition-colors group">
           <span class="material-symbols-outlined text-primary text-[28px]">play_circle</span>
           <div class="flex-1 min-w-0">
             <p class="text-sm font-medium text-on-surface group-hover:text-primary transition-colors truncate">Video QTT</p>
-            <p id="view-video-text" class="text-xs text-on-surface-variant truncate">Open Video</p>
+            <p id="view-video-text" class="text-xs text-secondary truncate">Open Video</p>
           </div>
-          <span class="material-symbols-outlined text-on-surface-variant text-[18px]">open_in_new</span>
+          <span class="material-symbols-outlined text-secondary text-[18px]">open_in_new</span>
         </a>
 
         <!-- Video Preview -->
-        <div id="video-preview-container" class="hidden rounded-xl overflow-hidden border border-white/10 bg-black">
+        <div id="video-preview-container" class="hidden rounded-xl overflow-hidden border border-black/10 bg-black">
           <video id="view-video-preview" class="w-full max-h-[300px]" controls></video>
         </div>
       </div>
@@ -388,14 +656,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <div class="w-14 h-14 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-3">
-          <span class="material-symbols-outlined text-emerald-400 text-[28px]">celebration</span>
+          <span class="material-symbols-outlined text-emerald-600 text-[28px]">celebration</span>
         </div>
         <h3 class="font-headline-lg text-on-surface text-xl mb-1">QTT Submitted!</h3>
         <p class="text-2xl">🎉</p>
       </div>
       <div class="modal-body">
-        <p class="text-sm text-on-surface-variant text-center mb-4">Data berhasil dikirim ke server.</p>
-        <div class="bg-surface-container-low rounded-lg p-4 space-y-1">
+        <p class="text-sm text-secondary text-center mb-4">Data berhasil dikirim ke server.</p>
+        <div class="bg-surface-container rounded-lg p-4 space-y-1 border border-black/5">
           <div class="data-row"><span class="data-label">Username</span><span class="data-value" id="modal-username">-</span></div>
           <div class="data-row"><span class="data-label">Vehicle</span><span class="data-value" id="modal-vehicle">-</span></div>
           <div class="data-row"><span class="data-label">Engine</span><span class="data-value" id="modal-engine">-</span></div>
