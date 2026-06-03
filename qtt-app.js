@@ -216,15 +216,18 @@ function showViewMode(userData, qttData) {
   if (els.viewCountry) els.viewCountry.textContent = userData.country || '-';
   if (els.viewSubmittedAt) els.viewSubmittedAt.textContent = formatTimestamp(qttData.submittedAt);
   if (els.viewStatus) els.viewStatus.textContent = qttData.submissionStatus || 'Submitted';
-  if (qttData.videoUrl && els.viewVideoLink) {
-    // videoUrl is now Cloudinary URL (primary for user preview)
-    els.viewVideoLink.href = qttData.videoUrl;
+
+  // Prioritize Cloudinary URL for preview (fallback: videoUrl, gdUrl)
+  const cloudinaryUrl = qttData.cloudinaryUrl || qttData.cloudinaryOriginalUrl || '';
+  const videoUrl = cloudinaryUrl || qttData.videoUrl || '';
+
+  if (videoUrl && els.viewVideoLink) {
+    els.viewVideoLink.href = videoUrl;
     els.viewVideoLink.target = '_blank';
-    els.viewVideoText.textContent = 'Open Video (Cloudinary)';
+    els.viewVideoText.textContent = cloudinaryUrl ? 'Open Video (Cloudinary)' : 'Open Video';
     els.viewVideoLink.classList.remove('hidden');
     if (els.videoPreviewContainer && els.viewVideoPreview) {
-      // Use Cloudinary URL for preview (better streaming than GD)
-      els.viewVideoPreview.src = qttData.videoUrl;
+      els.viewVideoPreview.src = videoUrl;
       els.videoPreviewContainer.classList.remove('hidden');
     }
   } else {
@@ -498,6 +501,7 @@ async function handleQttSubmit() {
     const qttData = {
       uid: currentUser.uid,
       videoUrl: cloudinaryUrl,          // ← Cloudinary link (primary, for preview & open)
+      cloudinaryUrl: cloudinaryUrl,   // ← explicit Cloudinary field (for backward compat)
       gdUrl: result.videoUrl,           // ← GD link (backup, for admin)
       cloudinaryOriginalUrl: cloudinaryOriginalUrl || '',  // ← Cloudinary original (backup 2)
       cloudinaryPublicId: cloudinaryPublicId || '',
