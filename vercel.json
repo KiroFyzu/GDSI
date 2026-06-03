@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    { "source": "/form", "destination": "/form.html" },
+    { "source": "/qtt", "destination": "/qtt.html" },
+    { "source": "/rules", "destination": "/gdsi_rules.html" },
+    { "source": "/tnc", "destination": "/gdsi_tnc.html" }
+  ]
+}
