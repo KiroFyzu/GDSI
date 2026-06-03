@@ -28,7 +28,7 @@ const MAINTENANCE_MODE = false;
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyzohhmODuY3JAY3igFrjNPJeVd57lkF4cxeA5yvx4WcidFhp5osBUd7g96-M1u-fMf/exec';
 // ^ REPLACE WITH YOUR ACTUAL APPS SCRIPT WEB APP URL
 
-const CLOUDINARY_CLOUD_NAME = 'dixcekb1k';           // ← GANTI
+const CLOUDINARY_CLOUD_NAME = 'gdsi2026';           // ← GANTI
 const CLOUDINARY_UPLOAD_PRESET = 'gdsi_qtt_unsigned'; // ← GANTI
 
 const ALLOWED_TYPES = ['video/mp4', 'video/quicktime', 'video/webm'];
@@ -217,10 +217,13 @@ function showViewMode(userData, qttData) {
   if (els.viewSubmittedAt) els.viewSubmittedAt.textContent = formatTimestamp(qttData.submittedAt);
   if (els.viewStatus) els.viewStatus.textContent = qttData.submissionStatus || 'Submitted';
   if (qttData.videoUrl && els.viewVideoLink) {
+    // videoUrl is now Cloudinary URL (primary for user preview)
     els.viewVideoLink.href = qttData.videoUrl;
-    els.viewVideoText.textContent = 'Open Video';
+    els.viewVideoLink.target = '_blank';
+    els.viewVideoText.textContent = 'Open Video (Cloudinary)';
     els.viewVideoLink.classList.remove('hidden');
     if (els.videoPreviewContainer && els.viewVideoPreview) {
+      // Use Cloudinary URL for preview (better streaming than GD)
       els.viewVideoPreview.src = qttData.videoUrl;
       els.videoPreviewContainer.classList.remove('hidden');
     }
@@ -494,8 +497,8 @@ async function handleQttSubmit() {
     // STEP 3: Save metadata to Firestore (GD link as primary)
     const qttData = {
       uid: currentUser.uid,
-      videoUrl: result.videoUrl,        // ← GD link (primary)
-      cloudinaryUrl: cloudinaryUrl,     // ← Cloudinary compressed link (backup)
+      videoUrl: cloudinaryUrl,          // ← Cloudinary link (primary, for preview & open)
+      gdUrl: result.videoUrl,           // ← GD link (backup, for admin)
       cloudinaryOriginalUrl: cloudinaryOriginalUrl || '',  // ← Cloudinary original (backup 2)
       cloudinaryPublicId: cloudinaryPublicId || '',
       submittedAt: serverTimestamp(),
