@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GDSI Rules - Grand Drift Series Indonesia</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700;800&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#ffb4ac",
+                        "surface-dim": "#d9dadb",
+                        "surface-variant": "#e1e3e4",
+                        "surface": "#f8f9fa",
+                        "primary": "#b70013",
+                        "tertiary-fixed-dim": "#c4c6cc",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "primary-container": "#e11922",
+                        "secondary-container": "#e2dfde",
+                        "on-primary-container": "#fff7f5",
+                        "outline-variant": "#e7bdb8",
+                        "on-primary-fixed-variant": "#93000d",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#181c20",
+                        "tertiary-container": "#6f7277",
+                        "surface-container-highest": "#e1e3e4",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-secondary-container": "#636262",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#5f5e5e",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-tertiary-container": "#f6f8fe",
+                        "tertiary": "#565a5e",
+                        "on-error": "#ffffff",
+                        "on-background": "#191c1d",
+                        "surface-container-low": "#f3f4f5",
+                        "on-surface": "#191c1d",
+                        "primary-fixed": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "outline": "#926e6b",
+                        "error": "#ba1a1a",
+                        "surface-container": "#edeeef",
+                        "on-surface-variant": "#5d3f3c",
+                        "tertiary-fixed": "#e0e2e8",
+                        "inverse-surface": "#2e3132",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "on-tertiary-fixed-variant": "#44474b",
+                        "surface-container-high": "#e7e8e9",
+                        "on-primary-fixed": "#410002",
+                        "inverse-primary": "#ffb4ac",
+                        "background": "#f8f9fa",
+                        "surface-tint": "#c00015",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "on-secondary-fixed-variant": "#474746",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "24px",
+                        "margin-desktop": "64px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "sm": "12px",
+                        "margin-mobile": "16px",
+                        "base": "8px",
+                        "xl": "80px",
+                        "lg": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "label-bold": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "display-lg": ["64px", { "lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "label-bold": ["14px", { "lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto !important; }
+            .fade-in-up { opacity: 1; transform: none; transition: none !important; }
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .section-anchor {
+            scroll-margin-top: 100px;
+        }
+
+        .nav-pill {
+            transition: all 0.2s ease;
+        }
+        .nav-pill:hover {
+            background: rgba(183, 0, 19, 0.08);
+            color: #b70013;
+        }
+        .nav-pill.active {
+            background: #b70013;
+            color: #ffffff;
+        }
+
+        .rule-card {
+            background: #ffffff;
+            border: 1px solid #e1e3e4;
+            transition: all 0.3s ease;
+        }
+        .rule-card:hover {
+            border-color: #b70013;
+            box-shadow: 0 8px 30px -10px rgba(183, 0, 19, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .banned-item {
+            transition: all 0.2s ease;
+        }
+        .banned-item:hover {
+            background: rgba(186, 26, 26, 0.04);
+            padding-left: 1rem;
+        }
+
+        .score-ring {
+            background: conic-gradient(#b70013 var(--pct), #e1e3e4 0);
+        }
+
+        table.data-table th {
+            font-family: 'Hanken Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+        table.data-table td, table.data-table th {
+            border-bottom: 1px solid #e1e3e4;
+        }
+        table.data-table tbody tr:hover {
+            background: rgba(183, 0, 19, 0.02);
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+        .tag-red {
+            background: rgba(183, 0, 19, 0.08);
+            color: #b70013;
+            border: 1px solid rgba(183, 0, 19, 0.2);
+        }
+        .tag-gold {
+            background: rgba(202, 138, 4, 0.08);
+            color: #ca8a04;
+            border: 1px solid rgba(202, 138, 4, 0.2);
+        }
+        .tag-blue {
+            background: rgba(37, 99, 235, 0.08);
+            color: #2563eb;
+            border: 1px solid rgba(37, 99, 235, 0.2);
+        }
+        .tag-green {
+            background: rgba(22, 163, 74, 0.08);
+            color: #16a34a;
+            border: 1px solid rgba(22, 163, 74, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased selection:bg-primary-container selection:text-on-primary-container relative overflow-x-hidden">
+
+<!-- Sticky Nav -->
+<nav class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-surface-variant">
+    <div class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex items-center justify-between h-16">
+        <a href="./index.html" class="flex items-center gap-2 group">
+            <img src="/assets/gdsi.png" alt="GDSI Logo" class="h-8 w-auto object-contain group-hover:scale-105 transition-transform">
+            <span class="font-headline-lg text-headline-md text-on-surface font-bold tracking-tight">GDSI</span>
+        </a>
+        <div class="hidden md:flex items-center gap-1">
+            <a href="#tire" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary">Ban</a>
+            <a href="#cars" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary">Mobil</a>
+            <a href="#scoring" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary">Penilaian</a>
+            <a href="#tandem" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary">Tandem</a>
+            <a href="#video" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary">Video</a>
+        </div>
+        <a href="./index.html" class="inline-flex items-center gap-1 font-label-bold text-label-bold text-secondary hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-sm">arrow_back</span>
+            <span class="hidden sm:inline">Kembali</span>
+        </a>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pt-32 pb-xl fade-in-up">
+    <div class="flex flex-col items-start text-left">
+        <div class="inline-block px-3 py-1 bg-primary-container/10 rounded-full mb-4">
+            <span class="font-label-bold text-xs uppercase tracking-widest text-primary">Kompetisi Rules 2026</span>
+        </div>
+        <h1 class="font-display-lg text-display-lg md:text-[72px] md:leading-[80px] text-on-surface mb-sm tracking-tighter uppercase font-extrabold italic">
+            GDSI<br/><span class="text-primary">RULES</span>
+        </h1>
+        <p class="font-body-lg text-body-lg text-secondary max-w-2xl mt-md">
+            Regulasi lengkap untuk kompetisi drifting. Mencakup aturan ban, kriteria mobil, sistem penilaian UDSM, dan format pengiriman video.
+        </p>
+        <div class="flex flex-wrap gap-4 mt-xl">
+            <div class="flex items-center gap-2 text-sm text-secondary">
+                <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                <span>100 Poin Penilaian</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm text-secondary">
+                <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                <span>UDSM Telemetry</span>
+            </div>
+            <div class="flex items-center gap-2 text-sm text-secondary">
+                <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
+                <span>Tandem Battle</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<main class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pb-xl space-y-20">
+
+    <!-- Tire Regulation -->
+    <section id="tire" class="section-anchor fade-in-up">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-2xl">tire_repair</span>
+            </div>
+            <div>
+                <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Tire Regulation</h2>
+                <p class="text-secondary text-sm">Spesifikasi ban berdasarkan bobot kendaraan</p>
+            </div>
+        </div>
+
+        <div class="rule-card rounded-2xl p-6 md:p-8">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left data-table">
+                    <thead>
+                        <tr>
+                            <th class="pb-4 text-primary font-label-bold text-label-bold uppercase">Bobot Kendaraan</th>
+                            <th class="pb-4 text-primary font-label-bold text-label-bold uppercase">Ring</th>
+                            <th class="pb-4 text-primary font-label-bold text-label-bold uppercase">Lebar</th>
+                            <th class="pb-4 text-primary font-label-bold text-label-bold uppercase">Aspect</th>
+                        </tr>
+                    </thead>
+                    <tbody class="font-body-md text-body-md text-on-surface-variant">
+                        <tr>
+                            <td class="py-4 font-semibold text-on-surface">1000 - 1119 Kg</td>
+                            <td class="py-4"><span class="tag tag-blue">17</span></td>
+                            <td class="py-4 font-mono">305</td>
+                            <td class="py-4 font-mono">35</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 font-semibold text-on-surface">1120 - 1209 Kg</td>
+                            <td class="py-4"><span class="tag tag-blue">18</span></td>
+                            <td class="py-4 font-mono">305</td>
+                            <td class="py-4 font-mono">35</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 font-semibold text-on-surface">1210 - 1299 Kg</td>
+                            <td class="py-4"><span class="tag tag-blue">19</span></td>
+                            <td class="py-4 font-mono">305</td>
+                            <td class="py-4 font-mono">35</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 font-semibold text-on-surface">1300 - 1349 Kg</td>
+                            <td class="py-4"><span class="tag tag-blue">19</span></td>
+                            <td class="py-4 font-mono">315</td>
+                            <td class="py-4 font-mono">35</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 font-semibold text-on-surface">1350 - 1399 Kg</td>
+                            <td class="py-4"><span class="tag tag-blue">19</span></td>
+                            <td class="py-4 font-mono">325</td>
+                            <td class="py-4 font-mono">35</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 font-semibold text-primary">1400+ Kg</td>
+                            <td class="py-4"><span class="tag tag-red">19</span></td>
+                            <td class="py-4 font-mono text-primary font-bold">335</td>
+                            <td class="py-4 font-mono">35</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-6 p-4 bg-error-container/30 border border-error/20 rounded-xl flex items-start gap-3">
+                <span class="material-symbols-outlined text-error mt-0.5">warning</span>
+                <div>
+                    <p class="text-error font-bold text-sm mb-1">NOTE</p>
+                    <p class="text-secondary text-sm">Player dilarang menambah bobot mobil. Bobot yang tertera adalah bobot final kendaraan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Car Criteria -->
+    <section id="cars" class="section-anchor fade-in-up">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-2xl">directions_car</span>
+            </div>
+            <div>
+                <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Kriteria Mobil</h2>
+                <p class="text-secondary text-sm">Aturan modifikasi dan daftar mobil terlarang</p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <!-- Rules Card -->
+            <div class="rule-card rounded-2xl p-6 md:p-8">
+                <h3 class="font-headline-md text-headline-md text-on-surface mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">shield</span>
+                    Aturan Modifikasi
+                </h3>
+                <ul class="space-y-3 font-body-md text-body-md">
+                    <li class="flex items-start gap-3 text-on-surface-variant">
+                        <span class="material-symbols-outlined text-error mt-0.5">cancel</span>
+                        <span>Dilarang menggunakan <strong class="text-on-surface">body kit dash bar</strong> (bukan body cut)</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-on-surface-variant">
+                        <span class="material-symbols-outlined text-error mt-0.5">cancel</span>
+                        <span>Fitment suspensi dilarang <strong class="text-on-surface">rally look</strong></span>
+                    </li>
+                    <li class="flex items-start gap-3 text-on-surface-variant">
+                        <span class="material-symbols-outlined text-green-600 mt-0.5">check_circle</span>
+                        <span>Wajib menggunakan <strong class="text-on-surface">banner panitia</strong></span>
+                    </li>
+                </ul>
+
+                
+            </div>
+
+            <!-- Banned Cars -->
+            <div class="rule-card rounded-2xl p-6 md:p-8">
+                <h3 class="font-headline-md text-headline-md text-on-surface mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-error">block</span>
+                    List of Banned Cars
+                </h3>
+                <div class="grid grid-cols-1 gap-1 max-h-80 overflow-y-auto pr-2">
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">1. BlackJackX22</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">2. Prestigo (Lamborghini)</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">3. Black Jack F150</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">4. X-Truck</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">5. Racenova</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">6. Flanker F</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">7. Hotrod</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">8. Devil</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">9. Spyder</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">10. Cargo</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">11. Glider</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">12. Kei Truck</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">13. Betsy</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">14. Hummel</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">15. Porsche</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                    <div class="banned-item flex items-center justify-between p-3 rounded-lg cursor-default">
+                        <span class="text-on-surface-variant font-medium">16. Sterling</span>
+                        <span class="tag tag-red">BANNED</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-xl flex items-start gap-3">
+            <span class="material-symbols-outlined text-yellow-600 mt-0.5">warning</span>
+            <div>
+                <p class="text-yellow-700 font-bold text-sm mb-1">NOTE PENTING</p>
+                <p class="text-secondary text-sm">Selama balapan berlangsung player dilarang menambah Horse Power (HP) dan dilarang mengganti mobil & mesin. Mobil dan mesin diharuskan sama pada saat qualify.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scoring -->
+    <section id="scoring" class="section-anchor fade-in-up">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-2xl">emoji_events</span>
+            </div>
+            <div>
+                <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Kriteria Penilaian</h2>
+                <p class="text-secondary text-sm">Sistem UDSM (Universal Drifting Scoring Method)</p>
+            </div>
+        </div>
+
+        <!-- Score Overview -->
+        <div class="grid md:grid-cols-3 gap-4 mb-8">
+            <div class="rule-card rounded-2xl p-6 text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+                <div class="text-4xl font-display-lg text-primary mb-2">40</div>
+                <div class="text-secondary text-sm uppercase tracking-wider font-label-bold text-label-bold">Garis (Line)</div>
+                <div class="text-xs text-secondary mt-2">Telemetry UDSM</div>
+            </div>
+            <div class="rule-card rounded-2xl p-6 text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+                <div class="text-4xl font-display-lg text-primary mb-2">40</div>
+                <div class="text-secondary text-sm uppercase tracking-wider font-label-bold text-label-bold">Sudut (Angle)</div>
+                <div class="text-xs text-secondary mt-2">Telemetry UDSM</div>
+            </div>
+            <div class="rule-card rounded-2xl p-6 text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+                <div class="text-4xl font-display-lg text-primary mb-2">20</div>
+                <div class="text-secondary text-sm uppercase tracking-wider font-label-bold text-label-bold">Gaya (Style)</div>
+                <div class="text-xs text-secondary mt-2">Juri Manual</div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-6">
+            <!-- Line -->
+            <div class="rule-card rounded-2xl p-6 md:p-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-headline-md text-headline-md text-on-surface">1. Garis / Line</h3>
+                    <span class="tag tag-red">40 POIN</span>
+                </div>
+                <div class="mb-4">
+                    <div class="flex justify-between text-xs text-secondary mb-1 font-label-bold text-label-bold uppercase">
+                        <span>Bobot</span>
+                        <span>40%</span>
+                    </div>
+                    <div class="w-full bg-surface-variant rounded-full h-2">
+                        <div class="h-2 rounded-full bg-primary" style="width: 40%"></div>
+                    </div>
+                </div>
+                <p class="text-secondary text-sm mb-4 leading-relaxed">
+                    Zona diisi oleh garis luar bodi kendaraan (bumper depan/belakang) atau jarak sumbu roda kendaraan (ban depan/belakang).
+                </p>
+                <div class="space-y-3">
+                    <div class="p-3 bg-surface-container rounded-lg border-l-2 border-primary">
+                        <p class="text-sm text-on-surface-variant"><strong class="text-on-surface">Zona dengan objek berbatasan:</strong> Garis luar bodi kendaraan digunakan untuk menentukan persentase zona terisi.</p>
+                    </div>
+                    <div class="p-3 bg-surface-container rounded-lg border-l-2 border-primary-container">
+                        <p class="text-sm text-on-surface-variant"><strong class="text-on-surface">Zona tanpa objek:</strong> Jarak sumbu roda kendaraan digunakan untuk menentukan persentase zona terisi.</p>
+                    </div>
+                </div>
+                <div class="mt-4 p-4 bg-error-container/20 border border-error/10 rounded-xl">
+                    <p class="text-error text-sm font-bold mb-2 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">do_not_disturb_on</span> Penalty
+                    </p>
+                    <p class="text-secondary text-xs">Area Terlarang virtual ditempatkan di luar batas zona. Jumlah area Terlarang yang terisi akan dikurangkan dari area zona yang terisi.</p>
+                </div>
+
+                <div class="mt-4 p-4 bg-surface-container rounded-xl">
+                    <p class="text-primary text-sm font-bold mb-2">Contoh Perhitungan (4 Zona)</p>
+                    <div class="text-xs text-secondary space-y-1 font-mono">
+                        <div class="flex justify-between"><span>Z1: 90% - Terlarang 0%</span><span class="text-green-600">OK</span></div>
+                        <div class="flex justify-between"><span>Z2: 75% - Terlarang 0%</span><span class="text-yellow-600">-25%</span></div>
+                        <div class="flex justify-between"><span>Z3: 100% - Terlarang 80%</span><span class="text-error">= 20%</span></div>
+                        <div class="flex justify-between"><span>Z4: 50% - Terlarang 0%</span><span class="text-yellow-600">-50%</span></div>
+                        <div class="border-t border-surface-variant pt-1 mt-1 flex justify-between text-on-surface font-bold">
+                            <span>Total: 58,75% dari 40 poin</span>
+                            <span>= 23,5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Angle -->
+            <div class="rule-card rounded-2xl p-6 md:p-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-headline-md text-headline-md text-on-surface">2. Sudut / Angle</h3>
+                    <span class="tag tag-red">40 POIN</span>
+                </div>
+                <div class="mb-4">
+                    <div class="flex justify-between text-xs text-secondary mb-1 font-label-bold text-label-bold uppercase">
+                        <span>Bobot</span>
+                        <span>40%</span>
+                    </div>
+                    <div class="w-full bg-surface-variant rounded-full h-2">
+                        <div class="h-2 rounded-full bg-primary" style="width: 40%"></div>
+                    </div>
+                </div>
+                <p class="text-secondary text-sm mb-4 leading-relaxed">
+                    Sudut kendaraan dicatat dari garis "Start yang Dinilai" hingga garis Finish dengan kecepatan yang berkelanjutan dan konsisten.
+                </p>
+                <div class="p-4 bg-surface-container rounded-xl mb-4">
+                    <p class="text-sm text-on-surface-variant mb-2"><strong class="text-on-surface">Formula:</strong></p>
+                    <p class="text-xs text-secondary leading-relaxed">
+                        Rata-rata sudut drift setiap pengemudi dihitung dari sampel data nilai Sudut kendaraan, dibagi dengan jumlah sampel. Kemudian diskalakan berdasarkan nilai maksimum yang ditentukan oleh Formula DRIFT.
+                    </p>
+                </div>
+                <div class="p-4 bg-green-50 border border-green-200 rounded-xl">
+                    <p class="text-green-700 text-sm font-bold mb-2 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">calculate</span> Contoh Perhitungan
+                    </p>
+                    <div class="text-xs text-secondary space-y-1">
+                        <p>Sudut Drift Rata-rata Maksimum: <span class="text-on-surface font-mono">50°</span></p>
+                        <p>Peserta mencapai: <span class="text-on-surface font-mono">25°</span></p>
+                        <p>25 dari 50 = <span class="text-primary font-bold">50% skor</span></p>
+                        <p class="border-t border-surface-variant pt-1 mt-1">50% dari 40 poin = <span class="text-primary font-bold text-lg">20 poin</span></p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Style -->
+        <div class="mt-6 rule-card rounded-2xl p-6 md:p-8">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <h3 class="font-headline-md text-headline-md text-on-surface">3. Gaya / Style</h3>
+                    <span class="tag tag-gold">20 POIN - JURI</span>
+                </div>
+                <div class="text-right">
+                    <div class="text-xs text-secondary">Bobot</div>
+                    <div class="text-primary font-bold">20%</div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="text-green-700 font-bold text-sm mb-3 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-green-600">add_circle</span>
+                        POSITIVE EXAMPLES
+                    </h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-green-600 mt-0.5 text-xs">check</span>
+                            <span>Kontrol roda depan yang presisi dan stabil</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-green-600 mt-0.5 text-xs">check</span>
+                            <span>Berkendara dengan sudut besar sambil mempertahankan kecepatan konsisten</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-green-600 mt-0.5 text-xs">check</span>
+                            <span>Perubahan cepat menuju sudut saat awal dan transisi</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-green-600 mt-0.5 text-xs">check</span>
+                            <span>Penggunaan handbrake dan rem kaki kiri yang presisi</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-green-600 mt-0.5 text-xs">check</span>
+                            <span>Penggunaan throttle (gas) yang kuat tapi tetap terkontrol</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-green-600 mt-0.5 text-xs">check</span>
+                            <span>Wheelbase tetap berada di jalur</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-error font-bold text-sm mb-3 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-error">remove_circle</span>
+                        DEDUCTION EXAMPLES
+                    </h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-error mt-0.5 text-xs">close</span>
+                            <span>Gerakan roda depan yang berlebihan dan tidak stabil</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-error mt-0.5 text-xs">close</span>
+                            <span>Berkendara dengan sudut kecil (shallow angle) dan/atau kecepatan tidak konsisten</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-error mt-0.5 text-xs">close</span>
+                            <span>Inisiasi dan transisi yang lambat atau kurang agresif</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-error mt-0.5 text-xs">close</span>
+                            <span>Penggunaan handbrake berlebihan dan rem kaki kiri terlalu dominan</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-error mt-0.5 text-xs">close</span>
+                            <span>Penggunaan throttle yang tidak halus / tidak konsisten</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-error mt-0.5 text-xs">close</span>
+                            <span>Ban keluar (1x, 2x, 3x) dari zona penilaian telemetry</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tandem -->
+    <section id="tandem" class="section-anchor fade-in-up">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-2xl">groups</span>
+            </div>
+            <div>
+                <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Kriteria Tandem</h2>
+                <p class="text-secondary text-sm">Penilaian Lead dan Chaser</p>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-6">
+            <!-- Lead -->
+            <div class="rule-card rounded-2xl p-6 md:p-8 border-t-4 border-t-primary">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary">sports_score</span>
+                    </div>
+                    <div>
+                        <h3 class="font-headline-md text-headline-md text-on-surface">LEAD</h3>
+                        <p class="text-xs text-secondary">Pembalap Terdepan</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="p-3 bg-green-50 rounded-lg border-l-2 border-green-600">
+                        <p class="text-green-700 text-xs font-bold uppercase mb-1">Objective</p>
+                        <ul class="text-sm text-on-surface-variant space-y-1">
+                            <li>• Menjalankan putaran utama sebaik mungkin</li>
+                            <li>• Garis, sudut, inisiasi, transisi sesuai arahan juri</li>
+                            <li>• Putaran yang dapat dikejar (chase-able)</li>
+                            <li>• Mengikuti <strong class="text-on-surface">PETA MOMENTUM</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="p-3 bg-error-container/20 rounded-lg border-l-2 border-error">
+                        <p class="text-error text-xs font-bold uppercase mb-1">Kompromi (Penalti)</p>
+                        <ul class="text-sm text-secondary space-y-1">
+                            <li>• Sudut lebih kecil dari lintasan sempurna</li>
+                            <li>• Garis lebih sempit dari lintasan sempurna</li>
+                            <li>• Transisi buruk</li>
+                            <li>• Menjauh dari chaser yang mengkompromikan garis/sudut/gaya</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chaser -->
+            <div class="rule-card rounded-2xl p-6 md:p-8 border-t-4 border-t-primary-container">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary">target</span>
+                    </div>
+                    <div>
+                        <h3 class="font-headline-md text-headline-md text-on-surface">CHASER</h3>
+                        <p class="text-xs text-secondary">Pembalap Pengejar</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="p-3 bg-green-50 rounded-lg border-l-2 border-green-600">
+                        <p class="text-green-700 text-xs font-bold uppercase mb-1">Objective</p>
+                        <ul class="text-sm text-on-surface-variant space-y-1">
+                            <li>• Memulai paling lambat dari lead</li>
+                            <li>• Mempertahankan jarak dekat selama mungkin</li>
+                            <li>• Menyamai atau melampaui sudut lead</li>
+                            <li>• Meniru transisi dan jalur lead</li>
+                            <li>• Tetap drift hingga garis finis</li>
+                            <li>• Memiliki pengetahuan tentang kecenderungan pesaing</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-3 bg-error-container/20 rounded-lg border-l-2 border-error">
+                        <p class="text-error text-xs font-bold uppercase mb-1">Kompromi (Penalti)</p>
+                        <ul class="text-sm text-secondary space-y-1">
+                            <li>• Menipu jalur dibandingkan lead</li>
+                            <li>• Sudut lebih kecil dari lead</li>
+                            <li>• Waktu dan lokasi memulai buruk</li>
+                            <li>• Transisi tidak mengikuti lead</li>
+                            <li>• Tidak mempersiapkan diri / tidak tahu karakteristik lead</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+    </section>
+
+    <!-- Video Format -->
+    <section id="video" class="section-anchor fade-in-up">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-2xl">videocam</span>
+            </div>
+            <div>
+                <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Format Pengiriman Video</h2>
+                <p class="text-secondary text-sm">Spesifikasi rekaman untuk qualify</p>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="rule-card rounded-2xl p-6 text-center">
+                <div class="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-blue-600 text-2xl">tv</span>
+                </div>
+                <h4 class="font-bold text-on-surface mb-2">Resolusi</h4>
+                <p class="text-2xl font-display-lg text-primary">720p</p>
+                <p class="text-xs text-secondary mt-1">Minimum 30 FPS</p>
+            </div>
+            <div class="rule-card rounded-2xl p-6 text-center">
+                <div class="w-14 h-14 rounded-full bg-purple-50 flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-purple-600 text-2xl">photo_camera</span>
+                </div>
+                <h4 class="font-bold text-on-surface mb-2">Kamera</h4>
+                <p class="text-2xl font-display-lg text-primary">3</p>
+                <p class="text-xs text-secondary mt-1">Wajib Kamera 3</p>
+            </div>
+            <div class="rule-card rounded-2xl p-6 text-center">
+                <div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-secondary text-2xl">smoke_free</span>
+                </div>
+                <h4 class="font-bold text-on-surface mb-2">Tire Smoke</h4>
+                <p class="text-2xl font-display-lg text-error">OFF</p>
+                <p class="text-xs text-secondary mt-1">Dimatikan</p>
+            </div>
+            <div class="rule-card rounded-2xl p-6 text-center">
+                <div class="w-14 h-14 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-4">
+                    <span class="material-symbols-outlined text-green-600 text-2xl">analytics</span>
+                </div>
+                <h4 class="font-bold text-on-surface mb-2">Telemetry</h4>
+                <p class="text-2xl font-display-lg text-green-600">ON</p>
+                <p class="text-xs text-secondary mt-1">Wajib Aktif</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ / Contact -->
+    <section class="fade-in-up">
+        <div class="rule-card rounded-2xl p-8 md:p-12 text-center relative overflow-hidden">
+            <div class="relative z-10">
+                <span class="material-symbols-outlined text-primary text-4xl mb-4">help</span>
+                <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Ada yang Kurang Dimengerti?</h2>
+                <p class="text-secondary max-w-xl mx-auto mb-6">
+                    Jika ada hal yang kurang jelas dari regulasi di atas, silakan tanyakan langsung pada panitia.
+                </p>
+                <div class="inline-flex items-center gap-2 text-primary font-semibold">
+                    <span class="material-symbols-outlined">info</span>
+                    <span>Hubungi Panitia GDSI</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="w-full bg-surface-container-lowest border-t border-surface-variant py-lg px-margin-desktop flex flex-col items-center justify-center gap-2 fade-in-up">
+    <div class="flex items-center gap-2">
+        <img src="/assets/gdsi.png" alt="GDSI Logo" class="h-6 w-auto object-contain">
+        <span class="font-headline-md text-headline-md text-on-surface font-bold">GDSI</span>
+    </div>
+    <p class="font-body-md text-body-md text-secondary text-center text-sm uppercase tracking-wide">Garis Sudut Gaya - Drifting Competition Rules</p>
+    <p class="text-secondary text-xs">Race Data Labs UDSM Technology</p>
+</footer>
+
+<!-- Intersection Observer for Fade-In Animation -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach((element) => {
+            observer.observe(element);
+        });
+
+        // Active nav pill on scroll
+        const sections = document.querySelectorAll('.section-anchor');
+        const navPills = document.querySelectorAll('.nav-pill');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navPills.forEach(pill => {
+                pill.classList.remove('active');
+                if (pill.getAttribute('href') === '#' + current) {
+                    pill.classList.add('active');
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
