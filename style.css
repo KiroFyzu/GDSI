@@ -1,0 +1,635 @@
+/* ============================================
+   GDSI Registration - Premium Racing Theme
+   ============================================ */
+
+:root {
+  --bg: #131313;
+  --surface: #1c1b1b;
+  --surface-high: #2a2a2a;
+  --surface-bright: #393939;
+  --primary: #ffb4a8;
+  --primary-container: #ff5540;
+  --on-primary: #690100;
+  --on-surface: #e5e2e1;
+  --on-surface-variant: #ebbbb4;
+  --outline: #b18780;
+  --outline-variant: #603e39;
+  --error: #ffb4ab;
+  --error-container: #93000a;
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(32, 31, 31, 0.55);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--on-surface);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ============================================
+   ATMOSPHERIC BACKGROUND
+   ============================================ */
+.atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.atmosphere .bg-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.25;
+  filter: saturate(0.6) contrast(1.2);
+}
+
+.atmosphere .bg-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(19,19,19,0.85) 0%, rgba(19,19,19,0.98) 60%, #131313 100%);
+}
+
+.atmosphere .bg-radial {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255,0,0,0.06) 0%, transparent 60%);
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+.glass-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.glass-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.glass-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+.glass-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 180, 168, 0.5);
+}
+
+/* ============================================
+   GLASS CARD
+   ============================================ */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+  box-shadow: 0 0 60px rgba(255, 85, 64, 0.06), 0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* ============================================
+   INPUTS & SELECTS - BLACK TEXT ON WHITE
+   ============================================ */
+.glass-input {
+  background: var(--surface);
+  border: 1px solid var(--outline-variant);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: #000000;  /* FIX: Black text for readability */
+  font-size: 0.95rem;
+  font-weight: 500;
+  width: 100%;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+/* FIX: Placeholder abu-abu gelap biar kelihatan tapi beda sama isian */
+.glass-input::placeholder {
+  color: #888888;
+  font-weight: 400;
+}
+
+/* FIX: Input terisi - tetap hitam tebal */
+.glass-input:not(:placeholder-shown) {
+  color: #000000;
+  font-weight: 600;
+}
+
+.glass-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 15px rgba(255, 180, 168, 0.12);
+}
+
+.glass-input:disabled,
+.glass-input[readonly] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: rgba(42, 42, 42, 0.6);
+  color: #333333;
+}
+
+/* Autofill fix */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+  -webkit-text-fill-color: #000000 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Select */
+select.glass-input {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23666666'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.5rem;
+  color: #888888;  /* Placeholder color */
+}
+
+/* FIX: Select yang udah dipilih */
+select.glass-input option:checked,
+select.glass-input:not(:has(option[value=""]:checked)) {
+  color: #000000;
+  font-weight: 600;
+}
+
+select.glass-input option {
+  background: #ffffff;
+  color: #000000;
+  font-weight: 500;
+  padding: 8px;
+}
+
+select.glass-input option:first-child {
+  color: #888888;
+  font-weight: 400;
+}
+
+/* ============================================
+   COUNTRY TRIGGER (Button to open modal)
+   ============================================ */
+.country-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0 0.75rem;
+  background: var(--surface-high);
+  border-right: 1px solid var(--outline-variant);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+  min-width: 80px;
+  justify-content: center;
+  border: none;
+  outline: none;
+}
+
+.country-trigger:hover {
+  background: var(--surface-bright);
+}
+
+.country-trigger:active {
+  background: var(--primary);
+}
+
+.country-trigger:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+}
+
+/* ============================================
+   COUNTRY MODAL (Popup Style - No Search)
+   ============================================ */
+.country-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  padding: 1rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.country-modal-backdrop:not(.hidden) {
+  opacity: 1;
+}
+
+.country-modal-backdrop.hidden {
+  display: none;
+}
+
+.country-modal {
+  background: #ffffff;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 420px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.country-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f0f0f0;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+
+.country-modal-header h3 {
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.country-modal-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #f5f5f5;
+  color: #666666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.country-modal-close:hover {
+  background: #ff5540;
+  color: #ffffff;
+}
+
+.country-modal-body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Country list - scrollable */
+.country-list {
+  overflow-y: auto;
+  flex: 1;
+  padding: 0;
+  max-height: calc(80vh - 60px);
+}
+
+/* Scrollbar for country list */
+.country-list::-webkit-scrollbar {
+  width: 6px;
+}
+.country-list::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 0 0 1rem 0;
+}
+.country-list::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 3px;
+}
+.country-list::-webkit-scrollbar-thumb:hover {
+  background: #ff5540;
+}
+
+/* Country item */
+.country-item {
+  padding: 14px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.15s ease;
+  min-height: 52px;
+  border-bottom: 1px solid #f5f5f5;
+  background: #ffffff;
+}
+
+.country-item:last-child {
+  border-bottom: none;
+}
+
+.country-item:hover {
+  background: #fff0ee;
+}
+
+.country-item:active {
+  background: #ffdad4;
+}
+
+.country-item.selected {
+  background: #ffdad4;
+  border-left: 3px solid #ff5540;
+}
+
+.country-flag {
+  font-size: 1.4rem;
+  line-height: 1;
+  width: 32px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.country-dial {
+  font-weight: 700;
+  color: #ff5540;
+  min-width: 55px;
+  text-align: right;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.country-name {
+  color: #1a1a1a;
+  font-size: 0.95rem;
+  font-weight: 500;
+  flex: 1;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  background: var(--primary-container);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(255, 85, 64, 0.25);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #ff6b57;
+  box-shadow: 0 0 30px rgba(255, 85, 64, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-glass {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--on-surface);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.btn-glass:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.btn-danger:hover {
+  background: rgba(255, 0, 0, 0.08);
+  border-color: rgba(255, 0, 0, 0.3);
+  color: var(--error);
+}
+
+/* ============================================
+   AUTH OVERLAY
+   ============================================ */
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(19, 19, 19, 0.85);
+  backdrop-filter: blur(12px);
+}
+
+.auth-card {
+  text-align: center;
+  padding: 2.5rem;
+  max-width: 400px;
+  width: 90%;
+}
+
+/* ============================================
+   PROFILE BAR
+   ============================================ */
+.profile-bar {
+  background: rgba(42, 42, 42, 0.5);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(12px);
+}
+
+.avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background: var(--surface-bright);
+  border: 1px solid rgba(255, 180, 168, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ============================================
+   READONLY BANNER
+   ============================================ */
+.readonly-banner {
+  background: rgba(255, 180, 168, 0.08);
+  border: 1px solid rgba(255, 180, 168, 0.2);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--primary);
+  font-size: 0.9rem;
+}
+
+/* ============================================
+   MODALS
+   ============================================ */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  padding: 1rem;
+}
+
+.modal-content {
+  background: var(--surface);
+  border: 1px solid var(--outline-variant);
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+  animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-header {
+  padding: 1.5rem 1.5rem 0.5rem;
+  text-align: center;
+}
+
+.modal-body {
+  padding: 1rem 1.5rem;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.data-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.data-row:last-child {
+  border-bottom: none;
+}
+
+.data-label {
+  font-size: 0.8rem;
+  color: var(--on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.data-value {
+  font-weight: 600;
+  color: var(--on-surface);
+  font-size: 0.95rem;
+  text-align: right;
+  max-width: 60%;
+  word-break: break-word;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 85, 64, 0.2); }
+  50% { box-shadow: 0 0 35px rgba(255, 85, 64, 0.4); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 640px) {
+  .glass-card {
+    border-radius: 0.75rem;
+    margin: 0.5rem;
+  }
+
+  .modal-content {
+    max-width: 100%;
+    border-radius: 0.75rem;
+  }
+
+  .country-modal {
+    max-width: 100%;
+    max-height: 85vh;
+    border-radius: 0.75rem;
+  }
+
+  .country-list {
+    max-height: calc(85vh - 60px);
+  }
+}
+
+@media (max-height: 700px) {
+  .main-card {
+    max-height: 98vh;
+  }
+
+  .country-modal {
+    max-height: 90vh;
+  }
+
+  .country-list {
+    max-height: calc(90vh - 60px);
+  }
+}

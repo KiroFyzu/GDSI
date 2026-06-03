@@ -1,0 +1,10 @@
+{
+  "routes": [
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/form", "dest": "/form.html" },
+    { "src": "/form.html", "dest": "/form.html" },
+    { "src": "/qtt", "dest": "/qtt.html" },
+    { "src": "/qtt.html", "dest": "/qtt.html" }
+  ],
+  "cleanUrls": true
+}
