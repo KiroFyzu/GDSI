@@ -20,7 +20,7 @@ import { showToast, formatTimestamp, escapeHtml } from './utils.js';
 // ============================================
 // ⚙️ MAINTENANCE MODE
 // ============================================
-const MAINTENANCE_MODE = true;
+const MAINTENANCE_MODE = false;
 
 // ============================================
 // CONFIG
