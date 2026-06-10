@@ -209,6 +209,27 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
+        .qr-mode-label {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1.5px solid #e1e3e4;
+            background: #ffffff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .qr-mode-label:hover {
+            border-color: #b70013;
+            background: rgba(183, 0, 19, 0.03);
+        }
+        .qr-mode-label:has(input:checked) {
+            border-color: #b70013;
+            background: rgba(183, 0, 19, 0.06);
+        }
+        .qr-mode-label input {
+            margin-bottom: 4px;
+        }
         @supports (padding: max(0px)) {
             .qr-modal-overlay {
                 padding-left: max(16px, env(safe-area-inset-left));
@@ -336,6 +357,19 @@
                 <div class="flex items-center justify-between flex-wrap gap-2">
                     <label class="font-label-bold text-label-bold text-on-surface uppercase tracking-wider">Match Replay Text</label>
                     <span id="linkCounter" class="qr-detected-badge text-xs font-semibold bg-surface-variant text-secondary px-2 py-1 rounded-full hidden">0 link detected</span>
+                </div>
+                <!-- QR Mode Toggle -->
+                <div class="flex gap-3 mb-3">
+                    <label class="qr-mode-label flex-1">
+                        <input type="radio" name="qrMode" value="static" checked class="accent-primary w-4 h-4 cursor-pointer">
+                        <span class="font-label-bold text-sm text-on-surface">Static QR</span>
+                        <span class="text-xs text-secondary block mt-0.5">Direct deep link</span>
+                    </label>
+                    <label class="qr-mode-label flex-1">
+                        <input type="radio" name="qrMode" value="smart" class="accent-primary w-4 h-4 cursor-pointer">
+                        <span class="font-label-bold text-sm text-on-surface">Smart QR</span>
+                        <span class="text-xs text-secondary block mt-0.5">Auto-open app</span>
+                    </label>
                 </div>
                 <textarea 
                     id="qrInputText" 
@@ -569,10 +603,45 @@
     }
 
     // ===== Generate QR Codes =====
+    // ===== Smart QR Helpers =====
+    // HARDCODED: Ganti ini dengan URL Apps Script deployment kamu
+    var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJ9TN4d889oww8a5H3OT9TZ8IobghfVYfb_5LQaFf-om0IWs15K5RSpIMQPwon5JPC5Q/exec';
+
+    function generateShortId() {
+        var chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        var id = '';
+        for (var i = 0; i < 8; i++) {
+            id += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return id;
+    }
+
+    function buildSmartUrl(shortId) {
+        // QR langsung menuju Apps Script URL + id
+        // Ini menghasilkan QR yang langsung redirect ke deep link
+        return APPS_SCRIPT_URL + '?id=' + shortId;
+    }
+
+    function saveMapping(shortId, deepLink) {
+        // Fire-and-forget POST langsung ke Apps Script
+        // Apps Script doPost handler simpan ke Spreadsheet
+        fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: shortId, link: deepLink })
+        }).catch(function(err) {
+            console.log('Save mapping:', err);
+        });
+    }
+
     function generateQrCodes() {
         if (!qrInputText) return;
         var text = qrInputText.value.trim();
         if (!text) return;
+
+        var modeEl = document.querySelector('input[name="qrMode"]:checked');
+        var mode = modeEl ? modeEl.value : 'static';
 
         if (qrResultsGrid) qrResultsGrid.innerHTML = '';
 
@@ -583,10 +652,46 @@
                 var label = index === 0 ? 'Replay Link 1' : 
                            index === 1 ? 'Replay Link 2' : 
                            'Replay Link ' + (index + 1);
-                items.push({ text: link, label: label, isCarx: true, index: index + 1 });
+
+                var qrData, rawLink;
+                if (mode === 'smart') {
+                    var shortId = generateShortId();
+                    qrData = buildSmartUrl(shortId);
+                    rawLink = link;
+                    saveMapping(shortId, link);
+                } else {
+                    qrData = link;
+                    rawLink = link;
+                }
+
+                items.push({ 
+                    text: qrData, 
+                    rawLink: rawLink,
+                    label: label, 
+                    isCarx: true, 
+                    isSmart: mode === 'smart',
+                    index: index + 1 
+                });
             });
         } else {
-            items.push({ text: text, label: 'Full Text', isCarx: false, index: 1 });
+            var qrData, rawLink;
+            if (mode === 'smart') {
+                var shortId = generateShortId();
+                qrData = buildSmartUrl(shortId);
+                rawLink = text;
+                saveMapping(shortId, text);
+            } else {
+                qrData = text;
+                rawLink = text;
+            }
+            items.push({ 
+                text: qrData, 
+                rawLink: rawLink,
+                label: 'Full Text', 
+                isCarx: false, 
+                isSmart: mode === 'smart',
+                index: 1 
+            });
         }
 
         items.forEach(function(item, index) {
@@ -596,18 +701,23 @@
             card.className = 'qr-result-item bg-surface-container-low rounded-xl p-4 border border-surface-variant flex flex-col items-center';
             card.style.animationDelay = (index * 100) + 'ms';
 
+            var modeBadge = item.isSmart ? '<span class="qr-link-tag" style="background:#b70013;">SMART QR</span>' : '';
             var tagColor = item.isCarx ? 'background:#e11922;' : 'background:#5f5e5e;';
 
             card.innerHTML = 
+                modeBadge +
                 '<span class="qr-link-tag" style="' + tagColor + '">' + escapeHtml(item.label) + '</span>' +
                 '<div class="bg-white p-3 rounded-lg mb-3 shadow-sm w-full flex items-center justify-center">' +
                     '<img src="' + qrUrl + '" alt="QR Code ' + item.index + '" class="w-full max-w-[200px] h-auto" loading="lazy">' +
                 '</div>' +
                 '<div class="w-full space-y-2">' +
+                    (item.isSmart ? 
+                        '<p class="text-xs text-primary font-semibold text-center">Opens app automatically when scanned</p>' : 
+                        '') +
                     '<p class="text-xs text-secondary font-body-md break-all text-center leading-relaxed max-h-16 overflow-y-auto">' + escapeHtml(item.text) + '</p>' +
                     '<div class="flex flex-col sm:flex-row gap-2">' +
                         '<a href="' + qrUrl + '" download="gdsi-qr-' + item.index + '.png" class="flex-1 py-2 px-3 rounded-lg bg-primary/10 text-primary text-xs font-label-bold uppercase tracking-wider text-center hover:bg-primary hover:text-white transition-colors no-underline">Download</a>' +
-                        '<button type="button" class="copy-btn py-2 px-3 rounded-lg border border-surface-variant text-secondary text-xs font-label-bold uppercase tracking-wider hover:bg-surface-variant transition-colors" data-text="' + escapeHtml(item.text) + '">Copy</button>' +
+                        '<button type="button" class="copy-btn py-2 px-3 rounded-lg border border-surface-variant text-secondary text-xs font-label-bold uppercase tracking-wider hover:bg-surface-variant transition-colors" data-text="' + escapeHtml(item.rawLink) + '">Copy Link</button>' +
                     '</div>' +
                 '</div>';
 
