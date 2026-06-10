@@ -125,16 +125,13 @@
             -webkit-backdrop-filter: blur(12px);
         }
 
-        /* ===== QR Modal - Auto Center All Devices ===== */
+        /* ===== QR Modal ===== */
         .qr-modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             width: 100vw;
             height: 100vh;
-            height: 100dvh; /* dynamic viewport height for mobile */
+            height: 100dvh;
             background: rgba(25, 28, 29, 0.6);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
@@ -156,13 +153,11 @@
             border-radius: 1rem;
             width: 100%;
             max-width: 520px;
-            max-height: calc(100vh - 32px);
             max-height: calc(100dvh - 32px);
             overflow-y: auto;
             overflow-x: hidden;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             margin: auto;
-            align-self: center;
             transform: scale(0.95) translateY(20px);
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             -webkit-overflow-scrolling: touch;
@@ -176,10 +171,7 @@
             transform: scale(0.9);
         }
         @keyframes qrPopIn {
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            to { opacity: 1; transform: scale(1); }
         }
         .qr-link-tag {
             display: inline-block;
@@ -217,8 +209,6 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
         }
-
-        /* iOS safe area support */
         @supports (padding: max(0px)) {
             .qr-modal-overlay {
                 padding-left: max(16px, env(safe-area-inset-left));
@@ -230,16 +220,19 @@
     </style>
 </head>
 <body class="bg-background text-on-background antialiased selection:bg-primary-container selection:text-on-primary-container relative overflow-x-hidden">
-<!-- Hero Background Image -->
+
+<!-- Hero Background -->
 <div class="absolute top-0 left-0 w-full h-[350px] md:h-[800px] -z-10 overflow-hidden">
 <img alt="Drift Action" class="w-full h-full object-cover object-center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDp-pWPaeMGGijm1kvivdNbO--k2op8GfTkqx9CUaJOs35H80gQPa_nVeS8VvkMcsOT0tZuhhHa5AGWQsWupTHzr6Okbom7i0goNqaFyi5FtVkTj_yzMeLCQFUYkWmdCIadDDtxCM_1_9-Os7UbJxJmOX17wOLTD46q7L_2rFpArZjtjmS9A2QgapMJ221WBja4fccsSbK3xv3FXMjQkkOBKxz4yiRi-I-SQhxbZRUrEHzbyCXeNd7GHQOMEyyvaYKR9K_ljZnNQ"/>
 <div class="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 md:via-background/80 to-transparent"></div>
 <div class="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent"></div>
 </div>
-<!-- Header / Logo Area -->
+
+<!-- Header -->
 <header class="w-full flex justify-start py-md px-margin-mobile md:px-margin-desktop fade-in-up items-center">
 <img alt="Grand Drift Series Indonesia Logo" class="h-16 md:h-24 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKtqQjOufZ1GkLMVQYmwBgATjSVBicqjqkgBQRUY2KIfkYwwa8dvtjwlPvKiZcNEwH80ei_LTiUH1_xwE0ZIiVJ2w3HzIzmt31NynpYkFny_Nmdg8nDdPGG8qs19UZBciWIuCb5KPfBmPmZDpolVdtla81uzJ8PWd2LZPiUe_Cpym4gBwzbcHdZ38wlGilUxdY0Z9aw1N4ozb_SobkzN6c9kGRdMJV_ud1agywnFn8FK3Uz0qBXJsWC7rofmTCLAkIpYemS71i9A"/>
 </header>
+
 <!-- Hero Section -->
 <section class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-start text-left pt-lg relative min-h-[400px]">
 <div class="border-l-4 border-primary pl-6 md:pl-8 fade-in-up delay-100 relative z-10">
@@ -260,11 +253,14 @@
 <a class="transition-all duration-300 hover:scale-110 hover:opacity-80 block" href="https://chat.whatsapp.com/JSJIDVePNo2E6mS9F77DWT" target="_blank" rel="noopener noreferrer">
 <img alt="WhatsApp" class="w-8 h-8 md:w-10 md:h-10 object-contain shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6jc3d-FAdoFWC6E8nuq4k0WszYNAhe74MnuCh9rQDexyxYgKwtY5UfW7FzBb0z31_IAPDNdTXM5JZoLgmYMfdChun18azszIJv29LQynYdblnhZqONne3sUD0mazRXQSyTVWEN_W48r9ZCbZpG9ly1uy0mpAD61KUbzzWUK8BV3x7I1zkfd5ffg01smfJ8T6VwB82Yk-aJ68j58r-5EsTr-lcPPEr4HpC8p0lk6AK2rjFNfcO-7asx0Ruz8Ybq8I24S9_lY3RmQ"/>
 </a>
-</div></section>
-<!-- CTA Section (Sleek Grid) -->
+</div>
+</section>
+
+<!-- CTA Section -->
 <section class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pb-xl relative z-10">
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-md fade-in-up delay-300">
-<!-- CTA Card 1: Registration -->
+
+<!-- CTA 1: Registration -->
 <a class="group relative flex items-center justify-start p-md h-32 md:h-36 glass-panel rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-surface-variant hover:-translate-y-1" href="form.html">
 <div class="absolute inset-y-0 left-0 w-1 bg-surface-variant group-hover:w-full group-hover:bg-inverse-surface transition-all duration-500 ease-out z-0"></div>
 <div class="relative flex flex-col items-start gap-xs z-10 group-hover:text-inverse-on-surface transition-colors duration-300">
@@ -272,7 +268,8 @@
 <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300">Registration</span>
 </div>
 </a>
-<!-- CTA Card 2: QTT -->
+
+<!-- CTA 2: QTT -->
 <a class="group relative flex items-center justify-start p-md h-32 md:h-36 glass-panel rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-surface-variant hover:-translate-y-1" href="qtt.html">
 <div class="absolute inset-y-0 left-0 w-1 bg-surface-variant group-hover:w-full group-hover:bg-inverse-surface transition-all duration-500 ease-out z-0"></div>
 <div class="relative flex flex-col items-start gap-xs z-10 group-hover:text-inverse-on-surface transition-colors duration-300">
@@ -280,7 +277,8 @@
 <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300">QTT Submit</span>
 </div>
 </a>
-<!-- CTA Card 3: Rules -->
+
+<!-- CTA 3: Rules -->
 <a class="group relative flex items-center justify-start p-md h-32 md:h-36 glass-panel rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-surface-variant hover:-translate-y-1" href="gdsi_rules.html">
 <div class="absolute inset-y-0 left-0 w-1 bg-surface-variant group-hover:w-full group-hover:bg-inverse-surface transition-all duration-500 ease-out z-0"></div>
 <div class="relative flex flex-col items-start gap-xs z-10 group-hover:text-inverse-on-surface transition-colors duration-300">
@@ -288,15 +286,17 @@
 <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300">Rules</span>
 </div>
 </a>
-<!-- CTA Card 4: QR-Code Generator -->
-<div role="button" tabindex="0" onclick="openQrModal()" onkeydown="if(event.key==='Enter'||event.key===' ')openQrModal()" class="group relative flex items-center justify-start p-md h-32 md:h-36 glass-panel rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-surface-variant hover:-translate-y-1 active:scale-[0.98] w-full text-left cursor-pointer select-none" aria-label="Open QR Code Generator">
+
+<!-- CTA 4: QR-Code Generator -->
+<a href="#" id="qrCtaBtn" class="group relative flex items-center justify-start p-md h-32 md:h-36 glass-panel rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-surface-variant hover:-translate-y-1 active:scale-[0.98] w-full text-left select-none">
 <div class="absolute inset-y-0 left-0 w-1 bg-surface-variant group-hover:w-full group-hover:bg-inverse-surface transition-all duration-500 ease-out z-0"></div>
 <div class="relative flex flex-col items-start gap-xs z-10 group-hover:text-inverse-on-surface transition-colors duration-300">
 <span class="material-symbols-outlined text-on-surface text-3xl mb-xs group-hover:text-inverse-on-surface transition-colors duration-300" style="font-variation-settings: 'FILL' 1;">qr_code_2</span>
 <span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300">QR-Code Generator</span>
 </div>
-</div>
-<!-- CTA Card 5 (Accent): Donation -->
+</a>
+
+<!-- CTA 5: Donation -->
 <a class="group relative flex items-center justify-start p-md h-32 md:h-36 bg-primary text-on-primary rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-1" href="#">
 <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
 <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -307,13 +307,14 @@
 <span class="font-label-bold text-label-bold uppercase tracking-widest">Donation</span>
 </div>
 </a>
+
 </div>
 </section>
 
 <!-- QR Code Generator Modal -->
-<div id="qrModalOverlay" class="qr-modal-overlay" onclick="closeQrModalOutside(event)">
-    <div class="qr-modal-card" onclick="event.stopPropagation()">
-        <!-- Modal Header -->
+<div id="qrModalOverlay" class="qr-modal-overlay">
+    <div class="qr-modal-card" id="qrModalCard">
+        <!-- Header -->
         <div class="flex items-center justify-between p-6 border-b border-surface-variant">
             <div class="flex items-center gap-3 min-w-0">
                 <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -324,14 +325,13 @@
                     <p class="font-body-md text-secondary text-sm truncate">Auto-detect CarX Drift Racing 2 links</p>
                 </div>
             </div>
-            <button onclick="closeQrModal()" class="w-8 h-8 rounded-full hover:bg-surface-variant flex items-center justify-center transition-colors flex-shrink-0 ml-2">
+            <button type="button" id="qrCloseBtn" class="w-8 h-8 rounded-full hover:bg-surface-variant flex items-center justify-center transition-colors flex-shrink-0 ml-2">
                 <span class="material-symbols-outlined text-secondary">close</span>
             </button>
         </div>
 
-        <!-- Modal Body -->
+        <!-- Body -->
         <div class="p-6 space-y-6">
-            <!-- Input Area -->
             <div class="space-y-3">
                 <div class="flex items-center justify-between flex-wrap gap-2">
                     <label class="font-label-bold text-label-bold text-on-surface uppercase tracking-wider">Match Replay Text</label>
@@ -342,34 +342,29 @@
                     rows="6" 
                     class="qr-textarea w-full p-4 rounded-xl border border-surface-variant bg-surface-container-lowest font-body-md text-body-md text-on-surface resize-none transition-all"
                     placeholder="Paste your match replay text here..."
-                    oninput="detectLinks(this.value)"
                 ></textarea>
                 <p class="text-xs text-secondary font-body-md">Supports: <span class="text-primary font-semibold">carxdr2://</span> links auto-detection. Paste full match text with multiple links.</p>
             </div>
 
-            <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-3">
-                <button onclick="generateQrCodes()" id="generateBtn" class="qr-btn-primary flex-1 py-3 px-6 rounded-xl font-label-bold text-label-bold uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                <button type="button" id="generateBtn" class="qr-btn-primary flex-1 py-3 px-6 rounded-xl font-label-bold text-label-bold uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                     <span class="material-symbols-outlined text-sm">qr_code</span>
                     Generate QR Code
                 </button>
-                <button onclick="clearQrForm()" class="py-3 px-4 rounded-xl border border-surface-variant font-label-bold text-label-bold uppercase tracking-wider text-secondary hover:bg-surface-variant transition-colors">
+                <button type="button" id="clearBtn" class="py-3 px-4 rounded-xl border border-surface-variant font-label-bold text-label-bold uppercase tracking-wider text-secondary hover:bg-surface-variant transition-colors">
                     Clear
                 </button>
             </div>
 
-            <!-- Results Area -->
             <div id="qrResults" class="hidden">
                 <div class="border-t border-surface-variant pt-6">
                     <h4 class="font-label-bold text-label-bold text-on-surface uppercase tracking-wider mb-4">Generated QR Codes</h4>
-                    <div id="qrResultsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <!-- QR results injected here -->
-                    </div>
+                    <div id="qrResultsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Modal Footer -->
+        <!-- Footer -->
         <div class="p-4 bg-surface-container-low rounded-b-xl border-t border-surface-variant">
             <p class="text-xs text-secondary text-center font-body-md">Powered by GDSI &middot; QR codes generated via secure API</p>
         </div>
@@ -396,6 +391,7 @@
 </div>
 </div>
 </section>
+
 <!-- Video Section 1 -->
 <section class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pb-xl fade-in-up">
 <div class="flex flex-col lg:flex-row gap-lg items-center">
@@ -426,6 +422,7 @@
 </div>
 </div>
 </section>
+
 <!-- Video Section 2 -->
 <section class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop pb-xl fade-in-up">
 <div class="relative bg-inverse-surface rounded-2xl p-0 flex flex-col md:flex-row overflow-hidden shadow-xl">
@@ -444,12 +441,14 @@
 </div>
 </div>
 </section>
+
 <!-- Footer -->
 <footer class="w-full bg-surface-container-lowest border-t border-surface-variant py-lg px-margin-desktop flex items-center justify-center fade-in-up">
 <p class="font-body-md text-body-md text-secondary text-center font-medium tracking-wide text-sm uppercase">
             &copy; 2026 Grand Drift Series Indonesia. All Rights Reserved.
         </p>
 </footer>
+
 <!-- Intersection Observer -->
 <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -476,28 +475,62 @@
 
 <!-- QR Code Generator Logic -->
 <script>
-    // ===== Modal Controls =====
+(function() {
+    'use strict';
+
+    // Elements
+    var qrCtaBtn = document.getElementById('qrCtaBtn');
+    var qrModalOverlay = document.getElementById('qrModalOverlay');
+    var qrModalCard = document.getElementById('qrModalCard');
+    var qrCloseBtn = document.getElementById('qrCloseBtn');
+    var qrInputText = document.getElementById('qrInputText');
+    var linkCounter = document.getElementById('linkCounter');
+    var generateBtn = document.getElementById('generateBtn');
+    var clearBtn = document.getElementById('clearBtn');
+    var qrResults = document.getElementById('qrResults');
+    var qrResultsGrid = document.getElementById('qrResultsGrid');
+
+    // Regex for carxdr2 links
+    var CARX_REGEX = /carxdr2:\/\/\?config=[^&\s]+&ghosts=[^\s]+/gi;
+    var detectedLinks = [];
+
+    // ===== Open Modal =====
     function openQrModal() {
-        var overlay = document.getElementById('qrModalOverlay');
-        if (overlay) {
-            overlay.classList.add('active');
+        if (qrModalOverlay) {
+            qrModalOverlay.classList.add('active');
             document.body.style.overflow = 'hidden';
-            setTimeout(function() {
-                var input = document.getElementById('qrInputText');
-                if (input) input.focus();
-            }, 300);
+            if (qrInputText) {
+                setTimeout(function() { qrInputText.focus(); }, 300);
+            }
         }
     }
 
+    // ===== Close Modal =====
     function closeQrModal() {
-        document.getElementById('qrModalOverlay').classList.remove('active');
-        document.body.style.overflow = '';
+        if (qrModalOverlay) {
+            qrModalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
     }
 
-    function closeQrModalOutside(event) {
-        if (event.target === document.getElementById('qrModalOverlay')) {
-            closeQrModal();
-        }
+    // ===== Event Bindings =====
+    if (qrCtaBtn) {
+        qrCtaBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openQrModal();
+        });
+    }
+
+    if (qrCloseBtn) {
+        qrCloseBtn.addEventListener('click', closeQrModal);
+    }
+
+    if (qrModalOverlay) {
+        qrModalOverlay.addEventListener('click', function(e) {
+            if (e.target === qrModalOverlay) {
+                closeQrModal();
+            }
+        });
     }
 
     document.addEventListener('keydown', function(e) {
@@ -505,140 +538,162 @@
     });
 
     // ===== Link Detection =====
-    const CARX_REGEX = /carxdr2:\/\/\?config=[^&\s]+&ghosts=[^\s]+/gi;
-    let detectedLinks = [];
-
     function detectLinks(text) {
-        const matches = text.match(CARX_REGEX) || [];
+        var matches = text.match(CARX_REGEX) || [];
         detectedLinks = matches;
 
-        const counter = document.getElementById('linkCounter');
-        const generateBtn = document.getElementById('generateBtn');
+        if (!linkCounter || !generateBtn) return;
 
         if (matches.length > 0) {
-            counter.classList.remove('hidden');
-            counter.textContent = matches.length + ' link' + (matches.length > 1 ? 's' : '') + ' detected';
-            counter.classList.remove('bg-surface-variant', 'text-secondary');
-            counter.classList.add('bg-primary/10', 'text-primary');
+            linkCounter.classList.remove('hidden');
+            linkCounter.textContent = matches.length + ' link' + (matches.length > 1 ? 's' : '') + ' detected';
+            linkCounter.classList.remove('bg-surface-variant', 'text-secondary');
+            linkCounter.classList.add('bg-primary/10', 'text-primary');
             generateBtn.disabled = false;
         } else {
-            counter.classList.add('hidden');
+            linkCounter.classList.add('hidden');
             generateBtn.disabled = text.trim().length === 0;
             if (text.trim().length > 0) {
-                counter.classList.remove('hidden');
-                counter.textContent = '0 link detected (will use full text)';
-                counter.classList.remove('bg-primary/10', 'text-primary');
-                counter.classList.add('bg-surface-variant', 'text-secondary');
+                linkCounter.classList.remove('hidden');
+                linkCounter.textContent = '0 link detected (will use full text)';
+                linkCounter.classList.remove('bg-primary/10', 'text-primary');
+                linkCounter.classList.add('bg-surface-variant', 'text-secondary');
             }
         }
     }
 
+    if (qrInputText) {
+        qrInputText.addEventListener('input', function() {
+            detectLinks(this.value);
+        });
+    }
+
     // ===== Generate QR Codes =====
     function generateQrCodes() {
-        const text = document.getElementById('qrInputText').value.trim();
+        if (!qrInputText) return;
+        var text = qrInputText.value.trim();
         if (!text) return;
 
-        const resultsDiv = document.getElementById('qrResults');
-        const gridDiv = document.getElementById('qrResultsGrid');
+        if (qrResultsGrid) qrResultsGrid.innerHTML = '';
 
-        gridDiv.innerHTML = '';
-
-        let items = [];
+        var items = [];
 
         if (detectedLinks.length > 0) {
-            detectedLinks.forEach((link, index) => {
-                const label = index === 0 ? 'Replay Link 1' : 
-                             index === 1 ? 'Replay Link 2' : 
-                             'Replay Link ' + (index + 1);
+            detectedLinks.forEach(function(link, index) {
+                var label = index === 0 ? 'Replay Link 1' : 
+                           index === 1 ? 'Replay Link 2' : 
+                           'Replay Link ' + (index + 1);
                 items.push({ text: link, label: label, isCarx: true, index: index + 1 });
             });
         } else {
             items.push({ text: text, label: 'Full Text', isCarx: false, index: 1 });
         }
 
-        items.forEach((item, index) => {
-            const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + encodeURIComponent(item.text);
+        items.forEach(function(item, index) {
+            var qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + encodeURIComponent(item.text);
 
-            const card = document.createElement('div');
+            var card = document.createElement('div');
             card.className = 'qr-result-item bg-surface-container-low rounded-xl p-4 border border-surface-variant flex flex-col items-center';
             card.style.animationDelay = (index * 100) + 'ms';
 
-            const tagColor = item.isCarx ? 'background:#e11922;' : 'background:#5f5e5e;';
+            var tagColor = item.isCarx ? 'background:#e11922;' : 'background:#5f5e5e;';
 
             card.innerHTML = 
-                '<span class="qr-link-tag" style="' + tagColor + '">' + item.label + '</span>' +
+                '<span class="qr-link-tag" style="' + tagColor + '">' + escapeHtml(item.label) + '</span>' +
                 '<div class="bg-white p-3 rounded-lg mb-3 shadow-sm w-full flex items-center justify-center">' +
                     '<img src="' + qrUrl + '" alt="QR Code ' + item.index + '" class="w-full max-w-[200px] h-auto" loading="lazy">' +
                 '</div>' +
                 '<div class="w-full space-y-2">' +
                     '<p class="text-xs text-secondary font-body-md break-all text-center leading-relaxed max-h-16 overflow-y-auto">' + escapeHtml(item.text) + '</p>' +
-                    '<div class="flex flex-col xs:flex-row gap-2">' +
-                        '<a href="' + qrUrl + '" download="gdsi-qr-' + item.index + '.png" class="flex-1 py-2 px-3 rounded-lg bg-primary/10 text-primary text-xs font-label-bold uppercase tracking-wider text-center hover:bg-primary hover:text-white transition-colors">Download</a>' +
-                        '<button onclick="copyToClipboard('' + escapeJs(item.text) + '')" class="py-2 px-3 rounded-lg border border-surface-variant text-secondary text-xs font-label-bold uppercase tracking-wider hover:bg-surface-variant transition-colors">Copy</button>' +
+                    '<div class="flex flex-col sm:flex-row gap-2">' +
+                        '<a href="' + qrUrl + '" download="gdsi-qr-' + item.index + '.png" class="flex-1 py-2 px-3 rounded-lg bg-primary/10 text-primary text-xs font-label-bold uppercase tracking-wider text-center hover:bg-primary hover:text-white transition-colors no-underline">Download</a>' +
+                        '<button type="button" class="copy-btn py-2 px-3 rounded-lg border border-surface-variant text-secondary text-xs font-label-bold uppercase tracking-wider hover:bg-surface-variant transition-colors" data-text="' + escapeHtml(item.text) + '">Copy</button>' +
                     '</div>' +
                 '</div>';
 
-            gridDiv.appendChild(card);
+            if (qrResultsGrid) qrResultsGrid.appendChild(card);
         });
 
-        resultsDiv.classList.remove('hidden');
-        resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // Bind copy buttons
+        document.querySelectorAll('.copy-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var txt = this.getAttribute('data-text');
+                if (txt) copyToClipboard(txt);
+            });
+        });
+
+        if (qrResults) {
+            qrResults.classList.remove('hidden');
+            qrResults.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
     }
 
+    if (generateBtn) {
+        generateBtn.addEventListener('click', generateQrCodes);
+    }
+
+    // ===== Clear =====
     function clearQrForm() {
-        document.getElementById('qrInputText').value = '';
-        document.getElementById('qrResults').classList.add('hidden');
-        document.getElementById('qrResultsGrid').innerHTML = '';
-        document.getElementById('linkCounter').classList.add('hidden');
-        document.getElementById('generateBtn').disabled = true;
+        if (qrInputText) qrInputText.value = '';
+        if (qrResults) qrResults.classList.add('hidden');
+        if (qrResultsGrid) qrResultsGrid.innerHTML = '';
+        if (linkCounter) linkCounter.classList.add('hidden');
+        if (generateBtn) generateBtn.disabled = true;
         detectedLinks = [];
     }
 
+    if (clearBtn) {
+        clearBtn.addEventListener('click', clearQrForm);
+    }
+
+    // ===== Helpers =====
     function escapeHtml(text) {
-        const div = document.createElement('div');
+        var div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     }
 
-    function escapeJs(text) {
-        return text.replace(/\/g, '\\').replace(/'/g, "\'").replace(/"/g, '\"');
-    }
-
-    async function copyToClipboard(text) {
-        try {
-            await navigator.clipboard.writeText(text);
-            showToast('Link copied to clipboard!');
-        } catch (err) {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-            showToast('Link copied to clipboard!');
+    function copyToClipboard(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+                showToast('Link copied to clipboard!');
+            }).catch(function() {
+                fallbackCopy(text);
+            });
+        } else {
+            fallbackCopy(text);
         }
     }
 
+    function fallbackCopy(text) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            showToast('Link copied to clipboard!');
+        } catch (err) {
+            showToast('Failed to copy');
+        }
+        document.body.removeChild(textarea);
+    }
+
     function showToast(message) {
-        const toast = document.createElement('div');
+        var toast = document.createElement('div');
         toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface px-6 py-3 rounded-full shadow-xl font-body-md text-sm z-[200]';
         toast.style.animation = 'qrPopIn 0.3s ease';
         toast.textContent = message;
         document.body.appendChild(toast);
-        setTimeout(() => {
+        setTimeout(function() {
             toast.style.opacity = '0';
             toast.style.transition = 'opacity 0.3s ease';
-            setTimeout(() => toast.remove(), 300);
+            setTimeout(function() { toast.remove(); }, 300);
         }, 2500);
     }
 
-    document.getElementById('qrInputText').addEventListener('input', function() {
-        const btn = document.getElementById('generateBtn');
-        if (this.value.trim().length > 0 && detectedLinks.length === 0) {
-            btn.disabled = false;
-        } else if (this.value.trim().length === 0) {
-            btn.disabled = true;
-        }
-    });
+})();
 </script>
 </body></html>
