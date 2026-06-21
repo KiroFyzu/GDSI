@@ -328,8 +328,8 @@
         }
 
         .social-pill.expanded {
-            background: #b70013;
-            border-color: #b70013;
+            background: #b70013 !important;
+            border-color: #b70013 !important;
             padding: 8px 14px;
             gap: 8px;
             box-shadow: 0 4px 20px rgba(183, 0, 19, 0.3);
@@ -945,7 +945,7 @@
 </script>
 
 
-    // ===== Social Pills - Round to Capsule + Auto Open =====
+    // ===== Social Pills - Round to Capsule + Auto Open (FIXED) =====
     (function() {
         var pills = document.querySelectorAll('.social-pill');
         if (!pills.length) return;
@@ -960,7 +960,7 @@
                 var clickedPill = this;
                 var url = clickedPill.dataset.url;
 
-                // Reset all pills to round
+                // Reset all pills
                 pills.forEach(function(p) {
                     p.classList.remove('expanded', 'slide-left', 'slide-right', 'opening');
                 });
@@ -969,28 +969,31 @@
                 if (index > 0) pills[index - 1].classList.add('slide-left');
                 if (index < pills.length - 1) pills[index + 1].classList.add('slide-right');
 
-                // Expand to capsule (red)
+                // Expand to capsule (red) - animasi jalan
                 clickedPill.classList.add('expanded');
 
-                // Opening pulse after expansion
+                // BUKA LINK LANGSUNG - dalam user gesture, tidak diblock popup
+                if (url) {
+                    var win = window.open(url, '_blank');
+                    // Fallback kalau popup diblock
+                    if (!win || win.closed || typeof win.closed === 'undefined') {
+                        window.location.href = url;
+                    }
+                }
+
+                // Opening pulse setelah expand
                 setTimeout(function() {
                     clickedPill.classList.add('opening');
                 }, 800);
 
-                // Auto-open link after 2.5s (time to read)
+                // Reset visual setelah 2 detik
                 setTimeout(function() {
                     pills.forEach(function(p) {
                         p.classList.remove('slide-left', 'slide-right');
                     });
-
-                    if (url) window.open(url, '_blank');
-
-                    // Reset back to round
-                    setTimeout(function() {
-                        clickedPill.classList.remove('expanded', 'opening');
-                        isAnimating = false;
-                    }, 800);
-                }, 2500);
+                    clickedPill.classList.remove('expanded', 'opening');
+                    isAnimating = false;
+                }, 2000);
             });
         });
     })();
