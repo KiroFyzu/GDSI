@@ -239,17 +239,17 @@
             }
         }
     
-        /* ===== Social Pills - Round to Capsule Animation ===== */
-        .social-pills-container {
+        /* ===== Social Pills - Round to Capsule ===== */
+        #socialPillsContainer {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
             z-index: 20;
             margin-top: 2rem;
             position: relative;
         }
         @media (min-width: 768px) {
-            .social-pills-container {
+            #socialPillsContainer {
                 position: absolute;
                 bottom: 0;
                 left: 0;
@@ -271,21 +271,11 @@
             text-decoration: none;
             cursor: pointer;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
             overflow: hidden;
             white-space: nowrap;
             position: relative;
             flex-shrink: 0;
-            opacity: 0;
-            transform: translateY(20px) scale(0.9);
-            animation: socialPillAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        .social-pill:nth-child(1) { animation-delay: 0ms; }
-        .social-pill:nth-child(2) { animation-delay: 100ms; }
-        .social-pill:nth-child(3) { animation-delay: 200ms; }
-
-        @keyframes socialPillAppear {
-            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .social-pill:hover {
@@ -299,7 +289,7 @@
             height: 28px;
             object-fit: contain;
             flex-shrink: 0;
-            transition: all 0.4s ease;
+            transition: all 0.6s ease;
         }
         @media (min-width: 768px) {
             .social-pill-icon { width: 32px; height: 32px; }
@@ -312,9 +302,9 @@
             max-width: 0;
             opacity: 0;
             overflow: hidden;
-            transition: max-width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        opacity 0.3s ease 0.1s,
-                        gap 0.3s ease;
+            transition: max-width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        opacity 0.5s ease 0.2s,
+                        gap 0.5s ease;
         }
 
         .social-pill-name {
@@ -325,7 +315,7 @@
             line-height: 1.2;
             white-space: nowrap;
             transform: translateX(-10px);
-            transition: transform 0.4s ease 0.15s;
+            transition: transform 0.6s ease 0.2s;
         }
 
         .social-pill-handle {
@@ -336,7 +326,7 @@
             line-height: 1.2;
             white-space: nowrap;
             transform: translateX(-10px);
-            transition: transform 0.4s ease 0.2s;
+            transition: transform 0.6s ease 0.3s;
         }
 
         .social-pill.expanded {
@@ -345,9 +335,6 @@
             padding: 10px 18px;
             gap: 10px;
             box-shadow: 0 4px 20px rgba(183, 0, 19, 0.3);
-            animation: none;
-            opacity: 1;
-            transform: translateY(0) scale(1);
         }
         .social-pill.expanded .social-pill-icon {
             filter: brightness(0) invert(1);
@@ -366,11 +353,11 @@
 
         .social-pill.slide-left {
             transform: translateX(-8px);
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .social-pill.slide-right {
             transform: translateX(8px);
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .social-pill.opening {
@@ -404,22 +391,22 @@
                 Master the art of controlled chaos where every inch of asphalt counts.
             </p>
 </div>
-<div class="social-pills-container" id="socialPills">
-<a class="social-pill" href="#" data-platform="Instagram" data-handle="@gdsiofficial" data-url="https://www.instagram.com/gdsiofficial?igsh=ZDJ2b3I5NW5hdm1y">
+<div class="left-0 right-0 flex gap-md pb-md z-20 mt-xl mb-16 md:mb-0 md:absolute md:bottom-0 md:mt-0 md:justify-start md:justify-center fade-in-up" id="socialPillsContainer">
+<a class="social-pill fade-in-up delay-100" href="#" data-platform="Instagram" data-handle="@gdsiofficial" data-url="https://www.instagram.com/gdsiofficial?igsh=ZDJ2b3I5NW5hdm1y">
 <img alt="Instagram" class="social-pill-icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBebTWALyX9eaI5toPFuJv0GkWFlilmdrXe-lOiN1QnChH1KbHZxqmfAzkTmPUXnZ210ZPO0MXi13lmXkZKFacu8G3C6gzUWGdJPyVrvU-sOfhUOrN7ZMdmJXR2QJy7qxeDdi6D9-e9iRjngxE6x2WlwpOmRfvy_mRUCNvYmY2hxSRuiBUo0_FELbDzTWdCaF86kgias42apQDHIDCAjuFjO-sgru1qdPTu4Zi45icz76pPPk-FtXQyi-qMzbZG-nVoiALaamygqg"/>
 <span class="social-pill-text">
 <span class="social-pill-name">Instagram</span>
 <span class="social-pill-handle">@gdsiofficial</span>
 </span>
 </a>
-<a class="social-pill" href="#" data-platform="TikTok" data-handle="@gdsi.official" data-url="https://tiktok.com/@gdsi.official">
+<a class="social-pill fade-in-up delay-200" href="#" data-platform="TikTok" data-handle="@gdsi.official" data-url="https://tiktok.com/@gdsi.official">
 <img alt="TikTok" class="social-pill-icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc4kMoZL7VPbrKvTe2ul5OdGZAH8Xgl_lyVWAZG_u5W_BMwwBCI9a-7J59d1SAL0xN00sO_mblWbRvxjKkQ5r8tWNEmK5FXmGkLrZa7yWu7fuTsYgrEWzwLmKCyezaQx8nygfqi6TRuI1ej8DZa5kE03KOdXaVfXrqqg1TPy49pRYYw2oxYV7egxLnwcS_aXmgqM5rIsKeE_mfK_O5Xmh_SEaTifuTwB8Ik2hOBwcCQGN4WNjeBJhdpzpuZXCSj3AbwBy9aAywrQ"/>
 <span class="social-pill-text">
 <span class="social-pill-name">TikTok</span>
 <span class="social-pill-handle">@gdsi.official</span>
 </span>
 </a>
-<a class="social-pill" href="#" data-platform="WhatsApp" data-handle="GDSI Group" data-url="https://chat.whatsapp.com/JSJIDVePNo2E6mS9F77DWT">
+<a class="social-pill fade-in-up delay-300" href="#" data-platform="WhatsApp" data-handle="GDSI Group" data-url="https://chat.whatsapp.com/JSJIDVePNo2E6mS9F77DWT">
 <img alt="WhatsApp" class="social-pill-icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6jc3d-FAdoFWC6E8nuq4k0WszYNAhe74MnuCh9rQDexyxYgKwtY5UfW7FzBb0z31_IAPDNdTXM5JZoLgmYMfdChun18azszIJv29LQynYdblnhZqONne3sUD0mazRXQSyTVWEN_W48r9ZCbZpG9ly1uy0mpAD61KUbzzWUK8BV3x7I1zkfd5ffg01smfJ8T6VwB82Yk-aJ68j58r-5EsTr-lcPPEr4HpC8p0lk6AK2rjFNfcO-7asx0Ruz8Ybq8I24S9_lY3RmQ"/>
 <span class="social-pill-text">
 <span class="social-pill-name">WhatsApp</span>
@@ -957,6 +944,8 @@
     }
 
 })();
+</script>
+
 
     // ===== Social Pills - Round to Capsule + Auto Open =====
     (function() {
@@ -973,24 +962,19 @@
                 var clickedPill = this;
                 var url = clickedPill.dataset.url;
 
-                // Reset all pills to round
                 pills.forEach(function(p) {
                     p.classList.remove('expanded', 'slide-left', 'slide-right', 'opening');
                 });
 
-                // Slide neighbors
                 if (index > 0) pills[index - 1].classList.add('slide-left');
                 if (index < pills.length - 1) pills[index + 1].classList.add('slide-right');
 
-                // Expand to capsule (red)
                 clickedPill.classList.add('expanded');
 
-                // Opening pulse after expansion
                 setTimeout(function() {
                     clickedPill.classList.add('opening');
-                }, 500);
+                }, 800);
 
-                // Auto-open link after 1.5s (time to read)
                 setTimeout(function() {
                     pills.forEach(function(p) {
                         p.classList.remove('slide-left', 'slide-right');
@@ -998,14 +982,13 @@
 
                     if (url) window.open(url, '_blank');
 
-                    // Reset back to round
                     setTimeout(function() {
                         clickedPill.classList.remove('expanded', 'opening');
                         isAnimating = false;
-                    }, 300);
-                }, 1500);
+                    }, 800);
+                }, 2500);
             });
         });
     })();
-</script>
+
 </body></html>
