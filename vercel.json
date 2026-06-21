@@ -1,6 +1,6 @@
 {
   "routes": [
-    { "src": "/qr", "dest": "https://script.google.com/macros/s/URL_APPS_SCRIPT_MU/exec" },
+    { "src": "/qr", "dest": "https://script.google.com/macros/s/AKfycbxJ9TN4d889oww8a5H3OT9TZ8IobghfVYfb_5LQaFf-om0IWs15K5RSpIMQPwon5JPC5Q/exec" },
     { "src": "/", "dest": "/index.html" },
     { "src": "/form", "dest": "/form.html" },
     { "src": "/form.html", "dest": "/form.html" },
