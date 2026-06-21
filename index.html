@@ -239,107 +239,112 @@
             }
         }
     
-        /* ===== Social Media CTA Animations ===== */
-        .social-cta {
+        /* ===== Social Media Pill Tabs ===== */
+        #socialPills {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .social-pill {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            padding: 8px;
+            background: #ffffff;
+            border: 1.5px solid #e1e3e4;
+            border-radius: 9999px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+            white-space: nowrap;
             opacity: 0;
             transform: translateY(20px) scale(0.9);
-            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .social-cta.visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-        .social-cta:hover {
-            transform: translateY(-4px) scale(1.1) !important;
-        }
-        .social-cta:nth-child(1) { transition-delay: 0ms; }
-        .social-cta:nth-child(2) { transition-delay: 100ms; }
-        .social-cta:nth-child(3) { transition-delay: 200ms; }
-
-        /* ===== YouTube Embed Lazy Loading ===== */
-        .yt-embed-container {
-            position: relative;
-            width: 100%;
-            background: #e1e3e4;
-            border-radius: 1rem;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .yt-embed-container.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .yt-embed-container.loaded {
-            background: transparent;
-        }
-        .yt-placeholder {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #191c1d 0%, #2e3132 100%);
-            z-index: 2;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-        .yt-placeholder.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-        .yt-play-btn {
-            width: 68px;
-            height: 48px;
-            background: #b70013;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            animation: socialPillIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
             cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .social-pill:nth-child(1) { animation-delay: 0ms; }
+        .social-pill:nth-child(2) { animation-delay: 100ms; }
+        .social-pill:nth-child(3) { animation-delay: 200ms; }
+
+        @keyframes socialPillIn {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .social-pill:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border-color: #b70013;
+        }
+
+        .social-pill-icon {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            flex-shrink: 0;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(183, 0, 19, 0.4);
         }
-        .yt-play-btn:hover {
-            transform: scale(1.1);
-            background: #e11922;
+
+        .social-pill-label,
+        .social-pill-handle {
+            display: none;
+            opacity: 0;
+            font-family: 'Inter', sans-serif;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        .yt-play-btn::after {
-            content: '';
-            width: 0;
-            height: 0;
-            border-left: 16px solid white;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            margin-left: 4px;
+
+        .social-pill.active {
+            padding: 8px 16px;
+            gap: 8px;
+            background: #b70013;
+            border-color: #b70013;
+            box-shadow: 0 4px 20px rgba(183, 0, 19, 0.25);
         }
-        .yt-thumbnail {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
+
+        .social-pill.active .social-pill-icon {
+            filter: brightness(0) invert(1);
+            width: 24px;
+            height: 24px;
         }
-        .yt-embed-container:hover .yt-thumbnail {
-            opacity: 0.8;
-        }
-        .yt-title-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 24px 20px 20px;
-            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
-            z-index: 1;
-        }
-        .yt-title-overlay span {
-            color: white;
-            font-family: 'Hanken Grotesk', sans-serif;
+
+        .social-pill.active .social-pill-label {
+            display: inline;
+            opacity: 1;
+            color: #ffffff;
             font-weight: 700;
-            font-size: 18px;
+            font-size: 14px;
+            transform: translateX(0);
+        }
+
+        .social-pill.active .social-pill-handle {
+            display: inline;
+            opacity: 0.85;
+            color: #ffdad6;
+            font-weight: 400;
+            font-size: 12px;
+            transform: translateX(0);
+        }
+
+        /* Slide animation for neighbors */
+        .social-pill.slide-left {
+            transform: translateX(-4px);
+        }
+        .social-pill.slide-right {
+            transform: translateX(4px);
+        }
+
+        @media (min-width: 768px) {
+            .social-pill-icon {
+                width: 36px;
+                height: 36px;
+            }
+            .social-pill.active .social-pill-icon {
+                width: 28px;
+                height: 28px;
+            }
         }
 
 </style>
@@ -368,15 +373,24 @@
                 Master the art of controlled chaos where every inch of asphalt counts.
             </p>
 </div>
-<div class="left-0 right-0 flex gap-md pb-md z-20 mt-xl md:absolute md:bottom-0 md:mt-0 md:justify-start md:justify-center">
-<a class="social-cta transition-all duration-300 hover:scale-110 hover:opacity-80 block" href="https://www.instagram.com/gdsiofficial?igsh=ZDJ2b3I5NW5hdm1y" target="_blank" rel="noopener noreferrer">
-<img alt="Instagram" class="w-8 h-8 md:w-10 md:h-10 object-contain shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBebTWALyX9eaI5toPFuJv0GkWFlilmdrXe-lOiN1QnChH1KbHZxqmfAzkTmPUXnZ210ZPO0MXi13lmXkZKFacu8G3C6gzUWGdJPyVrvU-sOfhUOrN7ZMdmJXR2QJy7qxeDdi6D9-e9iRjngxE6x2WlwpOmRfvy_mRUCNvYmY2hxSRuiBUo0_FELbDzTWdCaF86kgias42apQDHIDCAjuFjO-sgru1qdPTu4Zi45icz76pPPk-FtXQyi-qMzbZG-nVoiALaamygqg"/>
+<div class="left-0 right-0 flex gap-sm pb-md z-20 mt-xl md:absolute md:bottom-0 md:mt-0 md:justify-start md:justify-center" id="socialPills">
+<!-- Instagram -->
+<a class="social-pill active" href="https://www.instagram.com/gdsiofficial?igsh=ZDJ2b3I5NW5hdm1y" target="_blank" rel="noopener noreferrer" data-platform="Instagram" data-handle="@gdsiofficial">
+<img alt="Instagram" class="social-pill-icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBebTWALyX9eaI5toPFuJv0GkWFlilmdrXe-lOiN1QnChH1KbHZxqmfAzkTmPUXnZ210ZPO0MXi13lmXkZKFacu8G3C6gzUWGdJPyVrvU-sOfhUOrN7ZMdmJXR2QJy7qxeDdi6D9-e9iRjngxE6x2WlwpOmRfvy_mRUCNvYmY2hxSRuiBUo0_FELbDzTWdCaF86kgias42apQDHIDCAjuFjO-sgru1qdPTu4Zi45icz76pPPk-FtXQyi-qMzbZG-nVoiALaamygqg"/>
+<span class="social-pill-label">Instagram</span>
+<span class="social-pill-handle">@gdsiofficial</span>
 </a>
-<a class="social-cta transition-all duration-300 hover:scale-110 hover:opacity-80 block" href="https://tiktok.com/@gdsi.official" target="_blank" rel="noopener noreferrer">
-<img alt="TikTok" class="w-8 h-8 md:w-10 md:h-10 object-contain shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc4kMoZL7VPbrKvTe2ul5OdGZAH8Xgl_lyVWAZG_u5W_BMwwBCI9a-7J59d1SAL0xN00sO_mblWbRvxjKkQ5r8tWNEmK5FXmGkLrZa7yWu7fuTsYgrEWzwLmKCyezaQx8nygfqi6TRuI1ej8DZa5kE03KOdXaVfXrqqg1TPy49pRYYw2oxYV7egxLnwcS_aXmgqM5rIsKeE_mfK_O5Xmh_SEaTifuTwB8Ik2hOBwcCQGN4WNjeBJhdpzpuZXCSj3AbwBy9aAywrQ"/>
+<!-- TikTok -->
+<a class="social-pill" href="https://tiktok.com/@gdsi.official" target="_blank" rel="noopener noreferrer" data-platform="TikTok" data-handle="@gdsi.official">
+<img alt="TikTok" class="social-pill-icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc4kMoZL7VPbrKvTe2ul5OdGZAH8Xgl_lyVWAZG_u5W_BMwwBCI9a-7J59d1SAL0xN00sO_mblWbRvxjKkQ5r8tWNEmK5FXmGkLrZa7yWu7fuTsYgrEWzwLmKCyezaQx8nygfqi6TRuI1ej8DZa5kE03KOdXaVfXrqqg1TPy49pRYYw2oxYV7egxLnwcS_aXmgqM5rIsKeE_mfK_O5Xmh_SEaTifuTwB8Ik2hOBwcCQGN4WNjeBJhdpzpuZXCSj3AbwBy9aAywrQ"/>
+<span class="social-pill-label">TikTok</span>
+<span class="social-pill-handle">@gdsi.official</span>
 </a>
-<a class="social-cta transition-all duration-300 hover:scale-110 hover:opacity-80 block" href="https://chat.whatsapp.com/JSJIDVePNo2E6mS9F77DWT" target="_blank" rel="noopener noreferrer">
-<img alt="WhatsApp" class="w-8 h-8 md:w-10 md:h-10 object-contain shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6jc3d-FAdoFWC6E8nuq4k0WszYNAhe74MnuCh9rQDexyxYgKwtY5UfW7FzBb0z31_IAPDNdTXM5JZoLgmYMfdChun18azszIJv29LQynYdblnhZqONne3sUD0mazRXQSyTVWEN_W48r9ZCbZpG9ly1uy0mpAD61KUbzzWUK8BV3x7I1zkfd5ffg01smfJ8T6VwB82Yk-aJ68j58r-5EsTr-lcPPEr4HpC8p0lk6AK2rjFNfcO-7asx0Ruz8Ybq8I24S9_lY3RmQ"/>
+<!-- WhatsApp -->
+<a class="social-pill" href="https://chat.whatsapp.com/JSJIDVePNo2E6mS9F77DWT" target="_blank" rel="noopener noreferrer" data-platform="WhatsApp" data-handle="GDSI Group">
+<img alt="WhatsApp" class="social-pill-icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6jc3d-FAdoFWC6E8nuq4k0WszYNAhe74MnuCh9rQDexyxYgKwtY5UfW7FzBb0z31_IAPDNdTXM5JZoLgmYMfdChun18azszIJv29LQynYdblnhZqONne3sUD0mazRXQSyTVWEN_W48r9ZCbZpG9ly1uy0mpAD61KUbzzWUK8BV3x7I1zkfd5ffg01smfJ8T6VwB82Yk-aJ68j58r-5EsTr-lcPPEr4HpC8p0lk6AK2rjFNfcO-7asx0Ruz8Ybq8I24S9_lY3RmQ"/>
+<span class="social-pill-label">WhatsApp</span>
+<span class="social-pill-handle">GDSI Group</span>
 </a>
 </div>
 </section>
@@ -549,12 +563,13 @@
 </div>
 <div class="lg:w-2/3 w-full relative">
 <div class="absolute -inset-4 bg-surface-variant/30 rounded-3xl -z-10 translate-x-4 translate-y-4"></div>
-<div class="yt-embed-container aspect-video" data-yt-id="6npIw5hk4vM" data-yt-title="2026 Season Overview">
-    <div class="yt-placeholder">
-        <img class="yt-thumbnail" src="https://img.youtube.com/vi/6npIw5hk4vM/maxresdefault.jpg" alt="2026 Season Overview" loading="lazy">
-        <div class="yt-title-overlay"><span>2026 Season Overview</span></div>
-        <div class="yt-play-btn"></div>
-    </div>
+<div class="relative w-full rounded-2xl overflow-hidden shadow-lg bg-surface-container-highest aspect-video flex items-center justify-center group cursor-pointer">
+<div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 to-transparent flex flex-col justify-end p-6 md:p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+<span class="font-headline-md text-inverse-on-surface">2026 Season Overview</span>
+</div>
+<div class="absolute inset-0 flex items-center justify-center z-20">
+<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;"><iframe src="https://www.youtube.com/embed/6npIw5hk4vM?rel=0" style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen scrolling="no" allow="accelerometer *; clipboard-write *; encrypted-media *; gyroscope *; picture-in-picture *; web-share *;" referrerpolicy="strict-origin"></iframe></div>
+</div>
 </div>
 </div>
 </div>
@@ -573,13 +588,8 @@
                 </p>
 </div>
 <div class="flex-1 w-full relative bg-surface-container-lowest/10">
-<div class="yt-embed-container aspect-video" data-yt-id="6qeZ2Wkx_tQ" data-yt-title="Tutorial Banner Design">
-    <div class="yt-placeholder">
-        <img class="yt-thumbnail" src="https://img.youtube.com/vi/6qeZ2Wkx_tQ/maxresdefault.jpg" alt="Tutorial Banner Design" loading="lazy">
-        <div class="yt-title-overlay"><span>Tutorial Banner Design</span></div>
-        <div class="yt-play-btn"></div>
-    </div>
-</div>
+<div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50"></div>
+<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;"><iframe src="https://www.youtube.com/embed/6qeZ2Wkx_tQ?rel=0" style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen scrolling="no" allow="accelerometer *; clipboard-write *; encrypted-media *; gyroscope *; picture-in-picture *; web-share *;" referrerpolicy="strict-origin"></iframe></div>
 </div>
 </div>
 </section>
@@ -591,17 +601,16 @@
         </p>
 </footer>
 
-<!-- Intersection Observer + Lazy Loading -->
+<!-- Intersection Observer -->
 <script>
         document.addEventListener("DOMContentLoaded", function() {
             const observerOptions = {
                 root: null,
-                rootMargin: '50px',
+                rootMargin: '0px',
                 threshold: 0.1
             };
 
-            // Fade-in-up observer
-            const fadeObserver = new IntersectionObserver((entries, observer) => {
+            const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
@@ -611,64 +620,7 @@
             }, observerOptions);
 
             document.querySelectorAll('.fade-in-up').forEach((element) => {
-                fadeObserver.observe(element);
-            });
-
-            // Social CTA animations
-            const socialObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { root: null, rootMargin: '0px', threshold: 0.3 });
-
-            document.querySelectorAll('.social-cta').forEach((element) => {
-                socialObserver.observe(element);
-            });
-
-            // YouTube Lazy Load + Auto-play on scroll
-            const ytObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const container = entry.target;
-                        container.classList.add('visible');
-
-                        // Auto-play after 500ms delay (buffer time)
-                        setTimeout(() => {
-                            const ytId = container.dataset.ytId;
-                            const placeholder = container.querySelector('.yt-placeholder');
-
-                            if (ytId && placeholder && !container.dataset.loaded) {
-                                container.dataset.loaded = 'true';
-
-                                // Create iframe with autoplay muted
-                                const iframe = document.createElement('iframe');
-                                iframe.src = 'https://www.youtube.com/embed/' + ytId + '?autoplay=1&mute=1&rel=0&playsinline=1&enablejsapi=1';
-                                iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:1rem;';
-                                iframe.setAttribute('allowfullscreen', '');
-                                iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
-                                iframe.setAttribute('referrerpolicy', 'strict-origin');
-                                iframe.setAttribute('title', container.dataset.ytTitle || 'YouTube video');
-
-                                container.appendChild(iframe);
-                                container.classList.add('loaded');
-
-                                // Fade out placeholder
-                                setTimeout(() => {
-                                    placeholder.classList.add('hidden');
-                                }, 300);
-                            }
-                        }, 500);
-
-                        observer.unobserve(container);
-                    }
-                });
-            }, { root: null, rootMargin: '100px', threshold: 0.2 });
-
-            document.querySelectorAll('.yt-embed-container').forEach((element) => {
-                ytObserver.observe(element);
+                observer.observe(element);
             });
         });
     </script>
