@@ -617,9 +617,8 @@
     }
 
     function buildSmartUrl(shortId) {
-        // QR langsung menuju Apps Script URL + id
-        // Ini menghasilkan QR yang langsung redirect ke deep link
-        return APPS_SCRIPT_URL + '?id=' + shortId;
+        // QR menuju domain gdsi.my.id, Vercel rewrite ke Apps Script
+        return 'https://gdsi.my.id/qr?id=' + shortId;
     }
 
     function saveMapping(shortId, deepLink) {
