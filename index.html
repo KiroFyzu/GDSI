@@ -617,8 +617,8 @@
     }
 
     function buildSmartUrl(shortId) {
-        // QR menuju domain gdsi.my.id, Vercel rewrite ke Apps Script
-        return 'https://gdsi.my.id/qr?id=' + shortId;
+        // QR menuju domain gdsi.my.id, redirect client-side ke Apps Script
+        return 'https://gdsi.my.id/qr.html?id=' + shortId;
     }
 
     function saveMapping(shortId, deepLink) {
@@ -721,6 +721,36 @@
                 '</div>';
 
             if (qrResultsGrid) qrResultsGrid.appendChild(card);
+
+        // ===== CTA: Direct Open (Smart QR only) =====
+        if (item.isSmart) {
+            var directOpenBtn = document.createElement('a');
+            directOpenBtn.href = item.rawLink;
+            directOpenBtn.className = 'qr-btn-primary flex-1 py-3 px-6 rounded-xl font-label-bold text-label-bold uppercase tracking-wider flex items-center justify-center gap-2 no-underline mt-4';
+            directOpenBtn.style.background = '#b70013';
+            directOpenBtn.style.color = '#fff';
+            directOpenBtn.style.textDecoration = 'none';
+            directOpenBtn.style.display = 'flex';
+            directOpenBtn.style.alignItems = 'center';
+            directOpenBtn.style.justifyContent = 'center';
+            directOpenBtn.style.gap = '8px';
+            directOpenBtn.style.padding = '16px 24px';
+            directOpenBtn.style.borderRadius = '12px';
+            directOpenBtn.style.fontWeight = '700';
+            directOpenBtn.style.fontSize = '16px';
+            directOpenBtn.innerHTML = '<span class="material-symbols-outlined text-sm">open_in_new</span> Open CarX Directly';
+
+            var ctaWrapper = document.createElement('div');
+            ctaWrapper.className = 'mt-4';
+            ctaWrapper.appendChild(directOpenBtn);
+
+            if (qrResultsGrid) {
+                var lastCard = qrResultsGrid.lastElementChild;
+                if (lastCard) {
+                    lastCard.appendChild(ctaWrapper);
+                }
+            }
+        }
         });
 
         // Bind copy buttons

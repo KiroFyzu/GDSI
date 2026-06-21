@@ -8,7 +8,8 @@ export default defineConfig({
         form: 'form.html',
         qtt: 'qtt.html',
         rules: 'gdsi_rules.html',
-        tnc: 'gdsi_tnc.html'
+        tnc: 'gdsi_tnc.html',
+        qr: 'qr.html'
       }
     }
   }
