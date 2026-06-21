@@ -242,10 +242,9 @@
         /* ===== Social Pills - Round to Capsule ===== */
         #socialPillsContainer {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
             z-index: 20;
-            margin-top: 2rem;
             position: relative;
         }
         @media (min-width: 768px) {
@@ -254,7 +253,6 @@
                 bottom: 0;
                 left: 0;
                 right: 0;
-                margin-top: 0;
                 justify-content: center;
                 padding-bottom: 1.5rem;
             }
@@ -264,7 +262,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0;
-            padding: 10px;
+            padding: 8px;
             background: #ffffff;
             border: 1.5px solid #e1e3e4;
             border-radius: 9999px;
@@ -285,14 +283,14 @@
         }
 
         .social-pill-icon {
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             object-fit: contain;
             flex-shrink: 0;
             transition: all 0.6s ease;
         }
         @media (min-width: 768px) {
-            .social-pill-icon { width: 32px; height: 32px; }
+            .social-pill-icon { width: 28px; height: 28px; }
         }
 
         .social-pill-text {
@@ -310,7 +308,7 @@
         .social-pill-name {
             font-family: 'Inter', sans-serif;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
             color: #ffffff;
             line-height: 1.2;
             white-space: nowrap;
@@ -321,7 +319,7 @@
         .social-pill-handle {
             font-family: 'Inter', sans-serif;
             font-weight: 400;
-            font-size: 11px;
+            font-size: 10px;
             color: #ffdad6;
             line-height: 1.2;
             white-space: nowrap;
@@ -332,19 +330,19 @@
         .social-pill.expanded {
             background: #b70013;
             border-color: #b70013;
-            padding: 10px 18px;
-            gap: 10px;
+            padding: 8px 14px;
+            gap: 8px;
             box-shadow: 0 4px 20px rgba(183, 0, 19, 0.3);
         }
         .social-pill.expanded .social-pill-icon {
             filter: brightness(0) invert(1);
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
         }
         .social-pill.expanded .social-pill-text {
             max-width: 200px;
             opacity: 1;
-            gap: 2px;
+            gap: 1px;
         }
         .social-pill.expanded .social-pill-name,
         .social-pill.expanded .social-pill-handle {
@@ -352,11 +350,11 @@
         }
 
         .social-pill.slide-left {
-            transform: translateX(-8px);
+            transform: translateX(-6px);
             transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .social-pill.slide-right {
-            transform: translateX(8px);
+            transform: translateX(6px);
             transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
@@ -391,7 +389,7 @@
                 Master the art of controlled chaos where every inch of asphalt counts.
             </p>
 </div>
-<div class="left-0 right-0 flex gap-md pb-md z-20 mt-xl mb-16 md:mb-0 md:absolute md:bottom-0 md:mt-0 md:justify-start md:justify-center fade-in-up" id="socialPillsContainer">
+<div class="left-0 right-0 flex gap-sm pb-md z-20 mt-6 mb-6 md:mt-0 md:mb-0 md:absolute md:bottom-0 md:justify-start md:justify-center fade-in-up" id="socialPillsContainer">
 <a class="social-pill fade-in-up delay-100" href="#" data-platform="Instagram" data-handle="@gdsiofficial" data-url="https://www.instagram.com/gdsiofficial?igsh=ZDJ2b3I5NW5hdm1y">
 <img alt="Instagram" class="social-pill-icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBebTWALyX9eaI5toPFuJv0GkWFlilmdrXe-lOiN1QnChH1KbHZxqmfAzkTmPUXnZ210ZPO0MXi13lmXkZKFacu8G3C6gzUWGdJPyVrvU-sOfhUOrN7ZMdmJXR2QJy7qxeDdi6D9-e9iRjngxE6x2WlwpOmRfvy_mRUCNvYmY2hxSRuiBUo0_FELbDzTWdCaF86kgias42apQDHIDCAjuFjO-sgru1qdPTu4Zi45icz76pPPk-FtXQyi-qMzbZG-nVoiALaamygqg"/>
 <span class="social-pill-text">
@@ -962,19 +960,24 @@
                 var clickedPill = this;
                 var url = clickedPill.dataset.url;
 
+                // Reset all pills to round
                 pills.forEach(function(p) {
                     p.classList.remove('expanded', 'slide-left', 'slide-right', 'opening');
                 });
 
+                // Slide neighbors
                 if (index > 0) pills[index - 1].classList.add('slide-left');
                 if (index < pills.length - 1) pills[index + 1].classList.add('slide-right');
 
+                // Expand to capsule (red)
                 clickedPill.classList.add('expanded');
 
+                // Opening pulse after expansion
                 setTimeout(function() {
                     clickedPill.classList.add('opening');
                 }, 800);
 
+                // Auto-open link after 2.5s (time to read)
                 setTimeout(function() {
                     pills.forEach(function(p) {
                         p.classList.remove('slide-left', 'slide-right');
@@ -982,6 +985,7 @@
 
                     if (url) window.open(url, '_blank');
 
+                    // Reset back to round
                     setTimeout(function() {
                         clickedPill.classList.remove('expanded', 'opening');
                         isAnimating = false;
