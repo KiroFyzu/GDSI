@@ -5,7 +5,26 @@
     { "src": "/form.html", "dest": "/form.html" },
     { "src": "/qtt", "dest": "/qtt.html" },
     { "src": "/qtt.html", "dest": "/qtt.html" },
-    { "src": "/qr", "dest": "/qr.html" }
+    { "src": "/qr", "dest": "/qr.html" },
+    { "src": "/admin", "dest": "/admin.html" },
+    { "src": "/admin.html", "dest": "/admin.html" }
+  ],
+  "headers": [
+    {
+      "source": "/admin.html",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    },
+    {
+      "source": "/admin",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    }
   ],
   "cleanUrls": true
 }
+

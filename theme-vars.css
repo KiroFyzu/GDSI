@@ -1,0 +1,123 @@
+/* ============================================================
+   GDSI Theme Variables — Light / Dark
+   Auto-applied via .dark class on <html> (see theme-core.js)
+
+   IMPORTANT: values are space-separated RGB channels (not hex)
+   so Tailwind's color-opacity modifiers keep working, e.g.
+   bg-primary/10, from-background/90, shadow-primary/30.
+   Each page's tailwind.config maps colors like:
+     primary: "rgb(var(--gdsi-primary) / <alpha-value>)"
+
+   "Fixed" tokens intentionally stay identical between themes
+   (matches Material 3 "fixed" role behavior).
+   ============================================================ */
+
+:root {
+  --gdsi-primary-fixed-dim: 255 180 172;
+  --gdsi-surface-dim: 217 218 219;
+  --gdsi-surface-variant: 225 227 228;
+  --gdsi-surface: 248 249 250;
+  --gdsi-primary: 183 0 19;
+  --gdsi-tertiary-fixed-dim: 196 198 204;
+  --gdsi-secondary-fixed-dim: 200 198 197;
+  --gdsi-primary-container: 225 25 34;
+  --gdsi-secondary-container: 226 223 222;
+  --gdsi-on-primary-container: 255 247 245;
+  --gdsi-outline-variant: 231 189 184;
+  --gdsi-on-primary-fixed-variant: 147 0 13;
+  --gdsi-error-container: 255 218 214;
+  --gdsi-on-tertiary-fixed: 24 28 32;
+  --gdsi-tertiary-container: 111 114 119;
+  --gdsi-surface-container-highest: 225 227 228;
+  --gdsi-secondary-fixed: 229 226 225;
+  --gdsi-on-secondary-container: 99 98 98;
+  --gdsi-on-secondary: 255 255 255;
+  --gdsi-on-tertiary: 255 255 255;
+  --gdsi-secondary: 95 94 94;
+  --gdsi-inverse-on-surface: 240 241 242;
+  --gdsi-on-tertiary-container: 246 248 254;
+  --gdsi-tertiary: 86 90 94;
+  --gdsi-on-error: 255 255 255;
+  --gdsi-on-background: 25 28 29;
+  --gdsi-surface-container-low: 243 244 245;
+  --gdsi-on-surface: 25 28 29;
+  --gdsi-primary-fixed: 255 218 214;
+  --gdsi-on-error-container: 147 0 10;
+  --gdsi-outline: 146 110 107;
+  --gdsi-error: 186 26 26;
+  --gdsi-surface-container: 237 238 239;
+  --gdsi-on-surface-variant: 93 63 60;
+  --gdsi-tertiary-fixed: 224 226 232;
+  --gdsi-inverse-surface: 46 49 50;
+  --gdsi-surface-container-lowest: 255 255 255;
+  --gdsi-surface-bright: 248 249 250;
+  --gdsi-on-tertiary-fixed-variant: 68 71 75;
+  --gdsi-surface-container-high: 231 232 233;
+  --gdsi-on-primary-fixed: 65 0 2;
+  --gdsi-inverse-primary: 255 180 172;
+  --gdsi-background: 248 249 250;
+  --gdsi-surface-tint: 192 0 21;
+  --gdsi-on-secondary-fixed: 28 27 27;
+  --gdsi-on-secondary-fixed-variant: 71 71 70;
+  --gdsi-on-primary: 255 255 255;
+}
+
+html.dark {
+  --gdsi-primary-fixed-dim: 255 180 172;
+  --gdsi-surface-dim: 14 12 12;
+  --gdsi-surface-variant: 74 56 53;
+  --gdsi-surface: 18 18 18;
+  --gdsi-primary: 255 85 102;
+  --gdsi-tertiary-fixed-dim: 196 198 204;
+  --gdsi-secondary-fixed-dim: 200 198 197;
+  --gdsi-primary-container: 147 0 13;
+  --gdsi-secondary-container: 71 71 70;
+  --gdsi-on-primary-container: 255 218 214;
+  --gdsi-outline-variant: 74 56 53;
+  --gdsi-on-primary-fixed-variant: 147 0 13;
+  --gdsi-error-container: 147 0 10;
+  --gdsi-on-tertiary-fixed: 24 28 32;
+  --gdsi-tertiary-container: 56 59 63;
+  --gdsi-surface-container-highest: 52 41 40;
+  --gdsi-secondary-fixed: 229 226 225;
+  --gdsi-on-secondary-container: 229 226 225;
+  --gdsi-on-secondary: 50 47 47;
+  --gdsi-on-tertiary: 40 42 47;
+  --gdsi-secondary: 200 198 197;
+  --gdsi-inverse-on-surface: 25 28 29;
+  --gdsi-on-tertiary-container: 224 226 232;
+  --gdsi-tertiary: 196 198 204;
+  --gdsi-on-error: 105 0 5;
+  --gdsi-on-background: 236 224 223;
+  --gdsi-surface-container-low: 26 22 20;
+  --gdsi-on-surface: 236 224 223;
+  --gdsi-primary-fixed: 255 218 214;
+  --gdsi-on-error-container: 255 218 214;
+  --gdsi-outline: 160 140 137;
+  --gdsi-error: 255 180 171;
+  --gdsi-surface-container: 30 26 25;
+  --gdsi-on-surface-variant: 216 194 191;
+  --gdsi-tertiary-fixed: 224 226 232;
+  --gdsi-inverse-surface: 236 224 223;
+  --gdsi-surface-container-lowest: 12 10 10;
+  --gdsi-surface-bright: 58 48 47;
+  --gdsi-on-tertiary-fixed-variant: 68 71 75;
+  --gdsi-surface-container-high: 41 34 33;
+  --gdsi-on-primary-fixed: 65 0 2;
+  --gdsi-inverse-primary: 183 0 19;
+  --gdsi-background: 18 18 18;
+  --gdsi-surface-tint: 255 85 102;
+  --gdsi-on-secondary-fixed: 28 27 27;
+  --gdsi-on-secondary-fixed-variant: 71 71 70;
+  --gdsi-on-primary: 74 0 9;
+}
+
+/* Smooth, non-jarring theme transition */
+body, .glass-panel, header, footer, section, .social-pill, .qr-modal-card {
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  body, .glass-panel, header, footer, section, .social-pill, .qr-modal-card {
+    transition: none !important;
+  }
+}

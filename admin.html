@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="robots" content="noindex, nofollow, noarchive"/>
+<title>GDSI Admin CMS</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #121212;
+  color: #ece0df;
+  min-height: 100dvh;
+  padding: 24px 16px;
+}
+.container { max-width: 480px; margin: 0 auto; }
+.logo { font-size: 11px; font-weight: 700; letter-spacing: .15em; color: #a08c89; text-transform: uppercase; margin-bottom: 32px; }
+.logo span { color: #ff5566; }
+h1 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 6px; }
+.subtitle { font-size: 13px; color: #a08c89; margin-bottom: 32px; }
+.card {
+  background: #1e1a19;
+  border: 1px solid #4a3835;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+label { display: block; font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #a08c89; text-transform: uppercase; margin-bottom: 8px; }
+input[type="text"], input[type="password"] {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #4a3835;
+  border-radius: 12px;
+  background: #0c0a0a;
+  color: #ece0df;
+  font-size: 14px;
+  font-family: 'Courier New', monospace;
+  outline: none;
+  transition: border-color .2s;
+}
+input:focus { border-color: #ff5566; }
+.btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: #ff5566;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .2s, opacity .2s;
+  margin-top: 16px;
+}
+.btn:hover { background: #e63c50; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn-secondary {
+  background: transparent;
+  border: 1.5px solid #4a3835;
+  color: #a08c89;
+  margin-top: 8px;
+}
+.btn-secondary:hover { background: #1e1a19; border-color: #a08c89; }
+.status {
+  font-size: 13px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-top: 14px;
+  display: none;
+}
+.status.success { background: rgba(34,197,94,.12); color: #4ade80; display: block; }
+.status.error   { background: rgba(255,85,102,.12); color: #ff5566;  display: block; }
+.status.loading { background: rgba(255,255,255,.06); color: #a08c89; display: block; }
+.preview-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #ff5566;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-left: 8px;
+}
+.thumb-wrap {
+  width: 100%;
+  margin-top: 12px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: none;
+}
+.thumb-wrap img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; }
+.section-divider { height: 1px; background: #4a3835; margin: 24px 0; }
+.tip { font-size: 12px; color: #6f6765; margin-top: 8px; line-height: 1.5; }
+.config-warn {
+  background: rgba(255,180,0,.06);
+  border: 1px solid rgba(255,180,0,.2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: #fbbf24;
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="logo">GDSI &middot; <span>Admin CMS</span></div>
+
+  <!-- Password Gate -->
+  <div id="loginSection">
+    <h1>Login Admin</h1>
+    <p class="subtitle">Halaman ini tidak diindeks. Hanya admin yang tahu URL ini.</p>
+    <div class="card">
+      <label for="pwdInput">Password Admin</label>
+      <input type="password" id="pwdInput" placeholder="••••••••" autocomplete="current-password"/>
+      <button class="btn" id="loginBtn">Masuk</button>
+      <div class="status" id="loginStatus"></div>
+    </div>
+  </div>
+
+  <!-- CMS Panel (hidden until logged in) -->
+  <div id="cmsSection" style="display:none;">
+    <h1>YouTube CMS</h1>
+    <p class="subtitle">Ganti link embed YouTube di halaman utama.<br/>Paste link apa saja — otomatis diproses.</p>
+
+    <div class="config-warn" id="configWarn">
+      ⚠️ <strong>Firebase belum dikonfigurasi.</strong> Isi <code>window.__GDSI_FB_PROJECT</code> &amp; <code>window.__GDSI_FB_KEY</code> di file ini, atau tambahkan ke Vercel Environment Variables lalu rebuild.
+    </div>
+
+    <!-- Video 1 -->
+    <div class="card">
+      <label>Video 1 — Competition Rules</label>
+      <input type="text" id="v1Input" placeholder="https://youtube.com/watch?v=... atau youtu.be/... atau ID 11 karakter"/>
+      <div class="thumb-wrap" id="v1Thumb"><img id="v1Img" src="" alt="thumbnail"/></div>
+      <p class="tip">Format diterima: link watch?v=, youtu.be/, /shorts/, atau ID langsung (11 karakter).</p>
+    </div>
+
+    <!-- Video 2 -->
+    <div class="card">
+      <label>Video 2 — Tutorial Banner Design</label>
+      <input type="text" id="v2Input" placeholder="https://youtube.com/watch?v=... atau youtu.be/... atau ID 11 karakter"/>
+      <div class="thumb-wrap" id="v2Thumb"><img id="v2Img" src="" alt="thumbnail"/></div>
+      <p class="tip">Format diterima: link watch?v=, youtu.be/, /shorts/, atau ID langsung (11 karakter).</p>
+    </div>
+
+    <button class="btn" id="saveBtn">💾 Simpan ke Database</button>
+    <button class="btn btn-secondary" id="logoutBtn">Keluar</button>
+    <div class="status" id="saveStatus"></div>
+
+    <div class="section-divider"></div>
+    <p class="tip">
+      Setelah disimpan, buka halaman utama (refresh) dan embed YouTube akan otomatis ganti ke video baru.
+      Tidak perlu redeploy ke Vercel.
+    </p>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // =============================================================
+  // KONFIGURASI — ISI INI DENGAN DATA FIREBASE PROJECT KAMU
+  // Atau set sebagai Vercel Environment Variables (lebih aman):
+  //   VITE_FIREBASE_PROJECT_ID dan VITE_FIREBASE_API_KEY
+  // =============================================================
+  var PROJECT_ID = window.__GDSI_FB_PROJECT || '';
+  var API_KEY    = window.__GDSI_FB_KEY    || '';
+
+  // Password disimpan sebagai SHA-256 hash (bukan plaintext).
+  // Default hash di bawah ini = "gdsi2026admin"
+  // Ganti dengan hash password pilihanmu:
+  //   node -e "require('crypto').createHash('sha256').update('passwordmu').digest('hex').then(console.log)"
+  // Atau pakai: https://emn178.github.io/online-tools/sha256.html
+  var PWD_HASH = 'cdbece8ec39792cd9670a71dd7f1a01587b8c1f604c078839d3837ffd215ef43';
+
+  // =============================================================
+
+  var SESSION_KEY = 'gdsi_cms_auth';
+
+  function sha256(str) {
+    var buf = new TextEncoder().encode(str);
+    return crypto.subtle.digest('SHA-256', buf).then(function(hash) {
+      return Array.from(new Uint8Array(hash)).map(function(b) {
+        return b.toString(16).padStart(2,'0');
+      }).join('');
+    });
+  }
+
+  function extractId(url) {
+    if (!url) return null;
+    url = url.trim();
+    if (/^[A-Za-z0-9_-]{11}$/.test(url)) return url;
+    var m = url.match(/(?:youtu\.be\/|\/shorts\/|[?&]v=)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  function showStatus(el, msg, type) {
+    el.textContent = msg;
+    el.className = 'status ' + type;
+  }
+
+  function firestoreUrl(docPath) {
+    return 'https://firestore.googleapis.com/v1/projects/' + PROJECT_ID
+      + '/databases/(default)/documents/' + docPath + '?key=' + API_KEY;
+  }
+
+  // --- Login ---
+  document.getElementById('loginBtn').addEventListener('click', function() {
+    var pwd = document.getElementById('pwdInput').value;
+    if (!pwd) return;
+    var st = document.getElementById('loginStatus');
+    showStatus(st, 'Memeriksa...', 'loading');
+    sha256(pwd).then(function(hash) {
+      if (hash === PWD_HASH) {
+        try { sessionStorage.setItem(SESSION_KEY, '1'); } catch(e) {}
+        showCms();
+      } else {
+        showStatus(st, 'Password salah.', 'error');
+      }
+    });
+  });
+  document.getElementById('pwdInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') document.getElementById('loginBtn').click();
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', function() {
+    try { sessionStorage.removeItem(SESSION_KEY); } catch(e) {}
+    document.getElementById('cmsSection').style.display = 'none';
+    document.getElementById('loginSection').style.display = '';
+    document.getElementById('pwdInput').value = '';
+  });
+
+  function showCms() {
+    document.getElementById('loginSection').style.display = 'none';
+    document.getElementById('cmsSection').style.display = '';
+
+    if (!PROJECT_ID || !API_KEY) {
+      document.getElementById('configWarn').style.display = 'block';
+    }
+
+    // Load existing values from Firestore
+    if (PROJECT_ID && API_KEY) {
+      fetch(firestoreUrl('gdsi_cms/youtube'))
+        .then(function(r) { return r.ok ? r.json() : null; })
+        .then(function(data) {
+          if (!data || !data.fields) return;
+          var v1 = data.fields.video1 && data.fields.video1.stringValue;
+          var v2 = data.fields.video2 && data.fields.video2.stringValue;
+          if (v1) { document.getElementById('v1Input').value = v1; updateThumb('v1', v1); }
+          if (v2) { document.getElementById('v2Input').value = v2; updateThumb('v2', v2); }
+        })
+        .catch(function(){});
+    }
+  }
+
+  function updateThumb(prefix, url) {
+    var id = extractId(url);
+    var wrap = document.getElementById(prefix + 'Thumb');
+    var img  = document.getElementById(prefix + 'Img');
+    if (id) {
+      img.src = 'https://img.youtube.com/vi/' + id + '/mqdefault.jpg';
+      wrap.style.display = 'block';
+    } else {
+      wrap.style.display = 'none';
+    }
+  }
+
+  ['v1Input','v2Input'].forEach(function(id) {
+    document.getElementById(id).addEventListener('input', function() {
+      updateThumb(id.replace('Input',''), this.value);
+    });
+  });
+
+  // Save to Firestore REST API
+  document.getElementById('saveBtn').addEventListener('click', function() {
+    var st = document.getElementById('saveStatus');
+
+    if (!PROJECT_ID || !API_KEY) {
+      showStatus(st, 'Firebase belum dikonfigurasi. Lihat peringatan di atas.', 'error');
+      return;
+    }
+
+    var v1 = document.getElementById('v1Input').value.trim();
+    var v2 = document.getElementById('v2Input').value.trim();
+    var id1 = extractId(v1);
+    var id2 = extractId(v2);
+
+    if (!id1 && !id2) {
+      showStatus(st, 'Tidak ada ID YouTube valid yang terdeteksi.', 'error');
+      return;
+    }
+
+    showStatus(st, 'Menyimpan...', 'loading');
+    document.getElementById('saveBtn').disabled = true;
+
+    var fields = {};
+    if (id1) fields.video1 = { stringValue: id1 };
+    if (id2) fields.video2 = { stringValue: id2 };
+
+    var url = 'https://firestore.googleapis.com/v1/projects/' + PROJECT_ID
+      + '/databases/(default)/documents/gdsi_cms/youtube?key=' + API_KEY;
+
+    // PATCH with updateMask — creates doc if absent, only updates specified fields
+    var updateMask = Object.keys(fields).map(function(k){
+      return 'updateMask.fieldPaths=' + k;
+    }).join('&');
+
+    fetch(url + (updateMask ? '&' + updateMask : ''), {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: fields })
+    })
+    .then(function(r) {
+      if (r.ok) {
+        showStatus(st, '✅ Tersimpan! Refresh halaman utama untuk melihat video baru.', 'success');
+      } else {
+        return r.json().then(function(e) {
+          throw new Error(e.error && e.error.message || 'Gagal menyimpan');
+        });
+      }
+    })
+    .catch(function(err) {
+      showStatus(st, '❌ Error: ' + err.message, 'error');
+    })
+    .finally(function() {
+      document.getElementById('saveBtn').disabled = false;
+    });
+  });
+
+  // Auto-login if session exists
+  try {
+    if (sessionStorage.getItem(SESSION_KEY)) showCms();
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>

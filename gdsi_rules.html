@@ -4,7 +4,9 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>GDSI Rules - Grand Drift Series Indonesia</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="theme-core.js"></script>
+  <link href="theme-vars.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700;800&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
@@ -13,53 +15,53 @@
             theme: {
                 extend: {
                     "colors": {
-                        "primary-fixed-dim": "#ffb4ac",
-                        "surface-dim": "#d9dadb",
-                        "surface-variant": "#e1e3e4",
-                        "surface": "#f8f9fa",
-                        "primary": "#b70013",
-                        "tertiary-fixed-dim": "#c4c6cc",
-                        "secondary-fixed-dim": "#c8c6c5",
-                        "primary-container": "#e11922",
-                        "secondary-container": "#e2dfde",
-                        "on-primary-container": "#fff7f5",
-                        "outline-variant": "#e7bdb8",
-                        "on-primary-fixed-variant": "#93000d",
-                        "error-container": "#ffdad6",
-                        "on-tertiary-fixed": "#181c20",
-                        "tertiary-container": "#6f7277",
-                        "surface-container-highest": "#e1e3e4",
-                        "secondary-fixed": "#e5e2e1",
-                        "on-secondary-container": "#636262",
-                        "on-secondary": "#ffffff",
-                        "on-tertiary": "#ffffff",
-                        "secondary": "#5f5e5e",
-                        "inverse-on-surface": "#f0f1f2",
-                        "on-tertiary-container": "#f6f8fe",
-                        "tertiary": "#565a5e",
-                        "on-error": "#ffffff",
-                        "on-background": "#191c1d",
-                        "surface-container-low": "#f3f4f5",
-                        "on-surface": "#191c1d",
-                        "primary-fixed": "#ffdad6",
-                        "on-error-container": "#93000a",
-                        "outline": "#926e6b",
-                        "error": "#ba1a1a",
-                        "surface-container": "#edeeef",
-                        "on-surface-variant": "#5d3f3c",
-                        "tertiary-fixed": "#e0e2e8",
-                        "inverse-surface": "#2e3132",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-bright": "#f8f9fa",
-                        "on-tertiary-fixed-variant": "#44474b",
-                        "surface-container-high": "#e7e8e9",
-                        "on-primary-fixed": "#410002",
-                        "inverse-primary": "#ffb4ac",
-                        "background": "#f8f9fa",
-                        "surface-tint": "#c00015",
-                        "on-secondary-fixed": "#1c1b1b",
-                        "on-secondary-fixed-variant": "#474746",
-                        "on-primary": "#ffffff"
+                        "primary-fixed-dim": "rgb(var(--gdsi-primary-fixed-dim) / <alpha-value>)",
+                        "surface-dim": "rgb(var(--gdsi-surface-dim) / <alpha-value>)",
+                        "surface-variant": "rgb(var(--gdsi-surface-variant) / <alpha-value>)",
+                        "surface": "rgb(var(--gdsi-surface) / <alpha-value>)",
+                        "primary": "rgb(var(--gdsi-primary) / <alpha-value>)",
+                        "tertiary-fixed-dim": "rgb(var(--gdsi-tertiary-fixed-dim) / <alpha-value>)",
+                        "secondary-fixed-dim": "rgb(var(--gdsi-secondary-fixed-dim) / <alpha-value>)",
+                        "primary-container": "rgb(var(--gdsi-primary-container) / <alpha-value>)",
+                        "secondary-container": "rgb(var(--gdsi-secondary-container) / <alpha-value>)",
+                        "on-primary-container": "rgb(var(--gdsi-on-primary-container) / <alpha-value>)",
+                        "outline-variant": "rgb(var(--gdsi-outline-variant) / <alpha-value>)",
+                        "on-primary-fixed-variant": "rgb(var(--gdsi-on-primary-fixed-variant) / <alpha-value>)",
+                        "error-container": "rgb(var(--gdsi-error-container) / <alpha-value>)",
+                        "on-tertiary-fixed": "rgb(var(--gdsi-on-tertiary-fixed) / <alpha-value>)",
+                        "tertiary-container": "rgb(var(--gdsi-tertiary-container) / <alpha-value>)",
+                        "surface-container-highest": "rgb(var(--gdsi-surface-container-highest) / <alpha-value>)",
+                        "secondary-fixed": "rgb(var(--gdsi-secondary-fixed) / <alpha-value>)",
+                        "on-secondary-container": "rgb(var(--gdsi-on-secondary-container) / <alpha-value>)",
+                        "on-secondary": "rgb(var(--gdsi-on-secondary) / <alpha-value>)",
+                        "on-tertiary": "rgb(var(--gdsi-on-tertiary) / <alpha-value>)",
+                        "secondary": "rgb(var(--gdsi-secondary) / <alpha-value>)",
+                        "inverse-on-surface": "rgb(var(--gdsi-inverse-on-surface) / <alpha-value>)",
+                        "on-tertiary-container": "rgb(var(--gdsi-on-tertiary-container) / <alpha-value>)",
+                        "tertiary": "rgb(var(--gdsi-tertiary) / <alpha-value>)",
+                        "on-error": "rgb(var(--gdsi-on-error) / <alpha-value>)",
+                        "on-background": "rgb(var(--gdsi-on-background) / <alpha-value>)",
+                        "surface-container-low": "rgb(var(--gdsi-surface-container-low) / <alpha-value>)",
+                        "on-surface": "rgb(var(--gdsi-on-surface) / <alpha-value>)",
+                        "primary-fixed": "rgb(var(--gdsi-primary-fixed) / <alpha-value>)",
+                        "on-error-container": "rgb(var(--gdsi-on-error-container) / <alpha-value>)",
+                        "outline": "rgb(var(--gdsi-outline) / <alpha-value>)",
+                        "error": "rgb(var(--gdsi-error) / <alpha-value>)",
+                        "surface-container": "rgb(var(--gdsi-surface-container) / <alpha-value>)",
+                        "on-surface-variant": "rgb(var(--gdsi-on-surface-variant) / <alpha-value>)",
+                        "tertiary-fixed": "rgb(var(--gdsi-tertiary-fixed) / <alpha-value>)",
+                        "inverse-surface": "rgb(var(--gdsi-inverse-surface) / <alpha-value>)",
+                        "surface-container-lowest": "rgb(var(--gdsi-surface-container-lowest) / <alpha-value>)",
+                        "surface-bright": "rgb(var(--gdsi-surface-bright) / <alpha-value>)",
+                        "on-tertiary-fixed-variant": "rgb(var(--gdsi-on-tertiary-fixed-variant) / <alpha-value>)",
+                        "surface-container-high": "rgb(var(--gdsi-surface-container-high) / <alpha-value>)",
+                        "on-primary-fixed": "rgb(var(--gdsi-on-primary-fixed) / <alpha-value>)",
+                        "inverse-primary": "rgb(var(--gdsi-inverse-primary) / <alpha-value>)",
+                        "background": "rgb(var(--gdsi-background) / <alpha-value>)",
+                        "surface-tint": "rgb(var(--gdsi-surface-tint) / <alpha-value>)",
+                        "on-secondary-fixed": "rgb(var(--gdsi-on-secondary-fixed) / <alpha-value>)",
+                        "on-secondary-fixed-variant": "rgb(var(--gdsi-on-secondary-fixed-variant) / <alpha-value>)",
+                        "on-primary": "rgb(var(--gdsi-on-primary) / <alpha-value>)"
                     },
                     "borderRadius": {
                         "DEFAULT": "0.25rem",
@@ -120,7 +122,7 @@
         }
 
         .glass-panel {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255,255,255, 0.7);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
         }
@@ -133,22 +135,22 @@
             transition: all 0.2s ease;
         }
         .nav-pill:hover {
-            background: rgba(183, 0, 19, 0.08);
-            color: #b70013;
+            background: rgba(var(--gdsi-primary) / 0.08);
+            color: rgb(var(--gdsi-primary));
         }
         .nav-pill.active {
-            background: #b70013;
-            color: #ffffff;
+            background: rgb(var(--gdsi-primary));
+            color: rgb(var(--gdsi-on-primary));
         }
 
         .rule-card {
-            background: #ffffff;
-            border: 1px solid #e1e3e4;
+            background: rgb(var(--gdsi-on-primary));
+            border: 1px solid rgb(var(--gdsi-surface-variant));
             transition: all 0.3s ease;
         }
         .rule-card:hover {
-            border-color: #b70013;
-            box-shadow: 0 8px 30px -10px rgba(183, 0, 19, 0.12);
+            border-color: rgb(var(--gdsi-primary));
+            box-shadow: 0 8px 30px -10px rgba(var(--gdsi-primary) / 0.12);
             transform: translateY(-2px);
         }
 
@@ -156,12 +158,12 @@
             transition: all 0.2s ease;
         }
         .banned-item:hover {
-            background: rgba(186, 26, 26, 0.04);
+            background: rgba(var(--gdsi-error) / 0.04);
             padding-left: 1rem;
         }
 
         .score-ring {
-            background: conic-gradient(#b70013 var(--pct), #e1e3e4 0);
+            background: conic-gradient(rgb(var(--gdsi-primary)) var(--pct), rgb(var(--gdsi-surface-variant)) 0);
         }
 
         table.data-table th {
@@ -170,10 +172,10 @@
             letter-spacing: 0.02em;
         }
         table.data-table td, table.data-table th {
-            border-bottom: 1px solid #e1e3e4;
+            border-bottom: 1px solid rgb(var(--gdsi-surface-variant));
         }
         table.data-table tbody tr:hover {
-            background: rgba(183, 0, 19, 0.02);
+            background: rgba(var(--gdsi-primary) / 0.02);
         }
 
         .tag {
@@ -186,9 +188,9 @@
             letter-spacing: 0.05em;
         }
         .tag-red {
-            background: rgba(183, 0, 19, 0.08);
-            color: #b70013;
-            border: 1px solid rgba(183, 0, 19, 0.2);
+            background: rgba(var(--gdsi-primary) / 0.08);
+            color: rgb(var(--gdsi-primary));
+            border: 1px solid rgba(var(--gdsi-primary) / 0.2);
         }
         .tag-gold {
             background: rgba(202, 138, 4, 0.08);
@@ -205,7 +207,24 @@
             color: #16a34a;
             border: 1px solid rgba(22, 163, 74, 0.2);
         }
-    </style>
+    
+        /* ===== i18n lang show/hide ===== */
+        [data-gdsi-lang="en"] .lang-id-only { display: none !important; }
+        [data-gdsi-lang="id"] .lang-en-only { display: none !important; }
+
+        /* ===== dark mode body override ===== */
+        html.dark body {
+            background-color: rgb(var(--gdsi-background));
+            color: rgb(var(--gdsi-on-background));
+        }
+        html.dark .glass-panel {
+            background: rgba(var(--gdsi-surface-container) / 0.85);
+            border-color: rgb(var(--gdsi-surface-variant));
+        }
+        html.dark nav.glass-panel {
+            background: rgba(var(--gdsi-surface-container) / 0.92);
+        }
+</style>
 </head>
 <body class="bg-background text-on-background antialiased selection:bg-primary-container selection:text-on-primary-container relative overflow-x-hidden">
 
@@ -217,15 +236,15 @@
             <span class="font-headline-lg text-headline-md text-on-surface font-bold tracking-tight">GDSI</span>
         </a>
         <div class="hidden md:flex items-center gap-1">
-            <a href="#tire" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary">Ban</a>
-            <a href="#cars" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary">Mobil</a>
-            <a href="#scoring" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary">Penilaian</a>
-            <a href="#tandem" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary">Tandem</a>
-            <a href="#video" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary">Video</a>
+            <a href="#tire" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary" data-i18n="nav_tire">Ban</a>
+            <a href="#cars" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary" data-i18n="nav_cars">Mobil</a>
+            <a href="#scoring" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary" data-i18n="nav_scoring">Penilaian</a>
+            <a href="#tandem" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary" data-i18n="nav_tandem">Tandem</a>
+            <a href="#video" class="nav-pill px-4 py-2 rounded-full font-label-bold text-label-bold text-secondary" data-i18n="nav_video">Video</a>
         </div>
         <a href="index.html" class="inline-flex items-center gap-1 font-label-bold text-label-bold text-secondary hover:text-primary transition-colors">
             <span class="material-symbols-outlined text-sm">arrow_back</span>
-            <span class="hidden sm:inline">Kembali</span>
+            <span class="hidden sm:inline" data-i18n="nav_back">Kembali</span>
         </a>
     </div>
 </nav>
@@ -240,12 +259,12 @@
             GDSI<br/><span class="text-primary">RULES</span>
         </h1>
         <p class="font-body-lg text-body-lg text-secondary max-w-2xl mt-md">
-            Regulasi lengkap untuk kompetisi drifting. Mencakup aturan ban, kriteria mobil, sistem penilaian UDSM, dan format pengiriman video.
+            <span class="lang-id-only">Regulasi lengkap untuk kompetisi drifting. Mencakup aturan ban, kriteria mobil, sistem penilaian UDSM, dan format pengiriman video.</span><span class="lang-en-only">Full regulations for the drifting competition. Covers tire rules, car criteria, UDSM scoring system, and video submission format.</span>
         </p>
         <div class="flex flex-wrap gap-4 mt-xl">
             <div class="flex items-center gap-2 text-sm text-secondary">
                 <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
-                <span>100 Poin Penilaian</span>
+                <span><span class="lang-id-only">100 Poin Penilaian</span><span class="lang-en-only">100 Scoring Points</span></span>
             </div>
             <div class="flex items-center gap-2 text-sm text-secondary">
                 <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
@@ -253,7 +272,7 @@
             </div>
             <div class="flex items-center gap-2 text-sm text-secondary">
                 <span class="material-symbols-outlined text-primary text-lg">check_circle</span>
-                <span>Tandem Battle</span>
+                <span><span class="lang-id-only">Tandem Battle</span><span class="lang-en-only">Tandem Battle</span></span>
             </div>
         </div>
     </div>
@@ -269,7 +288,7 @@
             </div>
             <div>
                 <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Tire Regulation</h2>
-                <p class="text-secondary text-sm">Spesifikasi ban berdasarkan bobot kendaraan</p>
+                <p class="text-secondary text-sm"><span class="lang-id-only">Spesifikasi ban berdasarkan bobot kendaraan</span><span class="lang-en-only">Tire specs by vehicle weight</span></p>
             </div>
         </div>
 
@@ -278,9 +297,9 @@
                 <table class="w-full text-left data-table">
                     <thead>
                         <tr>
-                            <th class="pb-4 text-primary font-label-bold text-label-bold uppercase">Bobot Kendaraan</th>
+                            <th class="pb-4 text-primary font-label-bold text-label-bold uppercase"><span class="lang-id-only">Bobot Kendaraan</span><span class="lang-en-only">Vehicle Weight</span></th>
                             <th class="pb-4 text-primary font-label-bold text-label-bold uppercase">Ring</th>
-                            <th class="pb-4 text-primary font-label-bold text-label-bold uppercase">Lebar</th>
+                            <th class="pb-4 text-primary font-label-bold text-label-bold uppercase"><span class="lang-id-only">Lebar</span><span class="lang-en-only">Width</span></th>
                             <th class="pb-4 text-primary font-label-bold text-label-bold uppercase">Aspect</th>
                         </tr>
                     </thead>
@@ -327,8 +346,8 @@
             <div class="mt-6 p-4 bg-error-container/30 border border-error/20 rounded-xl flex items-start gap-3">
                 <span class="material-symbols-outlined text-error mt-0.5">warning</span>
                 <div>
-                    <p class="text-error font-bold text-sm mb-1">NOTE</p>
-                    <p class="text-secondary text-sm">Player dilarang menambah bobot mobil. Bobot yang tertera adalah bobot final kendaraan.</p>
+                    <p class="text-error font-bold text-sm mb-1"><span class="lang-id-only">CATATAN</span><span class="lang-en-only">NOTE</span></p>
+                    <p class="text-secondary text-sm"><span class="lang-id-only">Player dilarang menambah bobot mobil. Bobot yang tertera adalah bobot final kendaraan.</span><span class="lang-en-only">Players may not add vehicle weight. Listed weight is the final vehicle weight.</span></p>
                 </div>
             </div>
         </div>
@@ -341,8 +360,8 @@
                 <span class="material-symbols-outlined text-primary text-2xl">directions_car</span>
             </div>
             <div>
-                <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Kriteria Mobil</h2>
-                <p class="text-secondary text-sm">Aturan modifikasi dan daftar mobil terlarang</p>
+                <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface"><span class="lang-id-only">Kriteria Mobil</span><span class="lang-en-only">Car Criteria</span></h2>
+                <p class="text-secondary text-sm"><span class="lang-id-only">Aturan modifikasi dan daftar mobil terlarang</span><span class="lang-en-only">Modification rules and banned vehicle list</span></p>
             </div>
         </div>
 
@@ -356,15 +375,15 @@
                 <ul class="space-y-3 font-body-md text-body-md">
                     <li class="flex items-start gap-3 text-on-surface-variant">
                         <span class="material-symbols-outlined text-error mt-0.5">cancel</span>
-                        <span>Dilarang menggunakan <strong class="text-on-surface">body kit dash bar</strong> (bukan body cut)</span>
+                        <span><span class="lang-id-only">Dilarang menggunakan <strong class="text-on-surface">body kit dash bar</strong> (bukan body cut)</span><span class="lang-en-only">Dash bar body kits are prohibited (body cut is allowed)</span></span>
                     </li>
                     <li class="flex items-start gap-3 text-on-surface-variant">
                         <span class="material-symbols-outlined text-error mt-0.5">cancel</span>
-                        <span>Fitment suspensi dilarang <strong class="text-on-surface">rally look</strong></span>
+                        <span><span class="lang-id-only">Fitment suspensi dilarang <strong class="text-on-surface">rally look</strong></span><span class="lang-en-only">Suspension fitment in <strong class="text-on-surface">rally look</strong> style is prohibited</span></span>
                     </li>
                     <li class="flex items-start gap-3 text-on-surface-variant">
                         <span class="material-symbols-outlined text-green-600 mt-0.5">check_circle</span>
-                        <span>Wajib menggunakan <strong class="text-on-surface">banner panitia</strong></span>
+                        <span><span class="lang-id-only">Wajib menggunakan <strong class="text-on-surface">banner panitia</strong></span><span class="lang-en-only">Must display the <strong class="text-on-surface">official committee banner</strong></span></span>
                     </li>
                 </ul>
 
@@ -449,8 +468,8 @@
         <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-xl flex items-start gap-3">
             <span class="material-symbols-outlined text-yellow-600 mt-0.5">warning</span>
             <div>
-                <p class="text-yellow-700 font-bold text-sm mb-1">NOTE PENTING</p>
-                <p class="text-secondary text-sm">Selama balapan berlangsung player dilarang menambah Horse Power (HP) dan dilarang mengganti mobil & mesin. Mobil dan mesin diharuskan sama pada saat qualify.</p>
+                <p class="text-yellow-700 font-bold text-sm mb-1"><span class="lang-id-only">CATATAN PENTING</span><span class="lang-en-only">IMPORTANT NOTE</span></p>
+                <p class="text-secondary text-sm"><span class="lang-id-only">Selama balapan berlangsung player dilarang menambah Horse Power (HP) dan dilarang mengganti mobil &amp; mesin. Mobil dan mesin diharuskan sama pada saat qualify.</span><span class="lang-en-only">During the race, players may not increase Horsepower (HP) or change their car &amp; engine. Car and engine must remain the same as during qualifying.</span></p>
             </div>
         </div>
     </section>
@@ -462,8 +481,8 @@
                 <span class="material-symbols-outlined text-primary text-2xl">emoji_events</span>
             </div>
             <div>
-                <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Kriteria Penilaian</h2>
-                <p class="text-secondary text-sm">Sistem UDSM (Universal Drifting Scoring Method)</p>
+                <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface"><span class="lang-id-only">Kriteria Penilaian</span><span class="lang-en-only">Scoring Criteria</span></h2>
+                <p class="text-secondary text-sm"><span class="lang-id-only">Sistem UDSM (Universal Drifting Scoring Method)</span><span class="lang-en-only">UDSM (Universal Drifting Scoring Method)</span></p>
             </div>
         </div>
 
@@ -485,7 +504,7 @@
                 <div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
                 <div class="text-4xl font-display-lg text-primary mb-2">20</div>
                 <div class="text-secondary text-sm uppercase tracking-wider font-label-bold text-label-bold">Gaya (Style)</div>
-                <div class="text-xs text-secondary mt-2">Juri Manual</div>
+                <div class="text-xs text-secondary mt-2"><span class="lang-id-only">Juri Manual</span><span class="lang-en-only">Manual Judging</span></div>
             </div>
         </div>
 
@@ -505,33 +524,28 @@
                         <div class="h-2 rounded-full bg-primary" style="width: 40%"></div>
                     </div>
                 </div>
-                <p class="text-secondary text-sm mb-4 leading-relaxed">
-                    Zona diisi oleh garis luar bodi kendaraan (bumper depan/belakang) atau jarak sumbu roda kendaraan (ban depan/belakang).
-                </p>
+                <p class="text-secondary text-sm mb-4 leading-relaxed"><span class="lang-id-only">Zona diisi oleh garis luar bodi kendaraan (bumper depan/belakang) atau jarak sumbu roda kendaraan (ban depan/belakang).</span><span class="lang-en-only">The zone is filled by the outer body line of the vehicle (front/rear bumper) or the wheelbase distance (front/rear tires).</span></p>
                 <div class="space-y-3">
                     <div class="p-3 bg-surface-container rounded-lg border-l-2 border-primary">
-                        <p class="text-sm text-on-surface-variant"><strong class="text-on-surface">Zona dengan objek berbatasan:</strong> Garis luar bodi kendaraan digunakan untuk menentukan persentase zona terisi.</p>
+                        <p class="text-sm text-on-surface-variant"><strong class="text-on-surface"><span class="lang-id-only">Zona dengan objek berbatasan:</span><span class="lang-en-only">Zone with boundary objects:</span></strong> <span class="lang-id-only">Garis luar bodi kendaraan digunakan untuk menentukan persentase zona terisi.</span><span class="lang-en-only">The outer body line is used to determine the percentage of the zone filled.</span></p>
                     </div>
                     <div class="p-3 bg-surface-container rounded-lg border-l-2 border-primary-container">
-                        <p class="text-sm text-on-surface-variant"><strong class="text-on-surface">Zona tanpa objek:</strong> Jarak sumbu roda kendaraan digunakan untuk menentukan persentase zona terisi.</p>
+                        <p class="text-sm text-on-surface-variant"><strong class="text-on-surface"><span class="lang-id-only">Zona tanpa objek:</span><span class="lang-en-only">Zone without objects:</span></strong> <span class="lang-id-only">Jarak sumbu roda kendaraan digunakan untuk menentukan persentase zona terisi.</span><span class="lang-en-only">The wheelbase distance is used to determine the percentage of the zone filled.</span></p>
                     </div>
                 </div>
                 <div class="mt-4 p-4 bg-error-container/20 border border-error/10 rounded-xl">
-                    <p class="text-error text-sm font-bold mb-2 flex items-center gap-2">
-                        <span class="material-symbols-outlined text-sm">do_not_disturb_on</span> Penalty
-                    </p>
-                    <p class="text-secondary text-xs">Area Terlarang virtual ditempatkan di luar batas zona. Jumlah area Terlarang yang terisi akan dikurangkan dari area zona yang terisi.</p>
+                    <p class="text-error text-sm font-bold mb-2 flex items-center gap-2"><span class="material-symbols-outlined text-sm">do_not_disturb_on</span> Penalty</p><p class="text-secondary text-xs"><span class="lang-id-only">Area Terlarang virtual ditempatkan di luar batas zona. Jumlah area Terlarang yang terisi akan dikurangkan dari area zona yang terisi.</span><span class="lang-en-only">A virtual Forbidden Area is placed outside the zone boundaries. The amount of filled Forbidden Area is subtracted from the filled zone area.</span></p>
                 </div>
 
                 <div class="mt-4 p-4 bg-surface-container rounded-xl">
-                    <p class="text-primary text-sm font-bold mb-2">Contoh Perhitungan (4 Zona)</p>
+                    <p class="text-primary text-sm font-bold mb-2"><span class="lang-id-only">Contoh Perhitungan (4 Zona)</span><span class="lang-en-only">Calculation Example (4 Zones)</span></p>
                     <div class="text-xs text-secondary space-y-1 font-mono">
                         <div class="flex justify-between"><span>Z1: 90% - Terlarang 0%</span><span class="text-green-600">OK</span></div>
                         <div class="flex justify-between"><span>Z2: 75% - Terlarang 0%</span><span class="text-yellow-600">-25%</span></div>
                         <div class="flex justify-between"><span>Z3: 100% - Terlarang 80%</span><span class="text-error">= 20%</span></div>
                         <div class="flex justify-between"><span>Z4: 50% - Terlarang 0%</span><span class="text-yellow-600">-50%</span></div>
                         <div class="border-t border-surface-variant pt-1 mt-1 flex justify-between text-on-surface font-bold">
-                            <span>Total: 58,75% dari 40 poin</span>
+                            <span><span class="lang-id-only">Total: 58,75% dari 40 poin</span><span class="lang-en-only">Total: 58.75% of 40 pts</span></span>
                             <span>= 23,5</span>
                         </div>
                     </div>
@@ -553,24 +567,17 @@
                         <div class="h-2 rounded-full bg-primary" style="width: 40%"></div>
                     </div>
                 </div>
-                <p class="text-secondary text-sm mb-4 leading-relaxed">
-                    Sudut kendaraan dicatat dari garis "Start yang Dinilai" hingga garis Finish dengan kecepatan yang berkelanjutan dan konsisten.
-                </p>
+                <p class="text-secondary text-sm mb-4 leading-relaxed"><span class="lang-id-only">Sudut kendaraan dicatat dari garis "Start yang Dinilai" hingga garis Finish dengan kecepatan yang berkelanjutan dan konsisten.</span><span class="lang-en-only">The vehicle angle is recorded from the "Scored Start" line to the Finish line at a continuous and consistent speed.</span></p>
                 <div class="p-4 bg-surface-container rounded-xl mb-4">
-                    <p class="text-sm text-on-surface-variant mb-2"><strong class="text-on-surface">Formula:</strong></p>
-                    <p class="text-xs text-secondary leading-relaxed">
-                        Rata-rata sudut drift setiap pengemudi dihitung dari sampel data nilai Sudut kendaraan, dibagi dengan jumlah sampel. Kemudian diskalakan berdasarkan nilai maksimum yang ditentukan oleh Formula DRIFT.
-                    </p>
+                    <p class="text-sm text-on-surface-variant mb-2"><strong class="text-on-surface">Formula:</strong></p><p class="text-xs text-secondary leading-relaxed"><span class="lang-id-only">Rata-rata sudut drift setiap pengemudi dihitung dari sampel data nilai Sudut kendaraan, dibagi dengan jumlah sampel. Kemudian diskalakan berdasarkan nilai maksimum yang ditentukan oleh Formula DRIFT.</span><span class="lang-en-only">Each driver's average drift angle is calculated from vehicle angle data samples, divided by the number of samples. It is then scaled based on the maximum value set by the DRIFT Formula.</span></p>
                 </div>
                 <div class="p-4 bg-green-50 border border-green-200 rounded-xl">
-                    <p class="text-green-700 text-sm font-bold mb-2 flex items-center gap-2">
-                        <span class="material-symbols-outlined text-sm">calculate</span> Contoh Perhitungan
-                    </p>
+                    <p class="text-green-700 text-sm font-bold mb-2 flex items-center gap-2"><span class="material-symbols-outlined text-sm">calculate</span> <span class="lang-id-only">Contoh Perhitungan</span><span class="lang-en-only">Calculation Example</span></p>
                     <div class="text-xs text-secondary space-y-1">
-                        <p>Sudut Drift Rata-rata Maksimum: <span class="text-on-surface font-mono">50°</span></p>
-                        <p>Peserta mencapai: <span class="text-on-surface font-mono">25°</span></p>
+                        <p><span class="lang-id-only">Sudut Drift Rata-rata Maksimum:</span><span class="lang-en-only">Maximum Average Drift Angle:</span> <span class="text-on-surface font-mono">50°</span></p>
+                        <p><span class="lang-id-only">Peserta mencapai:</span><span class="lang-en-only">Participant achieved:</span> <span class="text-on-surface font-mono">25°</span></p>
                         <p>25 dari 50 = <span class="text-primary font-bold">50% skor</span></p>
-                        <p class="border-t border-surface-variant pt-1 mt-1">50% dari 40 poin = <span class="text-primary font-bold text-lg">20 poin</span></p>
+                        <p class="border-t border-surface-variant pt-1 mt-1"><span class="lang-id-only">50% dari 40 poin =</span><span class="lang-en-only">50% of 40 pts =</span> <span class="text-primary font-bold text-lg">20 <span class="lang-id-only">poin</span><span class="lang-en-only">pts</span></span></p>
                     </div>
                 </div>
                 
@@ -599,27 +606,27 @@
                     <ul class="space-y-2">
                         <li class="flex items-start gap-2 text-sm text-on-surface-variant">
                             <span class="material-symbols-outlined text-green-600 mt-0.5 text-xs">check</span>
-                            <span>Kontrol roda depan yang presisi dan stabil</span>
+                            <span><span class="lang-id-only">Kontrol roda depan yang presisi dan stabil</span><span class="lang-en-only">Precise and stable front wheel control</span></span>
                         </li>
                         <li class="flex items-start gap-2 text-sm text-on-surface-variant">
                             <span class="material-symbols-outlined text-green-600 mt-0.5 text-xs">check</span>
-                            <span>Berkendara dengan sudut besar sambil mempertahankan kecepatan konsisten</span>
+                            <span><span class="lang-id-only">Berkendara dengan sudut besar sambil mempertahankan kecepatan konsisten</span><span class="lang-en-only">Driving at high angle while maintaining consistent speed</span></span>
                         </li>
                         <li class="flex items-start gap-2 text-sm text-on-surface-variant">
                             <span class="material-symbols-outlined text-green-600 mt-0.5 text-xs">check</span>
-                            <span>Perubahan cepat menuju sudut saat awal dan transisi</span>
+                            <span><span class="lang-id-only">Perubahan cepat menuju sudut saat awal dan transisi</span><span class="lang-en-only">Quick angle change at initiation and transition</span></span>
                         </li>
                         <li class="flex items-start gap-2 text-sm text-on-surface-variant">
                             <span class="material-symbols-outlined text-green-600 mt-0.5 text-xs">check</span>
-                            <span>Penggunaan handbrake dan rem kaki kiri yang presisi</span>
+                            <span><span class="lang-id-only">Penggunaan handbrake dan rem kaki kiri yang presisi</span><span class="lang-en-only">Precise use of handbrake and left-foot braking</span></span>
                         </li>
                         <li class="flex items-start gap-2 text-sm text-on-surface-variant">
                             <span class="material-symbols-outlined text-green-600 mt-0.5 text-xs">check</span>
-                            <span>Penggunaan throttle (gas) yang kuat tapi tetap terkontrol</span>
+                            <span><span class="lang-id-only">Penggunaan throttle (gas) yang kuat tapi tetap terkontrol</span><span class="lang-en-only">Strong but controlled throttle application</span></span>
                         </li>
                         <li class="flex items-start gap-2 text-sm text-on-surface-variant">
                             <span class="material-symbols-outlined text-green-600 mt-0.5 text-xs">check</span>
-                            <span>Wheelbase tetap berada di jalur</span>
+                            <span><span class="lang-id-only">Wheelbase tetap berada di jalur</span><span class="lang-en-only">Wheelbase stays on the line</span></span>
                         </li>
                     </ul>
                 </div>
@@ -631,27 +638,27 @@
                     <ul class="space-y-2">
                         <li class="flex items-start gap-2 text-sm text-on-surface-variant">
                             <span class="material-symbols-outlined text-error mt-0.5 text-xs">close</span>
-                            <span>Gerakan roda depan yang berlebihan dan tidak stabil</span>
+                            <span><span class="lang-id-only">Gerakan roda depan yang berlebihan dan tidak stabil</span><span class="lang-en-only">Excessive and unstable front wheel movement</span></span>
                         </li>
                         <li class="flex items-start gap-2 text-sm text-on-surface-variant">
                             <span class="material-symbols-outlined text-error mt-0.5 text-xs">close</span>
-                            <span>Berkendara dengan sudut kecil (shallow angle) dan/atau kecepatan tidak konsisten</span>
+                            <span><span class="lang-id-only">Berkendara dengan sudut kecil (shallow angle) dan/atau kecepatan tidak konsisten</span><span class="lang-en-only">Driving at shallow angle and/or inconsistent speed</span></span>
                         </li>
                         <li class="flex items-start gap-2 text-sm text-on-surface-variant">
                             <span class="material-symbols-outlined text-error mt-0.5 text-xs">close</span>
-                            <span>Inisiasi dan transisi yang lambat atau kurang agresif</span>
+                            <span><span class="lang-id-only">Inisiasi dan transisi yang lambat atau kurang agresif</span><span class="lang-en-only">Slow or under-aggressive initiation and transition</span></span>
                         </li>
                         <li class="flex items-start gap-2 text-sm text-on-surface-variant">
                             <span class="material-symbols-outlined text-error mt-0.5 text-xs">close</span>
-                            <span>Penggunaan handbrake berlebihan dan rem kaki kiri terlalu dominan</span>
+                            <span><span class="lang-id-only">Penggunaan handbrake berlebihan dan rem kaki kiri terlalu dominan</span><span class="lang-en-only">Excessive handbrake use and over-reliance on left-foot braking</span></span>
                         </li>
                         <li class="flex items-start gap-2 text-sm text-on-surface-variant">
                             <span class="material-symbols-outlined text-error mt-0.5 text-xs">close</span>
-                            <span>Penggunaan throttle yang tidak halus / tidak konsisten</span>
+                            <span><span class="lang-id-only">Penggunaan throttle yang tidak halus / tidak konsisten</span><span class="lang-en-only">Rough or inconsistent throttle application</span></span>
                         </li>
                         <li class="flex items-start gap-2 text-sm text-on-surface-variant">
                             <span class="material-symbols-outlined text-error mt-0.5 text-xs">close</span>
-                            <span>Ban keluar (1x, 2x, 3x) dari zona penilaian telemetry</span>
+                            <span><span class="lang-id-only">Ban keluar (1x, 2x, 3x) dari zona penilaian telemetry</span><span class="lang-en-only">Tires leaving (1x, 2x, 3x) the telemetry scoring zone</span></span>
                         </li>
                     </ul>
                 </div>
@@ -666,8 +673,8 @@
                 <span class="material-symbols-outlined text-primary text-2xl">groups</span>
             </div>
             <div>
-                <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Kriteria Tandem</h2>
-                <p class="text-secondary text-sm">Penilaian Lead dan Chaser</p>
+                <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface"><span class="lang-id-only">Kriteria Tandem</span><span class="lang-en-only">Tandem Criteria</span></h2>
+                <p class="text-secondary text-sm"><span class="lang-id-only">Penilaian Lead dan Chaser</span><span class="lang-en-only">Lead and Chaser Scoring</span></p>
             </div>
         </div>
 
@@ -680,28 +687,28 @@
                     </div>
                     <div>
                         <h3 class="font-headline-md text-headline-md text-on-surface">LEAD</h3>
-                        <p class="text-xs text-secondary">Pembalap Terdepan</p>
+                        <p class="text-xs text-secondary"><span class="lang-id-only">Pembalap Terdepan</span><span class="lang-en-only">Lead Driver</span></p>
                     </div>
                 </div>
 
                 <div class="space-y-4">
                     <div class="p-3 bg-green-50 rounded-lg border-l-2 border-green-600">
-                        <p class="text-green-700 text-xs font-bold uppercase mb-1">Objective</p>
+                        <p class="text-green-700 text-xs font-bold uppercase mb-1"><span class="lang-id-only">Tujuan</span><span class="lang-en-only">Objective</span></p>
                         <ul class="text-sm text-on-surface-variant space-y-1">
-                            <li>• Menjalankan putaran utama sebaik mungkin</li>
-                            <li>• Garis, sudut, inisiasi, transisi sesuai arahan juri</li>
-                            <li>• Putaran yang dapat dikejar (chase-able)</li>
-                            <li>• Mengikuti <strong class="text-on-surface">PETA MOMENTUM</strong></li>
+                            <li>• <span class="lang-id-only">Menjalankan putaran utama sebaik mungkin</span><span class="lang-en-only">Execute the main run as perfectly as possible</span></li>
+                            <li>• <span class="lang-id-only">Garis, sudut, inisiasi, transisi sesuai arahan juri</span><span class="lang-en-only">Line, angle, initiation, transition per judges' direction</span></li>
+                            <li>• <span class="lang-id-only">Putaran yang dapat dikejar (chase-able)</span><span class="lang-en-only">A run that is chase-able</span></li>
+                            <li>• <span class="lang-id-only">Mengikuti <strong class="text-on-surface">PETA MOMENTUM</strong></span><span class="lang-en-only">Follow the <strong class="text-on-surface">MOMENTUM MAP</strong></span></li>
                         </ul>
                     </div>
 
                     <div class="p-3 bg-error-container/20 rounded-lg border-l-2 border-error">
-                        <p class="text-error text-xs font-bold uppercase mb-1">Kompromi (Penalti)</p>
+                        <p class="text-error text-xs font-bold uppercase mb-1"><span class="lang-id-only">Kompromi (Penalti)</span><span class="lang-en-only">Compromise (Penalty)</span></p>
                         <ul class="text-sm text-secondary space-y-1">
-                            <li>• Sudut lebih kecil dari lintasan sempurna</li>
-                            <li>• Garis lebih sempit dari lintasan sempurna</li>
-                            <li>• Transisi buruk</li>
-                            <li>• Menjauh dari chaser yang mengkompromikan garis/sudut/gaya</li>
+                            <li>• <span class="lang-id-only">Sudut lebih kecil dari lintasan sempurna</span><span class="lang-en-only">Angle smaller than the ideal run</span></li>
+                            <li>• <span class="lang-id-only">Garis lebih sempit dari lintasan sempurna</span><span class="lang-en-only">Line narrower than the ideal run</span></li>
+                            <li>• <span class="lang-id-only">Transisi buruk</span><span class="lang-en-only">Poor transition</span></li>
+                            <li>• <span class="lang-id-only">Menjauh dari chaser yang mengkompromikan garis/sudut/gaya</span><span class="lang-en-only">Moving away in a way that compromises line/angle/style</span></li>
                         </ul>
                     </div>
                 </div>
@@ -715,31 +722,31 @@
                     </div>
                     <div>
                         <h3 class="font-headline-md text-headline-md text-on-surface">CHASER</h3>
-                        <p class="text-xs text-secondary">Pembalap Pengejar</p>
+                        <p class="text-xs text-secondary"><span class="lang-id-only">Pembalap Pengejar</span><span class="lang-en-only">Chase Driver</span></p>
                     </div>
                 </div>
 
                 <div class="space-y-4">
                     <div class="p-3 bg-green-50 rounded-lg border-l-2 border-green-600">
-                        <p class="text-green-700 text-xs font-bold uppercase mb-1">Objective</p>
+                        <p class="text-green-700 text-xs font-bold uppercase mb-1"><span class="lang-id-only">Tujuan</span><span class="lang-en-only">Objective</span></p>
                         <ul class="text-sm text-on-surface-variant space-y-1">
-                            <li>• Memulai paling lambat dari lead</li>
-                            <li>• Mempertahankan jarak dekat selama mungkin</li>
-                            <li>• Menyamai atau melampaui sudut lead</li>
-                            <li>• Meniru transisi dan jalur lead</li>
-                            <li>• Tetap drift hingga garis finis</li>
-                            <li>• Memiliki pengetahuan tentang kecenderungan pesaing</li>
+                            <li>• <span class="lang-id-only">Memulai paling lambat dari lead</span><span class="lang-en-only">Start no later than the lead</span></li>
+                            <li>• <span class="lang-id-only">Mempertahankan jarak dekat selama mungkin</span><span class="lang-en-only">Maintain close proximity as long as possible</span></li>
+                            <li>• <span class="lang-id-only">Menyamai atau melampaui sudut lead</span><span class="lang-en-only">Match or exceed the lead's angle</span></li>
+                            <li>• <span class="lang-id-only">Meniru transisi dan jalur lead</span><span class="lang-en-only">Mirror the lead's transition and path</span></li>
+                            <li>• <span class="lang-id-only">Tetap drift hingga garis finis</span><span class="lang-en-only">Maintain drift until the finish line</span></li>
+                            <li>• <span class="lang-id-only">Memiliki pengetahuan tentang kecenderungan pesaing</span><span class="lang-en-only">Know the competitor's tendencies</span></li>
                         </ul>
                     </div>
 
                     <div class="p-3 bg-error-container/20 rounded-lg border-l-2 border-error">
-                        <p class="text-error text-xs font-bold uppercase mb-1">Kompromi (Penalti)</p>
+                        <p class="text-error text-xs font-bold uppercase mb-1"><span class="lang-id-only">Kompromi (Penalti)</span><span class="lang-en-only">Compromise (Penalty)</span></p>
                         <ul class="text-sm text-secondary space-y-1">
-                            <li>• Menipu jalur dibandingkan lead</li>
-                            <li>• Sudut lebih kecil dari lead</li>
-                            <li>• Waktu dan lokasi memulai buruk</li>
-                            <li>• Transisi tidak mengikuti lead</li>
-                            <li>• Tidak mempersiapkan diri / tidak tahu karakteristik lead</li>
+                            <li>• <span class="lang-id-only">Menipu jalur dibandingkan lead</span><span class="lang-en-only">Taking a deceptive line vs. the lead</span></li>
+                            <li>• <span class="lang-id-only">Sudut lebih kecil dari lead</span><span class="lang-en-only">Angle smaller than the lead</span></li>
+                            <li>• <span class="lang-id-only">Waktu dan lokasi memulai buruk</span><span class="lang-en-only">Poor start timing and positioning</span></li>
+                            <li>• <span class="lang-id-only">Transisi tidak mengikuti lead</span><span class="lang-en-only">Transition does not follow the lead</span></li>
+                            <li>• <span class="lang-id-only">Tidak mempersiapkan diri / tidak tahu karakteristik lead</span><span class="lang-en-only">Not prepared / unaware of lead's characteristics</span></li>
                         </ul>
                     </div>
                 </div>
@@ -756,8 +763,8 @@
                 <span class="material-symbols-outlined text-primary text-2xl">videocam</span>
             </div>
             <div>
-                <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface">Format Pengiriman Video</h2>
-                <p class="text-secondary text-sm">Spesifikasi rekaman untuk qualify</p>
+                <h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface"><span class="lang-id-only">Format Pengiriman Video</span><span class="lang-en-only">Video Submission Format</span></h2>
+                <p class="text-secondary text-sm"><span class="lang-id-only">Spesifikasi rekaman untuk qualify</span><span class="lang-en-only">Recording specs for qualifying</span></p>
             </div>
         </div>
 
@@ -766,17 +773,17 @@
                 <div class="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-4">
                     <span class="material-symbols-outlined text-blue-600 text-2xl">tv</span>
                 </div>
-                <h4 class="font-bold text-on-surface mb-2">Resolusi</h4>
+                <h4 class="font-bold text-on-surface mb-2"><span class="lang-id-only">Resolusi</span><span class="lang-en-only">Resolution</span></h4>
                 <p class="text-2xl font-display-lg text-primary">720p</p>
-                <p class="text-xs text-secondary mt-1">Minimum 30 FPS</p>
+                <p class="text-xs text-secondary mt-1">Min. 30 FPS</p>
             </div>
             <div class="rule-card rounded-2xl p-6 text-center">
                 <div class="w-14 h-14 rounded-full bg-purple-50 flex items-center justify-center mx-auto mb-4">
                     <span class="material-symbols-outlined text-purple-600 text-2xl">photo_camera</span>
                 </div>
-                <h4 class="font-bold text-on-surface mb-2">Kamera</h4>
+                <h4 class="font-bold text-on-surface mb-2"><span class="lang-id-only">Kamera</span><span class="lang-en-only">Camera</span></h4>
                 <p class="text-2xl font-display-lg text-primary">3</p>
-                <p class="text-xs text-secondary mt-1">Wajib Kamera 3</p>
+                <p class="text-xs text-secondary mt-1"><span class="lang-id-only">Wajib Kamera 3</span><span class="lang-en-only">Required: Camera 3</span></p>
             </div>
             <div class="rule-card rounded-2xl p-6 text-center">
                 <div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center mx-auto mb-4">
@@ -784,7 +791,7 @@
                 </div>
                 <h4 class="font-bold text-on-surface mb-2">Tire Smoke</h4>
                 <p class="text-2xl font-display-lg text-error">OFF</p>
-                <p class="text-xs text-secondary mt-1">Dimatikan</p>
+                <p class="text-xs text-secondary mt-1"><span class="lang-id-only">Dimatikan</span><span class="lang-en-only">Turn Off</span></p>
             </div>
             <div class="rule-card rounded-2xl p-6 text-center">
                 <div class="w-14 h-14 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-4">
@@ -792,7 +799,7 @@
                 </div>
                 <h4 class="font-bold text-on-surface mb-2">Telemetry</h4>
                 <p class="text-2xl font-display-lg text-green-600">ON</p>
-                <p class="text-xs text-secondary mt-1">Wajib Aktif</p>
+                <p class="text-xs text-secondary mt-1"><span class="lang-id-only">Wajib Aktif</span><span class="lang-en-only">Must Be Active</span></p>
             </div>
         </div>
     </section>
@@ -802,9 +809,9 @@
         <div class="rule-card rounded-2xl p-8 md:p-12 text-center relative overflow-hidden">
             <div class="relative z-10">
                 <span class="material-symbols-outlined text-primary text-4xl mb-4">help</span>
-                <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Ada yang Kurang Dimengerti?</h2>
+                <h2 class="font-headline-md text-headline-md text-on-surface mb-4"><span class="lang-id-only">Ada yang Kurang Dimengerti?</span><span class="lang-en-only">Something Unclear?</span></h2>
                 <p class="text-secondary max-w-xl mx-auto mb-6">
-                    Jika ada hal yang kurang jelas dari regulasi di atas, silakan tanyakan langsung pada panitia.
+                    <span class="lang-id-only">Jika ada hal yang kurang jelas dari regulasi di atas, silakan tanyakan langsung pada panitia</span><span class="lang-en-only">If anything in the rules above is unclear, contact the committee directly</span>.
                 </p>
                 <div class="inline-flex items-center gap-2 text-primary font-semibold">
                     <span class="material-symbols-outlined">info</span>
@@ -870,5 +877,21 @@
         });
     });
 </script>
+
+<script>
+window.GDSI_I18N_DICT = {
+  id: {
+    nav_tire: 'Ban', nav_cars: 'Mobil', nav_scoring: 'Penilaian',
+    nav_tandem: 'Tandem', nav_video: 'Video', nav_back: 'Kembali',
+    hero_badge: 'Kompetisi Rules 2026'
+  },
+  en: {
+    nav_tire: 'Tires', nav_cars: 'Cars', nav_scoring: 'Scoring',
+    nav_tandem: 'Tandem', nav_video: 'Video', nav_back: 'Back',
+    hero_badge: '2026 Competition Rules'
+  }
+};
+</script>
+<script src="i18n-core.js"></script>
 </body>
 </html>

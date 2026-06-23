@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 
-<html class="scroll-smooth" lang="en"><head>
+<html class="scroll-smooth" lang="id"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Grand Drift Series Indonesia</title>
+<script src="theme-core.js"></script>
+<link href="theme-vars.css" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700;800&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -13,53 +15,53 @@
             theme: {
                 extend: {
                     "colors": {
-                        "primary-fixed-dim": "#ffb4ac",
-                        "surface-dim": "#d9dadb",
-                        "surface-variant": "#e1e3e4",
-                        "surface": "#f8f9fa",
-                        "primary": "#b70013",
-                        "tertiary-fixed-dim": "#c4c6cc",
-                        "secondary-fixed-dim": "#c8c6c5",
-                        "primary-container": "#e11922",
-                        "secondary-container": "#e2dfde",
-                        "on-primary-container": "#fff7f5",
-                        "outline-variant": "#e7bdb8",
-                        "on-primary-fixed-variant": "#93000d",
-                        "error-container": "#ffdad6",
-                        "on-tertiary-fixed": "#181c20",
-                        "tertiary-container": "#6f7277",
-                        "surface-container-highest": "#e1e3e4",
-                        "secondary-fixed": "#e5e2e1",
-                        "on-secondary-container": "#636262",
-                        "on-secondary": "#ffffff",
-                        "on-tertiary": "#ffffff",
-                        "secondary": "#5f5e5e",
-                        "inverse-on-surface": "#f0f1f2",
-                        "on-tertiary-container": "#f6f8fe",
-                        "tertiary": "#565a5e",
-                        "on-error": "#ffffff",
-                        "on-background": "#191c1d",
-                        "surface-container-low": "#f3f4f5",
-                        "on-surface": "#191c1d",
-                        "primary-fixed": "#ffdad6",
-                        "on-error-container": "#93000a",
-                        "outline": "#926e6b",
-                        "error": "#ba1a1a",
-                        "surface-container": "#edeeef",
-                        "on-surface-variant": "#5d3f3c",
-                        "tertiary-fixed": "#e0e2e8",
-                        "inverse-surface": "#2e3132",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-bright": "#f8f9fa",
-                        "on-tertiary-fixed-variant": "#44474b",
-                        "surface-container-high": "#e7e8e9",
-                        "on-primary-fixed": "#410002",
-                        "inverse-primary": "#ffb4ac",
-                        "background": "#f8f9fa",
-                        "surface-tint": "#c00015",
-                        "on-secondary-fixed": "#1c1b1b",
-                        "on-secondary-fixed-variant": "#474746",
-                        "on-primary": "#ffffff"
+                        "primary-fixed-dim": "rgb(var(--gdsi-primary-fixed-dim) / <alpha-value>)",
+                        "surface-dim": "rgb(var(--gdsi-surface-dim) / <alpha-value>)",
+                        "surface-variant": "rgb(var(--gdsi-surface-variant) / <alpha-value>)",
+                        "surface": "rgb(var(--gdsi-surface) / <alpha-value>)",
+                        "primary": "rgb(var(--gdsi-primary) / <alpha-value>)",
+                        "tertiary-fixed-dim": "rgb(var(--gdsi-tertiary-fixed-dim) / <alpha-value>)",
+                        "secondary-fixed-dim": "rgb(var(--gdsi-secondary-fixed-dim) / <alpha-value>)",
+                        "primary-container": "rgb(var(--gdsi-primary-container) / <alpha-value>)",
+                        "secondary-container": "rgb(var(--gdsi-secondary-container) / <alpha-value>)",
+                        "on-primary-container": "rgb(var(--gdsi-on-primary-container) / <alpha-value>)",
+                        "outline-variant": "rgb(var(--gdsi-outline-variant) / <alpha-value>)",
+                        "on-primary-fixed-variant": "rgb(var(--gdsi-on-primary-fixed-variant) / <alpha-value>)",
+                        "error-container": "rgb(var(--gdsi-error-container) / <alpha-value>)",
+                        "on-tertiary-fixed": "rgb(var(--gdsi-on-tertiary-fixed) / <alpha-value>)",
+                        "tertiary-container": "rgb(var(--gdsi-tertiary-container) / <alpha-value>)",
+                        "surface-container-highest": "rgb(var(--gdsi-surface-container-highest) / <alpha-value>)",
+                        "secondary-fixed": "rgb(var(--gdsi-secondary-fixed) / <alpha-value>)",
+                        "on-secondary-container": "rgb(var(--gdsi-on-secondary-container) / <alpha-value>)",
+                        "on-secondary": "rgb(var(--gdsi-on-secondary) / <alpha-value>)",
+                        "on-tertiary": "rgb(var(--gdsi-on-tertiary) / <alpha-value>)",
+                        "secondary": "rgb(var(--gdsi-secondary) / <alpha-value>)",
+                        "inverse-on-surface": "rgb(var(--gdsi-inverse-on-surface) / <alpha-value>)",
+                        "on-tertiary-container": "rgb(var(--gdsi-on-tertiary-container) / <alpha-value>)",
+                        "tertiary": "rgb(var(--gdsi-tertiary) / <alpha-value>)",
+                        "on-error": "rgb(var(--gdsi-on-error) / <alpha-value>)",
+                        "on-background": "rgb(var(--gdsi-on-background) / <alpha-value>)",
+                        "surface-container-low": "rgb(var(--gdsi-surface-container-low) / <alpha-value>)",
+                        "on-surface": "rgb(var(--gdsi-on-surface) / <alpha-value>)",
+                        "primary-fixed": "rgb(var(--gdsi-primary-fixed) / <alpha-value>)",
+                        "on-error-container": "rgb(var(--gdsi-on-error-container) / <alpha-value>)",
+                        "outline": "rgb(var(--gdsi-outline) / <alpha-value>)",
+                        "error": "rgb(var(--gdsi-error) / <alpha-value>)",
+                        "surface-container": "rgb(var(--gdsi-surface-container) / <alpha-value>)",
+                        "on-surface-variant": "rgb(var(--gdsi-on-surface-variant) / <alpha-value>)",
+                        "tertiary-fixed": "rgb(var(--gdsi-tertiary-fixed) / <alpha-value>)",
+                        "inverse-surface": "rgb(var(--gdsi-inverse-surface) / <alpha-value>)",
+                        "surface-container-lowest": "rgb(var(--gdsi-surface-container-lowest) / <alpha-value>)",
+                        "surface-bright": "rgb(var(--gdsi-surface-bright) / <alpha-value>)",
+                        "on-tertiary-fixed-variant": "rgb(var(--gdsi-on-tertiary-fixed-variant) / <alpha-value>)",
+                        "surface-container-high": "rgb(var(--gdsi-surface-container-high) / <alpha-value>)",
+                        "on-primary-fixed": "rgb(var(--gdsi-on-primary-fixed) / <alpha-value>)",
+                        "inverse-primary": "rgb(var(--gdsi-inverse-primary) / <alpha-value>)",
+                        "background": "rgb(var(--gdsi-background) / <alpha-value>)",
+                        "surface-tint": "rgb(var(--gdsi-surface-tint) / <alpha-value>)",
+                        "on-secondary-fixed": "rgb(var(--gdsi-on-secondary-fixed) / <alpha-value>)",
+                        "on-secondary-fixed-variant": "rgb(var(--gdsi-on-secondary-fixed-variant) / <alpha-value>)",
+                        "on-primary": "rgb(var(--gdsi-on-primary) / <alpha-value>)"
                     },
                     "borderRadius": {
                         "DEFAULT": "0.25rem",
@@ -149,7 +151,7 @@
             visibility: visible;
         }
         .qr-modal-card {
-            background: #f8f9fa;
+            background: rgb(var(--gdsi-surface));
             border-radius: 1rem;
             width: 100%;
             max-width: 520px;
@@ -175,7 +177,7 @@
         }
         .qr-link-tag {
             display: inline-block;
-            background: #e11922;
+            background: rgb(var(--gdsi-primary-container));
             color: white;
             font-size: 10px;
             font-weight: 600;
@@ -187,16 +189,16 @@
         }
         .qr-textarea:focus {
             outline: none;
-            border-color: #b70013;
+            border-color: rgb(var(--gdsi-primary));
             box-shadow: 0 0 0 3px rgba(183, 0, 19, 0.1);
         }
         .qr-btn-primary {
-            background: #b70013;
-            color: white;
+            background: rgb(var(--gdsi-primary));
+            color: rgb(var(--gdsi-on-primary));
             transition: all 0.2s ease;
         }
         .qr-btn-primary:hover {
-            background: #93000d;
+            background: rgb(var(--gdsi-on-primary-fixed-variant));
             transform: translateY(-1px);
         }
         .qr-btn-primary:active {
@@ -214,17 +216,17 @@
             flex-direction: column;
             padding: 10px 14px;
             border-radius: 10px;
-            border: 1.5px solid #e1e3e4;
-            background: #ffffff;
+            border: 1.5px solid rgb(var(--gdsi-surface-variant));
+            background: rgb(var(--gdsi-surface-container-lowest));
             cursor: pointer;
             transition: all 0.2s ease;
         }
         .qr-mode-label:hover {
-            border-color: #b70013;
+            border-color: rgb(var(--gdsi-primary));
             background: rgba(183, 0, 19, 0.03);
         }
         .qr-mode-label:has(input:checked) {
-            border-color: #b70013;
+            border-color: rgb(var(--gdsi-primary));
             background: rgba(183, 0, 19, 0.06);
         }
         .qr-mode-label input {
@@ -263,13 +265,13 @@
             align-items: center;
             gap: 0;
             padding: 8px;
-            background: #ffffff;
-            border: 1.5px solid #e1e3e4;
+            background: rgb(var(--gdsi-surface-container-lowest));
+            border: 1.5px solid rgb(var(--gdsi-surface-variant));
             border-radius: 9999px;
             text-decoration: none;
             cursor: pointer;
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.95s cubic-bezier(0.34, 1.56, 0.64, 1);
             overflow: hidden;
             white-space: nowrap;
             position: relative;
@@ -279,7 +281,7 @@
         .social-pill:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-            border-color: #b70013;
+            border-color: rgb(var(--gdsi-primary));
         }
 
         .social-pill-icon {
@@ -300,16 +302,16 @@
             max-width: 0;
             opacity: 0;
             overflow: hidden;
-            transition: max-width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        opacity 0.5s ease 0.2s,
-                        gap 0.5s ease;
+            transition: max-width 0.95s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        opacity 0.6s ease 0.25s,
+                        gap 0.6s ease;
         }
 
         .social-pill-name {
             font-family: 'Inter', sans-serif;
             font-weight: 700;
             font-size: 13px;
-            color: #ffffff;
+            color: rgb(var(--gdsi-on-primary));
             line-height: 1.2;
             white-space: nowrap;
             transform: translateX(-10px);
@@ -320,7 +322,7 @@
             font-family: 'Inter', sans-serif;
             font-weight: 400;
             font-size: 10px;
-            color: #ffdad6;
+            color: rgb(var(--gdsi-on-primary-container));
             line-height: 1.2;
             white-space: nowrap;
             transform: translateX(-10px);
@@ -328,8 +330,8 @@
         }
 
         .social-pill.expanded {
-            background: #b70013 !important;
-            border-color: #b70013 !important;
+            background: rgb(var(--gdsi-primary)) !important;
+            border-color: rgb(var(--gdsi-primary)) !important;
             padding: 8px 14px;
             gap: 8px;
             box-shadow: 0 4px 20px rgba(183, 0, 19, 0.3);
@@ -359,10 +361,41 @@
         }
 
         .social-pill.opening {
-            box-shadow: 0 0 0 4px rgba(183, 0, 19, 0.2);
+            box-shadow: 0 0 0 4px rgba(var(--gdsi-primary) / 0.25);
             transform: scale(1.02);
         }
 
+        /* Dark mode explicit body/html overrides */
+        html.dark body {
+            background-color: rgb(var(--gdsi-background));
+            color: rgb(var(--gdsi-on-background));
+        }
+        html.dark .glass-panel {
+            background: rgb(var(--gdsi-surface-container));
+            border-color: rgb(var(--gdsi-surface-variant));
+        }
+
+        /* Language toggle */
+        .lang-toggle-opt {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .08em;
+            height: 34px;
+            padding: 0 12px;
+            cursor: pointer;
+            color: rgb(var(--gdsi-secondary));
+            transition: background 0.2s ease, color 0.2s ease;
+            user-select: none;
+        }
+        .lang-toggle-opt.lang-active {
+            background: rgb(var(--gdsi-primary));
+            color: #fff;
+        }
 </style>
 </head>
 <body class="bg-background text-on-background antialiased selection:bg-primary-container selection:text-on-primary-container relative overflow-x-hidden">
@@ -375,18 +408,23 @@
 </div>
 
 <!-- Header -->
-<header class="w-full flex justify-start py-md px-margin-mobile md:px-margin-desktop fade-in-up items-center">
-<img alt="Grand Drift Series Indonesia Logo" class="h-16 md:h-24 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKtqQjOufZ1GkLMVQYmwBgATjSVBicqjqkgBQRUY2KIfkYwwa8dvtjwlPvKiZcNEwH80ei_LTiUH1_xwE0ZIiVJ2w3HzIzmt31NynpYkFny_Nmdg8nDdPGG8qs19UZBciWIuCb5KPfBmPmZDpolVdtla81uzJ8PWd2LZPiUe_Cpym4gBwzbcHdZ38wlGilUxdY0Z9aw1N4ozb_SobkzN6c9kGRdMJV_ud1agywnFn8FK3Uz0qBXJsWC7rofmTCLAkIpYemS71i9A"/>
+<header class="w-full flex justify-between py-md px-margin-mobile md:px-margin-desktop fade-in-up items-center">
+<img alt="Grand Drift Series Indonesia Logo" data-i18n-alt="logo_alt" class="h-16 md:h-24 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKtqQjOufZ1GkLMVQYmwBgATjSVBicqjqkgBQRUY2KIfkYwwa8dvtjwlPvKiZcNEwH80ei_LTiUH1_xwE0ZIiVJ2w3HzIzmt31NynpYkFny_Nmdg8nDdPGG8qs19UZBciWIuCb5KPfBmPmZDpolVdtla81uzJ8PWd2LZPiUe_Cpym4gBwzbcHdZ38wlGilUxdY0Z9aw1N4ozb_SobkzN6c9kGRdMJV_ud1agywnFn8FK3Uz0qBXJsWC7rofmTCLAkIpYemS71i9A"/>
+<!-- Language Toggle — only on index, syncs to all pages via localStorage -->
+<button id="gdsi-lang-toggle" aria-label="Switch language" class="flex items-center rounded-full border border-surface-variant bg-surface-container-lowest overflow-hidden shadow-sm select-none" style="min-width:72px;height:34px;">
+  <span data-i18n-active-lang="id" class="lang-toggle-opt lang-active" data-lang="id">ID</span>
+  <span data-i18n-active-lang="en" class="lang-toggle-opt" data-lang="en">EN</span>
+</button>
 </header>
 
 <!-- Hero Section -->
 <section class="w-full max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop flex flex-col items-start text-left pt-lg relative min-h-[400px]">
 <div class="border-l-4 border-primary pl-6 md:pl-8 fade-in-up delay-100 relative z-10">
 <h1 class="font-display-lg text-display-lg md:text-[88px] md:leading-[92px] text-on-surface mb-sm tracking-tighter uppercase font-extrabold italic">
-                Keep Sliding<br/><span class="text-primary">and Precision</span>
+                Keep Sliding<br/><span class="text-primary" data-i18n="hero_sub">and Precision</span>
 </h1>
 <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl fade-in-up delay-200 mt-md font-medium">
-                Master the art of controlled chaos where every inch of asphalt counts.
+                <span data-i18n="hero_tagline">Master the art of controlled chaos where every inch of asphalt counts.</span>
             </p>
 </div>
 <div class="left-0 right-0 flex gap-sm pb-md z-20 mt-6 mb-6 md:mt-0 md:mb-0 md:absolute md:bottom-0 md:justify-center fade-in-up" id="socialPillsContainer">
@@ -423,7 +461,7 @@
 <div class="absolute inset-y-0 left-0 w-1 bg-surface-variant group-hover:w-full group-hover:bg-inverse-surface transition-all duration-500 ease-out z-0"></div>
 <div class="relative flex flex-col items-start gap-xs z-10 group-hover:text-inverse-on-surface transition-colors duration-300">
 <span class="material-symbols-outlined text-on-surface text-3xl mb-xs group-hover:text-inverse-on-surface transition-colors duration-300" style="font-variation-settings: 'FILL' 1;">app_registration</span>
-<span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300">Registration</span>
+<span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300"><span data-i18n="cta_register">Registration</span>
 </div>
 </a>
 
@@ -432,7 +470,7 @@
 <div class="absolute inset-y-0 left-0 w-1 bg-surface-variant group-hover:w-full group-hover:bg-inverse-surface transition-all duration-500 ease-out z-0"></div>
 <div class="relative flex flex-col items-start gap-xs z-10 group-hover:text-inverse-on-surface transition-colors duration-300">
 <span class="material-symbols-outlined text-on-surface text-3xl mb-xs group-hover:text-inverse-on-surface transition-colors duration-300" style="font-variation-settings: 'FILL' 1;">timer</span>
-<span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300">QTT Submit</span>
+<span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300"><span data-i18n="cta_qtt">QTT Submit</span>
 </div>
 </a>
 
@@ -441,7 +479,7 @@
 <div class="absolute inset-y-0 left-0 w-1 bg-surface-variant group-hover:w-full group-hover:bg-inverse-surface transition-all duration-500 ease-out z-0"></div>
 <div class="relative flex flex-col items-start gap-xs z-10 group-hover:text-inverse-on-surface transition-colors duration-300">
 <span class="material-symbols-outlined text-on-surface text-3xl mb-xs group-hover:text-inverse-on-surface transition-colors duration-300" style="font-variation-settings: 'FILL' 1;">gavel</span>
-<span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300">Rules</span>
+<span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300"><span data-i18n="cta_rules">Rules</span>
 </div>
 </a>
 
@@ -450,7 +488,7 @@
 <div class="absolute inset-y-0 left-0 w-1 bg-surface-variant group-hover:w-full group-hover:bg-inverse-surface transition-all duration-500 ease-out z-0"></div>
 <div class="relative flex flex-col items-start gap-xs z-10 group-hover:text-inverse-on-surface transition-colors duration-300">
 <span class="material-symbols-outlined text-on-surface text-3xl mb-xs group-hover:text-inverse-on-surface transition-colors duration-300" style="font-variation-settings: 'FILL' 1;">qr_code_2</span>
-<span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300">QR-Code Generator</span>
+<span class="font-label-bold text-label-bold uppercase tracking-widest text-on-surface group-hover:text-inverse-on-surface transition-colors duration-300"><span data-i18n="cta_qr">QR-Code Generator</span>
 </div>
 </a>
 
@@ -462,7 +500,7 @@
 </div>
 <div class="relative flex flex-col items-start gap-xs z-10">
 <span class="material-symbols-outlined text-3xl mb-xs" style="font-variation-settings: 'FILL' 1;">volunteer_activism</span>
-<span class="font-label-bold text-label-bold uppercase tracking-widest">Donation</span>
+<span class="font-label-bold text-label-bold uppercase tracking-widest"><span data-i18n="cta_donate">Donation</span>
 </div>
 </a>
 
@@ -480,7 +518,7 @@
                 </div>
                 <div class="min-w-0">
                     <h3 class="font-headline-md text-headline-md text-on-surface truncate">QR-Code Generator</h3>
-                    <p class="font-body-md text-secondary text-sm truncate">Auto-detect CarX Drift Racing 2 links</p>
+                    <p class="font-body-md text-secondary text-sm truncate" data-i18n="qr_subtitle">Auto-detect CarX Drift Racing 2 links</p>
                 </div>
             </div>
             <button type="button" id="qrCloseBtn" class="w-8 h-8 rounded-full hover:bg-surface-variant flex items-center justify-center transition-colors flex-shrink-0 ml-2">
@@ -492,20 +530,20 @@
         <div class="p-6 space-y-6">
             <div class="space-y-3">
                 <div class="flex items-center justify-between flex-wrap gap-2">
-                    <label class="font-label-bold text-label-bold text-on-surface uppercase tracking-wider">Match Replay Text</label>
+                    <label class="font-label-bold text-label-bold text-on-surface uppercase tracking-wider" data-i18n="qr_label">Match Replay Text</label>
                     <span id="linkCounter" class="qr-detected-badge text-xs font-semibold bg-surface-variant text-secondary px-2 py-1 rounded-full hidden">0 link detected</span>
                 </div>
                 <!-- QR Mode Toggle -->
                 <div class="flex gap-3 mb-3">
                     <label class="qr-mode-label flex-1">
                         <input type="radio" name="qrMode" value="static" checked class="accent-primary w-4 h-4 cursor-pointer">
-                        <span class="font-label-bold text-sm text-on-surface">Static QR</span>
-                        <span class="text-xs text-secondary block mt-0.5">Direct deep link</span>
+                        <span class="font-label-bold text-sm text-on-surface"><span data-i18n="qr_mode_static">Static QR</span>
+                        <span class="text-xs text-secondary block mt-0.5"><span data-i18n="qr_mode_static_sub">Direct deep link</span>
                     </label>
                     <label class="qr-mode-label flex-1">
                         <input type="radio" name="qrMode" value="smart" class="accent-primary w-4 h-4 cursor-pointer">
-                        <span class="font-label-bold text-sm text-on-surface">Smart QR</span>
-                        <span class="text-xs text-secondary block mt-0.5">Auto-open app</span>
+                        <span class="font-label-bold text-sm text-on-surface"><span data-i18n="qr_mode_smart">Smart QR</span>
+                        <span class="text-xs text-secondary block mt-0.5"><span data-i18n="qr_mode_smart_sub">Auto-open app</span>
                     </label>
                 </div>
                 <textarea 
@@ -520,16 +558,13 @@
             <div class="flex flex-col sm:flex-row gap-3">
                 <button type="button" id="generateBtn" class="qr-btn-primary flex-1 py-3 px-6 rounded-xl font-label-bold text-label-bold uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
                     <span class="material-symbols-outlined text-sm">qr_code</span>
-                    Generate QR Code
+                    <span data-i18n="qr_gen_btn">Generate QR Code</span>
                 </button>
                 <button type="button" id="clearBtn" class="py-3 px-4 rounded-xl border border-surface-variant font-label-bold text-label-bold uppercase tracking-wider text-secondary hover:bg-surface-variant transition-colors">
-                    Clear
+                    <span data-i18n="qr_clear_btn">Clear</span>
                 </button>
-            </div>
-
-            <div id="qrResults" class="hidden">
                 <div class="border-t border-surface-variant pt-6">
-                    <h4 class="font-label-bold text-label-bold text-on-surface uppercase tracking-wider mb-4">Generated QR Codes</h4>
+                    <h4 class="font-label-bold text-label-bold text-on-surface uppercase tracking-wider mb-4" data-i18n="qr_results_title">Generated QR Codes</h4>
                     <div id="qrResultsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
                 </div>
             </div>
@@ -537,7 +572,7 @@
 
         <!-- Footer -->
         <div class="p-4 bg-surface-container-low rounded-b-xl border-t border-surface-variant">
-            <p class="text-xs text-secondary text-center font-body-md">Powered by GDSI &middot; QR codes generated via secure API</p>
+            <p class="text-xs text-secondary text-center font-body-md"><span data-i18n="qr_footer">Powered by GDSI · QR codes generated via secure API</span></p>
         </div>
     </div>
 </div>
@@ -550,14 +585,14 @@
 <span class="material-symbols-outlined text-primary text-2xl">timer</span>
 </div>
 <div class="flex-1 min-w-0">
-<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Qualifying Time Trial (QTT)</h3>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1" data-i18n="qtt_title">Qualifying Time Trial (QTT)</h3>
 <p class="font-body-md text-secondary">
-                    Sudah registrasi? Langsung submit video QTT-mu di halaman QTT. Pastikan video memenuhi spesifikasi: <strong class="text-primary">720p, Kamera 3, Tire Smoke OFF, Telemetry ON</strong>.
+                    <span data-i18n-html="qtt_desc">Sudah registrasi? Langsung submit video QTT-mu di halaman QTT. Pastikan video memenuhi spesifikasi: <strong class="text-primary">720p, Kamera 3, Tire Smoke OFF, Telemetry ON</strong>.</span>
                 </p>
 </div>
 <a href="qtt.html" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-lg font-label-bold text-label-bold uppercase tracking-wider hover:bg-primary-container transition-colors flex-shrink-0">
 <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                    Ke Halaman QTT
+                    <span data-i18n="qtt_btn">Ke Halaman QTT</span>
                 </a>
 </div>
 </div>
@@ -568,26 +603,38 @@
 <div class="flex flex-col lg:flex-row gap-lg items-center">
 <div class="lg:w-1/3 text-left">
 <div class="inline-block px-3 py-1 bg-surface-container-high rounded-full mb-4">
-<span class="font-label-bold text-xs uppercase tracking-widest text-secondary">Information</span>
+<span class="font-label-bold text-xs uppercase tracking-widest text-secondary" data-i18n="vid1_badge">Information</span>
 </div>
-<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mb-md">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-surface mb-md" data-i18n="vid1_title">
                     Competition Rules
                 </h2>
 <p class="font-body-md text-secondary mb-6 max-w-md">
-                    Dive into the official guidelines. Know the track, understand the judging criteria, and prepare your vehicle for the ultimate test of control.
+                    <span data-i18n="vid1_desc">Dive into the official guidelines. Know the track, understand the judging criteria, and prepare your vehicle for the ultimate test of control.</span>
                 </p>
 <a class="inline-flex items-center gap-2 font-label-bold text-label-bold text-primary hover:text-primary-container transition-colors uppercase tracking-widest" href="gdsi_rules.html">
-                    Lihat Rules <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    <span data-i18n="vid1_link">Lihat Rules</span> <span class="material-symbols-outlined text-sm">arrow_forward</span>
 </a>
 </div>
 <div class="lg:w-2/3 w-full relative">
 <div class="absolute -inset-4 bg-surface-variant/30 rounded-3xl -z-10 translate-x-4 translate-y-4"></div>
 <div class="relative w-full rounded-2xl overflow-hidden shadow-lg bg-surface-container-highest aspect-video flex items-center justify-center group cursor-pointer">
 <div class="absolute inset-0 bg-gradient-to-t from-inverse-surface/80 to-transparent flex flex-col justify-end p-6 md:p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-<span class="font-headline-md text-inverse-on-surface">2026 Season Overview</span>
+<span class="font-headline-md text-inverse-on-surface" data-i18n="vid1_overlay">2026 Season Overview</span>
 </div>
 <div class="absolute inset-0 flex items-center justify-center z-20">
-<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;"><iframe src="https://www.youtube.com/embed/6npIw5hk4vM?rel=0" style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen scrolling="no" allow="accelerometer *; clipboard-write *; encrypted-media *; gyroscope *; picture-in-picture *; web-share *;" referrerpolicy="strict-origin"></iframe></div>
+<!-- GDSI YouTube Embed #1 — lazy loaded, autoplay+mute on scroll -->
+<div class="gdsi-yt-wrap" data-yt-slot="video1" data-yt-fallback="6npIw5hk4vM"
+     style="position:relative;width:100%;height:100%;background:#121212;">
+  <img class="gdsi-yt-thumb" src="https://img.youtube.com/vi/6npIw5hk4vM/maxresdefault.jpg"
+       alt="Video thumbnail" loading="lazy"
+       style="width:100%;height:100%;object-fit:cover;display:block;opacity:0.7;"/>
+  <div class="gdsi-yt-play-btn" aria-hidden="true"
+       style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+    <div style="width:56px;height:56px;border-radius:50%;background:rgba(183,0,19,0.85);display:flex;align-items:center;justify-content:center;">
+      <span style="color:#fff;font-size:22px;margin-left:4px;">&#9654;</span>
+    </div>
+  </div>
+</div>
 </div>
 </div>
 </div>
@@ -599,16 +646,28 @@
 <div class="relative bg-inverse-surface rounded-2xl p-0 flex flex-col md:flex-row overflow-hidden shadow-xl">
 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent"></div>
 <div class="flex-1 p-8 md:p-12 flex flex-col justify-center relative z-10">
-<h3 class="font-headline-md text-headline-md text-inverse-on-surface mb-sm">
+<h3 class="font-headline-md text-headline-md text-inverse-on-surface mb-sm" data-i18n="vid2_title">
                     Tutorial Banner Design
                 </h3>
 <p class="font-body-md text-body-md text-surface-variant mb-md max-w-sm">
-                    Learn how to create impactful graphics for your team or event with our official design guidelines.
+                    <span data-i18n="vid2_desc">Learn how to create impactful graphics for your team or event with our official design guidelines.</span>
                 </p>
 </div>
 <div class="flex-1 w-full relative bg-surface-container-lowest/10">
 <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50"></div>
-<div style="left: 0; width: 100%; height: 0; position: relative; padding-bottom: 56.25%;"><iframe src="https://www.youtube.com/embed/6qeZ2Wkx_tQ?rel=0" style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; border: 0;" allowfullscreen scrolling="no" allow="accelerometer *; clipboard-write *; encrypted-media *; gyroscope *; picture-in-picture *; web-share *;" referrerpolicy="strict-origin"></iframe></div>
+<!-- GDSI YouTube Embed #2 — lazy loaded, autoplay+mute on scroll -->
+<div class="gdsi-yt-wrap" data-yt-slot="video2" data-yt-fallback="6qeZ2Wkx_tQ"
+     style="position:relative;width:100%;padding-bottom:56.25%;background:#121212;">
+  <img class="gdsi-yt-thumb" src="https://img.youtube.com/vi/6qeZ2Wkx_tQ/maxresdefault.jpg"
+       alt="Video thumbnail" loading="lazy"
+       style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0.7;"/>
+  <div class="gdsi-yt-play-btn" aria-hidden="true"
+       style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+    <div style="width:56px;height:56px;border-radius:50%;background:rgba(183,0,19,0.85);display:flex;align-items:center;justify-content:center;">
+      <span style="color:#fff;font-size:22px;margin-left:4px;">&#9654;</span>
+    </div>
+  </div>
+</div>
 </div>
 </div>
 </section>
@@ -616,7 +675,7 @@
 <!-- Footer -->
 <footer class="w-full bg-surface-container-lowest border-t border-surface-variant py-lg px-margin-desktop flex items-center justify-center fade-in-up">
 <p class="font-body-md text-body-md text-secondary text-center font-medium tracking-wide text-sm uppercase">
-            &copy; 2026 Grand Drift Series Indonesia. All Rights Reserved.
+            <span data-i18n="footer">© 2026 Grand Drift Series Indonesia. All Rights Reserved.</span>
         </p>
 </footer>
 
@@ -838,8 +897,8 @@
             card.className = 'qr-result-item bg-surface-container-low rounded-xl p-4 border border-surface-variant flex flex-col items-center';
             card.style.animationDelay = (index * 100) + 'ms';
 
-            var modeBadge = item.isSmart ? '<span class="qr-link-tag" style="background:#b70013;">SMART QR</span>' : '';
-            var tagColor = item.isCarx ? 'background:#e11922;' : 'background:#5f5e5e;';
+            var modeBadge = item.isSmart ? '<span class="qr-link-tag" style="background:rgb(var(--gdsi-primary));">SMART QR</span>' : '';
+            var tagColor = item.isCarx ? 'background:rgb(var(--gdsi-primary-container));' : 'background:rgb(var(--gdsi-secondary));';
 
             card.innerHTML = 
                 modeBadge +
@@ -953,6 +1012,12 @@
         if (!pills.length) return;
         var isAnimating = false;
 
+        // Timing map (ms) — animation plays fully BEFORE the link opens.
+        var T_EXPAND_DONE = 950;   // matches the 0.8s–0.95s expand transition in CSS
+        var T_PULSE_START = 950;   // "opening" pulse starts right as expand settles
+        var T_OPEN_LINK   = 1050;  // link opens just after the pulse begins
+        var T_RESET        = 2400; // visual reset back to normal pill row
+
         pills.forEach(function(pill, index) {
             pill.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -975,21 +1040,22 @@
                 // Expand clicked pill to capsule (red)
                 clickedPill.classList.add('expanded');
 
-                // Open link AFTER animation starts — still within user gesture context
+                // Opening pulse effect right as the expand animation settles
+                setTimeout(function() {
+                    clickedPill.classList.add('opening');
+                }, T_PULSE_START);
+
+                // Open the link only AFTER the visual animation has finished playing.
+                // (Still close enough to the original tap that mobile browsers treat
+                // it as part of the same user gesture, so the popup isn't blocked.)
                 if (url) {
                     setTimeout(function() {
                         var win = window.open(url, '_blank', 'noopener,noreferrer');
-                        // Fallback if popup is blocked
                         if (!win || win.closed || typeof win.closed === 'undefined') {
                             window.location.href = url;
                         }
-                    }, 150);
+                    }, T_OPEN_LINK);
                 }
-
-                // Opening pulse effect after expand settles
-                setTimeout(function() {
-                    clickedPill.classList.add('opening');
-                }, 700);
 
                 // Reset visual state after user has time to see feedback
                 setTimeout(function() {
@@ -998,10 +1064,246 @@
                     });
                     clickedPill.classList.remove('expanded', 'opening');
                     isAnimating = false;
-                }, 2200);
+                }, T_RESET);
             });
         });
     })();
+</script>
+<!-- ================================================================
+     GDSI YouTube Lazy-Load + Autoplay Engine
+     Reads video IDs from Firestore CMS; falls back to data-yt-fallback.
+     Rules: iframe only inserted when wrap enters viewport (50% visible).
+     Autoplay (muted) starts; pauses when wrap leaves viewport entirely.
+     ================================================================ -->
+<script>
+(function() {
+  'use strict';
+
+  // ---- Firebase config (populated from VITE env at build, or inline for CDN usage) ----
+  // Uses the Firestore REST API — no SDK needed for reads.
+  var PROJECT_ID = typeof import_meta_env_VITE_FIREBASE_PROJECT_ID !== 'undefined'
+    ? import_meta_env_VITE_FIREBASE_PROJECT_ID
+    : (window.__GDSI_FB_PROJECT || '');
+
+  var API_KEY = typeof import_meta_env_VITE_FIREBASE_API_KEY !== 'undefined'
+    ? import_meta_env_VITE_FIREBASE_API_KEY
+    : (window.__GDSI_FB_KEY || '');
+
+  // CMS video IDs (from Firestore or fallback)
+  var videoIds = {};
+
+  function extractYtId(url) {
+    if (!url) return null;
+    url = url.trim();
+    // Accept bare ID (11 chars)
+    if (/^[A-Za-z0-9_-]{11}$/.test(url)) return url;
+    // youtu.be/ID or /shorts/ID or ?v=ID
+    var m = url.match(/(?:youtu\.be\/|\/shorts\/|[?&]v=)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  function buildIframe(videoId) {
+    var params = 'autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1';
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube.com/embed/' + videoId + '?' + params;
+    iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    iframe.referrerPolicy = 'strict-origin';
+    return iframe;
+  }
+
+  function activateWrap(wrap) {
+    if (wrap.dataset.ytLoaded) return;
+    wrap.dataset.ytLoaded = '1';
+    var slot = wrap.dataset.ytSlot;
+    var videoId = (videoIds[slot] && extractYtId(videoIds[slot])) || wrap.dataset.ytFallback;
+    if (!videoId) return;
+    // Update thumbnail src while buffering (best quality available)
+    var thumb = wrap.querySelector('.gdsi-yt-thumb');
+    // Remove thumbnail + play button, insert iframe
+    if (thumb) thumb.remove();
+    var btn = wrap.querySelector('.gdsi-yt-play-btn');
+    if (btn) btn.remove();
+    var iframe = buildIframe(videoId);
+    wrap.appendChild(iframe);
+  }
+
+  function pauseWrap(wrap) {
+    var iframe = wrap.querySelector('iframe');
+    if (!iframe) return;
+    try { iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch(e) {}
+  }
+
+  function resumeWrap(wrap) {
+    var iframe = wrap.querySelector('iframe');
+    if (!iframe) return;
+    try { iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*'); } catch(e) {}
+  }
+
+  function initObserver() {
+    // Phase 1: buffer observer — load iframe when wrap is within 300px below viewport
+    var bufferObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          activateWrap(e.target);
+          bufferObs.unobserve(e.target);
+        }
+      });
+    }, { rootMargin: '300px 0px 0px 0px', threshold: 0 });
+
+    // Phase 2: play/pause observer — play only when wrap is 50%+ visible
+    var playObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          resumeWrap(e.target);
+        } else {
+          pauseWrap(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.gdsi-yt-wrap').forEach(function(wrap) {
+      bufferObs.observe(wrap);
+      playObs.observe(wrap);
+    });
+  }
+
+  function applyIds(ids) {
+    videoIds = ids || {};
+    // Update fallback thumbnails if IDs differ from defaults
+    document.querySelectorAll('.gdsi-yt-wrap').forEach(function(wrap) {
+      if (wrap.dataset.ytLoaded) return; // already active
+      var slot = wrap.dataset.ytSlot;
+      var vid = (videoIds[slot] && extractYtId(videoIds[slot])) || wrap.dataset.ytFallback;
+      if (!vid) return;
+      var thumb = wrap.querySelector('.gdsi-yt-thumb');
+      if (thumb) thumb.src = 'https://img.youtube.com/vi/' + vid + '/maxresdefault.jpg';
+    });
+  }
+
+  // Fetch video IDs from Firestore REST API
+  function fetchCmsIds() {
+    if (!PROJECT_ID || !API_KEY) { initObserver(); return; }
+    var url = 'https://firestore.googleapis.com/v1/projects/' + PROJECT_ID
+            + '/databases/(default)/documents/gdsi_cms/youtube?key=' + API_KEY;
+    fetch(url)
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(data) {
+        if (!data || !data.fields) { initObserver(); return; }
+        var ids = {};
+        Object.keys(data.fields).forEach(function(k) {
+          ids[k] = (data.fields[k].stringValue || '');
+        });
+        applyIds(ids);
+        initObserver();
+      })
+      .catch(function() { initObserver(); });
+  }
+
+  document.readyState === 'loading'
+    ? document.addEventListener('DOMContentLoaded', fetchCmsIds)
+    : fetchCmsIds();
+})();
+</script>
+
+<!-- ================================================================
+     GDSI i18n Dictionary — index.html
+     Loaded BEFORE i18n-core.js which reads window.GDSI_I18N_DICT.
+     ================================================================ -->
+<script>
+window.GDSI_I18N_DICT = {
+  id: {
+    logo_alt: 'Logo Grand Drift Series Indonesia',
+    hero_sub: 'dan Presisi',
+    hero_tagline: 'Kuasai seni drift terkontrol, di mana setiap inci aspal sangat berarti.',
+    cta_register: 'Registrasi',
+    cta_qtt: 'Submit QTT',
+    cta_rules: 'Peraturan',
+    cta_qr: 'Generator QR-Code',
+    cta_donate: 'Donasi',
+    qtt_title: 'Qualifying Time Trial (QTT)',
+    qtt_desc: 'Sudah registrasi? Langsung submit video QTT-mu di halaman QTT. Pastikan video memenuhi spesifikasi: <strong class="text-primary">720p, Kamera 3, Tire Smoke OFF, Telemetry ON</strong>.',
+    qtt_btn: 'Ke Halaman QTT',
+    vid1_badge: 'Informasi',
+    vid1_title: 'Peraturan Kompetisi',
+    vid1_desc: 'Pelajari panduan resmi. Kenali lintasan, pahami kriteria penilaian, dan siapkan kendaraanmu untuk ujian kontrol terbaik.',
+    vid1_link: 'Lihat Peraturan',
+    vid1_overlay: 'Gambaran Musim 2026',
+    vid2_title: 'Tutorial Desain Banner',
+    vid2_desc: 'Pelajari cara membuat grafis yang impaktif untuk tim atau event-mu dengan panduan desain resmi GDSI.',
+    footer: '© 2026 Grand Drift Series Indonesia. Seluruh Hak Cipta Dilindungi.',
+    qr_subtitle: 'Deteksi otomatis tautan CarX Drift Racing 2',
+    qr_label: 'Teks Match Replay',
+    qr_mode_static: 'QR Statis',
+    qr_mode_smart: 'QR Pintar',
+    qr_mode_static_sub: 'Deep link langsung',
+    qr_mode_smart_sub: 'Buka app otomatis',
+    qr_gen_btn: 'Buat QR Code',
+    qr_clear_btn: 'Hapus',
+    qr_results_title: 'QR Code yang Dibuat',
+    qr_footer: 'Powered by GDSI · QR code dibuat melalui API aman'
+  },
+  en: {
+    logo_alt: 'Grand Drift Series Indonesia Logo',
+    hero_sub: 'and Precision',
+    hero_tagline: 'Master the art of controlled chaos where every inch of asphalt counts.',
+    cta_register: 'Registration',
+    cta_qtt: 'QTT Submit',
+    cta_rules: 'Rules',
+    cta_qr: 'QR-Code Generator',
+    cta_donate: 'Donation',
+    qtt_title: 'Qualifying Time Trial (QTT)',
+    qtt_desc: 'Already registered? Submit your QTT video directly on the QTT page. Make sure your video meets the specs: <strong class="text-primary">720p, Camera 3, Tire Smoke OFF, Telemetry ON</strong>.',
+    qtt_btn: 'Go to QTT Page',
+    vid1_badge: 'Information',
+    vid1_title: 'Competition Rules',
+    vid1_desc: 'Dive into the official guidelines. Know the track, understand the judging criteria, and prepare your vehicle for the ultimate test of control.',
+    vid1_link: 'View Rules',
+    vid1_overlay: '2026 Season Overview',
+    vid2_title: 'Tutorial Banner Design',
+    vid2_desc: 'Learn how to create impactful graphics for your team or event with our official design guidelines.',
+    footer: '© 2026 Grand Drift Series Indonesia. All Rights Reserved.',
+    qr_subtitle: 'Auto-detect CarX Drift Racing 2 links',
+    qr_label: 'Match Replay Text',
+    qr_mode_static: 'Static QR',
+    qr_mode_smart: 'Smart QR',
+    qr_mode_static_sub: 'Direct deep link',
+    qr_mode_smart_sub: 'Auto-open app',
+    qr_gen_btn: 'Generate QR Code',
+    qr_clear_btn: 'Clear',
+    qr_results_title: 'Generated QR Codes',
+    qr_footer: 'Powered by GDSI · QR codes generated via secure API'
+  }
+};
+</script>
+
+<!-- i18n engine — reads dict above, applies translations, syncs via localStorage -->
+<script src="i18n-core.js"></script>
+
+<!-- Language toggle handler — index.html only -->
+<script>
+(function() {
+  var btn = document.getElementById('gdsi-lang-toggle');
+  if (!btn) return;
+  btn.addEventListener('click', function(e) {
+    var span = e.target.closest('[data-lang]');
+    if (!span) return;
+    window.GDSI_I18N.setLang(span.dataset.lang);
+  });
+  // Keep toggle visual in sync when lang changes (e.g. from another tab)
+  window.addEventListener('gdsi:langchange', function(ev) {
+    var lang = ev.detail && ev.detail.lang;
+    btn.querySelectorAll('[data-i18n-active-lang]').forEach(function(el) {
+      el.classList.toggle('lang-active', el.getAttribute('data-i18n-active-lang') === lang);
+    });
+  });
+  // Sync on page load
+  var cur = window.GDSI_I18N.getLang();
+  btn.querySelectorAll('[data-i18n-active-lang]').forEach(function(el) {
+    el.classList.toggle('lang-active', el.getAttribute('data-i18n-active-lang') === cur);
+  });
+})();
 </script>
 </body>
 </html>

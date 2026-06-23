@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#f8f9fa">
+  <meta name="theme-color" content="#f8f9fa" media="(prefers-color-scheme: light)"/>
+  <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)"/>
   <meta name="description" content="Grand Drift Series Indonesia - Official Driver Registration">
   <title>GDSI Registration | Grand Drift Series Indonesia</title>
 
@@ -12,6 +13,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
 
+  <script src="theme-core.js"></script>
+  <link href="theme-vars.css" rel="stylesheet"/>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
@@ -21,51 +24,51 @@
           colors: {
             background: "#f8f9fa",
             surface: "#f8f9fa",
-            "surface-dim": "#d9dadb",
-            "surface-variant": "#e1e3e4",
-            "surface-container": "#edeeef",
-            "surface-container-low": "#f3f4f5",
-            "surface-container-high": "#e7e8e9",
-            "surface-container-highest": "#e1e3e4",
-            "surface-bright": "#f8f9fa",
-            "surface-container-lowest": "#ffffff",
+            "surface-dim": "rgb(var(--gdsi-surface-dim) / <alpha-value>)",
+            "surface-variant": "rgb(var(--gdsi-surface-variant) / <alpha-value>)",
+            "surface-container": "rgb(var(--gdsi-surface-container) / <alpha-value>)",
+            "surface-container-low": "rgb(var(--gdsi-surface-container-low) / <alpha-value>)",
+            "surface-container-high": "rgb(var(--gdsi-surface-container-high) / <alpha-value>)",
+            "surface-container-highest": "rgb(var(--gdsi-surface-container-highest) / <alpha-value>)",
+            "surface-bright": "rgb(var(--gdsi-surface-bright) / <alpha-value>)",
+            "surface-container-lowest": "rgb(var(--gdsi-surface-container-lowest) / <alpha-value>)",
             primary: "#b70013",
-            "primary-container": "#e11922",
-            "on-primary": "#ffffff",
-            "on-primary-container": "#fff7f5",
-            "primary-fixed": "#ffdad6",
-            "primary-fixed-dim": "#ffb4ac",
-            "on-primary-fixed": "#410002",
-            "on-primary-fixed-variant": "#93000d",
-            "inverse-primary": "#ffb4ac",
+            "primary-container": "rgb(var(--gdsi-primary-container) / <alpha-value>)",
+            "on-primary": "rgb(var(--gdsi-on-primary) / <alpha-value>)",
+            "on-primary-container": "rgb(var(--gdsi-on-primary-container) / <alpha-value>)",
+            "primary-fixed": "rgb(var(--gdsi-primary-fixed) / <alpha-value>)",
+            "primary-fixed-dim": "rgb(var(--gdsi-primary-fixed-dim) / <alpha-value>)",
+            "on-primary-fixed": "rgb(var(--gdsi-on-primary-fixed) / <alpha-value>)",
+            "on-primary-fixed-variant": "rgb(var(--gdsi-on-primary-fixed-variant) / <alpha-value>)",
+            "inverse-primary": "rgb(var(--gdsi-inverse-primary) / <alpha-value>)",
             secondary: "#5f5e5e",
-            "secondary-container": "#e2dfde",
-            "on-secondary": "#ffffff",
-            "on-secondary-container": "#636262",
-            "secondary-fixed": "#e5e2e1",
-            "secondary-fixed-dim": "#c8c6c5",
-            "on-secondary-fixed": "#1c1b1b",
-            "on-secondary-fixed-variant": "#474746",
+            "secondary-container": "rgb(var(--gdsi-secondary-container) / <alpha-value>)",
+            "on-secondary": "rgb(var(--gdsi-on-secondary) / <alpha-value>)",
+            "on-secondary-container": "rgb(var(--gdsi-on-secondary-container) / <alpha-value>)",
+            "secondary-fixed": "rgb(var(--gdsi-secondary-fixed) / <alpha-value>)",
+            "secondary-fixed-dim": "rgb(var(--gdsi-secondary-fixed-dim) / <alpha-value>)",
+            "on-secondary-fixed": "rgb(var(--gdsi-on-secondary-fixed) / <alpha-value>)",
+            "on-secondary-fixed-variant": "rgb(var(--gdsi-on-secondary-fixed-variant) / <alpha-value>)",
             tertiary: "#565a5e",
-            "tertiary-container": "#6f7277",
-            "on-tertiary": "#ffffff",
-            "on-tertiary-container": "#f6f8fe",
-            "tertiary-fixed": "#e0e2e8",
-            "tertiary-fixed-dim": "#c4c6cc",
-            "on-tertiary-fixed": "#181c20",
-            "on-tertiary-fixed-variant": "#44474b",
+            "tertiary-container": "rgb(var(--gdsi-tertiary-container) / <alpha-value>)",
+            "on-tertiary": "rgb(var(--gdsi-on-tertiary) / <alpha-value>)",
+            "on-tertiary-container": "rgb(var(--gdsi-on-tertiary-container) / <alpha-value>)",
+            "tertiary-fixed": "rgb(var(--gdsi-tertiary-fixed) / <alpha-value>)",
+            "tertiary-fixed-dim": "rgb(var(--gdsi-tertiary-fixed-dim) / <alpha-value>)",
+            "on-tertiary-fixed": "rgb(var(--gdsi-on-tertiary-fixed) / <alpha-value>)",
+            "on-tertiary-fixed-variant": "rgb(var(--gdsi-on-tertiary-fixed-variant) / <alpha-value>)",
             error: "#ba1a1a",
-            "error-container": "#ffdad6",
-            "on-error": "#ffffff",
-            "on-error-container": "#93000a",
+            "error-container": "rgb(var(--gdsi-error-container) / <alpha-value>)",
+            "on-error": "rgb(var(--gdsi-on-error) / <alpha-value>)",
+            "on-error-container": "rgb(var(--gdsi-on-error-container) / <alpha-value>)",
             outline: "#926e6b",
-            "outline-variant": "#e7bdb8",
-            "on-background": "#191c1d",
-            "on-surface": "#191c1d",
-            "on-surface-variant": "#5d3f3c",
-            "inverse-surface": "#2e3132",
-            "inverse-on-surface": "#f0f1f2",
-            "surface-tint": "#c00015"
+            "outline-variant": "rgb(var(--gdsi-outline-variant) / <alpha-value>)",
+            "on-background": "rgb(var(--gdsi-on-background) / <alpha-value>)",
+            "on-surface": "rgb(var(--gdsi-on-surface) / <alpha-value>)",
+            "on-surface-variant": "rgb(var(--gdsi-on-surface-variant) / <alpha-value>)",
+            "inverse-surface": "rgb(var(--gdsi-inverse-surface) / <alpha-value>)",
+            "inverse-on-surface": "rgb(var(--gdsi-inverse-on-surface) / <alpha-value>)",
+            "surface-tint": "rgb(var(--gdsi-surface-tint) / <alpha-value>)"
           },
           fontFamily: {
             "headline-xl": ["Hanken Grotesk", "sans-serif"],
@@ -103,21 +106,21 @@
        GDSI REGISTRATION - Clean White Theme
        ============================================ */
     :root {
-      --bg: #f8f9fa;
-      --surface: #ffffff;
+      --bg: rgb(var(--gdsi-background));
+      --surface: rgb(var(--gdsi-on-primary));
       --surface-high: #e7e8e9;
       --surface-bright: #f3f4f5;
-      --primary: #b70013;
-      --primary-container: #e11922;
-      --on-primary: #ffffff;
-      --on-surface: #191c1d;
+      --primary: rgb(var(--gdsi-primary));
+      --primary-container: rgb(var(--gdsi-primary-container));
+      --on-primary: rgb(var(--gdsi-on-primary));
+      --on-surface: rgb(var(--gdsi-on-background));
       --on-surface-variant: #5d3f3c;
       --outline: #926e6b;
       --outline-variant: #e7bdb8;
-      --error: #ba1a1a;
+      --error: rgb(var(--gdsi-error));
       --error-container: #ffdad6;
       --glass-border: rgba(0, 0, 0, 0.06);
-      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-bg: rgba(255,255,255, 0.85);
     }
 
     * { box-sizing: border-box; }
@@ -151,13 +154,13 @@
     .glass-scrollbar::-webkit-scrollbar { width: 6px; }
     .glass-scrollbar::-webkit-scrollbar-track { background: transparent; }
     .glass-scrollbar::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.1); border-radius: 10px; }
-    .glass-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(183, 0, 19, 0.3); }
+    .glass-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(var(--gdsi-primary) / 0.3); }
 
     /* ============================================
        INPUTS - Clean White Theme
        ============================================ */
     .glass-input {
-      background: #ffffff;
+      background: rgb(var(--gdsi-on-primary));
       border: 1px solid var(--outline-variant);
       border-radius: 0.5rem;
       padding: 0.75rem 1rem;
@@ -172,7 +175,7 @@
     .glass-input:not(:placeholder-shown) { color: #000000; font-weight: 600; }
     .glass-input:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 15px rgba(183, 0, 19, 0.08);
+      box-shadow: 0 0 15px rgba(var(--gdsi-primary) / 0.08);
     }
     .glass-input:disabled, .glass-input[readonly] {
       opacity: 0.55;
@@ -200,7 +203,7 @@
       padding-right: 2.5rem;
       color: #888888;
     }
-    select.glass-input option { background: #ffffff; color: #000000; font-weight: 500; padding: 8px; }
+    select.glass-input option { background: rgb(var(--gdsi-on-primary)); color: #000000; font-weight: 500; padding: 8px; }
     select.glass-input option:first-child { color: #888888; font-weight: 400; }
 
     /* ============================================
@@ -225,7 +228,7 @@
       font-size: 0.875rem;
       white-space: nowrap;
     }
-    .dial-trigger:hover { background: #e1e3e4; }
+    .dial-trigger:hover { background: rgb(var(--gdsi-surface-variant)); }
     .dial-trigger:active { background: var(--primary); color: var(--on-primary); }
     .dial-trigger:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
 
@@ -249,7 +252,7 @@
     .dial-modal-backdrop.hidden { display: none; }
 
     .dial-modal {
-      background: #ffffff;
+      background: rgb(var(--gdsi-on-primary));
       border-radius: 1rem;
       width: 100%;
       max-width: 420px;
@@ -266,7 +269,7 @@
       justify-content: space-between;
       padding: 1rem 1.25rem;
       border-bottom: 1px solid #f0f0f0;
-      background: #ffffff;
+      background: rgb(var(--gdsi-on-primary));
       flex-shrink: 0;
     }
     .dial-modal-header h3 {
@@ -288,7 +291,7 @@
       justify-content: center;
       transition: all 0.2s;
     }
-    .dial-modal-close:hover { background: var(--primary); color: #ffffff; }
+    .dial-modal-close:hover { background: var(--primary); color: rgb(var(--gdsi-on-primary)); }
 
     .dial-modal-body { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
 
@@ -312,7 +315,7 @@
       transition: all 0.15s ease;
       min-height: 52px;
       border-bottom: 1px solid #f5f5f5;
-      background: #ffffff;
+      background: rgb(var(--gdsi-on-primary));
     }
     .dial-item:last-child { border-bottom: none; }
     .dial-item:hover { background: #fff0ee; }
@@ -350,11 +353,11 @@
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 0 20px rgba(183, 0, 19, 0.15);
+      box-shadow: 0 0 20px rgba(var(--gdsi-primary) / 0.15);
     }
     .btn-primary:hover:not(:disabled) {
       background: #c00015;
-      box-shadow: 0 0 30px rgba(183, 0, 19, 0.25);
+      box-shadow: 0 0 30px rgba(var(--gdsi-primary) / 0.25);
       transform: translateY(-1px);
     }
     .btn-primary:active:not(:disabled) { transform: translateY(0); }
@@ -373,7 +376,7 @@
       text-transform: uppercase;
     }
     .btn-glass:hover { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.15); }
-    .btn-danger:hover { background: rgba(186, 26, 26, 0.06); border-color: rgba(186, 26, 26, 0.2); color: var(--error); }
+    .btn-danger:hover { background: rgba(var(--gdsi-error) / 0.06); border-color: rgba(var(--gdsi-error) / 0.2); color: var(--error); }
 
     /* ============================================
        AUTH OVERLAY
@@ -413,7 +416,7 @@
       height: 2.5rem;
       border-radius: 9999px;
       background: var(--surface-high);
-      border: 1px solid rgba(183, 0, 19, 0.15);
+      border: 1px solid rgba(var(--gdsi-primary) / 0.15);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -424,8 +427,8 @@
        READONLY BANNER
        ============================================ */
     .readonly-banner {
-      background: rgba(183, 0, 19, 0.04);
-      border: 1px solid rgba(183, 0, 19, 0.12);
+      background: rgba(var(--gdsi-primary) / 0.04);
+      border: 1px solid rgba(var(--gdsi-primary) / 0.12);
       border-radius: 0.5rem;
       padding: 0.75rem 1rem;
       display: flex;
@@ -500,8 +503,8 @@
     .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
 
     @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 20px rgba(183, 0, 19, 0.1); }
-      50% { box-shadow: 0 0 35px rgba(183, 0, 19, 0.2); }
+      0%, 100% { box-shadow: 0 0 20px rgba(var(--gdsi-primary) / 0.1); }
+      50% { box-shadow: 0 0 35px rgba(var(--gdsi-primary) / 0.2); }
     }
     .pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
 
@@ -547,7 +550,47 @@
       .fade-in-up { opacity: 1; transform: none; transition: none !important; }
       .animate-fade-in { animation: none; }
     }
-  </style>
+  
+        /* ===== i18n lang show/hide ===== */
+        [data-gdsi-lang="en"] .lang-id-only { display: none !important; }
+        [data-gdsi-lang="id"] .lang-en-only { display: none !important; }
+
+        /* ===== dark mode body override ===== */
+        html.dark body {
+            background-color: rgb(var(--gdsi-background));
+            color: rgb(var(--gdsi-on-background));
+        }
+        html.dark .glass-panel {
+            background: rgba(var(--gdsi-surface-container) / 0.85);
+            border-color: rgb(var(--gdsi-surface-variant));
+        }
+        html.dark nav.glass-panel {
+            background: rgba(var(--gdsi-surface-container) / 0.92);
+        }
+
+        /* dark mode overrides */
+        html.dark body {
+            background-color: rgb(var(--gdsi-background));
+            color: rgb(var(--gdsi-on-background));
+        }
+        html.dark .glass-input {
+            background: rgba(var(--gdsi-surface-container) / 0.85);
+            border-color: rgb(var(--gdsi-surface-variant));
+            color: rgb(var(--gdsi-on-surface));
+            -webkit-text-fill-color: rgb(var(--gdsi-on-surface)) !important;
+            -webkit-box-shadow: 0 0 0 30px rgb(var(--gdsi-surface-container)) inset !important;
+        }
+        html.dark .glass-input::placeholder { color: rgb(var(--gdsi-secondary)); }
+        html.dark .glass-input:not(:placeholder-shown) { color: rgb(var(--gdsi-on-surface)); }
+        html.dark .glass-panel {
+            background: rgba(var(--gdsi-surface-container) / 0.88);
+            border-color: rgb(var(--gdsi-surface-variant));
+        }
+        html.dark select.glass-input option {
+            background: rgb(var(--gdsi-surface-container));
+            color: rgb(var(--gdsi-on-surface));
+        }
+</style>
 </head>
 <body class="bg-background text-on-background font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container">
 
@@ -610,6 +653,15 @@
         <button id="logout-btn" class="text-secondary hover:text-primary transition-colors duration-200 p-2 rounded-full hover:bg-surface-high/50" title="Logout">
           <span class="material-symbols-outlined text-[18px]">logout</span>
         </button>
+      </div>
+
+      <!-- Maintenance Banner -->
+      <div id="maintenance-banner" class="readonly-banner mb-6 hidden" style="border-color:rgb(var(--gdsi-outline-variant));background:rgb(var(--gdsi-surface-container));">
+        <span class="material-symbols-outlined text-primary">construction</span>
+        <div>
+          <p class="font-medium text-sm" data-i18n="form_maintenance_title">Registrasi Sedang Ditutup</p>
+          <p class="text-xs text-secondary" data-i18n="form_maintenance_sub">Pendaftaran sementara dihentikan. Pantau pengumuman resmi GDSI untuk jadwal berikutnya.</p>
+        </div>
       </div>
 
       <!-- Readonly Banner -->
@@ -849,5 +901,33 @@
   </div>
 
   <script type="module" src="app.js"></script>
+
+<script>
+window.GDSI_I18N_DICT = {
+  id: {
+    nav_back: 'Kembali',
+    page_title: 'Registrasi Peserta',
+    form_subtitle: 'Isi formulir di bawah ini',
+    submit_btn: 'Submit Formulir',
+    ph_name: 'Nama Lengkap', ph_email: 'Email Aktif',
+    ph_whatsapp: 'Nomor WhatsApp', ph_country: 'Negara',
+    ph_id: 'ID Player In-Game', ph_team: 'Nama Tim (opsional)',
+    form_maintenance_title: 'Registrasi Sedang Ditutup',
+    form_maintenance_sub: 'Pendaftaran sementara dihentikan. Pantau pengumuman resmi GDSI untuk jadwal berikutnya.'
+  },
+  en: {
+    nav_back: 'Back',
+    page_title: 'Participant Registration',
+    form_subtitle: 'Fill in the form below',
+    submit_btn: 'Submit Form',
+    ph_name: 'Full Name', ph_email: 'Active Email',
+    ph_whatsapp: 'WhatsApp Number', ph_country: 'Country',
+    ph_id: 'In-Game Player ID', ph_team: 'Team Name (optional)',
+    form_maintenance_title: 'Registration Closed',
+    form_maintenance_sub: 'Registration is temporarily closed. Watch for official GDSI announcements for the next schedule.'
+  }
+};
+</script>
+<script src="i18n-core.js"></script>
 </body>
 </html>

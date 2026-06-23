@@ -9,7 +9,8 @@ export default defineConfig({
         qtt: 'qtt.html',
         rules: 'gdsi_rules.html',
         tnc: 'gdsi_tnc.html',
-        qr: 'qr.html'
+        qr: 'qr.html',
+        admin: 'admin.html'
       }
     }
   }

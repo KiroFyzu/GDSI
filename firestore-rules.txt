@@ -20,7 +20,7 @@ service cloud.firestore {
     }
 
     function isValidUsername(username) {
-      return username.matches('^[a-zA-Z0-9_]+#\d{4}$');
+      return username.matches('^[a-zA-Z0-9_]+#\\d{4}$');
     }
 
     function isValidEngine(engine) {
@@ -28,17 +28,15 @@ service cloud.firestore {
     }
 
     function isValidWhatsApp(wa) {
-      return wa.matches('^\+\d{7,18}$');
+      return wa.matches('^\\+\\d{7,18}$');
     }
 
     // ============================================
     // USERS COLLECTION — Source of Truth
     // ============================================
     match /users/{userId} {
-      // User hanya bisa baca dokumen sendiri
       allow read: if isOwner(userId);
 
-      // Create: hanya sekali, dengan validasi strict
       allow create: if isOwner(userId)
         && !exists(/databases/$(database)/documents/users/$(userId))
         && request.resource.data.uid == request.auth.uid
@@ -54,7 +52,6 @@ service cloud.firestore {
         && request.resource.data.registeredAt == request.time
         && request.resource.data.updatedAt == request.time;
 
-      // No update/delete after registration
       allow update: if false;
       allow delete: if false;
     }
@@ -76,28 +73,32 @@ service cloud.firestore {
     // ============================================
     // QTT SUBMISSIONS — Metadata Only
     // ============================================
-    // Participant data (username, vehicle, engine, country) TIDAK disimpan di sini
-    // Hanya metadata: videoUrl, submittedAt, submissionStatus, fileName, fileSize
-    // Participant data dibaca dari users/{uid} saat View Mode
-    // ============================================
     match /qtt_submissions/{userId} {
-      // User hanya bisa baca QTT dokumen sendiri
       allow read: if isOwner(userId);
 
-      // Create: hanya sekali, metadata only (no participant data duplication)
       allow create: if isOwner(userId)
         && !exists(/databases/$(database)/documents/qtt_submissions/$(userId))
         && request.resource.data.uid == request.auth.uid
         && request.resource.data.keys().hasAll(['videoUrl', 'submittedAt', 'submissionStatus'])
-        // Pastikan TIDAK ada field participant data (anti-duplication)
         && !request.resource.data.keys().hasAny(['username', 'vehicle', 'engine', 'country', 'name', 'email'])
         && request.resource.data.submissionStatus in ['submitted', 'reviewed', 'scored']
         && request.resource.data.videoUrl is string
         && request.resource.data.videoUrl.size() > 0;
 
-      // No update/delete after submission
       allow update: if false;
       allow delete: if false;
+    }
+
+    // ============================================
+    // CMS — YouTube Video IDs (admin.html only)
+    // Only stores video IDs — not sensitive data.
+    // Security = obscure admin URL + frontend password.
+    // Read public so index.html can fetch embed IDs.
+    // Write open (protected at app level, not rule level).
+    // ============================================
+    match /gdsi_cms/{document} {
+      allow read: if true;
+      allow write: if true;
     }
 
     // ============================================

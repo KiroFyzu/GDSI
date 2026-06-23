@@ -26,7 +26,54 @@ import {
 
 const submitLock = new SubmitLock();
 
+// ============================================
+// ⚙️ MAINTENANCE MODE (set via Vercel env var)
+// VITE_FORM_MAINTENANCE_MODE=true in .env or Vercel dashboard
+// ============================================
+const FORM_MAINTENANCE_MODE = import.meta.env.VITE_FORM_MAINTENANCE_MODE === 'true';
+
+
+// ============================================
+// MAINTENANCE MODE — disable entire form
+// ============================================
+function showFormMaintenanceMode() {
+  // Show maintenance banner
+  const banner = document.getElementById('maintenance-banner');
+  if (banner) banner.classList.remove('hidden');
+
+  // Hide readonly banner (we show maintenance one instead)
+  const readonlyBanner = document.getElementById('readonly-banner');
+  if (readonlyBanner) readonlyBanner.classList.add('hidden');
+
+  // Disable all form inputs
+  const form = document.getElementById('registration-form');
+  if (form) {
+    form.querySelectorAll('input, select, button[type="submit"]').forEach(el => {
+      el.setAttribute('disabled', 'true');
+      el.classList.add('opacity-50', 'cursor-not-allowed');
+    });
+  }
+
+  // Disable submit button
+  const submitBtn = document.getElementById('submit-btn');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    submitBtn.title = 'Registrasi sedang ditutup sementara';
+  }
+
+  // Also disable dial trigger
+  const dialTrigger = document.getElementById('dial-trigger');
+  if (dialTrigger) {
+    dialTrigger.disabled = true;
+    dialTrigger.classList.add('opacity-50', 'cursor-not-allowed');
+  }
+}
+
 function init() {
+  if (FORM_MAINTENANCE_MODE) {
+    showFormMaintenanceMode();
+  }
   initCountryDropdown();
   initCountrySelect();
   initAuth();
@@ -54,6 +101,11 @@ function initEventListeners() {
 
 async function handleSubmit(e) {
   e.preventDefault();
+
+  if (FORM_MAINTENANCE_MODE) {
+    showToast('Registrasi sedang ditutup sementara. Pantau pengumuman kami.', 'warning');
+    return;
+  }
 
   if (submitLock.isLocked()) {
     showToast('Mohon tunggu, proses sedang berjalan...', 'warning');
