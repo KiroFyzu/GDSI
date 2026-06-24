@@ -8,15 +8,6 @@
 //            → Firestore (simpan GD link)
 //
 // Cloudinary: video tetap tersimpan di folder gdsi_qtt/Username/ sebagai backup
-import { inject } from '@vercel/analytics';
-import { injectSpeedInsights } from '@vercel/speed-insights';
-
-// Initialize Vercel Web Analytics
-inject();
-
-// Initialize Vercel Speed Insights
-injectSpeedInsights();
-
 // Google Drive: primary storage, link yang dishare
 // ============================================================
 

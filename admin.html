@@ -5,11 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <meta name="robots" content="noindex, nofollow, noarchive"/>
 <title>GDSI Admin CMS</title>
-<script>
-  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
-<script defer src="/_vercel/speed-insights/script.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -110,6 +105,143 @@ input:focus { border-color: #ff5566; }
 .maint-close { background: #4d1e1e; color: #ff5566; }
 .maint-btn:hover { opacity: .8; }
 .maint-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+/* ── Analytics section ── */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.metric-card {
+  background: #0c0a0a;
+  border: 1px solid #2e2a29;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+}
+.metric-val {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ece0df;
+  letter-spacing: -.03em;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.metric-lbl {
+  font-size: 10px;
+  color: #6f6765;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.metric-delta {
+  font-size: 11px;
+  font-weight: 700;
+  margin-top: 3px;
+}
+.delta-up   { color: #4ade80; }
+.delta-down { color: #ff5566; }
+.vitals-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-bottom: 1px solid #1e1a19;
+}
+.vitals-row:last-child { border-bottom: none; }
+.vitals-name  { font-size: 13px; font-weight: 700; color: #ece0df; width: 48px; }
+.vitals-value { font-size: 13px; color: #ece0df; flex: 1; padding-left: 12px; }
+.vitals-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 99px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.badge-good  { background: #1e4d2b; color: #4ade80; }
+.badge-meh   { background: #4d3b00; color: #fbbf24; }
+.badge-poor  { background: #4d1e1e; color: #ff5566; }
+.badge-none  { background: #2e2a29; color: #6f6765; }
+.bar-wrap {
+  background: #2e2a29;
+  border-radius: 99px;
+  height: 4px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+.bar-fill {
+  height: 4px;
+  border-radius: 99px;
+  background: #ff5566;
+  transition: width .6s ease;
+}
+.deploy-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #1e1a19;
+}
+.deploy-row:last-child { border-bottom: none; }
+.deploy-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.dot-ready   { background: #4ade80; }
+.dot-build   { background: #fbbf24; }
+.dot-error   { background: #ff5566; }
+.deploy-meta { flex: 1; min-width: 0; }
+.deploy-url  { font-size: 12px; color: #ece0df; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.deploy-time { font-size: 11px; color: #6f6765; margin-top: 2px; }
+.deploy-state { font-size: 10px; font-weight: 700; letter-spacing: .06em; color: #a08c89; text-transform: uppercase; }
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.section-title {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #a08c89;
+  text-transform: uppercase;
+}
+.vercel-link {
+  font-size: 11px;
+  color: #a08c89;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 10px;
+  border: 1px solid #4a3835;
+  border-radius: 8px;
+  transition: border-color .15s;
+}
+.vercel-link:hover { border-color: #a08c89; color: #ece0df; }
+.analytics-refresh {
+  font-size: 11px;
+  color: #6f6765;
+  cursor: pointer;
+  padding: 4px 8px;
+  border: 1px solid #2e2a29;
+  border-radius: 8px;
+  background: none;
+  transition: border-color .15s;
+}
+.analytics-refresh:hover { border-color: #4a3835; color: #a08c89; }
+.skeleton {
+  background: linear-gradient(90deg, #1e1a19 25%, #2e2a29 50%, #1e1a19 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 8px;
+  height: 20px;
+}
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.top-page-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 12px; }
+.top-page-path { color: #ece0df; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.top-page-val  { color: #a08c89; white-space: nowrap; width: 44px; text-align: right; }
 .config-warn {
   background: rgba(255,180,0,.06);
   border: 1px solid rgba(255,180,0,.2);
@@ -199,6 +331,78 @@ input:focus { border-color: #ff5566; }
     </div>
     <div class="status" id="maintStatus"></div>
 
+    <div class="section-divider"></div>
+
+    <!-- ═══════════════════════════════════════
+         MONITORING — VERCEL ANALYTICS & SPEED
+    ═══════════════════════════════════════ -->
+    <h2 style="font-size:18px;font-weight:800;color:#ece0df;letter-spacing:-.02em;margin-bottom:4px;">📊 Monitoring</h2>
+    <p class="subtitle" style="margin-bottom:16px;">Analytics &amp; Speed Insights langsung dari Vercel. Tidak perlu buka Vercel.</p>
+
+    <!-- Vercel config inputs -->
+    <div class="card" id="vercel-config-card">
+      <label>Vercel API Token</label>
+      <input type="password" id="vercel-token" placeholder="Paste token dari Vercel Account Settings → Tokens"/>
+      <label style="margin-top:12px;">Vercel Project Name atau ID</label>
+      <input type="text" id="vercel-project" placeholder="Contoh: gdsi-web atau prj_xxxxxxxx"/>
+      <p class="tip" style="margin-top:8px;">Token disimpan di browser ini saja. <a href="https://vercel.com/account/tokens" target="_blank" style="color:#ff5566;">Buat token di sini ↗</a></p>
+      <button class="btn" id="load-analytics-btn" style="margin-top:12px;">🔄 Load Monitoring</button>
+    </div>
+
+    <!-- Deployments -->
+    <div class="card" id="deploy-card" style="display:none;">
+      <div class="section-header">
+        <span class="section-title">🚀 Deployments</span>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="analytics-refresh" onclick="loadDeployments()">↻</button>
+          <a id="vercel-deploys-link" href="#" target="_blank" class="vercel-link">Vercel ↗</a>
+        </div>
+      </div>
+      <div id="deploy-list"><div class="skeleton"></div></div>
+    </div>
+
+    <!-- Web Analytics -->
+    <div class="card" id="analytics-card" style="display:none;">
+      <div class="section-header">
+        <span class="section-title">👥 Web Analytics <span style="font-size:10px;color:#6f6765;font-weight:400;margin-left:4px;">7 hari terakhir</span></span>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="analytics-refresh" onclick="loadAnalytics()">↻</button>
+          <a id="vercel-analytics-link" href="#" target="_blank" class="vercel-link">Vercel ↗</a>
+        </div>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-val" id="stat-visitors">—</div>
+          <div class="metric-lbl">Visitors</div>
+          <div class="metric-delta" id="stat-visitors-delta"></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val" id="stat-views">—</div>
+          <div class="metric-lbl">Page Views</div>
+          <div class="metric-delta" id="stat-views-delta"></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-val" id="stat-bounce">—</div>
+          <div class="metric-lbl">Bounce Rate</div>
+        </div>
+      </div>
+      <div style="margin-bottom:8px;font-size:11px;font-weight:700;color:#6f6765;letter-spacing:.08em;text-transform:uppercase;">Top Pages</div>
+      <div id="top-pages-list"><div class="skeleton"></div></div>
+    </div>
+
+    <!-- Speed Insights / Core Web Vitals -->
+    <div class="card" id="vitals-card" style="display:none;">
+      <div class="section-header">
+        <span class="section-title">⚡ Core Web Vitals <span style="font-size:10px;color:#6f6765;font-weight:400;margin-left:4px;">Real users · 7 hari</span></span>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="analytics-refresh" onclick="loadVitals()">↻</button>
+          <a id="vercel-speed-link" href="#" target="_blank" class="vercel-link">Vercel ↗</a>
+        </div>
+      </div>
+      <div id="vitals-list"><div class="skeleton"></div></div>
+    </div>
+
+    <div class="status" id="analyticsStatus"></div>
     <div class="section-divider"></div>
     <button class="btn btn-secondary" id="logoutBtn">Keluar</button>
   </div>
@@ -431,17 +635,302 @@ input:focus { border-color: #ff5566; }
     .catch(function(){});
   }
 
-  // Original showCms patched to also load maintenance status
+  // Original showCms patched to also load maintenance + analytics
   var _origShowCms = showCms;
   showCms = function() {
     _origShowCms();
     setTimeout(loadMaintenanceStatus, 300);
+    setTimeout(restoreVercelConfig, 400);
   };
 
   // Auto-login if session exists
   try {
     if (sessionStorage.getItem(SESSION_KEY)) showCms();
   } catch(e) {}
+})();
+
+// ============================================================
+// VERCEL MONITORING — Analytics + Speed Insights
+// ============================================================
+(function() {
+  'use strict';
+
+  var VERCEL_API = 'https://api.vercel.com';
+  var token = '';
+  var projectId = '';
+  var projectSlug = '';
+
+  // ── Storage ──────────────────────────────────────────────
+  var STORE_KEY = 'gdsi_vercel_cfg';
+
+  function saveConfig() {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({ token: token, project: projectSlug }));
+    } catch(e) {}
+  }
+
+  window.restoreVercelConfig = function() {
+    try {
+      var saved = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+      if (saved.token) {
+        document.getElementById('vercel-token').value = '••••••••';
+        token = saved.token;
+      }
+      if (saved.project) {
+        document.getElementById('vercel-project').value = saved.project;
+        projectSlug = saved.project;
+      }
+      if (token && projectSlug) setTimeout(window.initAnalytics, 100);
+    } catch(e) {}
+  };
+
+  // ── Helpers ──────────────────────────────────────────────
+  function vFetch(path, params) {
+    var url = VERCEL_API + path;
+    if (params) url += '?' + new URLSearchParams(params).toString();
+    return fetch(url, {
+      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }
+    }).then(function(r) { return r.json(); });
+  }
+
+  function timeAgo(ms) {
+    var s = Math.floor((Date.now() - ms) / 1000);
+    if (s < 60)   return s + 's ago';
+    if (s < 3600) return Math.floor(s/60) + 'm ago';
+    if (s < 86400) return Math.floor(s/3600) + 'h ago';
+    return Math.floor(s/86400) + 'd ago';
+  }
+
+  function fmtNum(n) {
+    if (!n && n !== 0) return '—';
+    if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
+    if (n >= 1000) return (n/1000).toFixed(1) + 'K';
+    return String(n);
+  }
+
+  function vitalBadge(name, value) {
+    // Thresholds per Google + Vercel (units: ms for time, unitless for CLS)
+    var thresholds = {
+      LCP:  [2500, 4000],   // good <2.5s, poor >4s
+      FCP:  [1800, 3000],
+      TTFB: [800, 1800],
+      INP:  [200, 500],
+      FID:  [100, 300],
+      CLS:  [0.1, 0.25]
+    };
+    if (!thresholds[name] || value === null || value === undefined)
+      return '<span class="vitals-badge badge-none">No data</span>';
+    var isCLS = name === 'CLS';
+    var t = thresholds[name];
+    var cls = value <= t[0] ? 'badge-good' : value <= t[1] ? 'badge-meh' : 'badge-poor';
+    var label = value <= t[0] ? 'Good' : value <= t[1] ? 'Needs improvement' : 'Poor';
+    return '<span class="vitals-badge ' + cls + '">' + label + '</span>';
+  }
+
+  function fmtVital(name, value) {
+    if (value === null || value === undefined) return '—';
+    if (name === 'CLS') return value.toFixed(3);
+    // values come in ms from API
+    if (value >= 1000) return (value/1000).toFixed(2) + 's';
+    return Math.round(value) + 'ms';
+  }
+
+  // ── Resolve project slug → ID ─────────────────────────────
+  async function resolveProject(slug) {
+    var data = await vFetch('/v9/projects/' + slug);
+    if (data.error) throw new Error(data.error.message || 'Project not found');
+    projectId = data.id;
+    projectSlug = data.name || slug;
+    return data;
+  }
+
+  // ── Deployments ───────────────────────────────────────────
+  window.loadDeployments = async function() {
+    var el = document.getElementById('deploy-list');
+    el.innerHTML = '<div class="skeleton" style="height:60px;"></div>';
+    try {
+      var data = await vFetch('/v6/deployments', { projectId: projectId, limit: 5 });
+      var deploys = data.deployments || [];
+      if (!deploys.length) { el.innerHTML = '<p class="tip">No deployments found.</p>'; return; }
+      el.innerHTML = deploys.map(function(d) {
+        var dotCls = d.state === 'READY' ? 'dot-ready' : d.state === 'ERROR' ? 'dot-error' : 'dot-build';
+        var url = 'https://' + (d.url || d.alias && d.alias[0] || '#');
+        return '<div class="deploy-row">'
+          + '<div class="deploy-dot ' + dotCls + '"></div>'
+          + '<div class="deploy-meta">'
+          + '<a href="' + url + '" target="_blank" class="deploy-url">' + (d.url || 'No URL') + '</a>'
+          + '<div class="deploy-time">' + timeAgo(d.createdAt) + ' · ' + (d.target || 'preview') + '</div>'
+          + '</div>'
+          + '<span class="deploy-state">' + (d.state || '—') + '</span>'
+          + '</div>';
+      }).join('');
+    } catch(err) {
+      el.innerHTML = '<p class="tip" style="color:#ff5566;">Error: ' + err.message + '</p>';
+    }
+  };
+
+  // ── Web Analytics ─────────────────────────────────────────
+  window.loadAnalytics = async function() {
+    var topEl = document.getElementById('top-pages-list');
+    topEl.innerHTML = '<div class="skeleton"></div>';
+    ['stat-visitors','stat-views','stat-bounce'].forEach(function(id) {
+      var el = document.getElementById(id); if (el) el.textContent = '—';
+    });
+
+    var now = Date.now();
+    var from7d = now - 7 * 24 * 3600 * 1000;
+    var from14d = now - 14 * 24 * 3600 * 1000;
+
+    try {
+      // Try Vercel Analytics API v1
+      var data = await vFetch('/v1/analytics/projects/' + projectId + '/summary', {
+        from: from7d, to: now, filter: '{}'
+      });
+
+      // Some versions return {data: {...}}, others return top-level
+      var summary = data.data || data;
+      var visitors = summary.uniqueVisitors || summary.visitors || summary.uniques || null;
+      var views = summary.pageViews || summary.views || summary.total || null;
+      var bounce = summary.bounceRate != null ? Math.round(summary.bounceRate * 100) + '%' : null;
+
+      document.getElementById('stat-visitors').textContent = fmtNum(visitors);
+      document.getElementById('stat-views').textContent = fmtNum(views);
+      document.getElementById('stat-bounce').textContent = bounce || '—';
+
+      // Top pages
+      var pagesData = await vFetch('/v1/analytics/projects/' + projectId + '/top-pages', {
+        from: from7d, to: now, limit: 6
+      });
+      var pages = (pagesData.data || pagesData.pages || pagesData || []);
+      if (Array.isArray(pages) && pages.length) {
+        var maxV = pages[0].views || pages[0].value || pages[0].count || 1;
+        topEl.innerHTML = pages.map(function(p) {
+          var path = p.path || p.page || p.key || '?';
+          var val  = p.views || p.value || p.count || 0;
+          var pct  = Math.round((val / maxV) * 100);
+          return '<div class="top-page-row">'
+            + '<span class="top-page-path">' + path + '</span>'
+            + '<span class="top-page-val">' + fmtNum(val) + '</span>'
+            + '</div>'
+            + '<div class="bar-wrap"><div class="bar-fill" style="width:' + pct + '%"></div></div>';
+        }).join('');
+      } else {
+        topEl.innerHTML = '<p class="tip">No page data. <a href="https://vercel.com/dashboard" target="_blank" style="color:#ff5566;">View in Vercel ↗</a></p>';
+      }
+    } catch(err) {
+      // API might have changed — show fallback with direct link
+      document.getElementById('stat-visitors').textContent = 'N/A';
+      document.getElementById('stat-views').textContent = 'N/A';
+      document.getElementById('stat-bounce').textContent = 'N/A';
+      topEl.innerHTML = '<p class="tip" style="color:#fbbf24;">Analytics API tidak bisa diakses langsung. '
+        + '<a id="va-fallback-link" href="#" target="_blank" style="color:#ff5566;">Buka di Vercel ↗</a></p>';
+      var fbLink = document.getElementById('va-fallback-link');
+      if (fbLink) fbLink.href = 'https://vercel.com/dashboard/' + projectSlug + '/analytics';
+    }
+  };
+
+  // ── Speed Insights / Core Web Vitals ─────────────────────
+  window.loadVitals = async function() {
+    var el = document.getElementById('vitals-list');
+    el.innerHTML = '<div class="skeleton" style="height:120px;"></div>';
+
+    var now = Date.now();
+    var from7d = now - 7 * 24 * 3600 * 1000;
+
+    var vitals = [
+      { key: 'lcp',  name: 'LCP',  label: 'Largest Contentful Paint' },
+      { key: 'fcp',  name: 'FCP',  label: 'First Contentful Paint' },
+      { key: 'ttfb', name: 'TTFB', label: 'Time to First Byte' },
+      { key: 'inp',  name: 'INP',  label: 'Interaction to Next Paint' },
+      { key: 'cls',  name: 'CLS',  label: 'Cumulative Layout Shift' },
+    ];
+
+    try {
+      var data = await vFetch('/v1/speed-insights/projects/' + projectId + '/vitals', {
+        from: from7d, to: now
+      });
+
+      var raw = data.data || data.vitals || data || {};
+
+      el.innerHTML = vitals.map(function(v) {
+        // Vercel returns p75 value (75th percentile)
+        var entry = raw[v.key] || raw[v.name.toLowerCase()] || null;
+        var val = entry ? (entry.p75 || entry.value || entry.median || entry) : null;
+        if (typeof val === 'object') val = null;
+        return '<div class="vitals-row">'
+          + '<span class="vitals-name">' + v.name + '</span>'
+          + '<span class="vitals-value" title="' + v.label + '">' + fmtVital(v.name, val) + '</span>'
+          + vitalBadge(v.name, val)
+          + '</div>';
+      }).join('');
+    } catch(err) {
+      el.innerHTML = '<p class="tip" style="color:#fbbf24;">Speed Insights API tidak tersedia. '
+        + '<a href="https://vercel.com/dashboard/' + projectSlug + '/speed-insights" target="_blank" style="color:#ff5566;">Buka di Vercel ↗</a></p>';
+    }
+  };
+
+  // ── Master init ───────────────────────────────────────────
+  window.initAnalytics = async function() {
+    var inputToken = document.getElementById('vercel-token').value.trim();
+    var inputProj  = document.getElementById('vercel-project').value.trim();
+
+    // If user typed a new token (not the masked one), use it
+    if (inputToken && inputToken !== '••••••••') token = inputToken;
+    if (inputProj) projectSlug = inputProj;
+
+    if (!token || !projectSlug) {
+      showAnalyticsStatus('Isi Vercel API Token dan Project Name terlebih dahulu.', 'error');
+      return;
+    }
+
+    showAnalyticsStatus('Menghubungkan ke Vercel...', 'loading');
+
+    try {
+      var proj = await resolveProject(projectSlug);
+      saveConfig();
+
+      // Show analytics cards
+      ['deploy-card','analytics-card','vitals-card'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.style.display = '';
+      });
+
+      // Set Vercel dashboard links
+      var base = 'https://vercel.com/dashboard/' + projectSlug;
+      setHref('vercel-deploys-link',  base + '/deployments');
+      setHref('vercel-analytics-link', base + '/analytics');
+      setHref('vercel-speed-link',     base + '/speed-insights');
+
+      showAnalyticsStatus('✅ Terhubung ke project: ' + (proj.name || projectSlug), 'success');
+
+      // Load all data in parallel
+      await Promise.all([
+        window.loadDeployments(),
+        window.loadAnalytics(),
+        window.loadVitals()
+      ]);
+
+    } catch(err) {
+      showAnalyticsStatus('❌ ' + err.message, 'error');
+    }
+  };
+
+  function setHref(id, url) {
+    var el = document.getElementById(id); if (el) el.href = url;
+  }
+
+  function showAnalyticsStatus(msg, type) {
+    var el = document.getElementById('analyticsStatus');
+    if (!el) return;
+    el.textContent = msg;
+    el.className = 'status ' + type;
+  }
+
+  // Wire load button
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('load-analytics-btn');
+    if (btn) btn.addEventListener('click', window.initAnalytics);
+  });
 })();
 </script>
 </body>
