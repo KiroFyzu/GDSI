@@ -605,7 +605,7 @@
         <p class="text-secondary text-sm uppercase tracking-widest">Grand Drift Series Indonesia</p>
       </div>
       <p class="text-secondary text-sm mb-6 leading-relaxed">
-        Silakan login dengan akun Google untuk mengisi formulir registrasi driver. Sistem hanya mengizinkan 1 akun = 1 formulir.
+        <span data-i18n="auth_desc">Silakan login dengan akun Google untuk mengisi formulir registrasi driver. Sistem hanya mengizinkan 1 akun = 1 formulir.</span>
       </p>
       <button id="login-btn" class="btn-primary w-full flex items-center justify-center gap-3 text-base">
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none">
@@ -668,8 +668,8 @@
       <div id="readonly-banner" class="readonly-banner mb-6 hidden">
         <span class="material-symbols-outlined text-primary">lock</span>
         <div>
-          <p class="font-medium text-sm">Form Terkunci</p>
-          <p class="text-xs text-secondary">Anda sudah pernah mengisi formulir ini. Data tidak dapat diubah.</p>
+          <p class="font-medium text-sm" data-i18n="readonly_title">Form Terkunci</p>
+          <p class="text-xs text-secondary" data-i18n="readonly_sub">Anda sudah pernah mengisi formulir ini. Data tidak dapat diubah.</p>
         </div>
       </div>
 
@@ -831,7 +831,7 @@
   <div id="dial-modal-backdrop" class="dial-modal-backdrop hidden">
     <div class="dial-modal">
       <div class="dial-modal-header">
-        <h3>Pilih Kode Negara</h3>
+        <h3 data-i18n="dial_title">Pilih Kode Negara</h3>
         <button type="button" id="dial-modal-close" class="dial-modal-close">
           <span class="material-symbols-outlined text-[18px]">close</span>
         </button>
@@ -851,12 +851,12 @@
         <div class="w-14 h-14 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto mb-3">
           <span class="material-symbols-outlined text-emerald-600 text-[28px]">celebration</span>
         </div>
-        <h3 class="font-headline-lg text-on-surface text-xl mb-1">Terima Kasih Sudah Mengisi Formulir</h3>
+        <h3 class="font-headline-lg text-on-surface text-xl mb-1" data-i18n="success_title">Terima Kasih Sudah Mengisi Formulir</h3>
       </div>
       <div class="modal-body">
-        <p class="text-sm text-secondary text-center mb-4">Data registrasi berhasil disimpan.</p>
+        <p class="text-sm text-secondary text-center mb-4" data-i18n="success_body">Data registrasi berhasil disimpan.</p>
         <div class="bg-surface-container-low rounded-lg p-4 space-y-1">
-          <div class="data-row"><span class="data-label">Nama</span><span class="data-value" data-field="modal-name">-</span></div>
+          <div class="data-row"><span class="data-label" data-i18n="label_name">Nama</span><span class="data-value" data-field="modal-name">-</span></div>
           <div class="data-row"><span class="data-label">Username</span><span class="data-value" data-field="modal-username">-</span></div>
           <div class="data-row"><span class="data-label">Country</span><span class="data-value" data-field="modal-country">-</span></div>
           <div class="data-row"><span class="data-label">Team</span><span class="data-value" data-field="modal-team">-</span></div>
@@ -878,11 +878,11 @@
         <div class="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
           <span class="material-symbols-outlined text-primary text-[28px]">info</span>
         </div>
-        <h3 class="font-headline-lg text-on-surface text-xl mb-1">Anda Telah Mengisi Formulir</h3>
+        <h3 class="font-headline-lg text-on-surface text-xl mb-1" data-i18n="info_modal_title">Anda Telah Mengisi Formulir</h3>
       </div>
       <div class="modal-body">
         <p class="text-sm text-secondary text-center mb-4">
-          Akun ini sudah pernah terdaftar. Sistem hanya mengizinkan 1 user = 1 form.
+          <span data-i18n="info_modal_body">Akun ini sudah pernah terdaftar. Sistem hanya mengizinkan 1 user = 1 form.</span>
         </p>
         <div class="bg-surface-container-low rounded-lg p-4 space-y-1">
           <div class="data-row"><span class="data-label">Nama</span><span class="data-value" data-field="info-name">-</span></div>
@@ -895,7 +895,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button data-close-modal class="btn-primary px-8">Mengerti</button>
+        <button data-close-modal class="btn-primary px-8" data-i18n="info_modal_btn">Mengerti</button>
       </div>
     </div>
   </div>
@@ -913,7 +913,17 @@ window.GDSI_I18N_DICT = {
     ph_whatsapp: 'Nomor WhatsApp', ph_country: 'Negara',
     ph_id: 'ID Player In-Game', ph_team: 'Nama Tim (opsional)',
     form_maintenance_title: 'Registrasi Sedang Ditutup',
-    form_maintenance_sub: 'Pendaftaran sementara dihentikan. Pantau pengumuman resmi GDSI untuk jadwal berikutnya.'
+    form_maintenance_sub: 'Pendaftaran sementara dihentikan. Pantau pengumuman resmi GDSI untuk jadwal berikutnya.',
+    auth_desc: 'Silakan login dengan akun Google untuk mengisi formulir registrasi driver. Sistem hanya mengizinkan 1 akun = 1 formulir.',
+    readonly_title: 'Form Terkunci',
+    readonly_sub: 'Anda sudah pernah mengisi formulir ini. Data tidak dapat diubah.',
+    info_modal_title: 'Anda Telah Mengisi Formulir',
+    info_modal_body: 'Akun ini sudah pernah terdaftar. Sistem hanya mengizinkan 1 user = 1 form.',
+    info_modal_btn: 'Mengerti',
+    label_name: 'Nama',
+    dial_title: 'Pilih Kode Negara',
+    success_title: 'Terima Kasih Sudah Mengisi Formulir',
+    success_body: 'Data registrasi berhasil disimpan.'
   },
   en: {
     nav_back: 'Back',
@@ -924,7 +934,17 @@ window.GDSI_I18N_DICT = {
     ph_whatsapp: 'WhatsApp Number', ph_country: 'Country',
     ph_id: 'In-Game Player ID', ph_team: 'Team Name (optional)',
     form_maintenance_title: 'Registration Closed',
-    form_maintenance_sub: 'Registration is temporarily closed. Watch for official GDSI announcements for the next schedule.'
+    form_maintenance_sub: 'Registration is temporarily closed. Watch for official GDSI announcements for the next schedule.',
+    auth_desc: 'Please log in with your Google account to fill in the driver registration form. One account = one form only.',
+    readonly_title: 'Form Locked',
+    readonly_sub: 'You have already submitted this form. Data cannot be changed.',
+    info_modal_title: 'Form Already Submitted',
+    info_modal_body: 'This account has already been registered. One user = one form only.',
+    info_modal_btn: 'Got It',
+    label_name: 'Name',
+    dial_title: 'Select Country Code',
+    success_title: 'Thank You for Registering',
+    success_body: 'Registration data saved successfully.'
   }
 };
 </script>

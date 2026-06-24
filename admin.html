@@ -459,6 +459,10 @@ input:focus { border-color: #ff5566; }
   }
 
   // --- Login ---
+  // Wire YouTube save buttons
+  document.getElementById('saveBtn').addEventListener('click', doSaveVideos);
+  (function() { var b = document.getElementById('saveBtn2'); if (b) b.addEventListener('click', doSaveVideos); })();
+
   document.getElementById('loginBtn').addEventListener('click', function() {
     var pwd = document.getElementById('pwdInput').value;
     if (!pwd) return;
@@ -928,8 +932,8 @@ input:focus { border-color: #ff5566; }
 
   // Wire load button
   document.addEventListener('DOMContentLoaded', function() {
-    var btn = document.getElementById('load-analytics-btn');
-    if (btn) btn.addEventListener('click', window.initAnalytics);
+    var loadBtn = document.getElementById('load-analytics-btn');
+    if (loadBtn) loadBtn.addEventListener('click', window.initAnalytics);
   });
 })();
 </script>

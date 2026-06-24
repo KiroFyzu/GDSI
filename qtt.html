@@ -449,7 +449,7 @@
         <p class="text-secondary text-sm uppercase tracking-widest">Grand Drift Series Indonesia</p>
       </div>
       <p class="text-secondary text-sm mb-6 leading-relaxed">
-        Silakan login dengan akun Google untuk mengakses formulir QTT.
+        <span data-i18n="auth_desc">Silakan login dengan akun Google untuk mengakses formulir QTT.</span>
       </p>
       <button id="login-btn" class="btn-primary w-full flex items-center justify-center gap-3 text-base">
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none">
@@ -502,15 +502,15 @@
       <div id="maintenance-banner" class="readonly-banner mb-6 hidden">
         <span class="material-symbols-outlined text-primary">construction</span>
         <div>
-          <p class="font-medium text-sm">QTT Sedang Ditutup</p>
-          <p class="text-xs text-secondary">Pengumpulan QTT sementara dihentikan. Silakan cek pengumuman untuk jadwal berikutnya.</p>
+          <p class="font-medium text-sm" data-i18n="maint_title">QTT Sedang Ditutup</p>
+          <p class="text-xs text-secondary" data-i18n="maint_sub">Pengumpulan QTT sementara dihentikan. Silakan cek pengumuman untuk jadwal berikutnya.</p>
         </div>
       </div>
 
       <!-- Loading State -->
       <div id="loading-state" class="flex-col items-center justify-center py-12 hidden">
         <div class="spinner mb-4"></div>
-        <p class="text-sm text-secondary">Memuat data racer...</p>
+        <p class="text-sm text-secondary" data-i18n="loading_text">Memuat data racer...</p>
       </div>
 
       <!-- Error State (Belum registrasi) -->
@@ -518,11 +518,11 @@
         <div class="w-14 h-14 rounded-full bg-error/10 flex items-center justify-center mb-4">
           <span class="material-symbols-outlined text-error text-[28px]">error</span>
         </div>
-        <h3 class="font-headline-lg text-lg text-on-surface mb-2">Registrasi Tidak Ditemukan</h3>
-        <p class="text-sm text-secondary max-w-xs mx-auto leading-relaxed mb-6">Anda belum melakukan registrasi GDSI. Silakan daftar terlebih dahulu untuk mengakses QTT.</p>
+        <h3 class="font-headline-lg text-lg text-on-surface mb-2" data-i18n="error_title">Registrasi Tidak Ditemukan</h3>
+        <p class="text-sm text-secondary max-w-xs mx-auto leading-relaxed mb-6" data-i18n="error_body">Anda belum melakukan registrasi GDSI. Silakan daftar terlebih dahulu untuk mengakses QTT.</p>
         <a href="form.html" class="btn-primary inline-flex items-center gap-2 px-6">
           <span class="material-symbols-outlined text-[18px]">app_registration</span>
-          Registrasi Sekarang
+          <span data-i18n="error_cta">Registrasi Sekarang</span>
         </a>
       </div>
 
@@ -586,7 +586,7 @@
             <!-- Upload Video -->
             <div class="space-y-1.5 col-span-1 md:col-span-2">
               <label class="font-label-sm text-secondary text-xs ml-1 flex items-center gap-1">
-                Upload Video QTT <span class="text-primary">*</span>
+                <span data-i18n="upload_label">Upload Video QTT</span> <span class="text-primary">*</span>
               </label>
               <div id="upload-zone" class="upload-zone relative">
                 <input type="file" id="video-file-input" accept="video/mp4,video/quicktime,video/webm" class="hidden">
@@ -594,8 +594,8 @@
                 <!-- Placeholder -->
                 <div id="upload-placeholder">
                   <span class="material-symbols-outlined text-secondary/40 text-[48px] mb-3">upload_file</span>
-                  <p class="text-sm text-on-surface font-medium mb-1">Klik atau drag & drop video</p>
-                  <p class="text-xs text-secondary/60">MP4, MOV, WEBM — max 100MB</p>
+                  <p class="text-sm text-on-surface font-medium mb-1" data-i18n="upload_hint">Klik atau drag & drop video</p>
+                  <p class="text-xs text-secondary/60" data-i18n="upload_spec">MP4, MOV, WEBM — max 100MB</p>
                 </div>
 
                 <!-- File Info -->
@@ -659,8 +659,8 @@
         <div class="readonly-banner mb-2">
           <span class="material-symbols-outlined text-primary">check_circle</span>
           <div>
-            <p class="font-medium text-sm">QTT Berhasil Dikirim</p>
-            <p class="text-xs text-secondary">Submission Anda sudah tercatat. Tunggu hasil review.</p>
+            <p class="font-medium text-sm" data-i18n="view_banner_title">QTT Berhasil Dikirim</p>
+            <p class="text-xs text-secondary" data-i18n="view_banner_sub">Submission Anda sudah tercatat. Tunggu hasil review.</p>
           </div>
         </div>
 
@@ -704,7 +704,7 @@
         <p class="text-2xl">🎉</p>
       </div>
       <div class="modal-body">
-        <p class="text-sm text-secondary text-center mb-4">Data berhasil dikirim ke server.</p>
+        <p class="text-sm text-secondary text-center mb-4" data-i18n="success_body">Data berhasil dikirim ke server.</p>
         <div class="bg-surface-container rounded-lg p-4 space-y-1 border border-black/5">
           <div class="data-row"><span class="data-label">Username</span><span class="data-value" id="modal-username">-</span></div>
           <div class="data-row"><span class="data-label">Vehicle</span><span class="data-value" id="modal-vehicle">-</span></div>
@@ -713,7 +713,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button data-close-modal class="btn-primary px-8">Tutup</button>
+        <button data-close-modal class="btn-primary px-8" data-i18n="close_btn">Tutup</button>
       </div>
     </div>
   </div>
@@ -727,14 +727,42 @@ window.GDSI_I18N_DICT = {
     submit_btn: 'Submit',
     cancel_btn: 'Batal',
     ph_qtt_url: 'Tempel link video QTT-mu di sini',
-    ph_qtt_name: 'Nama lengkap sesuai formulir registrasi'
+    ph_qtt_name: 'Nama lengkap sesuai formulir registrasi',
+    auth_desc: 'Silakan login dengan akun Google untuk mengakses formulir QTT.',
+    error_title: 'Registrasi Tidak Ditemukan',
+    error_body: 'Anda belum melakukan registrasi GDSI. Silakan daftar terlebih dahulu untuk mengakses QTT.',
+    error_cta: 'Registrasi Sekarang',
+    view_banner_title: 'QTT Berhasil Dikirim',
+    view_banner_sub: 'Submission Anda sudah tercatat. Tunggu hasil review.',
+    success_body: 'Data berhasil dikirim ke server.',
+    close_btn: 'Tutup',
+    upload_label: 'Upload Video QTT',
+    upload_hint: 'Klik atau drag & drop video',
+    upload_spec: 'MP4, MOV, WEBM — maks 100MB',
+    maint_title: 'QTT Sedang Ditutup',
+    maint_sub: 'Pengumpulan QTT sementara dihentikan. Silakan cek pengumuman untuk jadwal berikutnya.',
+    loading_text: 'Memuat data racer...'
   },
   en: {
     nav_back: 'Back',
     submit_btn: 'Submit',
     cancel_btn: 'Cancel',
     ph_qtt_url: 'Paste your QTT video link here',
-    ph_qtt_name: 'Full name as per registration form'
+    ph_qtt_name: 'Full name as per registration form',
+    auth_desc: 'Please log in with your Google account to access the QTT form.',
+    error_title: 'Registration Not Found',
+    error_body: 'You have not registered for GDSI. Please register first to access QTT.',
+    error_cta: 'Register Now',
+    view_banner_title: 'QTT Submitted Successfully',
+    view_banner_sub: 'Your submission has been recorded. Wait for the review results.',
+    success_body: 'Data successfully sent to server.',
+    close_btn: 'Close',
+    upload_label: 'Upload QTT Video',
+    upload_hint: 'Click or drag & drop video',
+    upload_spec: 'MP4, MOV, WEBM — max 100MB',
+    maint_title: 'QTT Temporarily Closed',
+    maint_sub: 'QTT submission is temporarily paused. Check our announcements for the next schedule.',
+    loading_text: 'Loading racer data...'
   }
 };
 </script>
