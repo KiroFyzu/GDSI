@@ -30,7 +30,23 @@ const submitLock = new SubmitLock();
 // ⚙️ MAINTENANCE MODE (set via Vercel env var)
 // VITE_FORM_MAINTENANCE_MODE=true in .env or Vercel dashboard
 // ============================================
-const FORM_MAINTENANCE_MODE = import.meta.env.VITE_FORM_MAINTENANCE_MODE === 'true';
+// Maintenance mode is controlled via Admin CMS → Firestore gdsi_cms/maintenance
+// NOT via env vars (no redeploy needed to toggle)
+let FORM_MAINTENANCE_MODE = false; // set async in init()
+
+async function fetchFormMaintenanceMode() {
+  const projId = import.meta.env.VITE_FIREBASE_PROJECT_ID;
+  const apiKey = import.meta.env.VITE_FIREBASE_API_KEY;
+  if (!projId || !apiKey) return false;
+  try {
+    const r = await fetch(
+      `https://firestore.googleapis.com/v1/projects/${projId}/databases/(default)/documents/gdsi_cms/maintenance?key=${apiKey}`
+    );
+    if (!r.ok) return false;
+    const d = await r.json();
+    return d?.fields?.form?.booleanValue === true;
+  } catch { return false; }
+}
 
 
 // ============================================
@@ -70,7 +86,8 @@ function showFormMaintenanceMode() {
   }
 }
 
-function init() {
+async function init() {
+  FORM_MAINTENANCE_MODE = await fetchFormMaintenanceMode();
   if (FORM_MAINTENANCE_MODE) {
     showFormMaintenanceMode();
   }

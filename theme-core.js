@@ -1,33 +1,36 @@
 /* ============================================================
-   GDSI Theme Core — auto dark/light based on device local time
-   06:00–17:59 = light, 18:00–05:59 = dark.
-   Re-checks every minute so an open tab flips live at the boundary.
-   No manual toggle (by design — see project notes).
+   GDSI Theme Core — runs in <head> BEFORE any content renders.
+   Sets both dark/light AND lang attribute immediately so:
+   1. No flash of wrong theme (dark blinks to light or vice versa)
+   2. No flash of mixed language (both ID+EN visible briefly)
    ============================================================ */
 (function () {
   'use strict';
 
-  function isDarkHour(date) {
-    var h = date.getHours();
+  // ── 1. LANGUAGE — set data-gdsi-lang NOW ──────────────────
+  var lang = 'id';
+  try {
+    var saved = window.localStorage.getItem('gdsi_lang');
+    if (saved === 'id' || saved === 'en') lang = saved;
+  } catch (e) {}
+  document.documentElement.setAttribute('data-gdsi-lang', lang);
+  document.documentElement.setAttribute('lang', lang);
+
+  // ── 2. DARK / LIGHT — set .dark class NOW ─────────────────
+  function isDarkHour(d) {
+    var h = d.getHours();
     return h < 6 || h >= 18;
   }
 
-  function apply() {
+  function applyTheme() {
     var dark = isDarkHour(new Date());
-    var root = document.documentElement;
-    if (dark) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    root.setAttribute('data-gdsi-theme', dark ? 'dark' : 'light');
+    document.documentElement.classList.toggle('dark', dark);
+    document.documentElement.setAttribute('data-gdsi-theme', dark ? 'dark' : 'light');
   }
 
-  // Apply immediately (this script is loaded as the very first thing in
-  // <head>, before the Tailwind CDN script, so there's no flash).
-  apply();
+  applyTheme();
 
-  // Keep checking in case the tab stays open across the 06:00/18:00 boundary.
-  window.GDSI_THEME = { recheck: apply };
-  setInterval(apply, 60 * 1000);
+  // Re-check every minute so open tabs flip at 06:00 / 18:00.
+  window.GDSI_THEME = { recheck: applyTheme };
+  setInterval(applyTheme, 60 * 1000);
 })();

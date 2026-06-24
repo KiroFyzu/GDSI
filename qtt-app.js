@@ -18,9 +18,23 @@ import { doc, getDoc, setDoc, serverTimestamp } from 'https://www.gstatic.com/fi
 import { showToast, formatTimestamp, escapeHtml } from './utils.js';
 
 // ============================================
-// ⚙️ MAINTENANCE MODE
+// ⚙️ MAINTENANCE MODE — controlled via Admin CMS (no redeploy needed)
 // ============================================
-const MAINTENANCE_MODE = import.meta.env.VITE_QTT_MAINTENANCE_MODE === 'true';
+let MAINTENANCE_MODE = false; // set async in init()
+
+async function fetchQttMaintenanceMode() {
+  const projId = import.meta.env.VITE_FIREBASE_PROJECT_ID;
+  const apiKey = import.meta.env.VITE_FIREBASE_API_KEY;
+  if (!projId || !apiKey) return false;
+  try {
+    const r = await fetch(
+      `https://firestore.googleapis.com/v1/projects/${projId}/databases/(default)/documents/gdsi_cms/maintenance?key=${apiKey}`
+    );
+    if (!r.ok) return false;
+    const d = await r.json();
+    return d?.fields?.qtt?.booleanValue === true;
+  } catch { return false; }
+}
 
 // ============================================
 // CONFIG
@@ -100,7 +114,8 @@ let isSubmitting = false;
 // ============================================
 // INIT
 // ============================================
-function init() {
+async function init() {
+  MAINTENANCE_MODE = await fetchQttMaintenanceMode();
   if (MAINTENANCE_MODE) showMaintenanceMode();
   els.loginBtn?.addEventListener('click', handleLogin);
   els.logoutBtn?.addEventListener('click', handleLogout);

@@ -174,23 +174,39 @@ function handleQttSubmit(data) {
   var fileName = safeUsername + "_" + timestamp + "." + ext;
   var fileId = '';
 
+  var uploadedFile;
   if (videoBlob) {
-    // Legacy: upload actual file blob
-    var uploadedFile = participantFolder.createFile(videoBlob);
+    // Legacy path: blob was decoded from base64
+    uploadedFile = participantFolder.createFile(videoBlob);
+  } else if (videoUrl) {
+    // New path (qtt-app.js): download from Cloudinary → save to Drive
+    // This keeps Google Drive as primary storage per the original flow design
+    try {
+      var response = UrlFetchApp.fetch(videoUrl, { muteHttpExceptions: true });
+      var blob = response.getBlob().setName(fileName);
+      uploadedFile = participantFolder.createFile(blob);
+      fileSizeMBStr = (blob.getBytes().length / (1024 * 1024)).toFixed(2) + " MB";
+    } catch (fetchErr) {
+      // If Cloudinary download fails, store URL reference instead
+      console.error("Could not download from Cloudinary:", fetchErr);
+      uploadedFile = null;
+    }
+  }
+
+  if (uploadedFile) {
     uploadedFile.setName(fileName);
     uploadedFile.setDescription(
       "GDSI QTT Submission\n" +
       "Event: " + (CONFIG.EVENT_FOLDER_NAME || "Default") + "\n" +
       "UID: " + uid + "\nUsername: " + username +
       "\nVehicle: " + vehicle + "\nEngine: " + engine +
-      "\nCountry: " + country + "\nEmail: " + email
+      "\nCountry: " + country + "\nEmail: " + email +
+      "\nCloudinary: " + videoUrl
     );
     uploadedFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-    videoUrl = uploadedFile.getUrl();
+    videoUrl = uploadedFile.getUrl();   // override with Drive link
     fileId = uploadedFile.getId();
-    fileSizeMBStr = (uploadedFile.getSize() / (1024 * 1024)).toFixed(2) + " MB";
   }
-  // else: videoUrl is already set from Cloudinary — skip Drive upload
 
   // STEP 4: Write to Sheets
   var sheetName = "GDSI_QTT_Submissions";

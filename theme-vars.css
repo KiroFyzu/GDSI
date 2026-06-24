@@ -121,3 +121,20 @@ body, .glass-panel, header, footer, section, .social-pill, .qr-modal-card {
     transition: none !important;
   }
 }
+
+/* ============================================================
+   Language show/hide — driven by html[data-gdsi-lang]
+   This attribute is set by theme-core.js BEFORE body renders
+   so there is zero flash of mixed content.
+   ============================================================ */
+
+/* Default: hide EN-only content (lang defaults to "id") */
+.lang-en-only { display: none !important; }
+
+/* When EN is active: show EN, hide ID */
+[data-gdsi-lang="en"] .lang-en-only { display: revert !important; }
+[data-gdsi-lang="en"] .lang-id-only { display: none !important; }
+
+/* When ID is active (explicit): show ID, hide EN */
+[data-gdsi-lang="id"] .lang-id-only { display: revert !important; }
+[data-gdsi-lang="id"] .lang-en-only { display: none !important; }

@@ -96,6 +96,15 @@ input:focus { border-color: #ff5566; }
 .thumb-wrap img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; }
 .section-divider { height: 1px; background: #4a3835; margin: 24px 0; }
 .tip { font-size: 12px; color: #6f6765; margin-top: 8px; line-height: 1.5; }
+.maint-btn {
+  padding: 8px 16px; border: none; border-radius: 10px;
+  font-size: 12px; font-weight: 700; letter-spacing: .05em;
+  cursor: pointer; transition: opacity .2s;
+}
+.maint-open  { background: #1e4d2b; color: #4ade80; }
+.maint-close { background: #4d1e1e; color: #ff5566; }
+.maint-btn:hover { opacity: .8; }
+.maint-btn:disabled { opacity: .4; cursor: not-allowed; }
 .config-warn {
   background: rgba(255,180,0,.06);
   border: 1px solid rgba(255,180,0,.2);
@@ -151,14 +160,42 @@ input:focus { border-color: #ff5566; }
     </div>
 
     <button class="btn" id="saveBtn">💾 Simpan ke Database</button>
-    <button class="btn btn-secondary" id="logoutBtn">Keluar</button>
+    <button class="btn" id="saveBtn2" style="margin-top:8px;">💾 Simpan Perubahan Video</button>
     <div class="status" id="saveStatus"></div>
 
     <div class="section-divider"></div>
-    <p class="tip">
-      Setelah disimpan, buka halaman utama (refresh) dan embed YouTube akan otomatis ganti ke video baru.
-      Tidak perlu redeploy ke Vercel.
-    </p>
+
+    <!-- ═══════════════════════════════════════
+         MAINTENANCE MODE CONTROL
+    ═══════════════════════════════════════ -->
+    <h2 style="font-size:18px;font-weight:800;color:#ece0df;letter-spacing:-.02em;margin-bottom:4px;">⚙️ Maintenance Mode</h2>
+    <p class="subtitle" style="margin-bottom:20px;">Tutup / buka form dan QTT langsung dari sini. Tidak perlu redeploy.</p>
+
+    <div class="card">
+      <label>Form Registrasi</label>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
+        <span style="font-size:13px;color:#a08c89;">Status saat ini: <strong id="form-maint-status" style="color:#ece0df;">Memuat...</strong></span>
+        <div style="display:flex;gap:8px;">
+          <button class="maint-btn maint-open" id="form-maint-off" onclick="setMaintenance('form', false)">✅ Buka</button>
+          <button class="maint-btn maint-close" id="form-maint-on" onclick="setMaintenance('form', true)">🔒 Tutup</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <label>QTT Submission</label>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px;">
+        <span style="font-size:13px;color:#a08c89;">Status saat ini: <strong id="qtt-maint-status" style="color:#ece0df;">Memuat...</strong></span>
+        <div style="display:flex;gap:8px;">
+          <button class="maint-btn maint-open" id="qtt-maint-off" onclick="setMaintenance('qtt', false)">✅ Buka</button>
+          <button class="maint-btn maint-close" id="qtt-maint-on" onclick="setMaintenance('qtt', true)">🔒 Tutup</button>
+        </div>
+      </div>
+    </div>
+    <div class="status" id="maintStatus"></div>
+
+    <div class="section-divider"></div>
+    <button class="btn btn-secondary" id="logoutBtn">Keluar</button>
   </div>
 </div>
 
@@ -280,7 +317,7 @@ input:focus { border-color: #ff5566; }
   });
 
   // Save to Firestore REST API
-  document.getElementById('saveBtn').addEventListener('click', function() {
+  function doSaveVideos() {
     var st = document.getElementById('saveStatus');
 
     if (!PROJECT_ID || !API_KEY) {
@@ -334,6 +371,67 @@ input:focus { border-color: #ff5566; }
       document.getElementById('saveBtn').disabled = false;
     });
   });
+
+  // ── Maintenance mode logic ─────────────────────────────
+  window.setMaintenance = function(field, value) {
+    if (!PROJECT_ID || !API_KEY) {
+      showStatus(document.getElementById('maintStatus'), 'Firebase belum dikonfigurasi.', 'error');
+      return;
+    }
+    var st = document.getElementById('maintStatus');
+    showStatus(st, 'Menyimpan...', 'loading');
+
+    var fields = {};
+    fields[field] = { booleanValue: value };
+    var updateMask = 'updateMask.fieldPaths=' + field;
+
+    fetch('https://firestore.googleapis.com/v1/projects/' + PROJECT_ID
+      + '/databases/(default)/documents/gdsi_cms/maintenance?key=' + API_KEY + '&' + updateMask, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: fields })
+    })
+    .then(function(r) {
+      if (r.ok) {
+        showStatus(st, '✅ Status ' + field.toUpperCase() + ' ' + (value ? 'DITUTUP' : 'DIBUKA') + '!', 'success');
+        loadMaintenanceStatus();
+      } else {
+        return r.json().then(function(e) { throw new Error(e.error && e.error.message); });
+      }
+    })
+    .catch(function(err) {
+      showStatus(st, '❌ Error: ' + (err.message || err), 'error');
+    });
+  };
+
+  function loadMaintenanceStatus() {
+    if (!PROJECT_ID || !API_KEY) return;
+    fetch('https://firestore.googleapis.com/v1/projects/' + PROJECT_ID
+      + '/databases/(default)/documents/gdsi_cms/maintenance?key=' + API_KEY)
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      var formOn = data && data.fields && data.fields.form && data.fields.form.booleanValue === true;
+      var qttOn  = data && data.fields && data.fields.qtt  && data.fields.qtt.booleanValue  === true;
+      var formEl = document.getElementById('form-maint-status');
+      var qttEl  = document.getElementById('qtt-maint-status');
+      if (formEl) {
+        formEl.textContent = formOn ? '🔒 TUTUP (Maintenance ON)' : '✅ BUKA (Normal)';
+        formEl.style.color = formOn ? '#ff5566' : '#4ade80';
+      }
+      if (qttEl) {
+        qttEl.textContent = qttOn ? '🔒 TUTUP (Maintenance ON)' : '✅ BUKA (Normal)';
+        qttEl.style.color = qttOn ? '#ff5566' : '#4ade80';
+      }
+    })
+    .catch(function(){});
+  }
+
+  // Original showCms patched to also load maintenance status
+  var _origShowCms = showCms;
+  showCms = function() {
+    _origShowCms();
+    setTimeout(loadMaintenanceStatus, 300);
+  };
 
   // Auto-login if session exists
   try {
