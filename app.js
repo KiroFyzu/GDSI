@@ -1,7 +1,11 @@
 // app.js - Main Application Orchestrator
+import { inject } from '@vercel/analytics';
 import { initAuth, getCurrentUser, login, logout } from './auth.js';
 import { submitRegistration } from './firestore.js';
 import { syncToGoogleSheets } from './sheets.js';
+
+// Initialize Vercel Web Analytics
+inject();
 import {
   initCountryDropdown,
   initCountrySelect,
