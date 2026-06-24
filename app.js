@@ -1,11 +1,15 @@
 // app.js - Main Application Orchestrator
 import { inject } from '@vercel/analytics';
+import { injectSpeedInsights } from '@vercel/speed-insights';
 import { initAuth, getCurrentUser, login, logout } from './auth.js';
 import { submitRegistration } from './firestore.js';
 import { syncToGoogleSheets } from './sheets.js';
 
 // Initialize Vercel Web Analytics
 inject();
+
+// Initialize Vercel Speed Insights
+injectSpeedInsights();
 import {
   initCountryDropdown,
   initCountrySelect,
