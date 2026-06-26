@@ -27,11 +27,10 @@ import {
 const submitLock = new SubmitLock();
 
 // ============================================
-// ⚙️ MAINTENANCE MODE (set via Vercel env var)
-// VITE_FORM_MAINTENANCE_MODE=true in .env or Vercel dashboard
+// ⚙️ MAINTENANCE MODE
+// Dikontrol via Admin CMS → Firestore gdsi_cms/maintenance
+// Toggle ON/OFF dari /admin — tidak perlu redeploy.
 // ============================================
-// Maintenance mode is controlled via Admin CMS → Firestore gdsi_cms/maintenance
-// NOT via env vars (no redeploy needed to toggle)
 let FORM_MAINTENANCE_MODE = false; // set async in init()
 
 async function fetchFormMaintenanceMode() {

@@ -803,7 +803,7 @@ body, .glass-panel, header, footer, section, .social-pill, .qr-modal-card {
 <!-- GDSI YouTube Embed #1 — lazy loaded, autoplay+mute on scroll -->
 <div class="gdsi-yt-wrap" data-yt-slot="video1" data-yt-fallback="6npIw5hk4vM"
      style="position:relative;width:100%;height:100%;background:#121212;">
-  <img class="gdsi-yt-thumb" src="https://img.youtube.com/vi/6npIw5hk4vM/maxresdefault.jpg"
+  <img class="gdsi-yt-thumb" src="https://img.youtube.com/vi/6npIw5hk4vM/hqdefault.jpg"
        alt="Video thumbnail" loading="lazy"
        style="width:100%;height:100%;object-fit:cover;display:block;opacity:0.7;"/>
   <div class="gdsi-yt-play-btn" aria-hidden="true"
@@ -836,7 +836,7 @@ body, .glass-panel, header, footer, section, .social-pill, .qr-modal-card {
 <!-- GDSI YouTube Embed #2 — lazy loaded, autoplay+mute on scroll -->
 <div class="gdsi-yt-wrap" data-yt-slot="video2" data-yt-fallback="6qeZ2Wkx_tQ"
      style="position:relative;width:100%;padding-bottom:56.25%;background:#121212;">
-  <img class="gdsi-yt-thumb" src="https://img.youtube.com/vi/6qeZ2Wkx_tQ/maxresdefault.jpg"
+  <img class="gdsi-yt-thumb" src="https://img.youtube.com/vi/6qeZ2Wkx_tQ/hqdefault.jpg"
        alt="Video thumbnail" loading="lazy"
        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0.7;"/>
   <div class="gdsi-yt-play-btn" aria-hidden="true"
@@ -1281,7 +1281,7 @@ body, .glass-panel, header, footer, section, .social-pill, .qr-modal-card {
   }
 
   function buildIframe(videoId) {
-    var params = 'autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1';
+    var params = 'autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1';
     var iframe = document.createElement('iframe');
     iframe.src = 'https://www.youtube.com/embed/' + videoId + '?' + params;
     iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;';
@@ -1308,15 +1308,20 @@ body, .glass-panel, header, footer, section, .social-pill, .qr-modal-card {
   }
 
   function pauseWrap(wrap) {
+    // src-reset: immediately stops video, saves mobile data/battery
     var iframe = wrap.querySelector('iframe');
-    if (!iframe) return;
-    try { iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*'); } catch(e) {}
+    if (!iframe || wrap.dataset.ytPaused) return;
+    wrap.dataset.ytPaused = '1';
+    wrap.dataset.ytSrc = iframe.src; // remember URL
+    iframe.src = '';
   }
 
   function resumeWrap(wrap) {
+    // Restore src → YouTube autoplay=1 kicks in automatically
     var iframe = wrap.querySelector('iframe');
-    if (!iframe) return;
-    try { iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*'); } catch(e) {}
+    if (!iframe || !wrap.dataset.ytPaused) return;
+    delete wrap.dataset.ytPaused;
+    if (wrap.dataset.ytSrc) iframe.src = wrap.dataset.ytSrc;
   }
 
   function initObserver() {
@@ -1356,7 +1361,7 @@ body, .glass-panel, header, footer, section, .social-pill, .qr-modal-card {
       var vid = (videoIds[slot] && extractYtId(videoIds[slot])) || wrap.dataset.ytFallback;
       if (!vid) return;
       var thumb = wrap.querySelector('.gdsi-yt-thumb');
-      if (thumb) thumb.src = 'https://img.youtube.com/vi/' + vid + '/maxresdefault.jpg';
+      if (thumb) thumb.src = 'https://img.youtube.com/vi/' + vid + '/hqdefault.jpg';
     });
   }
 

@@ -277,7 +277,7 @@ input:focus { border-color: #ff5566; }
     <p class="subtitle">Ganti link embed YouTube di halaman utama.<br/>Paste link apa saja — otomatis diproses.</p>
 
     <div class="config-warn" id="configWarn">
-      ⚠️ <strong>Firebase belum dikonfigurasi.</strong> Isi <code>window.__GDSI_FB_PROJECT</code> &amp; <code>window.__GDSI_FB_KEY</code> di file ini, atau tambahkan ke Vercel Environment Variables lalu rebuild.
+      ⚠️ <strong>Firebase tidak terkonfigurasi.</strong> Pastikan <code>VITE_FIREBASE_PROJECT_ID</code> dan <code>VITE_FIREBASE_API_KEY</code> sudah diset di Vercel Environment Variables, lalu trigger redeploy.
     </div>
 
     <!-- Video 1 -->
@@ -417,8 +417,13 @@ input:focus { border-color: #ff5566; }
   // Atau set sebagai Vercel Environment Variables (lebih aman):
   //   VITE_FIREBASE_PROJECT_ID dan VITE_FIREBASE_API_KEY
   // =============================================================
-  var PROJECT_ID = window.__GDSI_FB_PROJECT || '';
-  var API_KEY    = window.__GDSI_FB_KEY    || '';
+  // Firebase config — injected by Vite at build time from Vercel env vars.
+  // If these still show as %VITE_...% it means the env vars are not set in Vercel.
+  var PROJECT_ID = '%VITE_FIREBASE_PROJECT_ID%';
+  var API_KEY    = '%VITE_FIREBASE_API_KEY%';
+  // Guard: fallback to empty if Vite did not replace (env var missing in Vercel)
+  if (PROJECT_ID.indexOf('%VITE_') === 0) PROJECT_ID = '';
+  if (API_KEY.indexOf('%VITE_') === 0)    API_KEY    = '';
 
   // Password disimpan sebagai SHA-256 hash (bukan plaintext).
   // Default hash di bawah ini = "gdsi2026admin"
@@ -583,7 +588,7 @@ input:focus { border-color: #ff5566; }
     .finally(function() {
       document.getElementById('saveBtn').disabled = false;
     });
-  };
+  });
 
   // ── Maintenance mode logic ─────────────────────────────
   window.setMaintenance = function(field, value) {
