@@ -6,15 +6,12 @@
 <title>GDSI - <span class="lang-id-only">Syarat &amp; Ketentuan</span><span class="lang-en-only">Terms &amp; Conditions</span></title>
 <script>
 /* ============================================================
-   GDSI Theme Core — runs in <head> BEFORE any content renders.
-   Sets both dark/light AND lang attribute immediately so:
-   1. No flash of wrong theme (dark blinks to light or vice versa)
-   2. No flash of mixed language (both ID+EN visible briefly)
+   GDSI Core — runs in <head> BEFORE any content renders.
+   Sets lang attribute immediately to prevent flash of mixed content.
+   No automatic dark/light mode — site uses light theme only.
    ============================================================ */
 (function () {
   'use strict';
-
-  // ── 1. LANGUAGE — set data-gdsi-lang NOW ──────────────────
   var lang = 'id';
   try {
     var saved = window.localStorage.getItem('gdsi_lang');
@@ -22,24 +19,6 @@
   } catch (e) {}
   document.documentElement.setAttribute('data-gdsi-lang', lang);
   document.documentElement.setAttribute('lang', lang);
-
-  // ── 2. DARK / LIGHT — set .dark class NOW ─────────────────
-  function isDarkHour(d) {
-    var h = d.getHours();
-    return h < 6 || h >= 18;
-  }
-
-  function applyTheme() {
-    var dark = isDarkHour(new Date());
-    document.documentElement.classList.toggle('dark', dark);
-    document.documentElement.setAttribute('data-gdsi-theme', dark ? 'dark' : 'light');
-  }
-
-  applyTheme();
-
-  // Re-check every minute so open tabs flip at 06:00 / 18:00.
-  window.GDSI_THEME = { recheck: applyTheme };
-  setInterval(applyTheme, 60 * 1000);
 })();
 </script>
 <style id="gdsi-theme-vars">
@@ -107,65 +86,7 @@
   --gdsi-on-primary: 255 255 255;
 }
 
-html.dark {
-  --gdsi-primary-fixed-dim: 255 180 172;
-  --gdsi-surface-dim: 14 12 12;
-  --gdsi-surface-variant: 74 56 53;
-  --gdsi-surface: 18 18 18;
-  --gdsi-primary: 255 85 102;
-  --gdsi-tertiary-fixed-dim: 196 198 204;
-  --gdsi-secondary-fixed-dim: 200 198 197;
-  --gdsi-primary-container: 147 0 13;
-  --gdsi-secondary-container: 71 71 70;
-  --gdsi-on-primary-container: 255 218 214;
-  --gdsi-outline-variant: 74 56 53;
-  --gdsi-on-primary-fixed-variant: 147 0 13;
-  --gdsi-error-container: 147 0 10;
-  --gdsi-on-tertiary-fixed: 24 28 32;
-  --gdsi-tertiary-container: 56 59 63;
-  --gdsi-surface-container-highest: 52 41 40;
-  --gdsi-secondary-fixed: 229 226 225;
-  --gdsi-on-secondary-container: 229 226 225;
-  --gdsi-on-secondary: 50 47 47;
-  --gdsi-on-tertiary: 40 42 47;
-  --gdsi-secondary: 200 198 197;
-  --gdsi-inverse-on-surface: 25 28 29;
-  --gdsi-on-tertiary-container: 224 226 232;
-  --gdsi-tertiary: 196 198 204;
-  --gdsi-on-error: 105 0 5;
-  --gdsi-on-background: 236 224 223;
-  --gdsi-surface-container-low: 26 22 20;
-  --gdsi-on-surface: 236 224 223;
-  --gdsi-primary-fixed: 255 218 214;
-  --gdsi-on-error-container: 255 218 214;
-  --gdsi-outline: 160 140 137;
-  --gdsi-error: 255 180 171;
-  --gdsi-surface-container: 30 26 25;
-  --gdsi-on-surface-variant: 216 194 191;
-  --gdsi-tertiary-fixed: 224 226 232;
-  --gdsi-inverse-surface: 236 224 223;
-  --gdsi-surface-container-lowest: 12 10 10;
-  --gdsi-surface-bright: 58 48 47;
-  --gdsi-on-tertiary-fixed-variant: 68 71 75;
-  --gdsi-surface-container-high: 41 34 33;
-  --gdsi-on-primary-fixed: 65 0 2;
-  --gdsi-inverse-primary: 183 0 19;
-  --gdsi-background: 18 18 18;
-  --gdsi-surface-tint: 255 85 102;
-  --gdsi-on-secondary-fixed: 28 27 27;
-  --gdsi-on-secondary-fixed-variant: 71 71 70;
-  --gdsi-on-primary: 74 0 9;
-}
 
-/* Smooth, non-jarring theme transition */
-body, .glass-panel, header, footer, section, .social-pill, .qr-modal-card {
-  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
-}
-@media (prefers-reduced-motion: reduce) {
-  body, .glass-panel, header, footer, section, .social-pill, .qr-modal-card {
-    transition: none !important;
-  }
-}
 
 /* ============================================================
    Language show/hide — driven by html[data-gdsi-lang]
@@ -189,7 +110,6 @@ body, .glass-panel, header, footer, section, .social-pill, .qr-modal-card {
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
         tailwind.config = {
-            darkMode: "class",
             theme: {
                 extend: {
                     "colors": {
@@ -411,17 +331,6 @@ body, .glass-panel, header, footer, section, .social-pill, .qr-modal-card {
         [data-gdsi-lang="id"] .lang-en-only { display: none !important; }
 
         /* ===== dark mode body override ===== */
-        html.dark body {
-            background-color: rgb(var(--gdsi-background));
-            color: rgb(var(--gdsi-on-background));
-        }
-        html.dark .glass-panel {
-            background: rgba(var(--gdsi-surface-container) / 0.85);
-            border-color: rgb(var(--gdsi-surface-variant));
-        }
-        html.dark nav.glass-panel {
-            background: rgba(var(--gdsi-surface-container) / 0.92);
-        }
 </style>
 </head>
 <body class="bg-background text-on-background antialiased selection:bg-primary-container selection:text-on-primary-container relative overflow-x-hidden">

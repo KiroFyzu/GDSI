@@ -364,30 +364,13 @@ input:focus { border-color: #ff5566; }
     <!-- Web Analytics -->
     <div class="card" id="analytics-card" style="display:none;">
       <div class="section-header">
-        <span class="section-title">👥 Web Analytics <span style="font-size:10px;color:#6f6765;font-weight:400;margin-left:4px;">7 hari terakhir</span></span>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <button class="analytics-refresh" onclick="loadAnalytics()">↻</button>
-          <a id="vercel-analytics-link" href="#" target="_blank" class="vercel-link">Vercel ↗</a>
-        </div>
+        <span class="section-title">👥 Web Analytics</span>
+        <a id="vercel-analytics-link" href="#" target="_blank" class="vercel-link">Buka di Vercel ↗</a>
       </div>
-      <div class="metric-grid">
-        <div class="metric-card">
-          <div class="metric-val" id="stat-visitors">—</div>
-          <div class="metric-lbl">Visitors</div>
-          <div class="metric-delta" id="stat-visitors-delta"></div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val" id="stat-views">—</div>
-          <div class="metric-lbl">Page Views</div>
-          <div class="metric-delta" id="stat-views-delta"></div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-val" id="stat-bounce">—</div>
-          <div class="metric-lbl">Bounce Rate</div>
-        </div>
-      </div>
-      <div style="margin-bottom:8px;font-size:11px;font-weight:700;color:#6f6765;letter-spacing:.08em;text-transform:uppercase;">Top Pages</div>
-      <div id="top-pages-list"><div class="skeleton"></div></div>
+      <p style="font-size:11px;color:#6f6765;margin-bottom:12px;line-height:1.6;">
+        Vercel Analytics API hanya bisa diakses dari server (CORS policy). Klik link di atas untuk lihat data lengkap di Vercel dashboard.
+      </p>
+      <div id="top-pages-list"></div>
     </div>
 
     <!-- Speed Insights / Core Web Vitals -->
@@ -504,9 +487,17 @@ input:focus { border-color: #ff5566; }
     // Load existing values from Firestore
     if (PROJECT_ID && API_KEY) {
       fetch(firestoreUrl('gdsi_cms/youtube'))
-        .then(function(r) { return r.ok ? r.json() : null; })
+        .then(function(r) {
+          if (r.status === 404) return null; // doc not created yet — will be created on first save
+          return r.ok ? r.json() : null;
+        })
         .then(function(data) {
-          if (!data || !data.fields) return;
+          if (!data || !data.fields) {
+            // Show hint that documents don't exist yet
+            var st = document.getElementById('saveStatus');
+            if (st) { st.textContent = 'ℹ️ Dokumen Firestore belum dibuat. Isi video ID dan klik Simpan untuk membuat otomatis.'; st.className = 'status loading'; }
+            return;
+          }
           var v1 = data.fields.video1 && data.fields.video1.stringValue;
           var v2 = data.fields.video2 && data.fields.video2.stringValue;
           if (v1) { document.getElementById('v1Input').value = v1; updateThumb('v1', v1); }
@@ -774,108 +765,54 @@ input:focus { border-color: #ff5566; }
           + '</div>';
       }).join('');
     } catch(err) {
-      el.innerHTML = '<p class="tip" style="color:#ff5566;">Error: ' + err.message + '</p>';
+      var isCors = err.message && (err.message.indexOf('CORS') !== -1 || err.message.indexOf('Failed to fetch') !== -1 || err.message.indexOf('NetworkError') !== -1);
+      if (isCors) {
+        el.innerHTML = '<p class="tip" style="color:#fbbf24;">Deployment API diblokir CORS. '
+          + '<a href="https://vercel.com/dashboard/' + projectSlug + '/deployments" target="_blank" style="color:#ff5566;">Buka di Vercel ↗</a></p>';
+      } else {
+        el.innerHTML = '<p class="tip" style="color:#ff5566;">Error: ' + err.message + ' — <a href="https://vercel.com/dashboard/' + projectSlug + '/deployments" target="_blank" style="color:#ff5566;">Vercel ↗</a></p>';
+      }
     }
   };
 
   // ── Web Analytics ─────────────────────────────────────────
-  window.loadAnalytics = async function() {
+  window.loadAnalytics = function() {
+    // Vercel Analytics API tidak bisa diakses langsung dari browser (CORS policy).
+    // Tampilkan link langsung ke Vercel dashboard.
     var topEl = document.getElementById('top-pages-list');
-    topEl.innerHTML = '<div class="skeleton"></div>';
     ['stat-visitors','stat-views','stat-bounce'].forEach(function(id) {
-      var el = document.getElementById(id); if (el) el.textContent = '—';
+      var el = document.getElementById(id);
+      if (el) { el.textContent = '—'; el.title = 'Buka di Vercel untuk melihat data'; }
     });
-
-    var now = Date.now();
-    var from7d = now - 7 * 24 * 3600 * 1000;
-    var from14d = now - 14 * 24 * 3600 * 1000;
-
-    try {
-      // Try Vercel Analytics API v1
-      var data = await vFetch('/v1/analytics/projects/' + projectId + '/summary', {
-        from: from7d, to: now, filter: '{}'
-      });
-
-      // Some versions return {data: {...}}, others return top-level
-      var summary = data.data || data;
-      var visitors = summary.uniqueVisitors || summary.visitors || summary.uniques || null;
-      var views = summary.pageViews || summary.views || summary.total || null;
-      var bounce = summary.bounceRate != null ? Math.round(summary.bounceRate * 100) + '%' : null;
-
-      document.getElementById('stat-visitors').textContent = fmtNum(visitors);
-      document.getElementById('stat-views').textContent = fmtNum(views);
-      document.getElementById('stat-bounce').textContent = bounce || '—';
-
-      // Top pages
-      var pagesData = await vFetch('/v1/analytics/projects/' + projectId + '/top-pages', {
-        from: from7d, to: now, limit: 6
-      });
-      var pages = (pagesData.data || pagesData.pages || pagesData || []);
-      if (Array.isArray(pages) && pages.length) {
-        var maxV = pages[0].views || pages[0].value || pages[0].count || 1;
-        topEl.innerHTML = pages.map(function(p) {
-          var path = p.path || p.page || p.key || '?';
-          var val  = p.views || p.value || p.count || 0;
-          var pct  = Math.round((val / maxV) * 100);
-          return '<div class="top-page-row">'
-            + '<span class="top-page-path">' + path + '</span>'
-            + '<span class="top-page-val">' + fmtNum(val) + '</span>'
-            + '</div>'
-            + '<div class="bar-wrap"><div class="bar-fill" style="width:' + pct + '%"></div></div>';
-        }).join('');
-      } else {
-        topEl.innerHTML = '<p class="tip">No page data. <a href="https://vercel.com/dashboard" target="_blank" style="color:#ff5566;">View in Vercel ↗</a></p>';
-      }
-    } catch(err) {
-      // API might have changed — show fallback with direct link
-      document.getElementById('stat-visitors').textContent = 'N/A';
-      document.getElementById('stat-views').textContent = 'N/A';
-      document.getElementById('stat-bounce').textContent = 'N/A';
-      topEl.innerHTML = '<p class="tip" style="color:#fbbf24;">Analytics API tidak bisa diakses langsung. '
-        + '<a id="va-fallback-link" href="#" target="_blank" style="color:#ff5566;">Buka di Vercel ↗</a></p>';
-      var fbLink = document.getElementById('va-fallback-link');
-      if (fbLink) fbLink.href = 'https://vercel.com/dashboard/' + projectSlug + '/analytics';
+    if (topEl) {
+      topEl.innerHTML = '<div style="text-align:center;padding:16px 0;">'
+        + '<p style="font-size:12px;color:#6f6765;margin-bottom:12px;">Vercel Analytics API tidak bisa diakses dari browser langsung (CORS). Buka di Vercel untuk data lengkap.</p>'
+        + '<a id="va-open-link" href="#" target="_blank" style="display:inline-block;background:#ff5566;color:#fff;text-decoration:none;font-size:12px;font-weight:700;padding:8px 20px;border-radius:8px;letter-spacing:.06em;">Buka Analytics di Vercel ↗</a>'
+        + '</div>';
+      var link = document.getElementById('va-open-link');
+      if (link) link.href = 'https://vercel.com/dashboard/' + projectSlug + '/analytics';
     }
   };
 
   // ── Speed Insights / Core Web Vitals ─────────────────────
-  window.loadVitals = async function() {
+  window.loadVitals = function() {
+    // Vercel Speed Insights API tidak bisa diakses dari browser langsung (CORS policy).
     var el = document.getElementById('vitals-list');
-    el.innerHTML = '<div class="skeleton" style="height:120px;"></div>';
+    if (!el) return;
 
-    var now = Date.now();
-    var from7d = now - 7 * 24 * 3600 * 1000;
-
-    var vitals = [
-      { key: 'lcp',  name: 'LCP',  label: 'Largest Contentful Paint' },
-      { key: 'fcp',  name: 'FCP',  label: 'First Contentful Paint' },
-      { key: 'ttfb', name: 'TTFB', label: 'Time to First Byte' },
-      { key: 'inp',  name: 'INP',  label: 'Interaction to Next Paint' },
-      { key: 'cls',  name: 'CLS',  label: 'Cumulative Layout Shift' },
-    ];
-
-    try {
-      var data = await vFetch('/v1/speed-insights/projects/' + projectId + '/vitals', {
-        from: from7d, to: now
-      });
-
-      var raw = data.data || data.vitals || data || {};
-
-      el.innerHTML = vitals.map(function(v) {
-        // Vercel returns p75 value (75th percentile)
-        var entry = raw[v.key] || raw[v.name.toLowerCase()] || null;
-        var val = entry ? (entry.p75 || entry.value || entry.median || entry) : null;
-        if (typeof val === 'object') val = null;
-        return '<div class="vitals-row">'
-          + '<span class="vitals-name">' + v.name + '</span>'
-          + '<span class="vitals-value" title="' + v.label + '">' + fmtVital(v.name, val) + '</span>'
-          + vitalBadge(v.name, val)
-          + '</div>';
-      }).join('');
-    } catch(err) {
-      el.innerHTML = '<p class="tip" style="color:#fbbf24;">Speed Insights API tidak tersedia. '
-        + '<a href="https://vercel.com/dashboard/' + projectSlug + '/speed-insights" target="_blank" style="color:#ff5566;">Buka di Vercel ↗</a></p>';
-    }
+    var vitals = ['LCP','FCP','TTFB','INP','CLS'];
+    el.innerHTML = vitals.map(function(name) {
+      return '<div class="vitals-row">'
+        + '<span class="vitals-name">' + name + '</span>'
+        + '<span class="vitals-value" style="color:#6f6765;font-size:11px;">lihat Vercel</span>'
+        + '<span class="vitals-badge badge-none">—</span>'
+        + '</div>';
+    }).join('')
+    + '<div style="text-align:center;padding:12px 0 4px;">'
+    + '<a id="speed-open-link" href="#" target="_blank" style="display:inline-block;background:#ff5566;color:#fff;text-decoration:none;font-size:12px;font-weight:700;padding:8px 20px;border-radius:8px;letter-spacing:.06em;">Buka Speed Insights di Vercel ↗</a>'
+    + '</div>';
+    var link = document.getElementById('speed-open-link');
+    if (link) link.href = 'https://vercel.com/dashboard/' + projectSlug + '/speed-insights';
   };
 
   // ── Master init ───────────────────────────────────────────
