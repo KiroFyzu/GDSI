@@ -2,6 +2,7 @@
 
 <html class="scroll-smooth" lang="id"><head>
 <meta charset="utf-8"/>
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Grand Drift Series Indonesia</title>
 <script>
@@ -1171,13 +1172,12 @@
 
   // ---- Firebase config (populated from VITE env at build, or inline for CDN usage) ----
   // Uses the Firestore REST API — no SDK needed for reads.
-  var PROJECT_ID = typeof import_meta_env_VITE_FIREBASE_PROJECT_ID !== 'undefined'
-    ? import_meta_env_VITE_FIREBASE_PROJECT_ID
-    : (window.__GDSI_FB_PROJECT || '');
-
-  var API_KEY = typeof import_meta_env_VITE_FIREBASE_API_KEY !== 'undefined'
-    ? import_meta_env_VITE_FIREBASE_API_KEY
-    : (window.__GDSI_FB_KEY || '');
+  // Firebase config — replaced by Vite at build time from Vercel env vars
+  var PROJECT_ID = '%VITE_FIREBASE_PROJECT_ID%';
+  var API_KEY    = '%VITE_FIREBASE_API_KEY%';
+  // Guard: fallback if env var not replaced
+  if (PROJECT_ID.indexOf('%VITE_') === 0) PROJECT_ID = '';
+  if (API_KEY.indexOf('%VITE_')    === 0) API_KEY    = '';
 
   // CMS video IDs (from Firestore or fallback)
   var videoIds = {};

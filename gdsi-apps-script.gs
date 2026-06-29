@@ -483,18 +483,144 @@ function jsonResponse(data) {
 // ============================================
 // GET — Status Check
 // ============================================
+// ============================================
+// ADMIN_SECRET — sama dengan PWD_HASH di admin.html
+// SHA-256 dari password admin (Winter#12326)
+// ============================================
+var ADMIN_SECRET = 'cdbece8ec39792cd9670a71dd7f1a01587b8c1f604c078839d3837ffd215ef43';
+
 function doGet(e) {
-  return jsonResponse({
-    status: "GDSI Endpoint Active",
-    version: "3.0",
-    config: {
-      parentFolder: CONFIG.PARENT_FOLDER_NAME,
-      eventFolder: CONFIG.EVENT_FOLDER_NAME || "(none)",
-      maxFileSizeMB: CONFIG.MAX_FILE_SIZE_MB,
-      emailFrom: CONFIG.FROM_EMAIL || "(default google account)",
-      emailEnabled: true
+  var action = e.parameter.action || 'status';
+  var auth   = e.parameter.auth   || '';
+
+  // Health check (no auth needed)
+  if (action === 'status') {
+    return jsonResponse({
+      status  : "GDSI Endpoint Active",
+      version : "3.0",
+      config  : {
+        parentFolder : CONFIG.PARENT_FOLDER_NAME,
+        eventFolder  : CONFIG.EVENT_FOLDER_NAME || "(none)",
+        maxFileSizeMB: CONFIG.MAX_FILE_SIZE_MB,
+        emailFrom    : CONFIG.FROM_EMAIL || "(default google account)",
+        emailEnabled : true
+      }
+    });
+  }
+
+  // All other actions require admin auth
+  if (auth !== ADMIN_SECRET) {
+    return jsonResponse({ success: false, error: 'Unauthorized' });
+  }
+
+  if (action === 'participants') {
+    return getParticipants();
+  }
+
+  if (action === 'qtt_list') {
+    return getQttList();
+  }
+
+  return jsonResponse({ success: false, error: 'Unknown action: ' + action });
+}
+
+// ============================================
+// GET PARTICIPANTS — dari GDSI_Registrations sheet
+// ============================================
+function getParticipants() {
+  try {
+    var ss    = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('GDSI_Registrations');
+    if (!sheet) return jsonResponse({ success: true, data: [], message: 'Sheet GDSI_Registrations belum ada' });
+
+    var rows = sheet.getDataRange().getValues();
+    if (rows.length <= 1) return jsonResponse({ success: true, data: [] });
+
+    var headers = rows[0];   // Timestamp,UID,Name,Email,WhatsApp,UsernameID,Country,ClubTeam,Car,Engine,RegisteredAt
+    var data = [];
+    for (var i = 1; i < rows.length; i++) {
+      var row = rows[i];
+      if (!row[1]) continue; // skip empty rows
+      data.push({
+        no          : i,
+        timestamp   : row[0] ? Utilities.formatDate(new Date(row[0]), 'Asia/Jakarta', 'dd/MM/yyyy HH:mm') : '',
+        uid         : row[1] || '',
+        name        : row[2] || '',
+        email       : row[3] || '',
+        whatsapp    : row[4] || '',
+        usernameId  : row[5] || '',
+        country     : row[6] || '',
+        clubTeam    : row[7] || '',
+        car         : row[8] || '',
+        engine      : row[9] || '',
+        registeredAt: row[10] || ''
+      });
     }
-  });
+
+    // Cross-reference QTT status
+    var qttSheet = ss.getSheetByName('GDSI_QTT_Submissions');
+    var qttUids  = {};
+    if (qttSheet) {
+      var qttRows = qttSheet.getDataRange().getValues();
+      for (var j = 1; j < qttRows.length; j++) {
+        var qRow = qttRows[j];
+        if (qRow[2]) qttUids[qRow[2]] = {
+          submittedAt : qRow[0] ? Utilities.formatDate(new Date(qRow[0]), 'Asia/Jakarta', 'dd/MM/yyyy HH:mm') : '',
+          videoUrl    : qRow[8] || '',
+          fileSize    : qRow[12] || ''
+        };
+      }
+    }
+
+    data.forEach(function(p) {
+      p.qttStatus = qttUids[p.uid] ? 'Submitted' : 'Belum';
+      p.qttData   = qttUids[p.uid] || null;
+    });
+
+    return jsonResponse({ success: true, data: data, total: data.length });
+  } catch (err) {
+    return jsonResponse({ success: false, error: err.toString() });
+  }
+}
+
+// ============================================
+// GET QTT LIST — dari GDSI_QTT_Submissions sheet
+// ============================================
+function getQttList() {
+  try {
+    var ss    = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName('GDSI_QTT_Submissions');
+    if (!sheet) return jsonResponse({ success: true, data: [], message: 'Sheet GDSI_QTT_Submissions belum ada' });
+
+    var rows = sheet.getDataRange().getValues();
+    if (rows.length <= 1) return jsonResponse({ success: true, data: [] });
+
+    var data = [];
+    for (var i = 1; i < rows.length; i++) {
+      var row = rows[i];
+      if (!row[2]) continue;
+      data.push({
+        no          : i,
+        timestamp   : row[0] ? Utilities.formatDate(new Date(row[0]), 'Asia/Jakarta', 'dd/MM/yyyy HH:mm') : '',
+        event       : row[1] || '',
+        uid         : row[2] || '',
+        username    : row[3] || '',
+        email       : row[4] || '',
+        vehicle     : row[5] || '',
+        engine      : row[6] || '',
+        country     : row[7] || '',
+        videoUrl    : row[8] || '',
+        fileId      : row[9] || '',
+        fileName    : row[10] || '',
+        folderPath  : row[11] || '',
+        fileSize    : row[12] || ''
+      });
+    }
+
+    return jsonResponse({ success: true, data: data, total: data.length });
+  } catch (err) {
+    return jsonResponse({ success: false, error: err.toString() });
+  }
 }
 
 // ============================================

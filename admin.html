@@ -2,6 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8"/>
+<link rel="icon" href="/favicon.ico" type="image/x-icon"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <meta name="robots" content="noindex, nofollow, noarchive"/>
 <title>GDSI Admin CMS</title>
@@ -106,139 +107,49 @@ input:focus { border-color: #ff5566; }
 .maint-btn:hover { opacity: .8; }
 .maint-btn:disabled { opacity: .4; cursor: not-allowed; }
 
-/* ── Analytics section ── */
-.metric-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 16px;
+/* ── Participant list ── */
+.participant-table { width:100%; border-collapse:collapse; font-size:12px; }
+.participant-table th {
+  background:#b70013; color:#fff; padding:8px 10px;
+  text-align:left; font-weight:700; font-size:11px;
+  letter-spacing:.04em; text-transform:uppercase; white-space:nowrap;
 }
-.metric-card {
-  background: #0c0a0a;
-  border: 1px solid #2e2a29;
-  border-radius: 12px;
-  padding: 12px;
-  text-align: center;
+.participant-table td {
+  padding:8px 10px; border-bottom:1px solid #2e2a29;
+  color:#ece0df; vertical-align:middle;
 }
-.metric-val {
-  font-size: 22px;
-  font-weight: 800;
-  color: #ece0df;
-  letter-spacing: -.03em;
-  line-height: 1;
-  margin-bottom: 4px;
+.participant-table tr:hover td { background:#1e1a19; }
+.participant-table .uid-cell { font-family:'Courier New',monospace; font-size:10px; color:#a08c89; }
+.participant-table .wa-cell  { color:#4ade80; }
+.participant-table .badge-submitted { background:#1e4d2b; color:#4ade80; padding:2px 8px; border-radius:99px; font-size:10px; font-weight:700; white-space:nowrap; }
+.participant-table .badge-pending   { background:#2e2a29; color:#a08c89;  padding:2px 8px; border-radius:99px; font-size:10px; font-weight:700; }
+.participant-table .badge-submitted-qtt { background:#1a3a5c; color:#60a5fa; padding:2px 8px; border-radius:99px; font-size:10px; font-weight:700; }
+.table-wrap { overflow-x:auto; border-radius:12px; border:1px solid #2e2a29; }
+.list-toolbar {
+  display:flex; align-items:center; gap:8px; margin-bottom:12px; flex-wrap:wrap;
 }
-.metric-lbl {
-  font-size: 10px;
-  color: #6f6765;
-  text-transform: uppercase;
-  letter-spacing: .08em;
+.list-search {
+  flex:1; min-width:160px; padding:8px 12px;
+  border:1.5px solid #4a3835; border-radius:10px;
+  background:#0c0a0a; color:#ece0df; font-size:13px; outline:none;
 }
-.metric-delta {
-  font-size: 11px;
-  font-weight: 700;
-  margin-top: 3px;
+.list-search:focus { border-color:#ff5566; }
+.list-filter {
+  padding:8px 10px; border:1.5px solid #4a3835; border-radius:10px;
+  background:#0c0a0a; color:#ece0df; font-size:12px; outline:none; cursor:pointer;
 }
-.delta-up   { color: #4ade80; }
-.delta-down { color: #ff5566; }
-.vitals-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 9px 0;
-  border-bottom: 1px solid #1e1a19;
+.dl-btn {
+  padding:7px 14px; border:none; border-radius:9px;
+  font-size:11px; font-weight:700; cursor:pointer;
+  letter-spacing:.04em; text-transform:uppercase; transition:opacity .2s;
 }
-.vitals-row:last-child { border-bottom: none; }
-.vitals-name  { font-size: 13px; font-weight: 700; color: #ece0df; width: 48px; }
-.vitals-value { font-size: 13px; color: #ece0df; flex: 1; padding-left: 12px; }
-.vitals-badge {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 99px;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-}
-.badge-good  { background: #1e4d2b; color: #4ade80; }
-.badge-meh   { background: #4d3b00; color: #fbbf24; }
-.badge-poor  { background: #4d1e1e; color: #ff5566; }
-.badge-none  { background: #2e2a29; color: #6f6765; }
-.bar-wrap {
-  background: #2e2a29;
-  border-radius: 99px;
-  height: 4px;
-  overflow: hidden;
-  margin-top: 5px;
-}
-.bar-fill {
-  height: 4px;
-  border-radius: 99px;
-  background: #ff5566;
-  transition: width .6s ease;
-}
-.deploy-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid #1e1a19;
-}
-.deploy-row:last-child { border-bottom: none; }
-.deploy-dot {
-  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
-}
-.dot-ready   { background: #4ade80; }
-.dot-build   { background: #fbbf24; }
-.dot-error   { background: #ff5566; }
-.deploy-meta { flex: 1; min-width: 0; }
-.deploy-url  { font-size: 12px; color: #ece0df; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.deploy-time { font-size: 11px; color: #6f6765; margin-top: 2px; }
-.deploy-state { font-size: 10px; font-weight: 700; letter-spacing: .06em; color: #a08c89; text-transform: uppercase; }
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-.section-title {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  color: #a08c89;
-  text-transform: uppercase;
-}
-.vercel-link {
-  font-size: 11px;
-  color: #a08c89;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  padding: 4px 10px;
-  border: 1px solid #4a3835;
-  border-radius: 8px;
-  transition: border-color .15s;
-}
-.vercel-link:hover { border-color: #a08c89; color: #ece0df; }
-.analytics-refresh {
-  font-size: 11px;
-  color: #6f6765;
-  cursor: pointer;
-  padding: 4px 8px;
-  border: 1px solid #2e2a29;
-  border-radius: 8px;
-  background: none;
-  transition: border-color .15s;
-}
-.analytics-refresh:hover { border-color: #4a3835; color: #a08c89; }
-.skeleton {
-  background: linear-gradient(90deg, #1e1a19 25%, #2e2a29 50%, #1e1a19 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.4s infinite;
-  border-radius: 8px;
-  height: 20px;
-}
-@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.dl-csv { background:#1e4d2b; color:#4ade80; }
+.dl-pdf { background:#1a3a5c; color:#60a5fa; }
+.dl-btn:hover { opacity:.8; }
+.list-count { font-size:11px; color:#6f6765; margin-left:auto; white-space:nowrap; }
+.table-empty { text-align:center; padding:32px; color:#6f6765; font-size:13px; }
+
+/* Analytics section removed */ 100% { background-position: -200% 0; } }
 .top-page-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 12px; }
 .top-page-path { color: #ece0df; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .top-page-val  { color: #a08c89; white-space: nowrap; width: 44px; text-align: right; }
@@ -339,53 +250,80 @@ input:focus { border-color: #ff5566; }
     <h2 style="font-size:18px;font-weight:800;color:#ece0df;letter-spacing:-.02em;margin-bottom:4px;">📊 Monitoring</h2>
     <p class="subtitle" style="margin-bottom:16px;">Analytics &amp; Speed Insights langsung dari Vercel. Tidak perlu buka Vercel.</p>
 
-    <!-- Vercel config inputs -->
-    <div class="card" id="vercel-config-card">
-      <label>Vercel API Token</label>
-      <input type="password" id="vercel-token" placeholder="Paste token dari Vercel Account Settings → Tokens"/>
-      <label style="margin-top:12px;">Vercel Project Name atau ID</label>
-      <input type="text" id="vercel-project" placeholder="Contoh: gdsi-web atau prj_xxxxxxxx"/>
-      <p class="tip" style="margin-top:8px;">Token disimpan di browser ini saja. <a href="https://vercel.com/account/tokens" target="_blank" style="color:#ff5566;">Buat token di sini ↗</a></p>
-      <button class="btn" id="load-analytics-btn" style="margin-top:12px;">🔄 Load Monitoring</button>
-    </div>
 
-    <!-- Deployments -->
-    <div class="card" id="deploy-card" style="display:none;">
-      <div class="section-header">
-        <span class="section-title">🚀 Deployments</span>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <button class="analytics-refresh" onclick="loadDeployments()">↻</button>
-          <a id="vercel-deploys-link" href="#" target="_blank" class="vercel-link">Vercel ↗</a>
-        </div>
-      </div>
+
+</div>
       <div id="deploy-list"><div class="skeleton"></div></div>
     </div>
 
-    <!-- Web Analytics -->
-    <div class="card" id="analytics-card" style="display:none;">
-      <div class="section-header">
-        <span class="section-title">👥 Web Analytics</span>
-        <a id="vercel-analytics-link" href="#" target="_blank" class="vercel-link">Buka di Vercel ↗</a>
-      </div>
-      <p style="font-size:11px;color:#6f6765;margin-bottom:12px;line-height:1.6;">
+<p style="font-size:11px;color:#6f6765;margin-bottom:12px;line-height:1.6;">
         Vercel Analytics API hanya bisa diakses dari server (CORS policy). Klik link di atas untuk lihat data lengkap di Vercel dashboard.
       </p>
       <div id="top-pages-list"></div>
     </div>
 
-    <!-- Speed Insights / Core Web Vitals -->
-    <div class="card" id="vitals-card" style="display:none;">
-      <div class="section-header">
-        <span class="section-title">⚡ Core Web Vitals <span style="font-size:10px;color:#6f6765;font-weight:400;margin-left:4px;">Real users · 7 hari</span></span>
-        <div style="display:flex;gap:6px;align-items:center;">
-          <button class="analytics-refresh" onclick="loadVitals()">↻</button>
-          <a id="vercel-speed-link" href="#" target="_blank" class="vercel-link">Vercel ↗</a>
-        </div>
-      </div>
+</div>
       <div id="vitals-list"><div class="skeleton"></div></div>
     </div>
+    <div class="section-divider"></div>
 
-    <div class="status" id="analyticsStatus"></div>
+    <!-- ═══════════════════════════════════════
+         DAFTAR PESERTA REGISTRASI
+    ═══════════════════════════════════════ -->
+    <h2 style="font-size:18px;font-weight:800;color:#ece0df;letter-spacing:-.02em;margin-bottom:4px;">👥 Peserta Registrasi</h2>
+    <p class="subtitle" style="margin-bottom:14px;">Data peserta yang sudah mendaftar. Sumber: Google Sheets GDSI_Registrations.</p>
+
+    <div class="list-toolbar">
+      <input class="list-search" id="reg-search" placeholder="Cari nama, username, country..." oninput="filterTable('reg')"/>
+      <select class="list-filter" id="reg-filter-qtt" onchange="filterTable('reg')">
+        <option value="">Semua Status QTT</option>
+        <option value="Submitted">Sudah Submit QTT</option>
+        <option value="Belum">Belum Submit QTT</option>
+      </select>
+      <button class="dl-btn dl-csv" onclick="downloadCSV('reg')">⬇ CSV</button>
+      <button class="dl-btn dl-pdf" onclick="downloadPDF('reg')">⬇ PDF</button>
+      <button class="analytics-refresh" onclick="loadParticipants()" title="Refresh">↻</button>
+      <span class="list-count" id="reg-count">—</span>
+    </div>
+    <div class="table-wrap">
+      <table class="participant-table" id="reg-table">
+        <thead><tr>
+          <th>No</th><th>Nama</th><th>Username ID</th>
+          <th>Country</th><th>Club / Team</th><th>WhatsApp</th>
+          <th>Car</th><th>Engine</th><th>Status QTT</th><th>Daftar</th>
+        </tr></thead>
+        <tbody id="reg-tbody"><tr><td colspan="10" class="table-empty">Klik ↻ untuk load data</td></tr></tbody>
+      </table>
+    </div>
+    <div class="status" id="regStatus"></div>
+
+    <div class="section-divider"></div>
+
+    <!-- ═══════════════════════════════════════
+         DAFTAR PESERTA QTT
+    ═══════════════════════════════════════ -->
+    <h2 style="font-size:18px;font-weight:800;color:#ece0df;letter-spacing:-.02em;margin-bottom:4px;">🎬 Submit QTT</h2>
+    <p class="subtitle" style="margin-bottom:14px;">Peserta yang sudah submit video QTT. Sumber: Google Sheets GDSI_QTT_Submissions.</p>
+
+    <div class="list-toolbar">
+      <input class="list-search" id="qtt-search" placeholder="Cari username, country, engine..." oninput="filterTable('qtt')"/>
+      <button class="dl-btn dl-csv" onclick="downloadCSV('qtt')">⬇ CSV</button>
+      <button class="dl-btn dl-pdf" onclick="downloadPDF('qtt')">⬇ PDF</button>
+      <button class="analytics-refresh" onclick="loadQttList()" title="Refresh">↻</button>
+      <span class="list-count" id="qtt-count">—</span>
+    </div>
+    <div class="table-wrap">
+      <table class="participant-table" id="qtt-table">
+        <thead><tr>
+          <th>No</th><th>Username ID</th><th>Country</th>
+          <th>Car</th><th>Engine</th><th>File Size</th>
+          <th>Drive Link</th><th>Submit</th>
+        </tr></thead>
+        <tbody id="qtt-tbody"><tr><td colspan="8" class="table-empty">Klik ↻ untuk load data</td></tr></tbody>
+      </table>
+    </div>
+    <div class="status" id="qttListStatus"></div>
+
     <div class="section-divider"></div>
     <button class="btn btn-secondary" id="logoutBtn">Keluar</button>
   </div>
@@ -400,13 +338,13 @@ input:focus { border-color: #ff5566; }
   // Atau set sebagai Vercel Environment Variables (lebih aman):
   //   VITE_FIREBASE_PROJECT_ID dan VITE_FIREBASE_API_KEY
   // =============================================================
-  // Firebase config — injected by Vite at build time from Vercel env vars.
-  // If these still show as %VITE_...% it means the env vars are not set in Vercel.
+  // Firebase + Apps Script config — injected by Vite at build time
   var PROJECT_ID = '%VITE_FIREBASE_PROJECT_ID%';
   var API_KEY    = '%VITE_FIREBASE_API_KEY%';
-  // Guard: fallback to empty if Vite did not replace (env var missing in Vercel)
+  var GAS_URL    = '%VITE_GDSI_APPS_SCRIPT_URL%';
   if (PROJECT_ID.indexOf('%VITE_') === 0) PROJECT_ID = '';
   if (API_KEY.indexOf('%VITE_') === 0)    API_KEY    = '';
+  if (GAS_URL.indexOf('%VITE_')   === 0)  GAS_URL    = '';
 
   // Password disimpan sebagai SHA-256 hash (bukan plaintext).
   // Default hash di bawah ini = "gdsi2026admin"
@@ -482,6 +420,10 @@ input:focus { border-color: #ff5566; }
 
     if (!PROJECT_ID || !API_KEY) {
       document.getElementById('configWarn').style.display = 'block';
+    }
+    if (!window._GDSI_GAS_URL) {
+      showStatus(document.getElementById('saveStatus'),
+        'ℹ️ VITE_GDSI_APPS_SCRIPT_URL belum diset di Vercel — fitur daftar peserta tidak akan berfungsi.', 'loading');
     }
 
     // Load existing values from Firestore
@@ -640,7 +582,6 @@ input:focus { border-color: #ff5566; }
   showCms = function() {
     _origShowCms();
     setTimeout(loadMaintenanceStatus, 300);
-    setTimeout(restoreVercelConfig, 400);
   };
 
   // Auto-login if session exists
@@ -650,234 +591,279 @@ input:focus { border-color: #ff5566; }
 })();
 
 // ============================================================
-// VERCEL MONITORING — Analytics + Speed Insights
+// PARTICIPANT LIST — Fetch from Apps Script (Google Sheets)
 // ============================================================
 (function() {
   'use strict';
 
-  var VERCEL_API = 'https://api.vercel.com';
-  var token = '';
-  var projectId = '';
-  var projectSlug = '';
+  var regData  = [];  // registration list cache
+  var qttData  = [];  // QTT list cache
 
-  // ── Storage ──────────────────────────────────────────────
-  var STORE_KEY = 'gdsi_vercel_cfg';
-
-  function saveConfig() {
-    try {
-      localStorage.setItem(STORE_KEY, JSON.stringify({ token: token, project: projectSlug }));
-    } catch(e) {}
-  }
-
-  window.restoreVercelConfig = function() {
-    try {
-      var saved = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
-      if (saved.token) {
-        document.getElementById('vercel-token').value = '••••••••';
-        token = saved.token;
-      }
-      if (saved.project) {
-        document.getElementById('vercel-project').value = saved.project;
-        projectSlug = saved.project;
-      }
-      if (token && projectSlug) setTimeout(window.initAnalytics, 100);
-    } catch(e) {}
-  };
-
-  // ── Helpers ──────────────────────────────────────────────
-  function vFetch(path, params) {
-    var url = VERCEL_API + path;
-    if (params) url += '?' + new URLSearchParams(params).toString();
-    return fetch(url, {
-      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' }
-    }).then(function(r) { return r.json(); });
-  }
-
-  function timeAgo(ms) {
-    var s = Math.floor((Date.now() - ms) / 1000);
-    if (s < 60)   return s + 's ago';
-    if (s < 3600) return Math.floor(s/60) + 'm ago';
-    if (s < 86400) return Math.floor(s/3600) + 'h ago';
-    return Math.floor(s/86400) + 'd ago';
-  }
-
-  function fmtNum(n) {
-    if (!n && n !== 0) return '—';
-    if (n >= 1000000) return (n/1000000).toFixed(1) + 'M';
-    if (n >= 1000) return (n/1000).toFixed(1) + 'K';
-    return String(n);
-  }
-
-  function vitalBadge(name, value) {
-    // Thresholds per Google + Vercel (units: ms for time, unitless for CLS)
-    var thresholds = {
-      LCP:  [2500, 4000],   // good <2.5s, poor >4s
-      FCP:  [1800, 3000],
-      TTFB: [800, 1800],
-      INP:  [200, 500],
-      FID:  [100, 300],
-      CLS:  [0.1, 0.25]
-    };
-    if (!thresholds[name] || value === null || value === undefined)
-      return '<span class="vitals-badge badge-none">No data</span>';
-    var isCLS = name === 'CLS';
-    var t = thresholds[name];
-    var cls = value <= t[0] ? 'badge-good' : value <= t[1] ? 'badge-meh' : 'badge-poor';
-    var label = value <= t[0] ? 'Good' : value <= t[1] ? 'Needs improvement' : 'Poor';
-    return '<span class="vitals-badge ' + cls + '">' + label + '</span>';
-  }
-
-  function fmtVital(name, value) {
-    if (value === null || value === undefined) return '—';
-    if (name === 'CLS') return value.toFixed(3);
-    // values come in ms from API
-    if (value >= 1000) return (value/1000).toFixed(2) + 's';
-    return Math.round(value) + 'ms';
-  }
-
-  // ── Resolve project slug → ID ─────────────────────────────
-  async function resolveProject(slug) {
-    var data = await vFetch('/v9/projects/' + slug);
-    if (data.error) throw new Error(data.error.message || 'Project not found');
-    projectId = data.id;
-    projectSlug = data.name || slug;
-    return data;
-  }
-
-  // ── Deployments ───────────────────────────────────────────
-  window.loadDeployments = async function() {
-    var el = document.getElementById('deploy-list');
-    el.innerHTML = '<div class="skeleton" style="height:60px;"></div>';
-    try {
-      var data = await vFetch('/v6/deployments', { projectId: projectId, limit: 5 });
-      var deploys = data.deployments || [];
-      if (!deploys.length) { el.innerHTML = '<p class="tip">No deployments found.</p>'; return; }
-      el.innerHTML = deploys.map(function(d) {
-        var dotCls = d.state === 'READY' ? 'dot-ready' : d.state === 'ERROR' ? 'dot-error' : 'dot-build';
-        var url = 'https://' + (d.url || d.alias && d.alias[0] || '#');
-        return '<div class="deploy-row">'
-          + '<div class="deploy-dot ' + dotCls + '"></div>'
-          + '<div class="deploy-meta">'
-          + '<a href="' + url + '" target="_blank" class="deploy-url">' + (d.url || 'No URL') + '</a>'
-          + '<div class="deploy-time">' + timeAgo(d.createdAt) + ' · ' + (d.target || 'preview') + '</div>'
-          + '</div>'
-          + '<span class="deploy-state">' + (d.state || '—') + '</span>'
-          + '</div>';
-      }).join('');
-    } catch(err) {
-      var isCors = err.message && (err.message.indexOf('CORS') !== -1 || err.message.indexOf('Failed to fetch') !== -1 || err.message.indexOf('NetworkError') !== -1);
-      if (isCors) {
-        el.innerHTML = '<p class="tip" style="color:#fbbf24;">Deployment API diblokir CORS. '
-          + '<a href="https://vercel.com/dashboard/' + projectSlug + '/deployments" target="_blank" style="color:#ff5566;">Buka di Vercel ↗</a></p>';
-      } else {
-        el.innerHTML = '<p class="tip" style="color:#ff5566;">Error: ' + err.message + ' — <a href="https://vercel.com/dashboard/' + projectSlug + '/deployments" target="_blank" style="color:#ff5566;">Vercel ↗</a></p>';
-      }
-    }
-  };
-
-  // ── Web Analytics ─────────────────────────────────────────
-  window.loadAnalytics = function() {
-    // Vercel Analytics API tidak bisa diakses langsung dari browser (CORS policy).
-    // Tampilkan link langsung ke Vercel dashboard.
-    var topEl = document.getElementById('top-pages-list');
-    ['stat-visitors','stat-views','stat-bounce'].forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) { el.textContent = '—'; el.title = 'Buka di Vercel untuk melihat data'; }
+  // ── Fetch helpers ─────────────────────────────────────────
+  function gasGet(action) {
+    if (!window.GAS_URL) return Promise.reject(new Error('GAS_URL tidak tersedia. Set VITE_GDSI_APPS_SCRIPT_URL di Vercel.'));
+    var hash = 'cdbece8ec39792cd9670a71dd7f1a01587b8c1f604c078839d3837ffd215ef43';
+    var url  = window.GAS_URL + '?action=' + action + '&auth=' + hash;
+    return fetch(url).then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
     });
-    if (topEl) {
-      topEl.innerHTML = '<div style="text-align:center;padding:16px 0;">'
-        + '<p style="font-size:12px;color:#6f6765;margin-bottom:12px;">Vercel Analytics API tidak bisa diakses dari browser langsung (CORS). Buka di Vercel untuk data lengkap.</p>'
-        + '<a id="va-open-link" href="#" target="_blank" style="display:inline-block;background:#ff5566;color:#fff;text-decoration:none;font-size:12px;font-weight:700;padding:8px 20px;border-radius:8px;letter-spacing:.06em;">Buka Analytics di Vercel ↗</a>'
-        + '</div>';
-      var link = document.getElementById('va-open-link');
-      if (link) link.href = 'https://vercel.com/dashboard/' + projectSlug + '/analytics';
-    }
-  };
+  }
 
-  // ── Speed Insights / Core Web Vitals ─────────────────────
-  window.loadVitals = function() {
-    // Vercel Speed Insights API tidak bisa diakses dari browser langsung (CORS policy).
-    var el = document.getElementById('vitals-list');
+  function showListStatus(elId, msg, type) {
+    var el = document.getElementById(elId);
     if (!el) return;
+    el.textContent = msg; el.className = 'status ' + type;
+  }
 
-    var vitals = ['LCP','FCP','TTFB','INP','CLS'];
-    el.innerHTML = vitals.map(function(name) {
-      return '<div class="vitals-row">'
-        + '<span class="vitals-name">' + name + '</span>'
-        + '<span class="vitals-value" style="color:#6f6765;font-size:11px;">lihat Vercel</span>'
-        + '<span class="vitals-badge badge-none">—</span>'
-        + '</div>';
-    }).join('')
-    + '<div style="text-align:center;padding:12px 0 4px;">'
-    + '<a id="speed-open-link" href="#" target="_blank" style="display:inline-block;background:#ff5566;color:#fff;text-decoration:none;font-size:12px;font-weight:700;padding:8px 20px;border-radius:8px;letter-spacing:.06em;">Buka Speed Insights di Vercel ↗</a>'
-    + '</div>';
-    var link = document.getElementById('speed-open-link');
-    if (link) link.href = 'https://vercel.com/dashboard/' + projectSlug + '/speed-insights';
+  // ── Load registrations ─────────────────────────────────────
+  window.loadParticipants = function() {
+    showListStatus('regStatus', 'Memuat data peserta...', 'loading');
+    gasGet('participants')
+    .then(function(res) {
+      if (!res.success) throw new Error(res.error || 'Gagal load');
+      regData = res.data || [];
+      renderRegTable(regData);
+      showListStatus('regStatus', '✅ ' + regData.length + ' peserta dimuat.', 'success');
+      setTimeout(function(){ document.getElementById('regStatus').className='status'; }, 3000);
+    })
+    .catch(function(err) {
+      showListStatus('regStatus', '❌ ' + err.message, 'error');
+    });
   };
 
-  // ── Master init ───────────────────────────────────────────
-  window.initAnalytics = async function() {
-    var inputToken = document.getElementById('vercel-token').value.trim();
-    var inputProj  = document.getElementById('vercel-project').value.trim();
+  // ── Load QTT submissions ───────────────────────────────────
+  window.loadQttList = function() {
+    showListStatus('qttListStatus', 'Memuat data QTT...', 'loading');
+    gasGet('qtt_list')
+    .then(function(res) {
+      if (!res.success) throw new Error(res.error || 'Gagal load');
+      qttData = res.data || [];
+      renderQttTable(qttData);
+      showListStatus('qttListStatus', '✅ ' + qttData.length + ' submission dimuat.', 'success');
+      setTimeout(function(){ document.getElementById('qttListStatus').className='status'; }, 3000);
+    })
+    .catch(function(err) {
+      showListStatus('qttListStatus', '❌ ' + err.message, 'error');
+    });
+  };
 
-    // If user typed a new token (not the masked one), use it
-    if (inputToken && inputToken !== '••••••••') token = inputToken;
-    if (inputProj) projectSlug = inputProj;
-
-    if (!token || !projectSlug) {
-      showAnalyticsStatus('Isi Vercel API Token dan Project Name terlebih dahulu.', 'error');
+  // ── Render Registration Table ──────────────────────────────
+  function renderRegTable(data) {
+    var tbody = document.getElementById('reg-tbody');
+    var count = document.getElementById('reg-count');
+    if (!tbody) return;
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="10" class="table-empty">Belum ada peserta</td></tr>';
+      if (count) count.textContent = '0 peserta';
       return;
     }
+    tbody.innerHTML = data.map(function(p, i) {
+      var qttBadge = p.qttStatus === 'Submitted'
+        ? '<span class="badge-submitted">✅ Submitted</span>'
+        : '<span class="badge-pending">⏳ Belum</span>';
+      return '<tr>'
+        + '<td>' + (i+1) + '</td>'
+        + '<td><strong>' + esc(p.name) + '</strong><br><small class="uid-cell">' + esc(p.email) + '</small></td>'
+        + '<td class="uid-cell">' + esc(p.usernameId) + '</td>'
+        + '<td>' + esc(p.country) + '</td>'
+        + '<td>' + esc(p.clubTeam || '—') + '</td>'
+        + '<td class="wa-cell"><a href="https://wa.me/' + esc(p.whatsapp.replace(/[^0-9]/g,'')) + '" target="_blank" style="color:#4ade80;text-decoration:none;">' + esc(p.whatsapp) + '</a></td>'
+        + '<td>' + esc(p.car) + '</td>'
+        + '<td>' + esc(p.engine) + '</td>'
+        + '<td>' + qttBadge + '</td>'
+        + '<td style="font-size:10px;color:#6f6765;">' + esc(p.timestamp) + '</td>'
+        + '</tr>';
+    }).join('');
+    if (count) count.textContent = data.length + ' peserta';
+  }
 
-    showAnalyticsStatus('Menghubungkan ke Vercel...', 'loading');
+  // ── Render QTT Table ───────────────────────────────────────
+  function renderQttTable(data) {
+    var tbody = document.getElementById('qtt-tbody');
+    var count = document.getElementById('qtt-count');
+    if (!tbody) return;
+    if (!data.length) {
+      tbody.innerHTML = '<tr><td colspan="8" class="table-empty">Belum ada submission QTT</td></tr>';
+      if (count) count.textContent = '0 submission';
+      return;
+    }
+    tbody.innerHTML = data.map(function(p, i) {
+      var driveLink = p.videoUrl
+        ? '<a href="' + esc(p.videoUrl) + '" target="_blank" style="color:#60a5fa;font-size:11px;">Buka ↗</a>'
+        : '—';
+      return '<tr>'
+        + '<td>' + (i+1) + '</td>'
+        + '<td><strong class="uid-cell">' + esc(p.username) + '</strong><br><small style="color:#6f6765;font-size:10px;">' + esc(p.email) + '</small></td>'
+        + '<td>' + esc(p.country) + '</td>'
+        + '<td>' + esc(p.vehicle) + '</td>'
+        + '<td>' + esc(p.engine) + '</td>'
+        + '<td style="font-size:11px;">' + esc(p.fileSize || '—') + '</td>'
+        + '<td>' + driveLink + '</td>'
+        + '<td style="font-size:10px;color:#6f6765;">' + esc(p.timestamp) + '</td>'
+        + '</tr>';
+    }).join('');
+    if (count) count.textContent = data.length + ' submission';
+  }
 
-    try {
-      var proj = await resolveProject(projectSlug);
-      saveConfig();
-
-      // Show analytics cards
-      ['deploy-card','analytics-card','vitals-card'].forEach(function(id) {
-        var el = document.getElementById(id);
-        if (el) el.style.display = '';
+  // ── Search & Filter ────────────────────────────────────────
+  window.filterTable = function(type) {
+    if (type === 'reg') {
+      var q   = (document.getElementById('reg-search').value || '').toLowerCase();
+      var qtt = (document.getElementById('reg-filter-qtt').value || '');
+      var filtered = regData.filter(function(p) {
+        var matchQ   = !q || (p.name+p.usernameId+p.country+p.clubTeam+p.car+p.engine).toLowerCase().includes(q);
+        var matchQtt = !qtt || p.qttStatus === qtt;
+        return matchQ && matchQtt;
       });
-
-      // Set Vercel dashboard links
-      var base = 'https://vercel.com/dashboard/' + projectSlug;
-      setHref('vercel-deploys-link',  base + '/deployments');
-      setHref('vercel-analytics-link', base + '/analytics');
-      setHref('vercel-speed-link',     base + '/speed-insights');
-
-      showAnalyticsStatus('✅ Terhubung ke project: ' + (proj.name || projectSlug), 'success');
-
-      // Load all data in parallel
-      await Promise.all([
-        window.loadDeployments(),
-        window.loadAnalytics(),
-        window.loadVitals()
-      ]);
-
-    } catch(err) {
-      showAnalyticsStatus('❌ ' + err.message, 'error');
+      renderRegTable(filtered);
+    } else {
+      var q2 = (document.getElementById('qtt-search').value || '').toLowerCase();
+      var filtered2 = qttData.filter(function(p) {
+        return !q2 || (p.username+p.country+p.vehicle+p.engine).toLowerCase().includes(q2);
+      });
+      renderQttTable(filtered2);
     }
   };
 
-  function setHref(id, url) {
-    var el = document.getElementById(id); if (el) el.href = url;
+  // ── CSV Download ───────────────────────────────────────────
+  window.downloadCSV = function(type) {
+    var data, filename, headers;
+    if (type === 'reg') {
+      data     = regData;
+      filename = 'GDSI_Peserta_' + fmtDate() + '.csv';
+      headers  = ['No','Nama','Email','Username ID','Country','Club/Team','WhatsApp','Car','Engine','Status QTT','Daftar'];
+    } else {
+      data     = qttData;
+      filename = 'GDSI_QTT_' + fmtDate() + '.csv';
+      headers  = ['No','Username','Email','Country','Car','Engine','File Size','Video URL','Submit'];
+    }
+    var rows = [headers];
+    data.forEach(function(p, i) {
+      if (type === 'reg') {
+        rows.push([i+1, p.name, p.email, p.usernameId, p.country, p.clubTeam||'', p.whatsapp, p.car, p.engine, p.qttStatus, p.timestamp]);
+      } else {
+        rows.push([i+1, p.username, p.email, p.country, p.vehicle, p.engine, p.fileSize||'', p.videoUrl||'', p.timestamp]);
+      }
+    });
+    var csv = rows.map(function(r) {
+      return r.map(function(v) {
+        var s = String(v||'').replace(/"/g,'""');
+        return /[,"
+]/.test(s) ? '"'+s+'"' : s;
+      }).join(',');
+    }).join('
+');
+    var blob = new Blob(['﻿'+csv], {type:'text/csv;charset=utf-8;'});
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.href = url; a.download = filename; a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // ── PDF Download ───────────────────────────────────────────
+  window.downloadPDF = function(type) {
+    // Load jsPDF + autoTable from CDN
+    if (!window.jspdf) {
+      var s1 = document.createElement('script');
+      s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+      s1.onload = function() {
+        var s2 = document.createElement('script');
+        s2.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js';
+        s2.onload = function() { buildPDF(type); };
+        document.head.appendChild(s2);
+      };
+      document.head.appendChild(s1);
+    } else {
+      buildPDF(type);
+    }
+  };
+
+  function buildPDF(type) {
+    var jsPDF = window.jspdf.jsPDF;
+    var doc   = new jsPDF({ orientation:'landscape', unit:'mm', format:'a4' });
+    var W     = doc.internal.pageSize.getWidth();
+    var H     = doc.internal.pageSize.getHeight();
+    var now   = new Date();
+    var dateStr = now.toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'});
+    var timeStr = now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+
+    var isReg    = type === 'reg';
+    var data     = isReg ? regData : qttData;
+    var title    = isReg ? 'Daftar Peserta Registrasi' : 'Daftar Submission QTT';
+    var filename = isReg ? 'GDSI_Peserta_'+fmtDate()+'.pdf' : 'GDSI_QTT_'+fmtDate()+'.pdf';
+    var head, body;
+
+    if (isReg) {
+      head = [['No','Nama','Username ID','Country','Club/Team','WhatsApp','Car','Engine','Status QTT']];
+      body = data.map(function(p,i) {
+        return [i+1, p.name, p.usernameId, p.country, p.clubTeam||'—', p.whatsapp, p.car, p.engine, p.qttStatus];
+      });
+    } else {
+      head = [['No','Username ID','Country','Car','Engine','File Size','Submit']];
+      body = data.map(function(p,i) {
+        return [i+1, p.username, p.country, p.vehicle, p.engine, p.fileSize||'—', p.timestamp];
+      });
+    }
+
+    doc.autoTable({
+      head: head,
+      body: body,
+      startY: 32,
+      margin: { left: 10, right: 10, bottom: 18 },
+      styles: { fontSize: 8, cellPadding: 3, lineColor: [220,220,220], lineWidth: 0.3 },
+      headStyles: { fillColor: [183,0,19], textColor: 255, fontStyle:'bold', fontSize:8 },
+      alternateRowStyles: { fillColor: [248,248,248] },
+      columnStyles: isReg ? { 5:{ cellWidth:28 } } : {},
+      didDrawPage: function(d) {
+        // ── Header ──
+        doc.setFillColor(183,0,19);
+        doc.rect(0, 0, W, 22, 'F');
+        doc.setTextColor(255,255,255);
+        doc.setFontSize(14); doc.setFont(undefined,'bold');
+        doc.text('GRAND DRIFT SERIES INDONESIA', 10, 10);
+        doc.setFontSize(9); doc.setFont(undefined,'normal');
+        doc.text(title + '  ·  ' + data.length + ' data  ·  ' + dateStr + ' ' + timeStr + ' WIB', 10, 17);
+        // Right: event name
+        doc.setFontSize(8);
+        doc.text('Season 1 Round 2', W - 10, 10, {align:'right'});
+        doc.text('GDSI Admin — Confidential', W - 10, 17, {align:'right'});
+        // ── Footer ──
+        doc.setTextColor(150,150,150);
+        doc.setFontSize(7); doc.setFont(undefined,'normal');
+        var pageNum = 'Halaman ' + d.pageNumber;
+        doc.setFillColor(240,240,240);
+        doc.rect(0, H-10, W, 10, 'F');
+        doc.setTextColor(120,120,120);
+        doc.text('© 2026 Grand Drift Series Indonesia  ·  Confidential — Internal Use Only', 10, H-4);
+        doc.text(pageNum, W-10, H-4, {align:'right'});
+      }
+    });
+
+    doc.save(filename);
   }
 
-  function showAnalyticsStatus(msg, type) {
-    var el = document.getElementById('analyticsStatus');
-    if (!el) return;
-    el.textContent = msg;
-    el.className = 'status ' + type;
+  // ── Helpers ────────────────────────────────────────────────
+  function esc(s) {
+    return String(s||'')
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  // Wire load button
-  document.addEventListener('DOMContentLoaded', function() {
-    var loadBtn = document.getElementById('load-analytics-btn');
-    if (loadBtn) loadBtn.addEventListener('click', window.initAnalytics);
+  function fmtDate() {
+    var d = new Date();
+    return d.getFullYear()+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2);
+  }
+
+  // Expose GAS_URL from main IIFE scope to this IIFE
+  // GAS_URL is set by %VITE_GDSI_APPS_SCRIPT_URL% in the first script block
+  Object.defineProperty(window, 'GAS_URL', {
+    get: function() { return window._GDSI_GAS_URL || ''; },
+    set: function(v){ window._GDSI_GAS_URL = v; }
   });
+
 })();
+
 </script>
 </body>
 </html>
