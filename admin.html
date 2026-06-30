@@ -726,7 +726,7 @@ input:focus { border-color: #ff5566; }
     var csv = rows.map(function(r) {
       return r.map(function(v) {
         var s = String(v||'').replace(/"/g,'""');
-        return [,"
+        return /[,"
 ]/.test(s) ? '"'+s+'"' : s;
       }).join(',');
     }).join('
