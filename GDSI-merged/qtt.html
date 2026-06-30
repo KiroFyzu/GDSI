@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#f8f9fa">
+  <meta name="description" content="Grand Drift Series Indonesia - QTT Submission">
+  <title>GDSI QTT | Grand Drift Series Indonesia</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+
+  <script>
+/* ============================================================
+   GDSI Core — runs in <head> BEFORE any content renders.
+   Sets lang attribute immediately to prevent flash of mixed content.
+   No automatic dark/light mode — site uses light theme only.
+   ============================================================ */
+(function () {
+  'use strict';
+  var lang = 'id';
+  try {
+    var saved = window.localStorage.getItem('gdsi_lang');
+    if (saved === 'id' || saved === 'en') lang = saved;
+  } catch (e) {}
+  document.documentElement.setAttribute('data-gdsi-lang', lang);
+  document.documentElement.setAttribute('lang', lang);
+})();
+</script>
+<style id="gdsi-theme-vars">
+/* ============================================================
+   GDSI Theme Variables — Light / Dark
+   Auto-applied via .dark class on <html> (see theme-core.js)
+
+   IMPORTANT: values are space-separated RGB channels (not hex)
+   so Tailwind's color-opacity modifiers keep working, e.g.
+   bg-primary/10, from-background/90, shadow-primary/30.
+   Each page's tailwind.config maps colors like:
+     primary: "rgb(var(--gdsi-primary) / <alpha-value>)"
+
+   "Fixed" tokens intentionally stay identical between themes
+   (matches Material 3 "fixed" role behavior).
+   ============================================================ */
+
+:root {
+  --gdsi-primary-fixed-dim: 255 180 172;
+  --gdsi-surface-dim: 217 218 219;
+  --gdsi-surface-variant: 225 227 228;
+  --gdsi-surface: 248 249 250;
+  --gdsi-primary: 183 0 19;
+  --gdsi-tertiary-fixed-dim: 196 198 204;
+  --gdsi-secondary-fixed-dim: 200 198 197;
+  --gdsi-primary-container: 225 25 34;
+  --gdsi-secondary-container: 226 223 222;
+  --gdsi-on-primary-container: 255 247 245;
+  --gdsi-outline-variant: 231 189 184;
+  --gdsi-on-primary-fixed-variant: 147 0 13;
+  --gdsi-error-container: 255 218 214;
+  --gdsi-on-tertiary-fixed: 24 28 32;
+  --gdsi-tertiary-container: 111 114 119;
+  --gdsi-surface-container-highest: 225 227 228;
+  --gdsi-secondary-fixed: 229 226 225;
+  --gdsi-on-secondary-container: 99 98 98;
+  --gdsi-on-secondary: 255 255 255;
+  --gdsi-on-tertiary: 255 255 255;
+  --gdsi-secondary: 95 94 94;
+  --gdsi-inverse-on-surface: 240 241 242;
+  --gdsi-on-tertiary-container: 246 248 254;
+  --gdsi-tertiary: 86 90 94;
+  --gdsi-on-error: 255 255 255;
+  --gdsi-on-background: 25 28 29;
+  --gdsi-surface-container-low: 243 244 245;
+  --gdsi-on-surface: 25 28 29;
+  --gdsi-primary-fixed: 255 218 214;
+  --gdsi-on-error-container: 147 0 10;
+  --gdsi-outline: 146 110 107;
+  --gdsi-error: 186 26 26;
+  --gdsi-surface-container: 237 238 239;
+  --gdsi-on-surface-variant: 93 63 60;
+  --gdsi-tertiary-fixed: 224 226 232;
+  --gdsi-inverse-surface: 46 49 50;
+  --gdsi-surface-container-lowest: 255 255 255;
+  --gdsi-surface-bright: 248 249 250;
+  --gdsi-on-tertiary-fixed-variant: 68 71 75;
+  --gdsi-surface-container-high: 231 232 233;
+  --gdsi-on-primary-fixed: 65 0 2;
+  --gdsi-inverse-primary: 255 180 172;
+  --gdsi-background: 248 249 250;
+  --gdsi-surface-tint: 192 0 21;
+  --gdsi-on-secondary-fixed: 28 27 27;
+  --gdsi-on-secondary-fixed-variant: 71 71 70;
+  --gdsi-on-primary: 255 255 255;
+}
+
+
+
+/* ============================================================
+   Language show/hide — driven by html[data-gdsi-lang]
+   This attribute is set by theme-core.js BEFORE body renders
+   so there is zero flash of mixed content.
+   ============================================================ */
+
+/* Default: hide EN-only content (lang defaults to "id") */
+.lang-en-only { display: none !important; }
+
+/* When EN is active: show EN, hide ID */
+[data-gdsi-lang="en"] .lang-en-only { display: revert !important; }
+[data-gdsi-lang="en"] .lang-id-only { display: none !important; }
+
+/* When ID is active (explicit): show ID, hide EN */
+[data-gdsi-lang="id"] .lang-id-only { display: revert !important; }
+[data-gdsi-lang="id"] .lang-en-only { display: none !important; }
+</style>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            "primary-fixed-dim": "rgb(var(--gdsi-primary-fixed-dim) / <alpha-value>)",
+            "surface-dim": "rgb(var(--gdsi-surface-dim) / <alpha-value>)",
+            "surface-variant": "rgb(var(--gdsi-surface-variant) / <alpha-value>)",
+            "surface": "rgb(var(--gdsi-surface) / <alpha-value>)",
+            "primary": "rgb(var(--gdsi-primary) / <alpha-value>)",
+            "tertiary-fixed-dim": "rgb(var(--gdsi-tertiary-fixed-dim) / <alpha-value>)",
+            "secondary-fixed-dim": "rgb(var(--gdsi-secondary-fixed-dim) / <alpha-value>)",
+            "primary-container": "rgb(var(--gdsi-primary-container) / <alpha-value>)",
+            "secondary-container": "rgb(var(--gdsi-secondary-container) / <alpha-value>)",
+            "on-primary-container": "rgb(var(--gdsi-on-primary-container) / <alpha-value>)",
+            "outline-variant": "rgb(var(--gdsi-outline-variant) / <alpha-value>)",
+            "on-primary-fixed-variant": "rgb(var(--gdsi-on-primary-fixed-variant) / <alpha-value>)",
+            "error-container": "rgb(var(--gdsi-error-container) / <alpha-value>)",
+            "on-tertiary-fixed": "rgb(var(--gdsi-on-tertiary-fixed) / <alpha-value>)",
+            "tertiary-container": "rgb(var(--gdsi-tertiary-container) / <alpha-value>)",
+            "surface-container-highest": "rgb(var(--gdsi-surface-container-highest) / <alpha-value>)",
+            "secondary-fixed": "rgb(var(--gdsi-secondary-fixed) / <alpha-value>)",
+            "on-secondary-container": "rgb(var(--gdsi-on-secondary-container) / <alpha-value>)",
+            "on-secondary": "rgb(var(--gdsi-on-secondary) / <alpha-value>)",
+            "on-tertiary": "rgb(var(--gdsi-on-tertiary) / <alpha-value>)",
+            "secondary": "rgb(var(--gdsi-secondary) / <alpha-value>)",
+            "inverse-on-surface": "rgb(var(--gdsi-inverse-on-surface) / <alpha-value>)",
+            "on-tertiary-container": "rgb(var(--gdsi-on-tertiary-container) / <alpha-value>)",
+            "tertiary": "rgb(var(--gdsi-tertiary) / <alpha-value>)",
+            "on-error": "rgb(var(--gdsi-on-error) / <alpha-value>)",
+            "on-background": "rgb(var(--gdsi-on-background) / <alpha-value>)",
+            "surface-container-low": "rgb(var(--gdsi-surface-container-low) / <alpha-value>)",
+            "on-surface": "rgb(var(--gdsi-on-surface) / <alpha-value>)",
+            "primary-fixed": "rgb(var(--gdsi-primary-fixed) / <alpha-value>)",
+            "on-error-container": "rgb(var(--gdsi-on-error-container) / <alpha-value>)",
+            "outline": "rgb(var(--gdsi-outline) / <alpha-value>)",
+            "error": "rgb(var(--gdsi-error) / <alpha-value>)",
+            "surface-container": "rgb(var(--gdsi-surface-container) / <alpha-value>)",
+            "on-surface-variant": "rgb(var(--gdsi-on-surface-variant) / <alpha-value>)",
+            "tertiary-fixed": "rgb(var(--gdsi-tertiary-fixed) / <alpha-value>)",
+            "inverse-surface": "rgb(var(--gdsi-inverse-surface) / <alpha-value>)",
+            "surface-container-lowest": "rgb(var(--gdsi-surface-container-lowest) / <alpha-value>)",
+            "surface-bright": "rgb(var(--gdsi-surface-bright) / <alpha-value>)",
+            "on-tertiary-fixed-variant": "rgb(var(--gdsi-on-tertiary-fixed-variant) / <alpha-value>)",
+            "surface-container-high": "rgb(var(--gdsi-surface-container-high) / <alpha-value>)",
+            "on-primary-fixed": "rgb(var(--gdsi-on-primary-fixed) / <alpha-value>)",
+            "inverse-primary": "rgb(var(--gdsi-inverse-primary) / <alpha-value>)",
+            "background": "rgb(var(--gdsi-background) / <alpha-value>)",
+            "surface-tint": "rgb(var(--gdsi-surface-tint) / <alpha-value>)",
+            "on-secondary-fixed": "rgb(var(--gdsi-on-secondary-fixed) / <alpha-value>)",
+            "on-secondary-fixed-variant": "rgb(var(--gdsi-on-secondary-fixed-variant) / <alpha-value>)",
+            "on-primary": "rgb(var(--gdsi-on-primary) / <alpha-value>)"
+          },
+          fontFamily: {
+            "headline-xl": ["Sora", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "headline-lg-mobile": ["Sora", "sans-serif"],
+            "label-sm": ["JetBrains Mono", "monospace"],
+            "headline-lg": ["Sora", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* ============================================
+       LIGHT THEME STYLES - Matching index.html
+       ============================================ */
+
+    body {
+      background-color: rgb(var(--gdsi-background));
+      color: rgb(var(--gdsi-on-background));
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    /* Atmosphere - Light version */
+    .atmosphere {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .atmosphere .bg-image {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0.08;
+      filter: saturate(0.6) contrast(1.2);
+    }
+    .atmosphere .bg-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(248,249,250,0.9) 0%, rgba(248,249,250,0.98) 60%, rgb(var(--gdsi-background)) 100%);
+    }
+    .atmosphere .bg-radial {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(183,0,19,0.04) 0%, transparent 60%);
+    }
+
+    /* Glass Card - Light */
+    .glass-card {
+      background: rgba(255,255,255, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 1rem;
+      box-shadow: 0 0 60px rgba(var(--gdsi-primary) / 0.04), 0 20px 40px rgba(0,0,0,0.08);
+    }
+
+    /* Scrollbar - Light */
+    .glass-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .glass-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .glass-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 10px;
+    }
+    .glass-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(var(--gdsi-primary) / 0.5);
+    }
+
+    /* Inputs - Light */
+    .glass-input {
+      background: rgb(var(--gdsi-on-primary));
+      border: 1px solid rgb(var(--gdsi-surface-variant));
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      color: rgb(var(--gdsi-on-background));
+      font-size: 0.95rem;
+      font-weight: 500;
+      width: 100%;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    .glass-input::placeholder {
+      color: #888888;
+      font-weight: 400;
+    }
+    .glass-input:focus {
+      border-color: rgb(var(--gdsi-primary));
+      box-shadow: 0 0 15px rgba(var(--gdsi-primary) / 0.08);
+    }
+    .glass-input:disabled,
+    .glass-input[readonly] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: #f3f4f5;
+      color: #666666;
+    }
+
+    /* Autofill fix - Light */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+      -webkit-text-fill-color: rgb(var(--gdsi-on-background)) !important;
+    }
+
+    /* Buttons - Light */
+    .btn-primary {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgb(var(--gdsi-primary-container)) 0%, rgb(var(--gdsi-primary)) 100%);
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(var(--gdsi-primary) / 0.15);
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, #ff1a2e 0%, #d90017 100%);
+      box-shadow: 0 0 30px rgba(var(--gdsi-primary) / 0.25);
+      transform: translateY(-1px);
+    }
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(0);
+    }
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-glass {
+      background: transparent;
+      border: 1px solid rgba(0,0,0,0.1);
+      color: rgb(var(--gdsi-on-background));
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .btn-glass:hover {
+      background: rgba(0,0,0,0.03);
+      border-color: rgba(0,0,0,0.2);
+    }
+
+    /* Auth Overlay - Light */
+    .auth-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(248, 249, 250, 0.9);
+      backdrop-filter: blur(12px);
+    }
+    .auth-card {
+      text-align: center;
+      padding: 2.5rem;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    /* Profile Bar - Light */
+    .profile-bar {
+      background: rgba(237, 238, 239, 0.8);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(12px);
+    }
+    .avatar {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 9999px;
+      background: #e7e8e9;
+      border: 1px solid rgba(var(--gdsi-primary) / 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Readonly Banner - Light */
+    .readonly-banner {
+      background: rgba(var(--gdsi-primary) / 0.06);
+      border: 1px solid rgba(var(--gdsi-primary) / 0.15);
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: rgb(var(--gdsi-primary));
+      font-size: 0.9rem;
+    }
+
+    /* Upload Zone - Light */
+    .upload-zone {
+      border: 2px dashed rgba(0, 0, 0, 0.15);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: rgba(255,255,255, 0.5);
+    }
+    .upload-zone:hover {
+      border-color: rgba(var(--gdsi-primary) / 0.4);
+      background: rgba(var(--gdsi-primary) / 0.03);
+    }
+    .upload-zone.dragover {
+      border-color: rgb(var(--gdsi-primary));
+      background: rgba(var(--gdsi-primary) / 0.05);
+    }
+    .upload-zone.has-file {
+      border-style: solid;
+      border-color: rgba(var(--gdsi-primary) / 0.25);
+      background: rgba(var(--gdsi-primary) / 0.03);
+    }
+    .upload-zone.error {
+      border-color: rgb(var(--gdsi-error));
+      background: rgba(var(--gdsi-error) / 0.03);
+    }
+
+    /* Modals - Light */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      padding: 1rem;
+    }
+    .modal-content {
+      background: rgb(var(--gdsi-on-primary));
+      border: 1px solid rgb(var(--gdsi-surface-variant));
+      border-radius: 1rem;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+      animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.96) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-header {
+      padding: 1.5rem 1.5rem 0.5rem;
+      text-align: center;
+    }
+    .modal-body {
+      padding: 1rem 1.5rem;
+    }
+    .modal-footer {
+      padding: 1rem 1.5rem 1.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Data Row - Light */
+    .data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .data-row:last-child {
+      border-bottom: none;
+    }
+    .data-label {
+      font-size: 0.8rem;
+      color: #5f5e5e;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .data-value {
+      font-weight: 600;
+      color: rgb(var(--gdsi-on-background));
+      font-size: 0.95rem;
+      text-align: right;
+      max-width: 60%;
+      word-break: break-word;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(0,0,0,0.1);
+      border-top-color: rgb(var(--gdsi-primary));
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Hidden utility */
+    .hidden {
+      display: none !important;
+    }
+  
+        /* ===== i18n lang show/hide ===== */
+        [data-gdsi-lang="en"] .lang-id-only { display: none !important; }
+        [data-gdsi-lang="id"] .lang-en-only { display: none !important; }
+
+        /* ===== dark mode body override ===== */
+</style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased">
+
+  <!-- ATMOSPHERIC BACKGROUND -->
+  <div class="atmosphere">
+    <div class="bg-image" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCvvhLiC2vvR6D2p3q3fZbjaQW-v07nchSknYPPPkoQNB_nv8of0zAbrfPkc8Z2EuwoL9j3msG2xhR27dDv4IpubKqH78u6obNmOfvRsaKYhDNwOqWafBxZ1Wq2YuMfY5y0OiW22uponQ7yUvj20UF4X-j8-eS9cWWH39uscPdj7-NO5BrWXVmAZPcr51Vngs9SJ4qZtcPUkKXtP1CqQpzB0EZecdTdf66BWbyceqMOQUqe2G4nPiKQuj2rL6LXbHXcj_JakGcxMwIN');"></div>
+    <div class="bg-gradient"></div>
+    <div class="bg-radial"></div>
+  </div>
+
+  <!-- AUTH OVERLAY -->
+  <div id="auth-overlay" class="auth-overlay hidden">
+    <div class="glass-card auth-card animate-fade-in">
+      <div class="mb-6">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA12YeUqvMEYXMLxPCUt8SPiF-39rPyQ-0PDPpNS7yD0m80MvGdwCetQtLEoOBVdgz5dzdJrjcYhb6nOHF8ng1VoA-bvf4gmU_GXOZVw84vm1NIKLkq-ytJouToPlnGINgoBVTrH5ZTjuy7VXSBhND1VTnONONvWrbkuzQl8ZAj3nE10C-IgHyBCCdO_d_xh6XAMs24zDnOEEKjObiUJRBiVbJPgSt2peuEpnRYFs_1QP5p2pBplKaqMDXsUdADf-kt4kn4czhAzOeJ"
+             alt="GDSI Logo" class="h-20 md:h-24 object-contain mx-auto mb-4">
+        <h1 class="font-headline-xl text-primary uppercase tracking-tighter text-3xl md:text-4xl mb-1">GDSI</h1>
+        <p class="text-secondary text-sm uppercase tracking-widest">Grand Drift Series Indonesia</p>
+      </div>
+      <p class="text-secondary text-sm mb-6 leading-relaxed">
+        <span data-i18n="auth_desc">Silakan login dengan akun Google untuk mengakses formulir QTT.</span>
+      </p>
+      <button id="login-btn" class="btn-primary w-full flex items-center justify-center gap-3 text-base">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none">
+          <path d="M23.5 12.28c0-.86-.08-1.68-.22-2.48H12v4.7h6.45c-.28 1.48-1.12 2.73-2.38 3.57v2.98h3.86c2.25-2.07 3.57-5.12 3.57-8.77z" fill="#fff"/>
+          <path d="M12 24c3.24 0 5.96-1.08 7.95-2.91l-3.86-2.98c-1.08.72-2.45 1.15-4.09 1.15-3.15 0-5.81-2.12-6.76-4.98H1.3v3.09C3.28 21.3 7.4 24 12 24z" fill="#fff"/>
+          <path d="M5.24 14.28c-.25-.72-.38-1.48-.38-2.28s.14-1.56.38-2.28V6.63H1.3C.47 8.24 0 10.06 0 12s.47 3.76 1.3 5.37l3.94-3.09z" fill="#fff"/>
+          <path d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.45-3.44C17.95 1.18 15.23 0 12 0 7.4 0 3.28 2.7 1.3 6.63l3.94 3.09c.95-2.86 3.61-4.97 6.76-4.97z" fill="#fff"/>
+        </svg>
+        Login dengan Google
+      </button>
+      <p class="text-secondary/50 text-xs mt-4">Dengan login, Anda menyetujui Syarat & Ketentuan GDSI.</p>
+    </div>
+  </div>
+
+  <!-- MAIN QTT CARD -->
+  <div class="relative z-10 min-h-screen flex items-center justify-center p-4 md:p-8">
+    <div class="glass-card w-full max-w-[600px] max-h-[95vh] overflow-y-auto glass-scrollbar p-6 md:p-10 animate-fade-in main-card">
+
+      <!-- Header -->
+      <div class="flex flex-col items-center mb-8">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA12YeUqvMEYXMLxPCUt8SPiF-39rPyQ-0PDPpNS7yD0m80MvGdwCetQtLEoOBVdgz5dzdJrjcYhb6nOHF8ng1VoA-bvf4gmU_GXOZVw84vm1NIKLkq-ytJouToPlnGINgoBVTrH5ZTjuy7VXSBhND1VTnONONvWrbkuzQl8ZAj3nE10C-IgHyBCCdO_d_xh6XAMs24zDnOEEKjObiUJRBiVbJPgSt2peuEpnRYFs_1QP5p2pBplKaqMDXsUdADf-kt4kn4czhAzOeJ"
+             alt="GDSI Logo" class="h-20 md:h-24 object-contain mb-6">
+        <h1 class="font-headline-xl text-primary uppercase tracking-tighter text-3xl md:text-5xl mb-1">GDSI</h1>
+        <h2 class="font-headline-lg-mobile text-on-surface text-center mb-2 text-lg md:text-2xl">Grand Drift Series Indonesia</h2>
+        <p class="text-secondary text-center font-label-sm uppercase tracking-widest text-xs">QTT Submission</p>
+        <div class="mt-3 flex gap-2 justify-center">
+          <a href="gdsi_rules.html" target="_blank" class="text-xs text-primary/70 hover:text-primary transition-colors underline">Lihat Rules</a>
+          <span class="text-secondary/30">|</span>
+          <a href="gdsi_tnc.html" target="_blank" class="text-xs text-primary/70 hover:text-primary transition-colors underline">Lihat S&K</a>
+        </div>
+      </div>
+
+      <!-- Profile Bar -->
+      <div class="profile-bar mb-6">
+        <div class="flex items-center gap-3">
+          <div id="profile-avatar" class="avatar">
+            <span class="material-symbols-outlined text-primary text-[20px]">person</span>
+          </div>
+          <div>
+            <p class="font-label-sm text-secondary text-xs">Authenticated as</p>
+            <p id="profile-name" class="text-sm font-bold text-primary">Guest</p>
+          </div>
+        </div>
+        <button id="logout-btn" class="text-secondary hover:text-primary transition-colors duration-200 p-2 rounded-full hover:bg-surface-container-high/50" title="Logout">
+          <span class="material-symbols-outlined text-[18px]">logout</span>
+        </button>
+      </div>
+
+      <!-- Maintenance Banner -->
+      <div id="maintenance-banner" class="readonly-banner mb-6 hidden">
+        <span class="material-symbols-outlined text-primary">construction</span>
+        <div>
+          <p class="font-medium text-sm" data-i18n="maint_title">QTT Sedang Ditutup</p>
+          <p class="text-xs text-secondary" data-i18n="maint_sub">Pengumpulan QTT sementara dihentikan. Silakan cek pengumuman untuk jadwal berikutnya.</p>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loading-state" class="flex-col items-center justify-center py-12 hidden">
+        <div class="spinner mb-4"></div>
+        <p class="text-sm text-secondary" data-i18n="loading_text">Memuat data racer...</p>
+      </div>
+
+      <!-- Error State (Belum registrasi) -->
+      <div id="error-state" class="flex-col items-center text-center py-8 hidden">
+        <div class="w-14 h-14 rounded-full bg-error/10 flex items-center justify-center mb-4">
+          <span class="material-symbols-outlined text-error text-[28px]">error</span>
+        </div>
+        <h3 class="font-headline-lg text-lg text-on-surface mb-2" data-i18n="error_title">Registrasi Tidak Ditemukan</h3>
+        <p class="text-sm text-secondary max-w-xs mx-auto leading-relaxed mb-6" data-i18n="error_body">Anda belum melakukan registrasi GDSI. Silakan daftar terlebih dahulu untuk mengakses QTT.</p>
+        <a href="form.html" class="btn-primary inline-flex items-center gap-2 px-6">
+          <span class="material-symbols-outlined text-[18px]">app_registration</span>
+          <span data-i18n="error_cta">Registrasi Sekarang</span>
+        </a>
+      </div>
+
+      <!-- SUBMIT MODE -->
+      <div id="submit-mode" class="space-y-5 hidden">
+        <form id="qtt-form" class="space-y-5" novalidate>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+            <!-- Username ID (readonly) -->
+            <div class="space-y-1.5">
+              <label class="font-label-sm text-secondary text-xs ml-1 flex items-center gap-1">
+                Username ID
+              </label>
+              <div class="relative group">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-[18px]">tag</span>
+                <input type="text" id="disp-username" readonly
+                       class="glass-input pl-11 opacity-60 cursor-not-allowed"
+                       value="-">
+              </div>
+            </div>
+
+            <!-- Vehicle / Car (readonly) -->
+            <div class="space-y-1.5">
+              <label class="font-label-sm text-secondary text-xs ml-1 flex items-center gap-1">
+                Vehicle
+              </label>
+              <div class="relative group">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-[18px]">directions_car</span>
+                <input type="text" id="disp-vehicle" readonly
+                       class="glass-input pl-11 opacity-60 cursor-not-allowed"
+                       value="-">
+              </div>
+            </div>
+
+            <!-- Engine (readonly) -->
+            <div class="space-y-1.5">
+              <label class="font-label-sm text-secondary text-xs ml-1 flex items-center gap-1">
+                Engine
+              </label>
+              <div class="relative group">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-[18px]">engineering</span>
+                <input type="text" id="disp-engine" readonly
+                       class="glass-input pl-11 opacity-60 cursor-not-allowed"
+                       value="-">
+              </div>
+            </div>
+
+            <!-- Country (readonly) -->
+            <div class="space-y-1.5">
+              <label class="font-label-sm text-secondary text-xs ml-1 flex items-center gap-1">
+                Country
+              </label>
+              <div class="relative group">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-[18px]">public</span>
+                <input type="text" id="disp-country" readonly
+                       class="glass-input pl-11 opacity-60 cursor-not-allowed"
+                       value="-">
+              </div>
+            </div>
+
+            <!-- Upload Video -->
+            <div class="space-y-1.5 col-span-1 md:col-span-2">
+              <label class="font-label-sm text-secondary text-xs ml-1 flex items-center gap-1">
+                <span data-i18n="upload_label">Upload Video QTT</span> <span class="text-primary">*</span>
+              </label>
+              <div id="upload-zone" class="upload-zone relative">
+                <input type="file" id="video-file-input" accept="video/mp4,video/quicktime,video/webm" class="hidden">
+
+                <!-- Placeholder -->
+                <div id="upload-placeholder">
+                  <span class="material-symbols-outlined text-secondary/40 text-[48px] mb-3">upload_file</span>
+                  <p class="text-sm text-on-surface font-medium mb-1" data-i18n="upload_hint">Klik atau drag & drop video</p>
+                  <p class="text-xs text-secondary/60" data-i18n="upload_spec">MP4, MOV, WEBM — max 100MB</p>
+                </div>
+
+                <!-- File Info -->
+                <div id="upload-file-info" class="hidden flex items-center justify-between">
+                  <div class="flex items-center gap-3 text-left">
+                    <span class="material-symbols-outlined text-primary text-[28px]">movie</span>
+                    <div>
+                      <p id="file-name" class="text-sm font-medium text-on-surface truncate max-w-[200px]">filename.mp4</p>
+                      <p id="file-size" class="text-xs text-secondary">12.5 MB</p>
+                    </div>
+                  </div>
+                  <button id="remove-file-btn" type="button" class="p-2 rounded-lg hover:bg-error/10 text-secondary hover:text-error transition-colors">
+                    <span class="material-symbols-outlined text-[20px]">close</span>
+                  </button>
+                </div>
+
+                <!-- Error -->
+                <div id="upload-error" class="hidden mt-3 p-3 rounded-lg bg-error/10 border border-error/20 text-left">
+                  <p id="error-message" class="text-xs text-error">Error message</p>
+                </div>
+
+                <!-- Preview -->
+                <div id="preview-container" class="hidden mt-4 rounded-xl overflow-hidden border border-black/10 bg-black">
+                  <video id="video-preview" class="w-full max-h-[300px]" controls></video>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-2 space-y-3">
+            <button type="button" id="qtt-submit-btn" class="btn-primary w-full text-lg relative" disabled>
+              <span id="submit-text" class="relative z-10 flex items-center justify-center gap-2">
+                Submit QTT
+                <span class="material-symbols-outlined text-[20px]">flag</span>
+              </span>
+              <span id="submit-spinner" class="hidden absolute inset-0 flex items-center justify-center">
+                <span class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+              </span>
+            </button>
+          </div>
+        
+          <!-- Cloudinary Upload Overlay -->
+          <div id="cloudinary-overlay" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center">
+            <div class="bg-surface-container p-6 rounded-2xl border border-outline-variant/30 text-center max-w-xs mx-4">
+              <div class="animate-spin w-10 h-10 border-2 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+              <p id="cloudinary-text" class="text-on-surface font-medium text-sm">Uploading to Cloudinary...</p>
+              <div class="mt-3 h-2 bg-surface-container-high rounded-full overflow-hidden">
+                <div id="cloudinary-progress" class="h-full bg-primary transition-all duration-300" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+
+      <!-- VIEW MODE -->
+      <div id="view-mode" class="space-y-6 hidden">
+
+        <div class="readonly-banner mb-2">
+          <span class="material-symbols-outlined text-primary">check_circle</span>
+          <div>
+            <p class="font-medium text-sm" data-i18n="view_banner_title">QTT Berhasil Dikirim</p>
+            <p class="text-xs text-secondary" data-i18n="view_banner_sub">Submission Anda sudah tercatat. Tunggu hasil review.</p>
+          </div>
+        </div>
+
+        <!-- Data Grid -->
+        <div class="bg-surface-container rounded-lg p-4 space-y-1 border border-black/5">
+          <div class="data-row"><span class="data-label">Username</span><span class="data-value" id="view-username">-</span></div>
+          <div class="data-row"><span class="data-label">Vehicle</span><span class="data-value" id="view-vehicle">-</span></div>
+          <div class="data-row"><span class="data-label">Engine</span><span class="data-value" id="view-engine">-</span></div>
+          <div class="data-row"><span class="data-label">Country</span><span class="data-value" id="view-country">-</span></div>
+          <div class="data-row border-t border-black/5 pt-2 mt-2"><span class="data-label">Submitted</span><span class="data-value" id="view-submitted-at">-</span></div>
+          <div class="data-row"><span class="data-label">Status</span><span class="data-value text-primary" id="view-status">Submitted</span></div>
+        </div>
+
+        <!-- Video Link -->
+        <a id="view-video-link" href="#" target="_blank" class="hidden flex items-center gap-3 p-4 rounded-xl bg-surface-container-low/40 border border-black/5 hover:border-primary/30 transition-colors group">
+          <span class="material-symbols-outlined text-primary text-[28px]">play_circle</span>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-on-surface group-hover:text-primary transition-colors truncate">Video QTT</p>
+            <p id="view-video-text" class="text-xs text-secondary truncate">Open Video</p>
+          </div>
+          <span class="material-symbols-outlined text-secondary text-[18px]">open_in_new</span>
+        </a>
+
+        <!-- Video Preview -->
+        <div id="video-preview-container" class="hidden rounded-xl overflow-hidden border border-black/10 bg-black">
+          <video id="view-video-preview" class="w-full max-h-[300px]" controls></video>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SUCCESS MODAL -->
+  <div id="modal-success" class="modal-backdrop hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="w-14 h-14 rounded-full bg-emerald-500/20 flex items-center justify-center mx-auto mb-3">
+          <span class="material-symbols-outlined text-emerald-600 text-[28px]">celebration</span>
+        </div>
+        <h3 class="font-headline-lg text-on-surface text-xl mb-1">QTT Submitted!</h3>
+        <p class="text-2xl">🎉</p>
+      </div>
+      <div class="modal-body">
+        <p class="text-sm text-secondary text-center mb-4" data-i18n="success_body">Data berhasil dikirim ke server.</p>
+        <div class="bg-surface-container rounded-lg p-4 space-y-1 border border-black/5">
+          <div class="data-row"><span class="data-label">Username</span><span class="data-value" id="modal-username">-</span></div>
+          <div class="data-row"><span class="data-label">Vehicle</span><span class="data-value" id="modal-vehicle">-</span></div>
+          <div class="data-row"><span class="data-label">Engine</span><span class="data-value" id="modal-engine">-</span></div>
+          <div class="data-row"><span class="data-label">Date</span><span class="data-value" id="modal-date">-</span></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button data-close-modal class="btn-primary px-8" data-i18n="close_btn">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="qtt-app.js"></script>
+
+<script>
+window.GDSI_I18N_DICT = {
+  id: {
+    nav_back: 'Kembali',
+    submit_btn: 'Submit',
+    cancel_btn: 'Batal',
+    ph_qtt_url: 'Tempel link video QTT-mu di sini',
+    ph_qtt_name: 'Nama lengkap sesuai formulir registrasi',
+    auth_desc: 'Silakan login dengan akun Google untuk mengakses formulir QTT.',
+    error_title: 'Registrasi Tidak Ditemukan',
+    error_body: 'Anda belum melakukan registrasi GDSI. Silakan daftar terlebih dahulu untuk mengakses QTT.',
+    error_cta: 'Registrasi Sekarang',
+    view_banner_title: 'QTT Berhasil Dikirim',
+    view_banner_sub: 'Submission Anda sudah tercatat. Tunggu hasil review.',
+    success_body: 'Data berhasil dikirim ke server.',
+    close_btn: 'Tutup',
+    upload_label: 'Upload Video QTT',
+    upload_hint: 'Klik atau drag & drop video',
+    upload_spec: 'MP4, MOV, WEBM — maks 100MB',
+    maint_title: 'QTT Sedang Ditutup',
+    maint_sub: 'Pengumpulan QTT sementara dihentikan. Silakan cek pengumuman untuk jadwal berikutnya.',
+    loading_text: 'Memuat data racer...'
+  },
+  en: {
+    nav_back: 'Back',
+    submit_btn: 'Submit',
+    cancel_btn: 'Cancel',
+    ph_qtt_url: 'Paste your QTT video link here',
+    ph_qtt_name: 'Full name as per registration form',
+    auth_desc: 'Please log in with your Google account to access the QTT form.',
+    error_title: 'Registration Not Found',
+    error_body: 'You have not registered for GDSI. Please register first to access QTT.',
+    error_cta: 'Register Now',
+    view_banner_title: 'QTT Submitted Successfully',
+    view_banner_sub: 'Your submission has been recorded. Wait for the review results.',
+    success_body: 'Data successfully sent to server.',
+    close_btn: 'Close',
+    upload_label: 'Upload QTT Video',
+    upload_hint: 'Click or drag & drop video',
+    upload_spec: 'MP4, MOV, WEBM — max 100MB',
+    maint_title: 'QTT Temporarily Closed',
+    maint_sub: 'QTT submission is temporarily paused. Check our announcements for the next schedule.',
+    loading_text: 'Loading racer data...'
+  }
+};
+</script>
+<script>
+/* ============================================================
+   GDSI i18n Core — shared across all pages
+   Each page defines window.GDSI_I18N_DICT = { id: {...}, en: {...} }
+   BEFORE loading this script. Language choice is stored in
+   localStorage under "gdsi_lang" so every page (same origin)
+   stays in sync automatically. The switch UI itself only lives
+   on index.html — other pages just read + apply the saved value.
+   ============================================================ */
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'gdsi_lang';
+  var DEFAULT_LANG = 'id';
+
+  function getSavedLang() {
+    try {
+      var v = window.localStorage.getItem(STORAGE_KEY);
+      return (v === 'id' || v === 'en') ? v : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function getLang() {
+    return getSavedLang() || DEFAULT_LANG;
+  }
+
+  function translate(lang) {
+    var dict = window.GDSI_I18N_DICT;
+    if (!dict || !dict[lang]) return;
+    var table = dict[lang];
+
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n');
+      if (table[key] !== undefined) el.textContent = table[key];
+    });
+
+    document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-html');
+      if (table[key] !== undefined) el.innerHTML = table[key];
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-placeholder');
+      if (table[key] !== undefined) el.setAttribute('placeholder', table[key]);
+    });
+
+    document.querySelectorAll('[data-i18n-aria-label]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-aria-label');
+      if (table[key] !== undefined) el.setAttribute('aria-label', table[key]);
+    });
+
+    document.querySelectorAll('[data-i18n-title]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-title');
+      if (table[key] !== undefined) el.setAttribute('title', table[key]);
+    });
+
+    document.querySelectorAll('[data-i18n-alt]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n-alt');
+      if (table[key] !== undefined) el.setAttribute('alt', table[key]);
+    });
+
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('data-gdsi-lang', lang);
+
+    document.querySelectorAll('[data-i18n-active-lang]').forEach(function (el) {
+      el.classList.toggle('lang-active', el.getAttribute('data-i18n-active-lang') === lang);
+    });
+  }
+
+  function setLang(lang) {
+    if (lang !== 'id' && lang !== 'en') return;
+    try { window.localStorage.setItem(STORAGE_KEY, lang); } catch (e) {}
+    translate(lang);
+    window.dispatchEvent(new CustomEvent('gdsi:langchange', { detail: { lang: lang } }));
+  }
+
+  window.GDSI_I18N = { getLang: getLang, setLang: setLang, translate: translate };
+
+  // Apply as soon as this script runs (placed at the end of <body>,
+  // after content + the page dictionary, so there's minimal flash).
+  translate(getLang());
+})();
+</script>
+</body>
+</html>
