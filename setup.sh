@@ -90,6 +90,20 @@ rsync -a --exclude='node_modules' --exclude='.git' --exclude='*.zip' \
 
 log "Semua file berhasil di-copy"
 
+# ── 5b. Cleanup leftover staging folder ──────────────────────
+# Kalau ada folder sisa hasil extract manual sebelumnya (misal
+# "GDSI-merged/" dari drag-drop pertama kali) yang KEBETULAN
+# ikut ter-commit ke repo di root, hapus di sini. Isinya sudah
+# aman tersalin ke root repo lewat rsync di atas — folder asli
+# ini cuma duplikat/sampah dan bisa menyebabkan konflik
+# "modify/delete" di push berikutnya kalau dibiarkan nyangkut.
+SRC_BASENAME="$(basename "$SRC")"
+if [ -d "$REPO_ROOT/$SRC_BASENAME" ] && [ "$REPO_ROOT/$SRC_BASENAME" != "$SRC" ]; then
+    info "Membersihkan folder staging lama: $SRC_BASENAME/"
+    rm -rf "$REPO_ROOT/$SRC_BASENAME"
+    log "Folder staging lama dibersihkan"
+fi
+
 critical_files=(
     "vite.config.js"
     "index.html"
