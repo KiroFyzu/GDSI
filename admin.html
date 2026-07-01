@@ -318,10 +318,10 @@ input:focus { border-color: #ff5566; }
   // Firebase + Apps Script config — injected by Vite at build time
   var PROJECT_ID = '%VITE_FIREBASE_PROJECT_ID%';
   var API_KEY    = '%VITE_FIREBASE_API_KEY%';
-  var GAS_URL    = '%VITE_GDSI_APPS_SCRIPT_URL%';
+  window._GDSI_GAS_URL = '%VITE_GDSI_APPS_SCRIPT_URL%';
   if (PROJECT_ID.indexOf('%VITE_') === 0) PROJECT_ID = '';
   if (API_KEY.indexOf('%VITE_') === 0)    API_KEY    = '';
-  if (GAS_URL.indexOf('%VITE_')   === 0)  GAS_URL    = '';
+  if (window._GDSI_GAS_URL.indexOf('%VITE_') === 0) window._GDSI_GAS_URL = '';
 
   // Password disimpan sebagai SHA-256 hash (bukan plaintext).
   // Default hash di bawah ini = "gdsi2026admin"
