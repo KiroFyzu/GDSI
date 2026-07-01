@@ -5,6 +5,15 @@
 <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>GDSI Rules - Grand Drift Series Indonesia</title>
+<!-- PWA -->
+<link rel="manifest" href="/manifest.json"/>
+<link rel="icon" href="/icons/icon-192.png" sizes="192x192" type="image/png"/>
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png"/>
+<meta name="theme-color" content="#b70013"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="GDSI"/>
 <script>
 /* ============================================================
    GDSI Core — runs in <head> BEFORE any content renders.
@@ -1064,6 +1073,15 @@ window.GDSI_I18N_DICT = {
   // after content + the page dictionary, so there's minimal flash).
   translate(getLang());
 })();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').catch(function(err) {
+      console.warn('SW registration failed:', err);
+    });
+  });
+}
 </script>
 </body>
 </html>

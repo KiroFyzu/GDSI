@@ -101,6 +101,10 @@ critical_files=(
     "gdsi-apps-script.gs"
     "public/robots.txt"
     "public/sitemap.xml"
+    "public/manifest.json"
+    "public/sw.js"
+    "public/icons/icon-192.png"
+    "public/icons/icon-512.png"
     "favicon.ico"
 )
 
