@@ -43,6 +43,10 @@
     {
       "src": "/admin.html",
       "dest": "/admin.html"
+    },
+    {
+      "src": "/api/webhook",
+      "dest": "/api/webhook"
     }
   ],
   "headers": [
