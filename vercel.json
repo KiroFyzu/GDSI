@@ -29,6 +29,14 @@
       "dest": "/qr.html"
     },
     {
+      "src": "/donation",
+      "dest": "/donation.html"
+    },
+    {
+      "src": "/donation.html",
+      "dest": "/donation.html"
+    },
+    {
       "src": "/admin",
       "dest": "/admin.html"
     },

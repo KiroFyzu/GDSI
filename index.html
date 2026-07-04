@@ -5,6 +5,16 @@
 <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Grand Drift Series Indonesia</title>
+<meta name="description" content="Grand Drift Series Indonesia (GDSI) — kompetisi drifting virtual resmi Indonesia. Daftar sebagai peserta, submit video Qualifying Time Trial (QTT), dan ikuti kompetisi drift virtual terbesar di Indonesia."/>
+<script>
+(function() {
+  if (location.hostname !== 'dev.gdsi.my.id') return;
+  document.documentElement.style.visibility = 'hidden';
+  var m = document.createElement('meta');
+  m.name = 'robots'; m.content = 'noindex, nofollow, noarchive';
+  document.head.appendChild(m);
+})();
+</script>
 <!-- PWA -->
 <link rel="manifest" href="/manifest.json"/>
 <link rel="icon" href="/icons/icon-192.png" sizes="192x192" type="image/png"/>
@@ -499,6 +509,63 @@
 </style>
 </head>
 <body class="bg-background text-on-background antialiased selection:bg-primary-container selection:text-on-primary-container relative overflow-x-hidden">
+<div id="gdsi-dev-gate" style="display:none;position:fixed;inset:0;z-index:999999;background:#0c0a0a;color:#ece0df;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif;">
+  <div style="max-width:320px;width:100%;padding:32px 24px;text-align:center;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.15em;color:#a08c89;text-transform:uppercase;margin-bottom:8px;">GDSI &middot; <span style="color:#ff5566;">DEV ENVIRONMENT</span></div>
+    <h1 style="font-size:20px;font-weight:800;margin-bottom:6px;">Akses Terbatas</h1>
+    <p style="font-size:13px;color:#a08c89;margin-bottom:24px;">Halaman testing internal. Masukkan password untuk lanjut.</p>
+    <input type="password" id="gdsi-dev-pwd" placeholder="Password" style="width:100%;padding:12px 16px;border:1.5px solid #4a3835;border-radius:12px;background:#1a1614;color:#ece0df;font-size:14px;outline:none;margin-bottom:12px;box-sizing:border-box;"/>
+    <button id="gdsi-dev-submit" style="width:100%;padding:14px;border:none;border-radius:12px;background:#ff5566;color:#fff;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;">Masuk</button>
+    <p id="gdsi-dev-error" style="display:none;color:#ff5566;font-size:12px;margin-top:12px;">Password salah.</p>
+  </div>
+</div>
+<script>
+(function() {
+  if (location.hostname !== 'dev.gdsi.my.id') return;
+
+  var HASH = 'cd2dc09a097a82128881df4de56de1aafc8d8a7175263cbe5763041c9a55d4ad';
+  var gate = document.getElementById('gdsi-dev-gate');
+
+  var unlocked = false;
+  try { unlocked = sessionStorage.getItem('gdsi_dev_ok') === '1'; } catch(e) {}
+
+  if (unlocked) {
+    document.documentElement.style.visibility = '';
+    return;
+  }
+
+  gate.style.display = 'flex';
+  document.documentElement.style.visibility = '';
+
+  function sha256(str) {
+    var buf = new TextEncoder().encode(str);
+    return crypto.subtle.digest('SHA-256', buf).then(function(hash) {
+      return Array.from(new Uint8Array(hash)).map(function(b) {
+        return b.toString(16).padStart(2, '0');
+      }).join('');
+    });
+  }
+
+  function tryUnlock() {
+    var pwd = document.getElementById('gdsi-dev-pwd').value;
+    if (!pwd) return;
+    sha256(pwd).then(function(hex) {
+      if (hex === HASH) {
+        try { sessionStorage.setItem('gdsi_dev_ok', '1'); } catch(e) {}
+        gate.style.display = 'none';
+      } else {
+        document.getElementById('gdsi-dev-error').style.display = 'block';
+      }
+    });
+  }
+
+  document.getElementById('gdsi-dev-submit').addEventListener('click', tryUnlock);
+  document.getElementById('gdsi-dev-pwd').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+})();
+</script>
+
 
 <!-- Hero Background -->
 <div class="absolute top-0 left-0 w-full h-[350px] md:h-[800px] -z-10 overflow-hidden">
@@ -528,21 +595,21 @@
             </p>
 </div>
 <div class="left-0 right-0 flex gap-sm pb-md z-20 mt-6 mb-6 md:mt-0 md:mb-0 md:absolute md:bottom-0 md:justify-center fade-in-up" id="socialPillsContainer">
-<a class="social-pill fade-in-up delay-100" href="javascript:void(0);" data-platform="Instagram" data-handle="@gdsiofficial" data-url="https://www.instagram.com/gdsiofficial?igsh=ZDJ2b3I5NW5hdm1y">
+<a class="social-pill fade-in-up delay-100" href="https://www.instagram.com/gdsiofficial?igsh=ZDJ2b3I5NW5hdm1y" data-platform="Instagram" data-handle="@gdsiofficial" data-url="https://www.instagram.com/gdsiofficial?igsh=ZDJ2b3I5NW5hdm1y">
 <img alt="Instagram" class="social-pill-icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBebTWALyX9eaI5toPFuJv0GkWFlilmdrXe-lOiN1QnChH1KbHZxqmfAzkTmPUXnZ210ZPO0MXi13lmXkZKFacu8G3C6gzUWGdJPyVrvU-sOfhUOrN7ZMdmJXR2QJy7qxeDdi6D9-e9iRjngxE6x2WlwpOmRfvy_mRUCNvYmY2hxSRuiBUo0_FELbDzTWdCaF86kgias42apQDHIDCAjuFjO-sgru1qdPTu4Zi45icz76pPPk-FtXQyi-qMzbZG-nVoiALaamygqg"/>
 <span class="social-pill-text">
 <span class="social-pill-name">Instagram</span>
 <span class="social-pill-handle">@gdsiofficial</span>
 </span>
 </a>
-<a class="social-pill fade-in-up delay-200" href="javascript:void(0);" data-platform="TikTok" data-handle="@gdsi.official" data-url="https://tiktok.com/@gdsi.official">
+<a class="social-pill fade-in-up delay-200" href="https://tiktok.com/@gdsi.official" data-platform="TikTok" data-handle="@gdsi.official" data-url="https://tiktok.com/@gdsi.official">
 <img alt="TikTok" class="social-pill-icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDc4kMoZL7VPbrKvTe2ul5OdGZAH8Xgl_lyVWAZG_u5W_BMwwBCI9a-7J59d1SAL0xN00sO_mblWbRvxjKkQ5r8tWNEmK5FXmGkLrZa7yWu7fuTsYgrEWzwLmKCyezaQx8nygfqi6TRuI1ej8DZa5kE03KOdXaVfXrqqg1TPy49pRYYw2oxYV7egxLnwcS_aXmgqM5rIsKeE_mfK_O5Xmh_SEaTifuTwB8Ik2hOBwcCQGN4WNjeBJhdpzpuZXCSj3AbwBy9aAywrQ"/>
 <span class="social-pill-text">
 <span class="social-pill-name">TikTok</span>
 <span class="social-pill-handle">@gdsi.official</span>
 </span>
 </a>
-<a class="social-pill fade-in-up delay-300" href="javascript:void(0);" data-platform="WhatsApp" data-handle="GDSI Group" data-url="https://chat.whatsapp.com/JSJIDVePNo2E6mS9F77DWT">
+<a class="social-pill fade-in-up delay-300" href="https://chat.whatsapp.com/JSJIDVePNo2E6mS9F77DWT" data-platform="WhatsApp" data-handle="GDSI Group" data-url="https://chat.whatsapp.com/JSJIDVePNo2E6mS9F77DWT">
 <img alt="WhatsApp" class="social-pill-icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6jc3d-FAdoFWC6E8nuq4k0WszYNAhe74MnuCh9rQDexyxYgKwtY5UfW7FzBb0z31_IAPDNdTXM5JZoLgmYMfdChun18azszIJv29LQynYdblnhZqONne3sUD0mazRXQSyTVWEN_W48r9ZCbZpG9ly1uy0mpAD61KUbzzWUK8BV3x7I1zkfd5ffg01smfJ8T6VwB82Yk-aJ68j58r-5EsTr-lcPPEr4HpC8p0lk6AK2rjFNfcO-7asx0Ruz8Ybq8I24S9_lY3RmQ"/>
 <span class="social-pill-text">
 <span class="social-pill-name">WhatsApp</span>
@@ -593,7 +660,7 @@
 </a>
 
 <!-- CTA 5: Donation -->
-<a class="group relative flex items-center justify-start p-md h-32 md:h-36 bg-primary text-on-primary rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-1" href="#">
+<a class="group relative flex items-center justify-start p-md h-32 md:h-36 bg-primary text-on-primary rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-1" href="/donation">
 <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
 <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
 <span class="material-symbols-outlined text-6xl">volunteer_activism</span>

@@ -14,9 +14,15 @@
   </url>
   <url>
     <loc>https://gdsi.my.id/qtt</loc>
-    <lastmod>2026-06-29</lastmod>
+    <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://gdsi.my.id/donation</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://gdsi.my.id/gdsi_rules.html</loc>

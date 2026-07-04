@@ -15,7 +15,8 @@ export default defineConfig({
         rules   : 'gdsi_rules.html',
         tnc     : 'gdsi_tnc.html',
         qr      : 'qr.html',
-        admin   : 'admin.html'
+        admin   : 'admin.html',
+        donation: 'donation.html'
       }
     }
   }

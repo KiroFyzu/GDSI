@@ -6,6 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <meta name="robots" content="noindex, nofollow, noarchive"/>
 <title>GDSI Admin CMS</title>
+<script>
+(function() {
+  if (location.hostname !== 'dev.gdsi.my.id') return;
+  document.documentElement.style.visibility = 'hidden';
+  var m = document.createElement('meta');
+  m.name = 'robots'; m.content = 'noindex, nofollow, noarchive';
+  document.head.appendChild(m);
+})();
+</script>
+
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -166,6 +176,63 @@ input:focus { border-color: #ff5566; }
 </style>
 </head>
 <body>
+<div id="gdsi-dev-gate" style="display:none;position:fixed;inset:0;z-index:999999;background:#0c0a0a;color:#ece0df;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif;">
+  <div style="max-width:320px;width:100%;padding:32px 24px;text-align:center;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.15em;color:#a08c89;text-transform:uppercase;margin-bottom:8px;">GDSI &middot; <span style="color:#ff5566;">DEV ENVIRONMENT</span></div>
+    <h1 style="font-size:20px;font-weight:800;margin-bottom:6px;">Akses Terbatas</h1>
+    <p style="font-size:13px;color:#a08c89;margin-bottom:24px;">Halaman testing internal. Masukkan password untuk lanjut.</p>
+    <input type="password" id="gdsi-dev-pwd" placeholder="Password" style="width:100%;padding:12px 16px;border:1.5px solid #4a3835;border-radius:12px;background:#1a1614;color:#ece0df;font-size:14px;outline:none;margin-bottom:12px;box-sizing:border-box;"/>
+    <button id="gdsi-dev-submit" style="width:100%;padding:14px;border:none;border-radius:12px;background:#ff5566;color:#fff;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;">Masuk</button>
+    <p id="gdsi-dev-error" style="display:none;color:#ff5566;font-size:12px;margin-top:12px;">Password salah.</p>
+  </div>
+</div>
+<script>
+(function() {
+  if (location.hostname !== 'dev.gdsi.my.id') return;
+
+  var HASH = 'cd2dc09a097a82128881df4de56de1aafc8d8a7175263cbe5763041c9a55d4ad';
+  var gate = document.getElementById('gdsi-dev-gate');
+
+  var unlocked = false;
+  try { unlocked = sessionStorage.getItem('gdsi_dev_ok') === '1'; } catch(e) {}
+
+  if (unlocked) {
+    document.documentElement.style.visibility = '';
+    return;
+  }
+
+  gate.style.display = 'flex';
+  document.documentElement.style.visibility = '';
+
+  function sha256(str) {
+    var buf = new TextEncoder().encode(str);
+    return crypto.subtle.digest('SHA-256', buf).then(function(hash) {
+      return Array.from(new Uint8Array(hash)).map(function(b) {
+        return b.toString(16).padStart(2, '0');
+      }).join('');
+    });
+  }
+
+  function tryUnlock() {
+    var pwd = document.getElementById('gdsi-dev-pwd').value;
+    if (!pwd) return;
+    sha256(pwd).then(function(hex) {
+      if (hex === HASH) {
+        try { sessionStorage.setItem('gdsi_dev_ok', '1'); } catch(e) {}
+        gate.style.display = 'none';
+      } else {
+        document.getElementById('gdsi-dev-error').style.display = 'block';
+      }
+    });
+  }
+
+  document.getElementById('gdsi-dev-submit').addEventListener('click', tryUnlock);
+  document.getElementById('gdsi-dev-pwd').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') tryUnlock();
+  });
+})();
+</script>
+
 
 <div class="container">
   <div class="logo">GDSI &middot; <span>Admin CMS</span></div>
@@ -318,10 +385,10 @@ input:focus { border-color: #ff5566; }
   // Firebase + Apps Script config — injected by Vite at build time
   var PROJECT_ID = '%VITE_FIREBASE_PROJECT_ID%';
   var API_KEY    = '%VITE_FIREBASE_API_KEY%';
-  var GAS_URL    = '%VITE_GDSI_APPS_SCRIPT_URL%';
+  window._GDSI_GAS_URL = '%VITE_GDSI_APPS_SCRIPT_URL%';
   if (PROJECT_ID.indexOf('%VITE_') === 0) PROJECT_ID = '';
   if (API_KEY.indexOf('%VITE_') === 0)    API_KEY    = '';
-  if (GAS_URL.indexOf('%VITE_')   === 0)  GAS_URL    = '';
+  if (window._GDSI_GAS_URL.indexOf('%VITE_') === 0) window._GDSI_GAS_URL = '';
 
   // Password disimpan sebagai SHA-256 hash (bukan plaintext).
   // Default hash di bawah ini = "gdsi2026admin"
