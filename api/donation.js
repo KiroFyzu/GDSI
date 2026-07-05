@@ -1,6 +1,6 @@
 const PAYWUZ_BASE_URL = (process.env.PAYWUZ_BASE_URL || 'https://api.paywuz.id/v1').replace(/\/+$/, '');
-const MIN_AMOUNT = 10000;
-const ALLOWED_PAYMENT_METHODS = new Set(['QRIS', 'VA']);
+const MIN_AMOUNT = 5000;
+const PAYMENT_METHOD = 'QRIS';
 
 function json(res, status, data) {
   return res.status(status).json(data);
@@ -16,11 +16,6 @@ function getSiteUrl(req) {
   const host = req.headers['x-forwarded-host'] || req.headers.host;
   const proto = req.headers['x-forwarded-proto'] || 'https';
   return `${proto}://${host}`.replace(/\/+$/, '');
-}
-
-function normalizePaymentMethod(value) {
-  const method = String(value || 'QRIS').trim().toUpperCase();
-  return ALLOWED_PAYMENT_METHODS.has(method) ? method : 'QRIS';
 }
 
 function buildOrderId() {
@@ -74,7 +69,6 @@ async function createDonation(req, res) {
   const orderId = buildOrderId();
   const donorName = String(req.body?.donorName || '').trim().slice(0, 100);
   const donorEmail = String(req.body?.donorEmail || '').trim().slice(0, 120);
-  const paymentMethod = normalizePaymentMethod(req.body?.paymentMethod);
   const redirectUrl = `${getSiteUrl(req)}/donation?orderId=${encodeURIComponent(orderId)}`;
 
   const transaction = await paywuzRequest('/transactions', {
@@ -82,7 +76,7 @@ async function createDonation(req, res) {
     body: JSON.stringify({
       orderId,
       amount,
-      paymentMethod,
+      paymentMethod: PAYMENT_METHOD,
       redirectUrl,
       metadata: { donorName, donorEmail }
     })
@@ -94,7 +88,7 @@ async function createDonation(req, res) {
     amount: transaction.amount || amount,
     status: transaction.status || 'pending',
     paymentUrl: transaction.paymentUrl,
-    paymentMethod: transaction.paymentMethod || paymentMethod,
+    paymentMethod: transaction.paymentMethod || PAYMENT_METHOD,
     totalPayment: transaction.totalPayment
   });
 }

@@ -34,14 +34,11 @@ Set webhook URL ke:
 https://gdsi.my.id/api/webhook
 ```
 
-Metode yang dikirim dari form:
+Metode pembayaran yang dikirim dari form:
 
 ```text
 QRIS
-VA
 ```
-
-Jika `VA` belum aktif di project Paywuz, pilih `QRIS` dulu.
 
 ## Test
 
