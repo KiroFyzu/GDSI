@@ -47,6 +47,10 @@
     {
       "src": "/api/webhook",
       "dest": "/api/webhook"
+    },
+    {
+      "src": "/api/donation",
+      "dest": "/api/donation"
     }
   ],
   "headers": [

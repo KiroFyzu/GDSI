@@ -417,8 +417,7 @@ window.GDSI_I18N_DICT = {
 (function() {
   'use strict';
 
-  var GAS_URL = '%VITE_GDSI_APPS_SCRIPT_URL%';
-  if (GAS_URL.indexOf('%VITE_') === 0) GAS_URL = '';
+  var DONATION_API_URL = '/api/donation';
 
   var states = ['loading-state', 'form-state', 'success-state', 'pending-state', 'failed-state'];
   function showState(name) {
@@ -436,6 +435,25 @@ window.GDSI_I18N_DICT = {
 
   function isPaidStatus(status) {
     return status === 'success' || status === 'settlement';
+  }
+
+  function readApiResponse(response) {
+    return response.text().then(function(text) {
+      var data = {};
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch (err) {
+          throw new Error('Respons server tidak valid.');
+        }
+      }
+
+      if (!response.ok) {
+        throw new Error(data.error || ('Endpoint donasi tidak tersedia (HTTP ' + response.status + ').'));
+      }
+
+      return data;
+    });
   }
 
   // ── Amount input: live thousand-separator formatting ──
@@ -467,24 +485,21 @@ window.GDSI_I18N_DICT = {
       }
       errEl.classList.add('hidden');
 
-      if (!GAS_URL) {
-        alert('Konfigurasi belum lengkap. Coba lagi nanti.');
-        return;
-      }
-
       var btn = document.getElementById('submit-btn');
       btn.disabled = true;
       btn.querySelector('span').textContent = '...';
 
-      var fd = new FormData();
-      fd.append('action', 'create_donation');
-      fd.append('amount', String(amount));
-      fd.append('paymentMethod', document.getElementById('payment-method').value);
-      fd.append('donorName', document.getElementById('donor-name').value.trim());
-      fd.append('donorEmail', document.getElementById('donor-email').value.trim());
-
-      fetch(GAS_URL, { method: 'POST', body: fd })
-        .then(function(r) { return r.json(); })
+      fetch(DONATION_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: amount,
+            paymentMethod: document.getElementById('payment-method').value,
+            donorName: document.getElementById('donor-name').value.trim(),
+            donorEmail: document.getElementById('donor-email').value.trim()
+          })
+        })
+        .then(readApiResponse)
         .then(function(res) {
           if (res.success && res.paymentUrl) {
             window.location.href = res.paymentUrl;
@@ -512,15 +527,10 @@ window.GDSI_I18N_DICT = {
 
     showState('loading-state');
 
-    if (!GAS_URL) {
-      showState('failed-state');
-      return;
-    }
-
-    fetch(GAS_URL + '?action=check_donation_status&orderId=' + encodeURIComponent(orderId))
-      .then(function(r) { return r.json(); })
+    fetch(DONATION_API_URL + '?orderId=' + encodeURIComponent(orderId))
+      .then(readApiResponse)
       .then(function(res) {
-        if (!res.success) { showState('failed-state'); return; }
+        if (!res.success) { showState('pending-state'); return; }
 
         if (isPaidStatus(res.status)) {
           document.getElementById('success-amount').textContent = fmtRupiah(res.amount);
@@ -532,7 +542,7 @@ window.GDSI_I18N_DICT = {
           showState('failed-state');
         }
       })
-      .catch(function() { showState('failed-state'); });
+      .catch(function() { showState('pending-state'); });
   }
 
   init();
