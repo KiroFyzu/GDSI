@@ -237,6 +237,16 @@
       </div>
 
       <div>
+        <label class="font-label-sm text-secondary text-xs uppercase tracking-widest mb-2 block" data-i18n="payment_method_label">Metode Pembayaran</label>
+        <select id="payment-method"
+          class="w-full px-4 py-3.5 rounded-xl border border-surface-variant bg-surface-container-lowest text-on-surface text-sm focus:outline-none focus:border-primary transition-colors">
+          <option value="QRIS" data-i18n="payment_method_qris">QRIS</option>
+          <option value="VA" data-i18n="payment_method_va">Virtual Account</option>
+        </select>
+        <p class="text-xs text-secondary mt-2" data-i18n="payment_method_hint">Pembayaran dibuat lewat halaman resmi Paywuz.</p>
+      </div>
+
+      <div>
         <label class="font-label-sm text-secondary text-xs uppercase tracking-widest mb-2 block" data-i18n="name_label">Nama (opsional)</label>
         <input type="text" id="donor-name" maxlength="100"
           data-i18n-placeholder="name_placeholder" placeholder="Nama kamu"
@@ -257,7 +267,7 @@
       </button>
 
       <p class="text-xs text-secondary text-center leading-relaxed" data-i18n="secure_note">
-        Pembayaran diproses aman via QRIS. Kamu akan diarahkan ke halaman pembayaran resmi.
+        Pembayaran diproses aman via Paywuz. Kamu akan diarahkan ke halaman pembayaran resmi.
       </p>
     </form>
   </div>
@@ -341,12 +351,16 @@ window.GDSI_I18N_DICT = {
     amount_label: 'Nominal Donasi',
     amount_hint: 'Minimum Rp 10.000',
     amount_error: 'Nominal minimal Rp 10.000',
+    payment_method_label: 'Metode Pembayaran',
+    payment_method_qris: 'QRIS',
+    payment_method_va: 'Virtual Account',
+    payment_method_hint: 'Pembayaran dibuat lewat halaman resmi Paywuz.',
     name_label: 'Nama (opsional)',
     name_placeholder: 'Nama kamu',
     email_label: 'Email (opsional)',
     email_placeholder: 'untuk kirim bukti donasi',
     submit_btn: 'Lanjutkan Donasi',
-    secure_note: 'Pembayaran diproses aman via QRIS. Kamu akan diarahkan ke halaman pembayaran resmi.',
+    secure_note: 'Pembayaran diproses aman via Paywuz. Kamu akan diarahkan ke halaman pembayaran resmi.',
     success_title: 'Terima Kasih!',
     success_body: 'Donasimu sudah kami terima. Dukunganmu sangat berarti buat komunitas GDSI.',
     detail_amount: 'Nominal',
@@ -369,12 +383,16 @@ window.GDSI_I18N_DICT = {
     amount_label: 'Donation Amount',
     amount_hint: 'Minimum Rp 10,000',
     amount_error: 'Minimum amount is Rp 10,000',
+    payment_method_label: 'Payment Method',
+    payment_method_qris: 'QRIS',
+    payment_method_va: 'Virtual Account',
+    payment_method_hint: 'Payment is created through the official Paywuz page.',
     name_label: 'Name (optional)',
     name_placeholder: 'Your name',
     email_label: 'Email (optional)',
     email_placeholder: 'to receive a receipt',
     submit_btn: 'Continue Donation',
-    secure_note: 'Payment is securely processed via QRIS. You will be redirected to the official payment page.',
+    secure_note: 'Payment is securely processed via Paywuz. You will be redirected to the official payment page.',
     success_title: 'Thank You!',
     success_body: 'Your donation has been received. Your support means a lot to the GDSI community.',
     detail_amount: 'Amount',
@@ -414,6 +432,10 @@ window.GDSI_I18N_DICT = {
 
   function fmtRupiah(n) {
     return 'Rp ' + Number(n).toLocaleString('id-ID');
+  }
+
+  function isPaidStatus(status) {
+    return status === 'success' || status === 'settlement';
   }
 
   // ── Amount input: live thousand-separator formatting ──
@@ -457,6 +479,7 @@ window.GDSI_I18N_DICT = {
       var fd = new FormData();
       fd.append('action', 'create_donation');
       fd.append('amount', String(amount));
+      fd.append('paymentMethod', document.getElementById('payment-method').value);
       fd.append('donorName', document.getElementById('donor-name').value.trim());
       fd.append('donorEmail', document.getElementById('donor-email').value.trim());
 
@@ -499,7 +522,7 @@ window.GDSI_I18N_DICT = {
       .then(function(res) {
         if (!res.success) { showState('failed-state'); return; }
 
-        if (res.status === 'success') {
+        if (isPaidStatus(res.status)) {
           document.getElementById('success-amount').textContent = fmtRupiah(res.amount);
           document.getElementById('success-orderid').textContent = res.orderId;
           showState('success-state');

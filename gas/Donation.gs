@@ -11,6 +11,7 @@
 var PAYWUZ_CONFIG = {
   BASE_URL: 'https://api.paywuz.id/v1',
   DEFAULT_PAYMENT_METHOD: 'QRIS',
+  ALLOWED_PAYMENT_METHODS: ['QRIS', 'VA'],
   MIN_AMOUNT: 10000,
   SHEET_NAME: 'GDSI_Donations'
 };
@@ -19,6 +20,18 @@ function getPaywuzApiKey_() {
   var key = PropertiesService.getScriptProperties().getProperty('PAYWUZ_API_KEY');
   if (!key) throw new Error('PAYWUZ_API_KEY belum diset di Script Properties. Lihat komentar setup di atas.');
   return key;
+}
+
+function normalizePaywuzPaymentMethod_(value) {
+  var method = (value || PAYWUZ_CONFIG.DEFAULT_PAYMENT_METHOD).toString().trim().toUpperCase();
+  if (PAYWUZ_CONFIG.ALLOWED_PAYMENT_METHODS.indexOf(method) === -1) {
+    method = PAYWUZ_CONFIG.DEFAULT_PAYMENT_METHOD;
+  }
+  return method;
+}
+
+function isPaywuzPaidStatus_(status) {
+  return status === 'success' || status === 'settlement';
 }
 
 // ── Low-level Paywuz API call helper ──────────────────────────
@@ -60,6 +73,7 @@ function handleCreateDonation(data) {
 
     var donorName  = (data.donorName  || '').toString().trim().slice(0, 100);
     var donorEmail = (data.donorEmail || '').toString().trim().slice(0, 120);
+    var paymentMethod = normalizePaywuzPaymentMethod_(data.paymentMethod);
 
     // Unique orderId per Paywuz's idempotency rules (1–64 chars, unique per project)
     var orderId = 'DONATE-' + new Date().getTime() + '-' + Math.random().toString(36).slice(2, 8).toUpperCase();
@@ -67,7 +81,7 @@ function handleCreateDonation(data) {
     var txData = paywuzApiCall_('POST', '/transactions', {
       orderId: orderId,
       amount: amount,
-      paymentMethod: PAYWUZ_CONFIG.DEFAULT_PAYMENT_METHOD,
+      paymentMethod: paymentMethod,
       redirectUrl: (CONFIG.SITE_URL || 'https://gdsi.my.id') + '/donation?orderId=' + orderId,
       metadata: { donorName: donorName, donorEmail: donorEmail }
     });
@@ -81,7 +95,7 @@ function handleCreateDonation(data) {
       amount: amount,
       fee: '',
       totalPayment: txData.totalPayment || amount,
-      paymentMethod: txData.paymentMethod || PAYWUZ_CONFIG.DEFAULT_PAYMENT_METHOD,
+      paymentMethod: txData.paymentMethod || paymentMethod,
       status: 'pending',
       paidAt: ''
     });
@@ -108,7 +122,7 @@ function handleCreateDonation(data) {
 // ============================================================
 function handlePaywuzWebhook(payload) {
   try {
-    var orderId = payload.data && payload.data.orderId;
+    var orderId = payload.orderId || (payload.data && payload.data.orderId);
     if (!orderId) return jsonResponse({ success: false, error: 'Missing orderId in webhook payload' });
 
     verifyAndSyncDonationStatus_(orderId);
@@ -166,11 +180,12 @@ function verifyAndSyncDonationStatus_(orderId) {
     }
   }
 
-  var newlyPaid = (previousStatus !== 'success' && txData.status === 'success');
+  var newlyPaid = (!isPaywuzPaidStatus_(previousStatus) && isPaywuzPaidStatus_(txData.status));
 
   if (rowIndex > 0) {
     sheet.getRange(rowIndex, 6).setValue(txData.fee || '');            // F: fee
     sheet.getRange(rowIndex, 7).setValue(txData.totalPayment || '');   // G: totalPayment
+    sheet.getRange(rowIndex, 8).setValue(txData.paymentMethod || '');  // H: paymentMethod
     sheet.getRange(rowIndex, 9).setValue(txData.status);               // I: status
     sheet.getRange(rowIndex, 10).setValue(txData.paidAt || '');        // J: paidAt
   }

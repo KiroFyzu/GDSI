@@ -62,7 +62,7 @@ function doPost(e) {
     // notes below), so instead of trusting this payload, treat it
     // only as a trigger: go re-check the real status directly from
     // Paywuz using our own API key before ever marking anything paid.
-    if (!data.action && data.event && data.data && data.data.orderId) {
+    if (!data.action && ((data.event && data.data && data.data.orderId) || (data.orderId && data.status))) {
       return handlePaywuzWebhook(data);
     }
 
